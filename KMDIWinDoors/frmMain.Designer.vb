@@ -47,6 +47,7 @@ Partial Class frmMain
         Me.tslStatus = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.spltFrm, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.spltFrm.Panel1.SuspendLayout()
         Me.spltFrm.Panel2.SuspendLayout()
@@ -60,6 +61,7 @@ Partial Class frmMain
         Me.spltMain.Panel2.SuspendLayout()
         Me.spltMain.SuspendLayout()
         Me.pnlWindoors.SuspendLayout()
+        Me.pnlItems.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -125,7 +127,7 @@ Partial Class frmMain
         Me.cbxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbxType.FormattingEnabled = True
         Me.cbxType.Items.AddRange(New Object() {"Window", "Door"})
-        Me.cbxType.Location = New System.Drawing.Point(97, 8)
+        Me.cbxType.Location = New System.Drawing.Point(97, 6)
         Me.cbxType.Name = "cbxType"
         Me.cbxType.Size = New System.Drawing.Size(31, 25)
         Me.cbxType.TabIndex = 0
@@ -220,6 +222,7 @@ Partial Class frmMain
         '
         'pnlItems
         '
+        Me.pnlItems.Controls.Add(Me.Button1)
         Me.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlItems.Location = New System.Drawing.Point(0, 23)
         Me.pnlItems.Name = "pnlItems"
@@ -269,19 +272,19 @@ Partial Class frmMain
         '
         Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.C70ToolStripMenuItem, Me.PremiToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(98, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'C70ToolStripMenuItem
         '
         Me.C70ToolStripMenuItem.Name = "C70ToolStripMenuItem"
-        Me.C70ToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.C70ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.C70ToolStripMenuItem.Text = "C70"
         '
         'PremiToolStripMenuItem
         '
         Me.PremiToolStripMenuItem.Name = "PremiToolStripMenuItem"
-        Me.PremiToolStripMenuItem.Size = New System.Drawing.Size(124, 22)
+        Me.PremiToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.PremiToolStripMenuItem.Text = "Premiline"
         '
         'ToolStrip1
@@ -324,6 +327,15 @@ Partial Class frmMain
         Me.ToolStripProgressBar1.Size = New System.Drawing.Size(100, 22)
         Me.ToolStripProgressBar1.Value = 50
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(18, 58)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 2
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
@@ -352,6 +364,7 @@ Partial Class frmMain
         CType(Me.spltMain, System.ComponentModel.ISupportInitialize).EndInit()
         Me.spltMain.ResumeLayout(False)
         Me.pnlWindoors.ResumeLayout(False)
+        Me.pnlItems.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
@@ -386,4 +399,5 @@ Partial Class frmMain
     Friend WithEvents Label5 As Label
     Friend WithEvents numWidth As NumericUpDown
     Friend WithEvents numHeight As NumericUpDown
+    Friend WithEvents Button1 As Button
 End Class

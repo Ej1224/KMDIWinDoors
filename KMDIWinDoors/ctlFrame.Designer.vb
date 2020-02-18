@@ -30,7 +30,7 @@ Partial Class ctlFrame
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Name = "ctlFrame"
-        Me.Size = New System.Drawing.Size(302, 302)
+        Me.Size = New System.Drawing.Size(100, 100)
         Me.ResumeLayout(False)
 
     End Sub
