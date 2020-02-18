@@ -2,18 +2,17 @@
     Dim myGraphics As Graphics
     Dim blackPen As New Pen(Color.Black)
     Dim curr_fheight, curr_fwidth, curr_type As Integer
-    Sub CreateFrame(ctrlFrame As ctlFrame,
-                    fheight As Integer,
+    Sub CreateFrame(fheight As Integer,
                     fwidth As Integer,
                     Type As Integer)
 
-        myGraphics = Graphics.FromHwnd(ctrlFrame.Handle)
+        myGraphics = Graphics.FromHwnd(pnlMain.Handle)
 
-        'Dim center_X As Integer = (pnlMain.Width - fwidth) / 2,
-        '    center_Y As Integer = (pnlMain.Height - fheight) / 2
+        Dim center_X As Integer = (pnlMain.Width - fwidth) / 2,
+            center_Y As Integer = (pnlMain.Height - fheight) / 2
 
-        Dim center_X As Integer = 0,
-            center_Y As Integer = 0
+        'Dim center_X As Integer = 0,
+        '    center_Y As Integer = 0
 
         Dim innf_width As Integer = fwidth - Type,
             innf_height As Integer = fheight - Type
@@ -48,15 +47,15 @@
 
         myGraphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
         myGraphics.FillRectangle(graybrush, innf_rect)
-        For i = 0 To corner_points.Count - 1 Step 2
-            myGraphics.DrawLine(blackPen, corner_points(i), corner_points(i + 1))
-        Next
+        'For i = 0 To corner_points.Count - 1 Step 2
+        '    myGraphics.DrawLine(blackPen, corner_points(i), corner_points(i + 1))
+        'Next
         myGraphics.DrawRectangles(blackPen, frames)
 
-        ctrlFrame.Location = New Point((pnlMain.Width - fwidth) / 2, (pnlMain.Height - fheight) / 2)
-        ctrlFrame.Controls.Add(windowtype)
-        pnlMain.Controls.Add(ctrlFrame)
-        AddHandler ctrlFrame.Paint, AddressOf obj_Paint
+        'ctrlFrame.Location = New Point((pnlMain.Width - fwidth) / 2, (pnlMain.Height - fheight) / 2)
+        'ctrlFrame.Controls.Add(windowtype)
+        'pnlMain.Controls.Add(ctrlFrame)
+        'AddHandler ctrlFrame.Paint, AddressOf obj_Paint
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -77,12 +76,12 @@
         Dim ctlFrame As New ctlFrame()
         ctlFrame.curr_fheight = 300
         ctlFrame.curr_fwidth = 300
-        ctlFrame.Width = 300
-        ctlFrame.Height = 300
+        ctlFrame.Width = curr_fwidth + 40
+        ctlFrame.Height = curr_fheight + 40
+        ctlFrame.curr_type = 53
         ctlFrame.Location = New Point((pnlMain.Width - ctlFrame.Width) / 2, (pnlMain.Height - ctlFrame.Height) / 2)
+
         pnlMain.Controls.Add(ctlFrame)
-        'CreateFrame(ctlFrame, curr_fheight, curr_fwidth, curr_type)
-        'pnlMain.Controls(0).Invalidate()
     End Sub
 
     Private Sub numDimensions_ValueChanged(sender As Object, e As EventArgs) Handles numWidth.ValueChanged, numHeight.ValueChanged
@@ -97,12 +96,6 @@
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        pnlMain.Controls(0).Size = New Size(300, 300)
-        pnlMain.Controls(0).Location = New Point((pnlMain.Width - pnlMain.Controls(0).Width) / 2, (pnlMain.Height - pnlMain.Controls(0).Height) / 2)
-        MsgBox(pnlMain.Controls(0).Name.ToString & vbCrLf & pnlMain.Controls(0).Size.ToString)
     End Sub
 
     Private Sub cbxType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbxType.SelectedIndexChanged

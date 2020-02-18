@@ -27,8 +27,7 @@ Partial Class ctlFrame
         'ctlFrame
         '
         Me.AllowDrop = True
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.Name = "ctlFrame"
         Me.Size = New System.Drawing.Size(100, 100)
         Me.ResumeLayout(False)
