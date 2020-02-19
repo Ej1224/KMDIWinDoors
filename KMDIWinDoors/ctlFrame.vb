@@ -1,19 +1,23 @@
 ﻿Public Class ctlFrame
-    Dim myGraphics As Graphics
     Dim blackPen As New Pen(Color.Black)
     Public curr_fheight, curr_fwidth, curr_type As Integer
 
-    Sub createFrame()
-        myGraphics = Graphics.FromHwnd(Handle)
-
-        Dim outf_X As Integer = 20,
-            outf_Y As Integer = 20
+    Private Sub ctlFrame_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
+        Dim outf_X As Integer = 0,
+            outf_Y As Integer = 0
 
         Dim innf_width As Integer = curr_fwidth - (curr_type * 2),
             innf_height As Integer = curr_fheight - (curr_type * 2)
 
         Dim innf_cX As Integer = ((curr_fwidth - innf_width) / 2) + outf_X,
             innf_cY As Integer = ((curr_fheight - innf_height) / 2) + outf_Y
+
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+
+        Dim w As Integer = 3
+        Dim w2 As Integer = Math.Floor(w / 2)
+        e.Graphics.DrawRectangle(New Pen(Color.Black, 3), New Rectangle(0, 0, ClientRectangle.Width, ClientRectangle.Height))
+
 
         Dim graybrush As New SolidBrush(Color.Gray)
         Dim innf_rect As New Rectangle(innf_cX, innf_cY, innf_width, innf_height)
@@ -28,34 +32,20 @@
             New Point(innf_cX + innf_width, innf_cY + innf_height)
         }
 
-        Dim frames As Rectangle() = {
-            New Rectangle(outf_X, outf_Y, curr_fwidth, curr_fheight),
-           innf_rect
-        }
-
-        Dim windowtype As New Label
-        With windowtype
-            .Text = "Fixed"
-            .BackColor = Color.Gray
-            .Font = New Font("Segoe UI", 12)
-            .Location = New Point((innf_width - .Width), (innf_height - .Height))
-        End With
-        Controls.Add(windowtype)
-
-        myGraphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-        myGraphics.FillRectangle(graybrush, innf_rect)
+        e.Graphics.FillRectangle(graybrush, innf_rect)
         For i = 0 To corner_points.Count - 1 Step 2
-            myGraphics.DrawLine(blackPen, corner_points(i), corner_points(i + 1))
+            e.Graphics.DrawLine(blackPen, corner_points(i), corner_points(i + 1))
         Next
-        myGraphics.DrawRectangles(blackPen, frames)
+        e.Graphics.DrawRectangle(blackPen, innf_rect)
 
-    End Sub
-    Private Sub ctlFrame_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        createFrame()
-    End Sub
+        Dim drawFont As New Font("Segoe UI", 20)
+        Dim blackbrush As New SolidBrush(Color.Black)
+        Dim drawFrmt As New StringFormat
+        drawFrmt.Alignment = StringAlignment.Center
+        drawFrmt.LineAlignment = StringAlignment.Center
 
-    Private Sub ctlFrame_Paint(sender As Object, e As PaintEventArgs) Handles MyBase.Paint
-        createFrame()
+        e.Graphics.DrawString("Fixed", drawFont, blackbrush, innf_rect, drawFrmt)
+
     End Sub
 
 End Class

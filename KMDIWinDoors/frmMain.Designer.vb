@@ -37,6 +37,7 @@ Partial Class frmMain
         Me.pnlItems = New System.Windows.Forms.Panel()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.pnlMain = New System.Windows.Forms.Panel()
+        Me.pnlEditor = New System.Windows.Forms.Panel()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -60,6 +61,7 @@ Partial Class frmMain
         Me.spltMain.Panel2.SuspendLayout()
         Me.spltMain.SuspendLayout()
         Me.pnlWindoors.SuspendLayout()
+        Me.pnlMain.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -241,12 +243,21 @@ Partial Class frmMain
         'pnlMain
         '
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlMain.Controls.Add(Me.pnlEditor)
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(0, 0)
         Me.pnlMain.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.pnlMain.Name = "pnlMain"
         Me.pnlMain.Size = New System.Drawing.Size(690, 375)
         Me.pnlMain.TabIndex = 0
+        '
+        'pnlEditor
+        '
+        Me.pnlEditor.Location = New System.Drawing.Point(244, 136)
+        Me.pnlEditor.Name = "pnlEditor"
+        Me.pnlEditor.Padding = New System.Windows.Forms.Padding(20)
+        Me.pnlEditor.Size = New System.Drawing.Size(200, 100)
+        Me.pnlEditor.TabIndex = 0
         '
         'MenuStrip1
         '
@@ -333,7 +344,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.ToolStrip1)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -352,6 +362,7 @@ Partial Class frmMain
         CType(Me.spltMain, System.ComponentModel.ISupportInitialize).EndInit()
         Me.spltMain.ResumeLayout(False)
         Me.pnlWindoors.ResumeLayout(False)
+        Me.pnlMain.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
@@ -386,4 +397,5 @@ Partial Class frmMain
     Friend WithEvents Label5 As Label
     Friend WithEvents numWidth As NumericUpDown
     Friend WithEvents numHeight As NumericUpDown
+    Friend WithEvents pnlEditor As Panel
 End Class
