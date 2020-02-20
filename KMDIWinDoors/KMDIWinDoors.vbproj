@@ -72,16 +72,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ctlFrame.Designer.vb">
+    <Compile Include="User Controls\ctlFrame.Designer.vb">
       <DependentUpon>ctlFrame.vb</DependentUpon>
     </Compile>
-    <Compile Include="ctlFrame.vb">
+    <Compile Include="User Controls\ctlFrame.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="frmMain.vb">
+    <Compile Include="User Controls\ctlWdw.Designer.vb">
+      <DependentUpon>ctlWdw.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ctlWdw.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.vb">
+    <Compile Include="Forms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
@@ -102,10 +108,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ctlFrame.resx">
+    <EmbeddedResource Include="User Controls\ctlFrame.resx">
       <DependentUpon>ctlFrame.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="User Controls\ctlWdw.resx">
+      <DependentUpon>ctlWdw.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -127,6 +136,7 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

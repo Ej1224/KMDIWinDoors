@@ -38,6 +38,7 @@ Partial Class frmMain
         Me.Label4 = New System.Windows.Forms.Label()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.pnlEditor = New System.Windows.Forms.Panel()
+        Me.pnlFrame = New System.Windows.Forms.Panel()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -118,6 +119,7 @@ Partial Class frmMain
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78.0!))
+        Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.tblayoutProperties.Size = New System.Drawing.Size(131, 352)
         Me.tblayoutProperties.TabIndex = 0
         '
@@ -242,22 +244,34 @@ Partial Class frmMain
         '
         'pnlMain
         '
+        Me.pnlMain.AutoScroll = True
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlMain.Controls.Add(Me.pnlFrame)
         Me.pnlMain.Controls.Add(Me.pnlEditor)
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(0, 0)
-        Me.pnlMain.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.pnlMain.Name = "pnlMain"
+        Me.pnlMain.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.pnlMain.Size = New System.Drawing.Size(690, 375)
         Me.pnlMain.TabIndex = 0
         '
         'pnlEditor
         '
-        Me.pnlEditor.Location = New System.Drawing.Point(244, 136)
+        Me.pnlEditor.Location = New System.Drawing.Point(174, 16)
         Me.pnlEditor.Name = "pnlEditor"
         Me.pnlEditor.Padding = New System.Windows.Forms.Padding(20)
-        Me.pnlEditor.Size = New System.Drawing.Size(200, 100)
+        Me.pnlEditor.Size = New System.Drawing.Size(340, 340)
         Me.pnlEditor.TabIndex = 0
+        Me.pnlEditor.Visible = False
+        '
+        'pnlFrame
+        '
+        Me.pnlFrame.Location = New System.Drawing.Point(23, 59)
+        Me.pnlFrame.Name = "pnlFrame"
+        Me.pnlFrame.Padding = New System.Windows.Forms.Padding(53)
+        Me.pnlFrame.Size = New System.Drawing.Size(100, 100)
+        Me.pnlFrame.TabIndex = 0
+        Me.pnlFrame.Visible = False
         '
         'MenuStrip1
         '
@@ -398,4 +412,5 @@ Partial Class frmMain
     Friend WithEvents numWidth As NumericUpDown
     Friend WithEvents numHeight As NumericUpDown
     Friend WithEvents pnlEditor As Panel
+    Friend WithEvents pnlFrame As Panel
 End Class

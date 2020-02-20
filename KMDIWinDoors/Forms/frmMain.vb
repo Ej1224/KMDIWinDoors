@@ -3,15 +3,38 @@
     Dim blackPen As New Pen(Color.Black)
     Dim curr_fheight, curr_fwidth, curr_type As Integer
 
-    Sub CreateWindow()
+    Sub CreateWndr(wdrWidth As Integer,
+                   wdrHeight As Integer,
+                   wdrType As String)
+        Dim ctlFrame As New ctlFrame
+        With ctlFrame
+            .Dock = DockStyle.Fill
+            .curr_type = curr_type
+        End With
 
+        With pnlEditor
+            .Width = wdrWidth + 40
+            .Height = wdrHeight + 40
+            .Location = New Point((pnlMain.Width - wdrWidth) / 2, (pnlMain.Height - wdrHeight) / 2)
+            .Visible = True
+            .Controls.Add(ctlFrame)
+        End With
+
+        Dim ctlWdw As New ctlWdw()
+        ctlWdw.Dock = DockStyle.Fill
+        ctlWdw.wdwtype = wdrType
+
+        ctlFrame.Controls.Add(ctlWdw)
+        ctlFrame.Invalidate()
+        'pnlFrame.Controls.Add(ctlWdw)
+        'pnlFrame.Invalidate()
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tscZoom.Text = "50 %"
         numHeight.Maximum = Decimal.MaxValue
         numWidth.Maximum = Decimal.MaxValue
-
+        curr_type = 53
     End Sub
     Private Sub C70ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles C70ToolStripMenuItem.Click
         curr_fheight = 300
@@ -22,24 +45,7 @@
         numHeight.Value = curr_fheight
         numWidth.Value = curr_fwidth
 
-        With pnlEditor
-            .Width = curr_fwidth + 40
-            .Height = curr_fheight + 40
-            .Location = New Point((pnlMain.Width - .Width) / 2, (pnlMain.Height - .Height) / 2)
-        End With
-
-        Dim ctlFrame As New ctlFrame()
-        With ctlFrame
-            .Dock = DockStyle.Fill
-            .curr_fheight = curr_fheight
-            .curr_fwidth = curr_fheight
-            .Width = curr_fwidth
-            .Height = curr_fheight
-            .curr_type = 53
-        End With
-
-        pnlEditor.Controls.Add(ctlFrame)
-        pnlMain.Controls.Add(pnlEditor)
+        CreateWndr(curr_fwidth, curr_fheight, "Fixed")
     End Sub
 
     Private Sub numDimensions_ValueChanged(sender As Object, e As EventArgs) Handles numWidth.ValueChanged, numHeight.ValueChanged
@@ -50,6 +56,18 @@
                 curr_fwidth = numWidth.Value
             End If
 
+            With pnlEditor
+                .Width = curr_fwidth + 40
+                .Height = curr_fheight + 40
+                .Location = New Point((pnlMain.Width - .Width) / 2, (pnlMain.Height - .Height) / 2)
+            End With
+
+            If pnlEditor.Controls.Count > 0 Then
+                pnlEditor.Controls(0).Invalidate()
+            End If
+            If pnlEditor.Controls.Count > 0 Then pnlEditor.Controls(0).Controls(0).Invalidate()
+            'pnlFrame.Invalidate()
+            'If pnlFrame.Controls.Count > 0 Then pnlFrame.Controls(0).Invalidate()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -61,6 +79,17 @@
         ElseIf cbxType.SelectedIndex = 1 Then
             curr_type = 67
         End If
+
+        If pnlEditor.Controls.Count > 0 Then
+            pnlEditor.Controls(0).Padding = New Padding(curr_type)
+            'pnlEditor.Controls(0).Padding = New Padding(curr_type)
+            pnlEditor.Controls(0).Invalidate()
+        End If
+        If pnlEditor.Controls.Count > 0 Then pnlEditor.Controls(0).Controls(0).Invalidate()
+
+        'pnlFrame.Padding = New Padding(curr_type)
+        'pnlFrame.Invalidate()
+        'If pnlFrame.Controls.Count > 0 Then pnlFrame.Controls(0).Invalidate()
     End Sub
 
     Private allowCoolMove As Boolean = False
@@ -68,7 +97,44 @@
     Dim iniLoc, movLoc, diff As Integer
 
     Private Sub pnlMain_SizeChanged(sender As Object, e As EventArgs) Handles pnlMain.SizeChanged
-        pnlEditor.Location = New Point((sender.Width - pnlEditor.Width) / 2, (sender.Height - pnlEditor.Height) / 2)
+        Dim cX, cY As Integer
+        cX = (sender.Width - pnlEditor.Width) / 2
+        cY = (sender.Height - pnlEditor.Height) / 2
+
+        If cX > 0 And cY > 0 Then
+            pnlEditor.Location = New Point(cX, cY)
+        ElseIf cX < 0 And cY > 0 Then
+            pnlEditor.Location = New Point(100, 100)
+        ElseIf cX > 0 And cY < 0 Then
+            pnlEditor.Location = New Point(100, 100)
+        Else
+            pnlEditor.Location = New Point(100, 100)
+        End If
+    End Sub
+
+    Private Sub pnlFrame_Paint(sender As Object, e As PaintEventArgs) Handles pnlFrame.Paint
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        Dim w As Integer = 2
+        Dim w2 As Integer = CInt(Math.Floor(w / 2))
+        e.Graphics.DrawRectangle(New Pen(Color.Black, w),
+                                 New Rectangle(w2, w2,
+                                               sender.ClientRectangle.Width - w,
+                                               sender.ClientRectangle.Height - w))
+
+        Dim corner_points() As Point = {
+            New Point(0, 0),
+            New Point(curr_type, curr_type),
+            New Point(pnlFrame.Width, 0),
+            New Point(pnlFrame.Width - curr_type, curr_type),
+            New Point(0, pnlFrame.Height),
+            New Point(curr_type, pnlFrame.Height - curr_type),
+            New Point(pnlFrame.Width, pnlFrame.Height),
+            New Point(pnlFrame.Width - curr_type, pnlFrame.Height - curr_type)
+        }
+
+        For i = 0 To corner_points.Count - 1 Step 2
+            e.Graphics.DrawLine(blackPen, corner_points(i), corner_points(i + 1))
+        Next
     End Sub
 
 #Region "ToDragTransom"
