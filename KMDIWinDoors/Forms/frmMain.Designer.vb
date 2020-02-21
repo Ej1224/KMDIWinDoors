@@ -25,8 +25,6 @@ Partial Class frmMain
         Me.spltFrm = New System.Windows.Forms.SplitContainer()
         Me.pnlProperties = New System.Windows.Forms.Panel()
         Me.tblayoutProperties = New System.Windows.Forms.TableLayoutPanel()
-        Me.cbxType = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.numWidth = New System.Windows.Forms.NumericUpDown()
@@ -38,7 +36,6 @@ Partial Class frmMain
         Me.Label4 = New System.Windows.Forms.Label()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.pnlEditor = New System.Windows.Forms.Panel()
-        Me.pnlFrame = New System.Windows.Forms.Panel()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -104,18 +101,15 @@ Partial Class frmMain
         Me.tblayoutProperties.ColumnCount = 2
         Me.tblayoutProperties.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.tblayoutProperties.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.tblayoutProperties.Controls.Add(Me.cbxType, 1, 0)
-        Me.tblayoutProperties.Controls.Add(Me.Label5, 0, 0)
-        Me.tblayoutProperties.Controls.Add(Me.Label2, 0, 1)
-        Me.tblayoutProperties.Controls.Add(Me.Label1, 0, 2)
-        Me.tblayoutProperties.Controls.Add(Me.numWidth, 1, 1)
-        Me.tblayoutProperties.Controls.Add(Me.numHeight, 1, 2)
+        Me.tblayoutProperties.Controls.Add(Me.Label2, 0, 0)
+        Me.tblayoutProperties.Controls.Add(Me.Label1, 0, 1)
+        Me.tblayoutProperties.Controls.Add(Me.numWidth, 1, 0)
+        Me.tblayoutProperties.Controls.Add(Me.numHeight, 1, 1)
         Me.tblayoutProperties.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tblayoutProperties.Location = New System.Drawing.Point(0, 23)
         Me.tblayoutProperties.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.tblayoutProperties.Name = "tblayoutProperties"
-        Me.tblayoutProperties.RowCount = 4
-        Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
+        Me.tblayoutProperties.RowCount = 3
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
         Me.tblayoutProperties.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78.0!))
@@ -123,31 +117,10 @@ Partial Class frmMain
         Me.tblayoutProperties.Size = New System.Drawing.Size(131, 352)
         Me.tblayoutProperties.TabIndex = 0
         '
-        'cbxType
-        '
-        Me.cbxType.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cbxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbxType.FormattingEnabled = True
-        Me.cbxType.Items.AddRange(New Object() {"Window", "Door"})
-        Me.cbxType.Location = New System.Drawing.Point(97, 6)
-        Me.cbxType.Name = "cbxType"
-        Me.cbxType.Size = New System.Drawing.Size(31, 25)
-        Me.cbxType.TabIndex = 0
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(4, 1)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(37, 19)
-        Me.Label5.TabIndex = 4
-        Me.Label5.Text = "Type"
-        '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(4, 37)
+        Me.Label2.Location = New System.Drawing.Point(4, 1)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(82, 19)
         Me.Label2.TabIndex = 2
@@ -157,7 +130,7 @@ Partial Class frmMain
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(4, 73)
+        Me.Label1.Location = New System.Drawing.Point(4, 37)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(86, 19)
         Me.Label1.TabIndex = 0
@@ -166,7 +139,7 @@ Partial Class frmMain
         'numWidth
         '
         Me.numWidth.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.numWidth.Location = New System.Drawing.Point(97, 42)
+        Me.numWidth.Location = New System.Drawing.Point(97, 6)
         Me.numWidth.Name = "numWidth"
         Me.numWidth.Size = New System.Drawing.Size(31, 25)
         Me.numWidth.TabIndex = 0
@@ -174,7 +147,7 @@ Partial Class frmMain
         'numHeight
         '
         Me.numHeight.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.numHeight.Location = New System.Drawing.Point(97, 78)
+        Me.numHeight.Location = New System.Drawing.Point(97, 42)
         Me.numHeight.Name = "numHeight"
         Me.numHeight.Size = New System.Drawing.Size(31, 25)
         Me.numHeight.TabIndex = 5
@@ -246,7 +219,6 @@ Partial Class frmMain
         '
         Me.pnlMain.AutoScroll = True
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnlMain.Controls.Add(Me.pnlFrame)
         Me.pnlMain.Controls.Add(Me.pnlEditor)
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(0, 0)
@@ -263,15 +235,6 @@ Partial Class frmMain
         Me.pnlEditor.Size = New System.Drawing.Size(340, 340)
         Me.pnlEditor.TabIndex = 0
         Me.pnlEditor.Visible = False
-        '
-        'pnlFrame
-        '
-        Me.pnlFrame.Location = New System.Drawing.Point(23, 59)
-        Me.pnlFrame.Name = "pnlFrame"
-        Me.pnlFrame.Padding = New System.Windows.Forms.Padding(53)
-        Me.pnlFrame.Size = New System.Drawing.Size(100, 100)
-        Me.pnlFrame.TabIndex = 0
-        Me.pnlFrame.Visible = False
         '
         'MenuStrip1
         '
@@ -407,10 +370,7 @@ Partial Class frmMain
     Friend WithEvents spltMain As SplitContainer
     Friend WithEvents Label4 As Label
     Friend WithEvents pnlItems As Panel
-    Friend WithEvents cbxType As ComboBox
-    Friend WithEvents Label5 As Label
     Friend WithEvents numWidth As NumericUpDown
     Friend WithEvents numHeight As NumericUpDown
     Friend WithEvents pnlEditor As Panel
-    Friend WithEvents pnlFrame As Panel
 End Class

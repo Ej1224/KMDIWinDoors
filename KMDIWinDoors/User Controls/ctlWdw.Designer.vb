@@ -27,11 +27,11 @@ Partial Class ctlWdw
         Me.WindowTypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FixedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AwningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NormalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InvertedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CasementToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LeftToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NormalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InvertedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmenuWdw.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,58 +39,58 @@ Partial Class ctlWdw
         '
         Me.cmenuWdw.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WindowTypeToolStripMenuItem})
         Me.cmenuWdw.Name = "cmenuWdw"
-        Me.cmenuWdw.Size = New System.Drawing.Size(153, 48)
+        Me.cmenuWdw.Size = New System.Drawing.Size(146, 26)
         '
         'WindowTypeToolStripMenuItem
         '
         Me.WindowTypeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FixedToolStripMenuItem, Me.AwningToolStripMenuItem, Me.CasementToolStripMenuItem})
         Me.WindowTypeToolStripMenuItem.Name = "WindowTypeToolStripMenuItem"
-        Me.WindowTypeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WindowTypeToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
         Me.WindowTypeToolStripMenuItem.Text = "Window Type"
         '
         'FixedToolStripMenuItem
         '
         Me.FixedToolStripMenuItem.Name = "FixedToolStripMenuItem"
-        Me.FixedToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FixedToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.FixedToolStripMenuItem.Text = "Fixed"
         '
         'AwningToolStripMenuItem
         '
         Me.AwningToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalToolStripMenuItem, Me.InvertedToolStripMenuItem})
         Me.AwningToolStripMenuItem.Name = "AwningToolStripMenuItem"
-        Me.AwningToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AwningToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
         Me.AwningToolStripMenuItem.Text = "Awning"
-        '
-        'CasementToolStripMenuItem
-        '
-        Me.CasementToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LeftToolStripMenuItem, Me.RightToolStripMenuItem})
-        Me.CasementToolStripMenuItem.Name = "CasementToolStripMenuItem"
-        Me.CasementToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CasementToolStripMenuItem.Text = "Casement"
-        '
-        'LeftToolStripMenuItem
-        '
-        Me.LeftToolStripMenuItem.Name = "LeftToolStripMenuItem"
-        Me.LeftToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.LeftToolStripMenuItem.Text = "Left"
-        '
-        'RightToolStripMenuItem
-        '
-        Me.RightToolStripMenuItem.Name = "RightToolStripMenuItem"
-        Me.RightToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.RightToolStripMenuItem.Text = "Right"
         '
         'NormalToolStripMenuItem
         '
         Me.NormalToolStripMenuItem.Name = "NormalToolStripMenuItem"
-        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NormalToolStripMenuItem.Text = "Normal"
         '
         'InvertedToolStripMenuItem
         '
         Me.InvertedToolStripMenuItem.Name = "InvertedToolStripMenuItem"
-        Me.InvertedToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InvertedToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.InvertedToolStripMenuItem.Text = "Inverted"
+        '
+        'CasementToolStripMenuItem
+        '
+        Me.CasementToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LeftToolStripMenuItem, Me.RightToolStripMenuItem})
+        Me.CasementToolStripMenuItem.Name = "CasementToolStripMenuItem"
+        Me.CasementToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.CasementToolStripMenuItem.Text = "Casement"
+        '
+        'LeftToolStripMenuItem
+        '
+        Me.LeftToolStripMenuItem.Name = "LeftToolStripMenuItem"
+        Me.LeftToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.LeftToolStripMenuItem.Text = "Left"
+        '
+        'RightToolStripMenuItem
+        '
+        Me.RightToolStripMenuItem.Name = "RightToolStripMenuItem"
+        Me.RightToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.RightToolStripMenuItem.Text = "Right"
         '
         'ctlWdw
         '

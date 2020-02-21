@@ -52,22 +52,12 @@
         If e.Button = MouseButtons.Right Then
             cmenuWdw.Show(MousePosition.X, MousePosition.Y)
         End If
-        penColor = Color.Blue
-        borderWidth = 2
-        Invalidate()
+        'MsgBox(sender.Name & vbCrLf & sender.Width)
     End Sub
 
     Private Sub ctlWdw_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         penColor = Color.Black
         borderWidth = 1
-    End Sub
-
-    Private Sub ctlWdw_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.Escape Then
-            penColor = Color.Black
-            borderWidth = 1
-            Invalidate()
-        End If
     End Sub
 
     Private Sub ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FixedToolStripMenuItem.Click,
@@ -89,4 +79,22 @@
         Invalidate()
     End Sub
 
+    Private Sub ctlWdw_SizeChanged(sender As Object, e As EventArgs) Handles MyBase.SizeChanged
+        Invalidate()
+    End Sub
+
+    Private Sub ctlWdw_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter,
+                                                                            cmenuWdw.MouseEnter
+
+        penColor = Color.Blue
+        borderWidth = 2
+        Invalidate()
+    End Sub
+
+    Private Sub ctlWdw_MouseLeave(sender As Object, e As EventArgs) Handles Me.MouseLeave,
+                                                                            cmenuWdw.MouseLeave
+        penColor = Color.Black
+        borderWidth = 1
+        Invalidate()
+    End Sub
 End Class

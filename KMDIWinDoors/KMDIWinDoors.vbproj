@@ -72,10 +72,18 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\clsGlobal.vb" />
+    <Compile Include="Modules\modGlobal.vb" />
     <Compile Include="User Controls\ctlFrame.Designer.vb">
       <DependentUpon>ctlFrame.vb</DependentUpon>
     </Compile>
     <Compile Include="User Controls\ctlFrame.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controls\ctlTransom.Designer.vb">
+      <DependentUpon>ctlTransom.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ctlTransom.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="User Controls\ctlWdw.Designer.vb">
@@ -110,6 +118,9 @@
   <ItemGroup>
     <EmbeddedResource Include="User Controls\ctlFrame.resx">
       <DependentUpon>ctlFrame.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ctlTransom.resx">
+      <DependentUpon>ctlTransom.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Controls\ctlWdw.resx">
       <DependentUpon>ctlWdw.vb</DependentUpon>
