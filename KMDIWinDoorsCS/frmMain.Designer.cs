@@ -52,10 +52,11 @@
             this.cbxWindowType = new System.Windows.Forms.ComboBox();
             this.rdDoor = new System.Windows.Forms.RadioButton();
             this.rdWindow = new System.Windows.Forms.RadioButton();
-            this.cbx_Divider = new System.Windows.Forms.ComboBox();
+            this.Label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkWdrOrientation2 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.cbx_Divider = new System.Windows.Forms.ComboBox();
             this.numHeight2 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numWidth2 = new System.Windows.Forms.NumericUpDown();
@@ -64,7 +65,6 @@
             this.cbxWindowType2 = new System.Windows.Forms.ComboBox();
             this.rdDoor2 = new System.Windows.Forms.RadioButton();
             this.rdWindow2 = new System.Windows.Forms.RadioButton();
-            this.Label3 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pbxEditor = new System.Windows.Forms.PictureBox();
             this.pnlRight = new System.Windows.Forms.Panel();
@@ -118,20 +118,20 @@
             this.c70ToolStripMenuItem,
             this.premilineToolStripMenuItem});
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem1.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premilineToolStripMenuItem
             // 
             this.premilineToolStripMenuItem.Name = "premilineToolStripMenuItem";
-            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.premilineToolStripMenuItem.Text = "Premiline";
             // 
             // viewToolStripMenuItem
@@ -196,7 +196,6 @@
             this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel1.Controls.Add(this.label5);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.panel2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -349,17 +348,16 @@
             this.rdWindow.UseVisualStyleBackColor = true;
             this.rdWindow.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
             // 
-            // cbx_Divider
+            // Label3
             // 
-            this.cbx_Divider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_Divider.FormattingEnabled = true;
-            this.cbx_Divider.Items.AddRange(new object[] {
-            "Mullion",
-            "Transom"});
-            this.cbx_Divider.Location = new System.Drawing.Point(71, 9);
-            this.cbx_Divider.Name = "cbx_Divider";
-            this.cbx_Divider.Size = new System.Drawing.Size(66, 21);
-            this.cbx_Divider.TabIndex = 14;
+            this.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Label3.Location = new System.Drawing.Point(0, 0);
+            this.Label3.Name = "Label3";
+            this.Label3.Size = new System.Drawing.Size(157, 29);
+            this.Label3.TabIndex = 1;
+            this.Label3.Text = "Properties";
             // 
             // panel2
             // 
@@ -375,7 +373,7 @@
             this.panel2.Controls.Add(this.cbxWindowType2);
             this.panel2.Controls.Add(this.rdDoor2);
             this.panel2.Controls.Add(this.rdWindow2);
-            this.panel2.Location = new System.Drawing.Point(3, 226);
+            this.panel2.Location = new System.Drawing.Point(5, 85);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(146, 189);
             this.panel2.TabIndex = 13;
@@ -407,11 +405,23 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "Panel 2";
             // 
+            // cbx_Divider
+            // 
+            this.cbx_Divider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbx_Divider.FormattingEnabled = true;
+            this.cbx_Divider.Items.AddRange(new object[] {
+            "Mullion",
+            "Transom"});
+            this.cbx_Divider.Location = new System.Drawing.Point(71, 9);
+            this.cbx_Divider.Name = "cbx_Divider";
+            this.cbx_Divider.Size = new System.Drawing.Size(66, 25);
+            this.cbx_Divider.TabIndex = 14;
+            // 
             // numHeight2
             // 
             this.numHeight2.Location = new System.Drawing.Point(7, 152);
             this.numHeight2.Name = "numHeight2";
-            this.numHeight2.Size = new System.Drawing.Size(126, 22);
+            this.numHeight2.Size = new System.Drawing.Size(126, 25);
             this.numHeight2.TabIndex = 11;
             // 
             // label8
@@ -419,7 +429,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(7, 136);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(42, 13);
+            this.label8.Size = new System.Drawing.Size(50, 19);
             this.label8.TabIndex = 5;
             this.label8.Text = "Height";
             // 
@@ -427,7 +437,7 @@
             // 
             this.numWidth2.Location = new System.Drawing.Point(7, 111);
             this.numWidth2.Name = "numWidth2";
-            this.numWidth2.Size = new System.Drawing.Size(125, 22);
+            this.numWidth2.Size = new System.Drawing.Size(125, 25);
             this.numWidth2.TabIndex = 10;
             // 
             // label9
@@ -435,7 +445,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(7, 95);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(39, 13);
+            this.label9.Size = new System.Drawing.Size(46, 19);
             this.label9.TabIndex = 3;
             this.label9.Text = "Width";
             // 
@@ -444,7 +454,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(7, 53);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(77, 13);
+            this.label10.Size = new System.Drawing.Size(91, 19);
             this.label10.TabIndex = 1;
             this.label10.Text = "Window Type";
             // 
@@ -460,7 +470,7 @@
             this.cbxWindowType2.Location = new System.Drawing.Point(7, 70);
             this.cbxWindowType2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbxWindowType2.Name = "cbxWindowType2";
-            this.cbxWindowType2.Size = new System.Drawing.Size(77, 21);
+            this.cbxWindowType2.Size = new System.Drawing.Size(77, 25);
             this.cbxWindowType2.TabIndex = 2;
             // 
             // rdDoor2
@@ -468,7 +478,7 @@
             this.rdDoor2.AutoSize = true;
             this.rdDoor2.Location = new System.Drawing.Point(82, 33);
             this.rdDoor2.Name = "rdDoor2";
-            this.rdDoor2.Size = new System.Drawing.Size(51, 17);
+            this.rdDoor2.Size = new System.Drawing.Size(58, 23);
             this.rdDoor2.TabIndex = 7;
             this.rdDoor2.Text = "Door";
             this.rdDoor2.UseVisualStyleBackColor = true;
@@ -479,22 +489,11 @@
             this.rdWindow2.Checked = true;
             this.rdWindow2.Location = new System.Drawing.Point(7, 33);
             this.rdWindow2.Name = "rdWindow2";
-            this.rdWindow2.Size = new System.Drawing.Size(69, 17);
+            this.rdWindow2.Size = new System.Drawing.Size(77, 23);
             this.rdWindow2.TabIndex = 8;
             this.rdWindow2.TabStop = true;
             this.rdWindow2.Text = "Window";
             this.rdWindow2.UseVisualStyleBackColor = true;
-            // 
-            // Label3
-            // 
-            this.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label3.Location = new System.Drawing.Point(0, 0);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(157, 29);
-            this.Label3.TabIndex = 1;
-            this.Label3.Text = "Properties";
             // 
             // pnlMain
             // 
@@ -534,6 +533,7 @@
             // pnlItems
             // 
             this.pnlItems.Controls.Add(this.button1);
+            this.pnlItems.Controls.Add(this.panel2);
             this.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlItems.Location = new System.Drawing.Point(0, 29);
             this.pnlItems.Name = "pnlItems";

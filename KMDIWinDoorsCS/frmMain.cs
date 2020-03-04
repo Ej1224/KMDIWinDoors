@@ -206,7 +206,7 @@ namespace KMDIWinDoorsCS
             //pbxEditor.Invalidate();
             //pbxEditor.ImageLocation = "Test1.png";
         }
-
+        
         private void chkWdrOrientation_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cbx = (CheckBox)sender;
@@ -220,7 +220,8 @@ namespace KMDIWinDoorsCS
                 {
                     cbx.Text = "Invrt";
                 }
-            }else if (cbx.Checked == false)
+            }
+            else if (cbx.Checked == false)
             {
                 if (cbx.Text == "L")
                 {
