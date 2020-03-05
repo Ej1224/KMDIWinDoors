@@ -88,6 +88,7 @@ namespace KMDIWinDoorsCS
 
         public frmMain()
         {
+
             InitializeComponent();
         }
 
