@@ -191,14 +191,73 @@ namespace KMDIWinDoorsCS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //foreach (Control item in pnlFields.Controls)
-            //{
-            //    MessageBox.Show(item.Name);
-            //}
-            foreach (var item in flowLayoutPanel1.Controls.OfType<Control>().OrderBy(ee => ee.Tag))
+            string[,] arr_str = new string[2,8];
+
+            for (int i = 0; i < arr_str.GetLength(0); i++)
             {
-                MessageBox.Show(item.Name);
+                for (int j = 0; j < arr_str.GetLength(1); j++)
+                {
+                    string s = arr_str[i, j];
+                    Console.WriteLine(s);
+                }
             }
+
+            string[] prop_panels = new string[] {"frameID",
+                                                 "pnlID",
+                                                 "pnlDvdr",
+                                                 "WindowDoor",
+                                                 "WdrType",
+                                                 "WdrOrient",
+                                                 "Width",
+                                                 "Height" };
+
+            foreach (var frame in pnlFields.Controls.OfType<FlowLayoutPanel>())
+            {
+                Console.WriteLine("FrameID: " + frame.Tag);
+                foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
+                {
+                    Console.WriteLine("PanelID: " + pnl.Tag);
+                    foreach (var properties in pnl.Controls.OfType<Control>().OrderBy(ee => ee.TabIndex))
+                    {
+                        string prop = properties.Name;
+                        if (prop.Contains("rd"))
+                        {
+                            RadioButton rdprop = (RadioButton)properties;
+                            if (rdprop.Checked == true)
+                            {
+                                Console.WriteLine("Windoor: " + prop);
+                            }
+                        }
+                        else if (prop.Contains("cbx"))
+                        {
+                            ComboBox cbxprop = (ComboBox)properties;
+                            Console.WriteLine("WindorType: " + cbxprop.Text);
+                        }
+                        else if (prop.Contains("chk"))
+                        {
+                            CheckBox chkprop = (CheckBox)properties;
+                            Console.WriteLine("Orientation: " + chkprop.Text);
+                        }
+                        else if (prop.Contains("num"))
+                        {
+                            NumericUpDown numprop = (NumericUpDown)properties;
+                            if (prop.Contains("Width"))
+                            {
+                                Console.WriteLine("Width: " + numprop.Value);
+                            }
+                            else if (prop.Contains("Height"))
+                            {
+                                Console.WriteLine("Height: " + numprop.Value);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //foreach (var item in flowLayoutPanel1.Controls.OfType<Control>().OrderBy(ee => ee.Tag))
+            //{
+            //    Console.WriteLine(item.Name);
+            //}
 
             //Bitmap bmp = new Bitmap(pbxEditor.Width, pbxEditor.Height);
             //pbxEditor.DrawToBitmap(bmp, new Rectangle(0, 0, pbxEditor.Width, pbxEditor.Height));
@@ -228,7 +287,7 @@ namespace KMDIWinDoorsCS
                 {
                     cbx.Text = "R";
                 }
-                else if (cbx.Text == "Inv")
+                else if (cbx.Text == "Invrt")
                 {
                     cbx.Text = "Norm";
                 }
@@ -245,6 +304,7 @@ namespace KMDIWinDoorsCS
             borderStyle = 2;
             pbxEditor.Size = new Size(fwidth,fheight);
             cbxWindowType.Text =  wdrType = "Fixed";
+            pnlFields.Controls.Add(flowLayoutPanel1);
             pbxEditor.Invalidate();
             //CreatePanels("Fixed");
         }
@@ -266,27 +326,38 @@ namespace KMDIWinDoorsCS
 
         private void pbxEditor_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            g.ScaleTransform(zoom, zoom);
-            
-            int innrfW = fwidth - ftype,
-                innrfH = fheight - ftype;
-            int sashW = innrfW - 20,
-                sashH = innrfH - 20;
-
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            //Point fcntr = new Point((pnlMain.Width - fwidth) / 2, (pnlMain.Height - fheight) / 2);
-            Point fcntr = new Point(0, 0);
-            Point innrfCntr = new Point((fwidth - innrfW) / 2 + fcntr.X, (fheight - innrfH) / 2 + fcntr.Y);
-
-            Rectangle[] frames = new[]
+            int count_frm = pnlFields.Controls.Count;
+            string[] prop_panels = new string[] {"frameID",
+                                                 "pnlID",
+                                                 "pnlDvdr",
+                                                 "WindowDoor",
+                                                 "WdrType",
+                                                 "WdrOrient",
+                                                 "Width",
+                                                 "Height" };
+            if (count_frm != 0)
             {
+                Graphics g = e.Graphics;
+                g.ScaleTransform(zoom, zoom);
+
+                int innrfW = fwidth - ftype,
+                    innrfH = fheight - ftype;
+                int sashW = innrfW - 20,
+                    sashH = innrfH - 20;
+
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                //Point fcntr = new Point((pnlMain.Width - fwidth) / 2, (pnlMain.Height - fheight) / 2);
+                Point fcntr = new Point(0, 0);
+                Point innrfCntr = new Point((fwidth - innrfW) / 2 + fcntr.X, (fheight - innrfH) / 2 + fcntr.Y);
+
+                Rectangle[] frames = new[]
+                {
                 new Rectangle(fcntr,new Size(fwidth,fheight)),
                 new Rectangle(innrfCntr,new Size(innrfW,innrfH))
             };
 
-            Point[] corner_points = new[]
-            {
+                Point[] corner_points = new[]
+                {
                 new Point(fcntr.X,fcntr.Y),
                 new Point(innrfCntr.X,innrfCntr.Y),
                 new Point(fcntr.X +fwidth,fcntr.Y),
@@ -297,120 +368,120 @@ namespace KMDIWinDoorsCS
                 new Point(innrfCntr.X + innrfW,innrfCntr.Y + innrfH)
             };
 
-            for (int i = 0; i < corner_points.Length - 1; i += 2)
-            {
-                g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
-            }
-
-            {
-                var a = g;
-                a.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
-                a.DrawRectangles(blkPen, frames);
-            }
-            g.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
-            g.DrawRectangles(blkPen, frames);
-
-            if (wdrType == "Fixed")
-            {
-                Font drawFont = new Font("Segoe UI", 12);
-                StringFormat drawFormat = new StringFormat();
-                drawFormat.Alignment = StringAlignment.Center;
-                drawFormat.LineAlignment = StringAlignment.Center;
-                g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), frames[1], drawFormat);
-            }
-            else
-            {
-                Point sashPoint = new Point(innrfCntr.X + 10, innrfCntr.Y + 10);
-                Rectangle sashRect = new Rectangle(sashPoint,
-                                                   new Size(sashW, sashH));
-                Pen dgrayPen = new Pen(Color.DimGray);
+                for (int i = 0; i < corner_points.Length - 1; i += 2)
                 {
-                    var dgPen = dgrayPen;
-                    dgPen.DashStyle = DashStyle.Dash;
-                    dgPen.Width = 3;
+                    g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
                 }
-                g.DrawRectangle(blkPen, sashRect);
 
-                if (wdrType == "Casement")
                 {
-                    //g.DrawLine(dgrayPen, new Point(innrfCntr.X + innrfW, innrfCntr.Y),
-                    //                     new Point(innrfCntr.X, (innrfCntr.Y + (innrfH / 2))));
-                    //g.DrawLine(dgrayPen, new Point(innrfCntr.X, (innrfCntr.Y + (innrfH / 2))),
-                    //                     new Point(innrfCntr.X + innrfW, innrfH + innrfCntr.Y));
-                    if (wdrOrient == "R")
-                    {
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
-                                             new Point(sashPoint.X + sashW, (sashPoint.Y + (sashH / 2))));
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X + sashW, (sashPoint.Y + (sashH / 2))),
-                                             new Point(sashPoint.X, sashH + sashPoint.Y));
-                    }
-                    else if (wdrOrient == "L")
-                    {
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X + sashW, sashPoint.Y),
-                                             new Point(sashPoint.X, (sashPoint.Y + (sashH / 2))));
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X, (sashPoint.Y + (sashH / 2))),
-                                             new Point(sashPoint.X + sashW, sashH + sashPoint.Y));
-                    }
+                    var a = g;
+                    a.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
+                    a.DrawRectangles(blkPen, frames);
                 }
-                else if (wdrType == "Awning")
+                g.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
+                g.DrawRectangles(blkPen, frames);
+
+                if (wdrType == "Fixed")
                 {
-                    if (wdrOrient == "Norm")
-                    {
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y + sashH),
-                                             new Point(sashPoint.X + (sashW / 2), sashPoint.Y));
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X + (sashW / 2), sashPoint.Y),
-                                             new Point(sashPoint.X + sashW, sashH + sashPoint.Y));
-                    }
-                    else if (wdrOrient == "Invrt")
-                    {
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
-                                             new Point(sashPoint.X + (sashW / 2), sashPoint.Y + sashH));
-                        g.DrawLine(dgrayPen, new Point(sashPoint.X + (sashW / 2), sashPoint.Y + sashH),
-                                             new Point(sashPoint.X + sashW, sashPoint.Y));
-                    }
+                    Font drawFont = new Font("Segoe UI", 12);
+                    StringFormat drawFormat = new StringFormat();
+                    drawFormat.Alignment = StringAlignment.Center;
+                    drawFormat.LineAlignment = StringAlignment.Center;
+                    g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), frames[1], drawFormat);
                 }
-                else if (wdrType == "Sliding")
+                else
                 {
-                    float arwStart_x1 = sashPoint.X + (sashW / 10),
-                              center_y1 = sashPoint.Y + (sashH / 2),
-                              arwEnd_x2 = ((sashPoint.X + sashW) - arwStart_x1) + (sashW / 10),
-                              arwHeadUp_x3,
-                              arwHeadUp_y3 = center_y1 - (center_y1 / 4),
-                              arwHeadUp_x4,
-                              arwHeadUp_y4 = center_y1 + (center_y1 / 4);
-
-                    if (wdrOrient == "R")
+                    Point sashPoint = new Point(innrfCntr.X + 10, innrfCntr.Y + 10);
+                    Rectangle sashRect = new Rectangle(sashPoint,
+                                                       new Size(sashW, sashH));
+                    Pen dgrayPen = new Pen(Color.DimGray);
                     {
-                        arwHeadUp_x3 = (sashPoint.X + sashW) - arwStart_x1;
-                        arwHeadUp_x4 = (sashPoint.X + sashW) - arwStart_x1;
+                        var dgPen = dgrayPen;
+                        dgPen.DashStyle = DashStyle.Dash;
+                        dgPen.Width = 3;
+                    }
+                    g.DrawRectangle(blkPen, sashRect);
 
-                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                    if (wdrType == "Casement")
+                    {
+                        //g.DrawLine(dgrayPen, new Point(innrfCntr.X + innrfW, innrfCntr.Y),
+                        //                     new Point(innrfCntr.X, (innrfCntr.Y + (innrfH / 2))));
+                        //g.DrawLine(dgrayPen, new Point(innrfCntr.X, (innrfCntr.Y + (innrfH / 2))),
+                        //                     new Point(innrfCntr.X + innrfW, innrfH + innrfCntr.Y));
+                        if (wdrOrient == "R")
+                        {
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                                 new Point(sashPoint.X + sashW, (sashPoint.Y + (sashH / 2))));
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X + sashW, (sashPoint.Y + (sashH / 2))),
+                                                 new Point(sashPoint.X, sashH + sashPoint.Y));
+                        }
+                        else if (wdrOrient == "L")
+                        {
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X + sashW, sashPoint.Y),
+                                                 new Point(sashPoint.X, (sashPoint.Y + (sashH / 2))));
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X, (sashPoint.Y + (sashH / 2))),
+                                                 new Point(sashPoint.X + sashW, sashH + sashPoint.Y));
+                        }
+                    }
+                    else if (wdrType == "Awning")
+                    {
+                        if (wdrOrient == "Norm")
+                        {
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y + sashH),
+                                                 new Point(sashPoint.X + (sashW / 2), sashPoint.Y));
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X + (sashW / 2), sashPoint.Y),
+                                                 new Point(sashPoint.X + sashW, sashH + sashPoint.Y));
+                        }
+                        else if (wdrOrient == "Invrt")
+                        {
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                                 new Point(sashPoint.X + (sashW / 2), sashPoint.Y + sashH));
+                            g.DrawLine(dgrayPen, new Point(sashPoint.X + (sashW / 2), sashPoint.Y + sashH),
+                                                 new Point(sashPoint.X + sashW, sashPoint.Y));
+                        }
+                    }
+                    else if (wdrType == "Sliding")
+                    {
+                        float arwStart_x1 = sashPoint.X + (sashW / 10),
+                                  center_y1 = sashPoint.Y + (sashH / 2),
+                                  arwEnd_x2 = ((sashPoint.X + sashW) - arwStart_x1) + (sashW / 10),
+                                  arwHeadUp_x3,
+                                  arwHeadUp_y3 = center_y1 - (center_y1 / 4),
+                                  arwHeadUp_x4,
+                                  arwHeadUp_y4 = center_y1 + (center_y1 / 4);
+
+                        if (wdrOrient == "R")
+                        {
+                            arwHeadUp_x3 = (sashPoint.X + sashW) - arwStart_x1;
+                            arwHeadUp_x4 = (sashPoint.X + sashW) - arwStart_x1;
+
+                            g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                                                             new PointF(arwEnd_x2, center_y1));
+                            g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
+                                                             new PointF(arwEnd_x2, center_y1));
+                        }
+                        else if (wdrOrient == "L")
+                        {
+                            arwHeadUp_x3 = sashPoint.X + arwStart_x1;
+                            arwHeadUp_x4 = sashPoint.X + arwStart_x1;
+
+                            g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                                                             new PointF(arwStart_x1, center_y1));
+                            g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
+                                                             new PointF(arwStart_x1, center_y1));
+                        }
+                        g.DrawLine(new Pen(Color.Black), new PointF(arwStart_x1, center_y1),
                                                          new PointF(arwEnd_x2, center_y1));
-                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
-                                                         new PointF(arwEnd_x2, center_y1));
                     }
-                    else if (wdrOrient == "L")
-                    {
-                        arwHeadUp_x3 = sashPoint.X + arwStart_x1;
-                        arwHeadUp_x4 = sashPoint.X + arwStart_x1;
-
-                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
-                                                         new PointF(arwStart_x1, center_y1));
-                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
-                                                         new PointF(arwStart_x1, center_y1));
-                    }
-                    g.DrawLine(new Pen(Color.Black), new PointF(arwStart_x1, center_y1),
-                                                     new PointF(arwEnd_x2, center_y1));
                 }
+
+                int w = borderStyle;
+                int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+                g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                       0,
+                                                                       fwidth - w,
+                                                                       fheight - w));
             }
-
-            int w = borderStyle;
-            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
-                                                                   0,
-                                                                   fwidth - w,
-                                                                   fheight - w));
-
         }
 
         /*private void pnlEditor_Paint(object sender, PaintEventArgs e)

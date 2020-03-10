@@ -39,6 +39,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlProperties = new System.Windows.Forms.Panel();
             this.pnlFields = new System.Windows.Forms.Panel();
+            this.Label3 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -52,7 +53,6 @@
             this.cbxWindowType = new System.Windows.Forms.ComboBox();
             this.rdDoor = new System.Windows.Forms.RadioButton();
             this.rdWindow = new System.Windows.Forms.RadioButton();
-            this.Label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkWdrOrientation2 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -66,17 +66,16 @@
             this.rdDoor2 = new System.Windows.Forms.RadioButton();
             this.rdWindow2 = new System.Windows.Forms.RadioButton();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.pbxEditor = new System.Windows.Forms.PictureBox();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlItems = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlToolStrip = new System.Windows.Forms.Panel();
             this.trkbrZoom = new System.Windows.Forms.TrackBar();
             this.lblZoom = new System.Windows.Forms.Label();
             this.mnsMain.SuspendLayout();
             this.pnlProperties.SuspendLayout();
-            this.pnlFields.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
@@ -118,20 +117,20 @@
             this.c70ToolStripMenuItem,
             this.premilineToolStripMenuItem});
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.newToolStripMenuItem1.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premilineToolStripMenuItem
             // 
             this.premilineToolStripMenuItem.Name = "premilineToolStripMenuItem";
-            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.premilineToolStripMenuItem.Text = "Premiline";
             // 
             // viewToolStripMenuItem
@@ -183,13 +182,23 @@
             // pnlFields
             // 
             this.pnlFields.AutoScroll = true;
-            this.pnlFields.Controls.Add(this.flowLayoutPanel1);
             this.pnlFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFields.Location = new System.Drawing.Point(0, 29);
             this.pnlFields.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlFields.Name = "pnlFields";
             this.pnlFields.Size = new System.Drawing.Size(157, 448);
             this.pnlFields.TabIndex = 2;
+            // 
+            // Label3
+            // 
+            this.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Label3.Location = new System.Drawing.Point(0, 0);
+            this.Label3.Name = "Label3";
+            this.Label3.Size = new System.Drawing.Size(157, 29);
+            this.Label3.TabIndex = 1;
+            this.Label3.Text = "Properties";
             // 
             // flowLayoutPanel1
             // 
@@ -203,7 +212,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(157, 430);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(161, 430);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.Tag = "1";
             // 
@@ -249,7 +258,7 @@
             this.chkWdrOrientation.Location = new System.Drawing.Point(90, 70);
             this.chkWdrOrientation.Name = "chkWdrOrientation";
             this.chkWdrOrientation.Size = new System.Drawing.Size(43, 21);
-            this.chkWdrOrientation.TabIndex = 13;
+            this.chkWdrOrientation.TabIndex = 4;
             this.chkWdrOrientation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkWdrOrientation.UseVisualStyleBackColor = false;
             this.chkWdrOrientation.CheckedChanged += new System.EventHandler(this.chkWdrOrientation_CheckedChanged);
@@ -270,7 +279,7 @@
             this.numHeight.Location = new System.Drawing.Point(7, 152);
             this.numHeight.Name = "numHeight";
             this.numHeight.Size = new System.Drawing.Size(126, 22);
-            this.numHeight.TabIndex = 11;
+            this.numHeight.TabIndex = 6;
             this.numHeight.ValueChanged += new System.EventHandler(this.numWidth_ValueChanged);
             // 
             // label4
@@ -287,7 +296,7 @@
             this.numWidth.Location = new System.Drawing.Point(7, 111);
             this.numWidth.Name = "numWidth";
             this.numWidth.Size = new System.Drawing.Size(125, 22);
-            this.numWidth.TabIndex = 10;
+            this.numWidth.TabIndex = 5;
             this.numWidth.ValueChanged += new System.EventHandler(this.numWidth_ValueChanged);
             // 
             // label2
@@ -321,7 +330,7 @@
             this.cbxWindowType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbxWindowType.Name = "cbxWindowType";
             this.cbxWindowType.Size = new System.Drawing.Size(77, 21);
-            this.cbxWindowType.TabIndex = 2;
+            this.cbxWindowType.TabIndex = 3;
             this.cbxWindowType.SelectedIndexChanged += new System.EventHandler(this.cbxWindowType_SelectedIndexChanged);
             // 
             // rdDoor
@@ -330,7 +339,7 @@
             this.rdDoor.Location = new System.Drawing.Point(82, 33);
             this.rdDoor.Name = "rdDoor";
             this.rdDoor.Size = new System.Drawing.Size(51, 17);
-            this.rdDoor.TabIndex = 7;
+            this.rdDoor.TabIndex = 2;
             this.rdDoor.Text = "Door";
             this.rdDoor.UseVisualStyleBackColor = true;
             this.rdDoor.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
@@ -342,22 +351,11 @@
             this.rdWindow.Location = new System.Drawing.Point(7, 33);
             this.rdWindow.Name = "rdWindow";
             this.rdWindow.Size = new System.Drawing.Size(69, 17);
-            this.rdWindow.TabIndex = 8;
+            this.rdWindow.TabIndex = 1;
             this.rdWindow.TabStop = true;
             this.rdWindow.Text = "Window";
             this.rdWindow.UseVisualStyleBackColor = true;
             this.rdWindow.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
-            // 
-            // Label3
-            // 
-            this.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label3.Location = new System.Drawing.Point(0, 0);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(157, 29);
-            this.Label3.TabIndex = 1;
-            this.Label3.Text = "Properties";
             // 
             // panel2
             // 
@@ -373,7 +371,7 @@
             this.panel2.Controls.Add(this.cbxWindowType2);
             this.panel2.Controls.Add(this.rdDoor2);
             this.panel2.Controls.Add(this.rdWindow2);
-            this.panel2.Location = new System.Drawing.Point(5, 85);
+            this.panel2.Location = new System.Drawing.Point(5, 219);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(146, 189);
             this.panel2.TabIndex = 13;
@@ -499,14 +497,25 @@
             // 
             this.pnlMain.AutoScroll = true;
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.button1);
             this.pnlMain.Controls.Add(this.pbxEditor);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(157, 25);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(687, 477);
+            this.pnlMain.Size = new System.Drawing.Size(633, 477);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(551, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pbxEditor
             // 
@@ -525,30 +534,20 @@
             this.pnlRight.Controls.Add(this.pnlItems);
             this.pnlRight.Controls.Add(this.label6);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(844, 25);
+            this.pnlRight.Location = new System.Drawing.Point(790, 25);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(109, 477);
+            this.pnlRight.Size = new System.Drawing.Size(163, 477);
             this.pnlRight.TabIndex = 1;
             // 
             // pnlItems
             // 
-            this.pnlItems.Controls.Add(this.button1);
             this.pnlItems.Controls.Add(this.panel2);
+            this.pnlItems.Controls.Add(this.flowLayoutPanel1);
             this.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlItems.Location = new System.Drawing.Point(0, 29);
             this.pnlItems.Name = "pnlItems";
-            this.pnlItems.Size = new System.Drawing.Size(107, 446);
+            this.pnlItems.Size = new System.Drawing.Size(161, 446);
             this.pnlItems.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(23, 33);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label6
             // 
@@ -557,7 +556,7 @@
             this.label6.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 29);
+            this.label6.Size = new System.Drawing.Size(161, 29);
             this.label6.TabIndex = 2;
             this.label6.Text = "Items";
             // 
@@ -615,7 +614,6 @@
             this.mnsMain.ResumeLayout(false);
             this.mnsMain.PerformLayout();
             this.pnlProperties.ResumeLayout(false);
-            this.pnlFields.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
