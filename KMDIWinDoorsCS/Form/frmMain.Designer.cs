@@ -42,6 +42,8 @@
             this.Label3 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
+            this.rdWindow = new System.Windows.Forms.RadioButton();
+            this.rdDoor = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkWdrOrientation = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,20 +53,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblType = new System.Windows.Forms.Label();
             this.cbxWindowType = new System.Windows.Forms.ComboBox();
-            this.rdDoor = new System.Windows.Forms.RadioButton();
-            this.rdWindow = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.chkWdrOrientation2 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.cbx_Divider = new System.Windows.Forms.ComboBox();
+            this.cbxDivider = new System.Windows.Forms.ComboBox();
             this.numHeight2 = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numWidth2 = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.cbxWindowType2 = new System.Windows.Forms.ComboBox();
-            this.rdDoor2 = new System.Windows.Forms.RadioButton();
-            this.rdWindow2 = new System.Windows.Forms.RadioButton();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.pbxEditor = new System.Windows.Forms.PictureBox();
@@ -204,6 +202,8 @@
             // 
             this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel1.Controls.Add(this.label5);
+            this.flowLayoutPanel1.Controls.Add(this.rdWindow);
+            this.flowLayoutPanel1.Controls.Add(this.rdDoor);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -228,6 +228,32 @@
             this.label5.Tag = "0";
             this.label5.Text = "Frame 1";
             // 
+            // rdWindow
+            // 
+            this.rdWindow.AutoSize = true;
+            this.rdWindow.Checked = true;
+            this.rdWindow.Location = new System.Drawing.Point(3, 31);
+            this.rdWindow.Name = "rdWindow";
+            this.rdWindow.Size = new System.Drawing.Size(69, 17);
+            this.rdWindow.TabIndex = 1;
+            this.rdWindow.TabStop = true;
+            this.rdWindow.Tag = "53";
+            this.rdWindow.Text = "Window";
+            this.rdWindow.UseVisualStyleBackColor = true;
+            this.rdWindow.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
+            // 
+            // rdDoor
+            // 
+            this.rdDoor.AutoSize = true;
+            this.rdDoor.Location = new System.Drawing.Point(3, 54);
+            this.rdDoor.Name = "rdDoor";
+            this.rdDoor.Size = new System.Drawing.Size(51, 17);
+            this.rdDoor.TabIndex = 2;
+            this.rdDoor.Tag = "67";
+            this.rdDoor.Text = "Door";
+            this.rdDoor.UseVisualStyleBackColor = true;
+            this.rdDoor.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
+            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -239,11 +265,9 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.lblType);
             this.panel1.Controls.Add(this.cbxWindowType);
-            this.panel1.Controls.Add(this.rdDoor);
-            this.panel1.Controls.Add(this.rdWindow);
-            this.panel1.Location = new System.Drawing.Point(3, 31);
+            this.panel1.Location = new System.Drawing.Point(3, 77);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(146, 189);
+            this.panel1.Size = new System.Drawing.Size(146, 168);
             this.panel1.TabIndex = 12;
             this.panel1.Tag = "1";
             // 
@@ -255,7 +279,7 @@
             this.chkWdrOrientation.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
             this.chkWdrOrientation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkWdrOrientation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkWdrOrientation.Location = new System.Drawing.Point(90, 70);
+            this.chkWdrOrientation.Location = new System.Drawing.Point(90, 53);
             this.chkWdrOrientation.Name = "chkWdrOrientation";
             this.chkWdrOrientation.Size = new System.Drawing.Size(43, 21);
             this.chkWdrOrientation.TabIndex = 4;
@@ -276,7 +300,7 @@
             // 
             // numHeight
             // 
-            this.numHeight.Location = new System.Drawing.Point(7, 152);
+            this.numHeight.Location = new System.Drawing.Point(7, 135);
             this.numHeight.Name = "numHeight";
             this.numHeight.Size = new System.Drawing.Size(126, 22);
             this.numHeight.TabIndex = 6;
@@ -285,7 +309,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 136);
+            this.label4.Location = new System.Drawing.Point(7, 119);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 13);
             this.label4.TabIndex = 5;
@@ -293,7 +317,7 @@
             // 
             // numWidth
             // 
-            this.numWidth.Location = new System.Drawing.Point(7, 111);
+            this.numWidth.Location = new System.Drawing.Point(7, 94);
             this.numWidth.Name = "numWidth";
             this.numWidth.Size = new System.Drawing.Size(125, 22);
             this.numWidth.TabIndex = 5;
@@ -302,7 +326,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 95);
+            this.label2.Location = new System.Drawing.Point(7, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 3;
@@ -311,7 +335,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(7, 53);
+            this.lblType.Location = new System.Drawing.Point(7, 36);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(77, 13);
             this.lblType.TabIndex = 1;
@@ -326,54 +350,28 @@
             "Awning",
             "Casement",
             "Sliding"});
-            this.cbxWindowType.Location = new System.Drawing.Point(7, 70);
+            this.cbxWindowType.Location = new System.Drawing.Point(7, 53);
             this.cbxWindowType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbxWindowType.Name = "cbxWindowType";
             this.cbxWindowType.Size = new System.Drawing.Size(77, 21);
             this.cbxWindowType.TabIndex = 3;
             this.cbxWindowType.SelectedIndexChanged += new System.EventHandler(this.cbxWindowType_SelectedIndexChanged);
             // 
-            // rdDoor
-            // 
-            this.rdDoor.AutoSize = true;
-            this.rdDoor.Location = new System.Drawing.Point(82, 33);
-            this.rdDoor.Name = "rdDoor";
-            this.rdDoor.Size = new System.Drawing.Size(51, 17);
-            this.rdDoor.TabIndex = 2;
-            this.rdDoor.Text = "Door";
-            this.rdDoor.UseVisualStyleBackColor = true;
-            this.rdDoor.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
-            // 
-            // rdWindow
-            // 
-            this.rdWindow.AutoSize = true;
-            this.rdWindow.Checked = true;
-            this.rdWindow.Location = new System.Drawing.Point(7, 33);
-            this.rdWindow.Name = "rdWindow";
-            this.rdWindow.Size = new System.Drawing.Size(69, 17);
-            this.rdWindow.TabIndex = 1;
-            this.rdWindow.TabStop = true;
-            this.rdWindow.Text = "Window";
-            this.rdWindow.UseVisualStyleBackColor = true;
-            this.rdWindow.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
-            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.chkWdrOrientation2);
             this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.cbx_Divider);
+            this.panel2.Controls.Add(this.cbxDivider);
             this.panel2.Controls.Add(this.numHeight2);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.numWidth2);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.cbxWindowType2);
-            this.panel2.Controls.Add(this.rdDoor2);
-            this.panel2.Controls.Add(this.rdWindow2);
-            this.panel2.Location = new System.Drawing.Point(5, 219);
+            this.panel2.Location = new System.Drawing.Point(5, 252);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(146, 189);
+            this.panel2.Size = new System.Drawing.Size(146, 168);
             this.panel2.TabIndex = 13;
             this.panel2.Tag = "2";
             // 
@@ -385,12 +383,13 @@
             this.chkWdrOrientation2.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
             this.chkWdrOrientation2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkWdrOrientation2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkWdrOrientation2.Location = new System.Drawing.Point(90, 70);
+            this.chkWdrOrientation2.Location = new System.Drawing.Point(90, 53);
             this.chkWdrOrientation2.Name = "chkWdrOrientation2";
             this.chkWdrOrientation2.Size = new System.Drawing.Size(43, 21);
             this.chkWdrOrientation2.TabIndex = 13;
             this.chkWdrOrientation2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkWdrOrientation2.UseVisualStyleBackColor = false;
+            this.chkWdrOrientation2.CheckedChanged += new System.EventHandler(this.chkWdrOrientation2_CheckedChanged);
             // 
             // label7
             // 
@@ -403,21 +402,21 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "Panel 2";
             // 
-            // cbx_Divider
+            // cbxDivider
             // 
-            this.cbx_Divider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbx_Divider.FormattingEnabled = true;
-            this.cbx_Divider.Items.AddRange(new object[] {
+            this.cbxDivider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxDivider.FormattingEnabled = true;
+            this.cbxDivider.Items.AddRange(new object[] {
             "Mullion",
             "Transom"});
-            this.cbx_Divider.Location = new System.Drawing.Point(71, 9);
-            this.cbx_Divider.Name = "cbx_Divider";
-            this.cbx_Divider.Size = new System.Drawing.Size(66, 25);
-            this.cbx_Divider.TabIndex = 14;
+            this.cbxDivider.Location = new System.Drawing.Point(71, 9);
+            this.cbxDivider.Name = "cbxDivider";
+            this.cbxDivider.Size = new System.Drawing.Size(66, 25);
+            this.cbxDivider.TabIndex = 14;
             // 
             // numHeight2
             // 
-            this.numHeight2.Location = new System.Drawing.Point(7, 152);
+            this.numHeight2.Location = new System.Drawing.Point(7, 135);
             this.numHeight2.Name = "numHeight2";
             this.numHeight2.Size = new System.Drawing.Size(126, 25);
             this.numHeight2.TabIndex = 11;
@@ -425,7 +424,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 136);
+            this.label8.Location = new System.Drawing.Point(7, 119);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 19);
             this.label8.TabIndex = 5;
@@ -433,7 +432,7 @@
             // 
             // numWidth2
             // 
-            this.numWidth2.Location = new System.Drawing.Point(7, 111);
+            this.numWidth2.Location = new System.Drawing.Point(7, 94);
             this.numWidth2.Name = "numWidth2";
             this.numWidth2.Size = new System.Drawing.Size(125, 25);
             this.numWidth2.TabIndex = 10;
@@ -441,7 +440,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 95);
+            this.label9.Location = new System.Drawing.Point(7, 78);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(46, 19);
             this.label9.TabIndex = 3;
@@ -450,7 +449,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 53);
+            this.label10.Location = new System.Drawing.Point(7, 36);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(91, 19);
             this.label10.TabIndex = 1;
@@ -465,33 +464,12 @@
             "Awning",
             "Casement",
             "Sliding"});
-            this.cbxWindowType2.Location = new System.Drawing.Point(7, 70);
+            this.cbxWindowType2.Location = new System.Drawing.Point(7, 53);
             this.cbxWindowType2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbxWindowType2.Name = "cbxWindowType2";
             this.cbxWindowType2.Size = new System.Drawing.Size(77, 25);
             this.cbxWindowType2.TabIndex = 2;
-            // 
-            // rdDoor2
-            // 
-            this.rdDoor2.AutoSize = true;
-            this.rdDoor2.Location = new System.Drawing.Point(82, 33);
-            this.rdDoor2.Name = "rdDoor2";
-            this.rdDoor2.Size = new System.Drawing.Size(58, 23);
-            this.rdDoor2.TabIndex = 7;
-            this.rdDoor2.Text = "Door";
-            this.rdDoor2.UseVisualStyleBackColor = true;
-            // 
-            // rdWindow2
-            // 
-            this.rdWindow2.AutoSize = true;
-            this.rdWindow2.Checked = true;
-            this.rdWindow2.Location = new System.Drawing.Point(7, 33);
-            this.rdWindow2.Name = "rdWindow2";
-            this.rdWindow2.Size = new System.Drawing.Size(77, 23);
-            this.rdWindow2.TabIndex = 8;
-            this.rdWindow2.TabStop = true;
-            this.rdWindow2.Text = "Window";
-            this.rdWindow2.UseVisualStyleBackColor = true;
+            this.cbxWindowType2.SelectedIndexChanged += new System.EventHandler(this.cbxWindowType2_SelectedIndexChanged);
             // 
             // pnlMain
             // 
@@ -681,9 +659,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cbxWindowType2;
-        private System.Windows.Forms.RadioButton rdDoor2;
-        private System.Windows.Forms.RadioButton rdWindow2;
-        private System.Windows.Forms.ComboBox cbx_Divider;
+        private System.Windows.Forms.ComboBox cbxDivider;
     }
 }
 

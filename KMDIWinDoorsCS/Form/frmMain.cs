@@ -95,7 +95,9 @@ namespace KMDIWinDoorsCS
         private void frmMain_Load(object sender, EventArgs e)
         {
             numWidth.Maximum = decimal.MaxValue;
+            numWidth2.Maximum = decimal.MaxValue;
             numHeight.Maximum = decimal.MaxValue;
+            numHeight2.Maximum = decimal.MaxValue;
             pbxEditor.Width = fwidth;
             pbxEditor.Height = fheight;
         }
@@ -189,19 +191,140 @@ namespace KMDIWinDoorsCS
             //CreatePanels("Fixed");
         }
 
+        /*public static DataTable CreateDT(Panel pnlfield)
+        {
+            using (DataTable dtbl = new DataTable())
+            {
+                dtbl.Columns.Add("frameID", typeof(int));
+                dtbl.Columns.Add("pnlID", typeof(int));
+                dtbl.Columns.Add("pnlDvdr", typeof(string));
+                dtbl.Columns.Add("WindowDoor", typeof(string));
+                dtbl.Columns.Add("WdrType", typeof(string));
+                dtbl.Columns.Add("WdrOrient", typeof(string));
+                dtbl.Columns.Add("Width", typeof(int));
+                dtbl.Columns.Add("Height", typeof(int));
+
+                foreach (var frame in pnlfield.Controls.OfType<FlowLayoutPanel>())
+                {
+                    string wndr = "";
+                    foreach (var rd in frame.Controls.OfType<RadioButton>())
+                    {
+                        if (rd.Checked == true)
+                        {
+                            wndr = rd.Name;
+                        }
+                    }
+
+                    foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
+                    {
+                        string wndrType = "", wndrDivider = "", wndrOrient = "";
+                        int wndrWidth = 0, wndrHeight = 0;
+                        foreach (var properties in pnl.Controls.OfType<Control>().OrderBy(ee => ee.TabIndex))
+                        {
+                            string prop = properties.Name;
+                            if (prop.Contains("cbxWindowType"))
+                            {
+                                ComboBox cbxprop = (ComboBox)properties;
+                                wndrType = cbxprop.Text;
+                            }
+                            else if (prop.Contains("cbxDivider"))
+                            {
+                                ComboBox cbxprop = (ComboBox)properties;
+                                wndrDivider = cbxprop.Text;
+                            }
+                            else if (prop.Contains("chk"))
+                            {
+                                CheckBox chkprop = (CheckBox)properties;
+                                wndrOrient = chkprop.Text;
+                            }
+                            else if (prop.Contains("num"))
+                            {
+                                NumericUpDown numprop = (NumericUpDown)properties;
+                                if (prop.Contains("Width"))
+                                {
+                                    wndrWidth = Convert.ToInt32(numprop.Value);
+                                }
+                                else if (prop.Contains("Height"))
+                                {
+                                    wndrHeight = Convert.ToInt32(numprop.Value);
+                                }
+                            }
+                        }
+                        dtbl.Rows.Add(frame.Tag, pnl.Tag, wndrDivider, wndr, wndrType, wndrOrient, wndrWidth, wndrHeight);
+                    }
+                }
+                return dtbl;
+            }
+        }*/
+
+        Dataset.dsWindoor ds = new Dataset.dsWindoor();
+        private void dsWindoorFill(Panel pnlfield)
+        {
+            ds.Clear();
+            foreach (var frame in pnlfield.Controls.OfType<FlowLayoutPanel>())
+            {
+                int totalWidth = 0, totalHeight = 0, wndr = 0;
+                foreach (var rd in frame.Controls.OfType<RadioButton>())
+                {
+                    if (rd.Checked == true)
+                    {
+                        wndr = Convert.ToInt32(rd.Tag);
+                    }
+                }
+                foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
+                {
+                    string wndrType = "", wndrDivider = "", wndrOrient = "";
+                    int wndrWidth = 0, wndrHeight = 0;
+                    foreach (var properties in pnl.Controls.OfType<Control>().OrderBy(ee => ee.TabIndex))
+                    {
+                        string prop = properties.Name;
+                        if (prop.Contains("cbxWindowType"))
+                        {
+                            ComboBox cbxprop = (ComboBox)properties;
+                            wndrType = cbxprop.Text;
+                        }
+                        else if (prop.Contains("cbxDivider"))
+                        {
+                            ComboBox cbxprop = (ComboBox)properties;
+                            wndrDivider = cbxprop.Text;
+                        }
+                        else if (prop.Contains("chk"))
+                        {
+                            CheckBox chkprop = (CheckBox)properties;
+                            wndrOrient = chkprop.Text;
+                        }
+                        else if (prop.Contains("num"))
+                        {
+                            NumericUpDown numprop = (NumericUpDown)properties;
+                            if (prop.Contains("Width"))
+                            {
+                                wndrWidth = Convert.ToInt32(numprop.Value);
+                                totalWidth += wndrWidth;
+                            }
+                            else if (prop.Contains("Height"))
+                            {
+                                wndrHeight = Convert.ToInt32(numprop.Value);
+                                totalHeight += wndrHeight;
+                            }
+                        }
+                    }
+                    ds.dtPanel.Rows.Add(pnl.Tag,
+                                        frame.Tag,
+                                        wndrDivider,
+                                        wndrType,
+                                        wndrOrient,
+                                        wndrWidth,
+                                        wndrHeight);
+                }
+                ds.dtFrame.Rows.Add(frame.Tag,
+                                    wndr,
+                                    totalWidth,
+                                    totalHeight);
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            string[,] arr_str = new string[2,8];
-
-            for (int i = 0; i < arr_str.GetLength(0); i++)
-            {
-                for (int j = 0; j < arr_str.GetLength(1); j++)
-                {
-                    string s = arr_str[i, j];
-                    Console.WriteLine(s);
-                }
-            }
-
             string[] prop_panels = new string[] {"frameID",
                                                  "pnlID",
                                                  "pnlDvdr",
@@ -211,12 +334,24 @@ namespace KMDIWinDoorsCS
                                                  "Width",
                                                  "Height" };
 
+            DataTable tbl = new DataTable();
+            tbl.Columns.Add("frameID", typeof(int));
+            tbl.Columns.Add("pnlID", typeof(int));
+            tbl.Columns.Add("pnlDvdr", typeof(string));
+            tbl.Columns.Add("WindowDoor", typeof(string));
+            tbl.Columns.Add("WdrType", typeof(string));
+            tbl.Columns.Add("WdrOrient", typeof(string));
+            tbl.Columns.Add("Width", typeof(int));
+            tbl.Columns.Add("Height", typeof(int));
+            
             foreach (var frame in pnlFields.Controls.OfType<FlowLayoutPanel>())
             {
-                Console.WriteLine("FrameID: " + frame.Tag);
+                //Console.WriteLine("FrameID: " + frame.Tag);
                 foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
                 {
-                    Console.WriteLine("PanelID: " + pnl.Tag);
+                    //Console.WriteLine("PanelID: " + pnl.Tag);
+                    string wndr = "",wndrType = "", wndrDivider = "",wndrOrient = "";
+                    int wndrWidth = 0, wndrHeight = 0;
                     foreach (var properties in pnl.Controls.OfType<Control>().OrderBy(ee => ee.TabIndex))
                     {
                         string prop = properties.Name;
@@ -225,33 +360,56 @@ namespace KMDIWinDoorsCS
                             RadioButton rdprop = (RadioButton)properties;
                             if (rdprop.Checked == true)
                             {
-                                Console.WriteLine("Windoor: " + prop);
+                                //Console.WriteLine("Windoor: " + prop);
+                                wndr = prop;
                             }
                         }
-                        else if (prop.Contains("cbx"))
+                        else if (prop.Contains("cbxWindowType"))
                         {
                             ComboBox cbxprop = (ComboBox)properties;
-                            Console.WriteLine("WindorType: " + cbxprop.Text);
+                            wndrType = cbxprop.Text;
+                            //Console.WriteLine("WindorType: " + cbxprop.Text);
+                        }
+                        else if (prop.Contains("cbxDivider"))
+                        {
+                            ComboBox cbxprop = (ComboBox)properties;
+                            wndrDivider = cbxprop.Text;
+                            //Console.WriteLine("Divider: " + cbxprop.Text);
                         }
                         else if (prop.Contains("chk"))
                         {
                             CheckBox chkprop = (CheckBox)properties;
-                            Console.WriteLine("Orientation: " + chkprop.Text);
+                            wndrOrient = chkprop.Text;
+                            //Console.WriteLine("Orientation: " + chkprop.Text);
                         }
                         else if (prop.Contains("num"))
                         {
                             NumericUpDown numprop = (NumericUpDown)properties;
                             if (prop.Contains("Width"))
                             {
-                                Console.WriteLine("Width: " + numprop.Value);
+                                wndrWidth = Convert.ToInt32(numprop.Value);
+                                //Console.WriteLine("Width: " + numprop.Value);
                             }
                             else if (prop.Contains("Height"))
                             {
-                                Console.WriteLine("Height: " + numprop.Value);
+                                wndrHeight = Convert.ToInt32(numprop.Value);
+                                //Console.WriteLine("Height: " + numprop.Value);
                             }
                         }
                     }
+                    tbl.Rows.Add(frame.Tag,pnl.Tag, wndrDivider, wndr, wndrType, wndrOrient,wndrWidth,wndrHeight);
                 }
+            }
+            foreach (DataRow row in tbl.Rows)
+            {
+                Console.WriteLine("frameID: " + row["frameID"].ToString());
+                Console.WriteLine("pnlID: " + row["pnlID"].ToString());
+                Console.WriteLine("pnlDvdr: " + row["pnlDvdr"].ToString());
+                Console.WriteLine("WindowDoor: " + row["WindowDoor"].ToString());
+                Console.WriteLine("WdrType: " + row["WdrType"].ToString());
+                Console.WriteLine("WdrOrient: " + row["WdrOrient"].ToString());
+                Console.WriteLine("Width: " + row["Width"].ToString());
+                Console.WriteLine("Height: " + row["Height"].ToString() + "\r\n");
             }
 
             //foreach (var item in flowLayoutPanel1.Controls.OfType<Control>().OrderBy(ee => ee.Tag))
@@ -266,7 +424,54 @@ namespace KMDIWinDoorsCS
             //pbxEditor.Invalidate();
             //pbxEditor.ImageLocation = "Test1.png";
         }
-        
+
+        private void cbxWindowType2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chkWdrOrientation2.Checked = false;
+            if (cbxWindowType2.Text == "Casement" || cbxWindowType2.Text == "Sliding")
+            {
+                chkWdrOrientation2.Enabled = true;
+                chkWdrOrientation2.Text = "R";
+            }
+            else if (cbxWindowType2.Text == "Awning")
+            {
+                chkWdrOrientation2.Enabled = true;
+                chkWdrOrientation2.Text = "Norm";
+            }
+            else if (cbxWindowType2.Text == "Fixed")
+            {
+                chkWdrOrientation2.Enabled = false;
+                chkWdrOrientation2.Text = "";
+            }
+        }
+
+        private void chkWdrOrientation2_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cbx = (CheckBox)sender;
+            if (cbx.Checked == true)
+            {
+                if (cbx.Text == "R")
+                {
+                    cbx.Text = "L";
+                }
+                else if (cbx.Text == "Norm")
+                {
+                    cbx.Text = "Invrt";
+                }
+            }
+            else if (cbx.Checked == false)
+            {
+                if (cbx.Text == "L")
+                {
+                    cbx.Text = "R";
+                }
+                else if (cbx.Text == "Invrt")
+                {
+                    cbx.Text = "Norm";
+                }
+            }
+        }
+
         private void chkWdrOrientation_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cbx = (CheckBox)sender;
@@ -327,16 +532,28 @@ namespace KMDIWinDoorsCS
         private void pbxEditor_Paint(object sender, PaintEventArgs e)
         {
             int count_frm = pnlFields.Controls.Count;
-            string[] prop_panels = new string[] {"frameID",
-                                                 "pnlID",
-                                                 "pnlDvdr",
-                                                 "WindowDoor",
-                                                 "WdrType",
-                                                 "WdrOrient",
-                                                 "Width",
-                                                 "Height" };
             if (count_frm != 0)
             {
+                dsWindoorFill(pnlFields);
+                foreach (DataRow row in ds.dtFrame.Rows)
+                {
+                    Console.WriteLine("frameID: " + row["fid"].ToString() + "\r\n" +
+                                      "WindowDoor: " + row["wndr"].ToString() + "\r\n" +
+                                      "Total Width: " + row["tWidth"].ToString() + "\r\n" +
+                                      "Total Height: " + row["tHeight"].ToString() + "\r\n");
+                }
+
+                foreach (DataRow row in ds.dtPanel.Rows)
+                {
+                    Console.WriteLine("pnlID: " + row["pid"].ToString() + "\r\n" +
+                                      "frameID_ref: " + row["fid_ref"].ToString() + "\r\n" +
+                                      "pnlDvdr: " + row["wndrDivider"].ToString() + "\r\n" +
+                                      "WdrType: " + row["wndrType"].ToString() + "\r\n" +
+                                      "WdrOrient: " + row["wndrOrient"].ToString() + "\r\n" +
+                                      "Width: " + row["wndrWidth"].ToString() + "\r\n" +
+                                      "Height: " + row["wndrHeight"].ToString() + "\r\n");
+                }
+
                 Graphics g = e.Graphics;
                 g.ScaleTransform(zoom, zoom);
 
@@ -350,13 +567,25 @@ namespace KMDIWinDoorsCS
                 Point fcntr = new Point(0, 0);
                 Point innrfCntr = new Point((fwidth - innrfW) / 2 + fcntr.X, (fheight - innrfH) / 2 + fcntr.Y);
 
-                Rectangle[] frames = new[]
+                Rectangle[] frames = new[] //DRAWING for frame
                 {
                 new Rectangle(fcntr,new Size(fwidth,fheight)),
                 new Rectangle(innrfCntr,new Size(innrfW,innrfH))
-            };
+                };
+                //{
+                //    Rectangle[] fra = Rectangle();
 
-                Point[] corner_points = new[]
+                //    fra[1] = new Rectangle(center_X, center_Y, fwidth, fheight);
+                //}
+
+                Rectangle[] aFrames;
+
+                //for (int i = 0; i < ds.dtFrame.Rows.Count; i++)
+                //{
+                //    aFrames(1) = new Rectangle(fcntr, new Size(fwidth, fheight));
+                //}
+
+                Point[] corner_points = new[] //DRAWING for frame cornerlines
                 {
                 new Point(fcntr.X,fcntr.Y),
                 new Point(innrfCntr.X,innrfCntr.Y),
@@ -366,18 +595,13 @@ namespace KMDIWinDoorsCS
                 new Point(innrfCntr.X,innrfCntr.Y + innrfH),
                 new Point(fcntr.X + fwidth,fcntr.Y + fheight),
                 new Point(innrfCntr.X + innrfW,innrfCntr.Y + innrfH)
-            };
+                };
 
                 for (int i = 0; i < corner_points.Length - 1; i += 2)
                 {
                     g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
                 }
 
-                {
-                    var a = g;
-                    a.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
-                    a.DrawRectangles(blkPen, frames);
-                }
                 g.FillRectangle(new SolidBrush(Color.Gray), frames[1]);
                 g.DrawRectangles(blkPen, frames);
 
