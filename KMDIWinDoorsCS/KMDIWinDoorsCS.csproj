@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dataset\dsWindoor.cs">
+      <DependentUpon>dsWindoor.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Dataset\dsWindoor.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

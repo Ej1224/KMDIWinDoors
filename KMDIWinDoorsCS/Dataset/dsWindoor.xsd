@@ -12,7 +12,7 @@
   <xs:element name="dsWindoor" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsWindoor" msprop:Generator_UserDSName="dsWindoor">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="dtFrame" msprop:Generator_TableClassName="dtFrameDataTable" msprop:Generator_TableVarName="tabledtFrame" msprop:Generator_TablePropName="dtFrame" msprop:Generator_RowDeletingName="dtFrameRowDeleting" msprop:Generator_RowChangingName="dtFrameRowChanging" msprop:Generator_RowEvHandlerName="dtFrameRowChangeEventHandler" msprop:Generator_RowDeletedName="dtFrameRowDeleted" msprop:Generator_UserTableName="dtFrame" msprop:Generator_RowChangedName="dtFrameRowChanged" msprop:Generator_RowEvArgName="dtFrameRowChangeEvent" msprop:Generator_RowClassName="dtFrameRow">
+        <xs:element name="dtFrame" msprop:Generator_TableClassName="dtFrameDataTable" msprop:Generator_TableVarName="tabledtFrame" msprop:Generator_RowChangedName="dtFrameRowChanged" msprop:Generator_TablePropName="dtFrame" msprop:Generator_RowDeletingName="dtFrameRowDeleting" msprop:Generator_RowChangingName="dtFrameRowChanging" msprop:Generator_RowEvHandlerName="dtFrameRowChangeEventHandler" msprop:Generator_RowDeletedName="dtFrameRowDeleted" msprop:Generator_RowClassName="dtFrameRow" msprop:Generator_UserTableName="dtFrame" msprop:Generator_RowEvArgName="dtFrameRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="fid" msprop:Generator_ColumnVarNameInTable="columnfid" msprop:Generator_ColumnPropNameInRow="fid" msprop:Generator_ColumnPropNameInTable="fidColumn" msprop:Generator_UserColumnName="fid" type="xs:int" minOccurs="0" />
@@ -22,7 +22,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="dtPanel" msprop:Generator_TableClassName="dtPanelDataTable" msprop:Generator_TableVarName="tabledtPanel" msprop:Generator_TablePropName="dtPanel" msprop:Generator_RowDeletingName="dtPanelRowDeleting" msprop:Generator_RowChangingName="dtPanelRowChanging" msprop:Generator_RowEvHandlerName="dtPanelRowChangeEventHandler" msprop:Generator_RowDeletedName="dtPanelRowDeleted" msprop:Generator_UserTableName="dtPanel" msprop:Generator_RowChangedName="dtPanelRowChanged" msprop:Generator_RowEvArgName="dtPanelRowChangeEvent" msprop:Generator_RowClassName="dtPanelRow">
+        <xs:element name="dtPanel" msprop:Generator_TableClassName="dtPanelDataTable" msprop:Generator_TableVarName="tabledtPanel" msprop:Generator_RowChangedName="dtPanelRowChanged" msprop:Generator_TablePropName="dtPanel" msprop:Generator_RowDeletingName="dtPanelRowDeleting" msprop:Generator_RowChangingName="dtPanelRowChanging" msprop:Generator_RowEvHandlerName="dtPanelRowChangeEventHandler" msprop:Generator_RowDeletedName="dtPanelRowDeleted" msprop:Generator_RowClassName="dtPanelRow" msprop:Generator_UserTableName="dtPanel" msprop:Generator_RowEvArgName="dtPanelRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="pid" msprop:Generator_ColumnVarNameInTable="columnpid" msprop:Generator_ColumnPropNameInRow="pid" msprop:Generator_ColumnPropNameInTable="pidColumn" msprop:Generator_UserColumnName="pid" type="xs:int" minOccurs="0" />
@@ -40,7 +40,7 @@
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="dtFrame_dtPanel" msdata:parent="dtFrame" msdata:child="dtPanel" msdata:parentkey="fid" msdata:childkey="fid_ref" msprop:Generator_UserChildTable="dtPanel" msprop:Generator_ChildPropName="GetdtPanelRows" msprop:Generator_UserRelationName="dtFrame_dtPanel" msprop:Generator_ParentPropName="dtFrameRow" msprop:Generator_RelationVarName="relationdtFrame_dtPanel" msprop:Generator_UserParentTable="dtFrame" />
+      <msdata:Relationship name="dtFrame_dtPanel" msdata:parent="dtFrame" msdata:child="dtPanel" msdata:parentkey="fid" msdata:childkey="fid_ref" msprop:Generator_UserChildTable="dtPanel" msprop:Generator_ChildPropName="GetdtPanelRows" msprop:Generator_UserRelationName="dtFrame_dtPanel" msprop:Generator_RelationVarName="relationdtFrame_dtPanel" msprop:Generator_UserParentTable="dtFrame" msprop:Generator_ParentPropName="dtFrameRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>
