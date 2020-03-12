@@ -535,24 +535,24 @@ namespace KMDIWinDoorsCS
             if (count_frm != 0)
             {
                 dsWindoorFill(pnlFields);
-                foreach (DataRow row in ds.dtFrame.Rows)
-                {
-                    Console.WriteLine("frameID: " + row["fid"].ToString() + "\r\n" +
-                                      "WindowDoor: " + row["wndr"].ToString() + "\r\n" +
-                                      "Total Width: " + row["tWidth"].ToString() + "\r\n" +
-                                      "Total Height: " + row["tHeight"].ToString() + "\r\n");
-                }
+                //foreach (DataRow row in ds.dtFrame.Rows)
+                //{
+                //    Console.WriteLine("frameID: " + row["fid"].ToString() + "\r\n" +
+                //                      "WindowDoor: " + row["wndr"].ToString() + "\r\n" +
+                //                      "Total Width: " + row["tWidth"].ToString() + "\r\n" +
+                //                      "Total Height: " + row["tHeight"].ToString() + "\r\n");
+                //}
 
-                foreach (DataRow row in ds.dtPanel.Rows)
-                {
-                    Console.WriteLine("pnlID: " + row["pid"].ToString() + "\r\n" +
-                                      "frameID_ref: " + row["fid_ref"].ToString() + "\r\n" +
-                                      "pnlDvdr: " + row["wndrDivider"].ToString() + "\r\n" +
-                                      "WdrType: " + row["wndrType"].ToString() + "\r\n" +
-                                      "WdrOrient: " + row["wndrOrient"].ToString() + "\r\n" +
-                                      "Width: " + row["wndrWidth"].ToString() + "\r\n" +
-                                      "Height: " + row["wndrHeight"].ToString() + "\r\n");
-                }
+                //foreach (DataRow row in ds.dtPanel.Rows)
+                //{
+                //    Console.WriteLine("pnlID: " + row["pid"].ToString() + "\r\n" +
+                //                      "frameID_ref: " + row["fid_ref"].ToString() + "\r\n" +
+                //                      "pnlDvdr: " + row["wndrDivider"].ToString() + "\r\n" +
+                //                      "WdrType: " + row["wndrType"].ToString() + "\r\n" +
+                //                      "WdrOrient: " + row["wndrOrient"].ToString() + "\r\n" +
+                //                      "Width: " + row["wndrWidth"].ToString() + "\r\n" +
+                //                      "Height: " + row["wndrHeight"].ToString() + "\r\n");
+                //}
 
                 Graphics g = e.Graphics;
                 g.ScaleTransform(zoom, zoom);
@@ -572,18 +572,14 @@ namespace KMDIWinDoorsCS
                 new Rectangle(fcntr,new Size(fwidth,fheight)),
                 new Rectangle(innrfCntr,new Size(innrfW,innrfH))
                 };
-                //{
-                //    Rectangle[] fra = Rectangle();
-
-                //    fra[1] = new Rectangle(center_X, center_Y, fwidth, fheight);
-                //}
-
-                Rectangle[] aFrames;
-
-                //for (int i = 0; i < ds.dtFrame.Rows.Count; i++)
-                //{
-                //    aFrames(1) = new Rectangle(fcntr, new Size(fwidth, fheight));
-                //}
+                
+                Rectangle[] aFrames = new Rectangle[ds.dtFrame.Rows.Count];
+                Rectangle[] aPanels = new Rectangle[ds.dtPanel.Rows.Count];
+                
+                for (int i = 0; i < ds.dtFrame.Rows.Count; i++)
+                {
+                    MessageBox.Show(ds.dtFrame.Rows[i]["fid"].ToString());
+                }
 
                 Point[] corner_points = new[] //DRAWING for frame cornerlines
                 {
