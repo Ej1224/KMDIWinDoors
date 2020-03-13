@@ -531,8 +531,8 @@ namespace KMDIWinDoorsCS
 
         private void pbxEditor_Paint(object sender, PaintEventArgs e)
         {
-            int count_frm = pnlFields.Controls.Count;
-            if (count_frm != 0)
+            int count_frame = pnlFields.Controls.Count;
+            if (count_frame != 0)
             {
                 dsWindoorFill(pnlFields);
                 //foreach (DataRow row in ds.dtFrame.Rows)
@@ -581,7 +581,7 @@ namespace KMDIWinDoorsCS
                 for (int i = 0; i < Fdt.Rows.Count; i++)
                 {
                     int fid = Convert.ToInt32(Fdt.Rows[i]["fid"].ToString()),
-                        wndr = Convert.ToInt32(Pdt.Rows[i]["wndr"].ToString()),
+                        wndr = Convert.ToInt32(Fdt.Rows[i]["wndr"].ToString()),
                         tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
                         tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
                         fpnl_tWidth = tWidth - wndr,
@@ -602,7 +602,8 @@ namespace KMDIWinDoorsCS
                         int fid_ref = Convert.ToInt32(Pdt.Rows[j]["fid_ref"].ToString()),
                             wndrWidth = Convert.ToInt32(Pdt.Rows[j]["wndrWidth"].ToString()),
                             wndrHeight = Convert.ToInt32(Pdt.Rows[j]["wndrHeight"].ToString());
-                        string PwdrType = Pdt.Rows[j]["wdrType"].ToString();
+                        string PwdrType = Pdt.Rows[j]["wndrType"].ToString();
+
                         if (fid_ref == fid)
                         {
                             int Wpnl = wndrWidth - wndr,
@@ -610,6 +611,7 @@ namespace KMDIWinDoorsCS
                             Point pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
                                                         (tHeight - Hpnl) / 2 + aFrames[i].Y);
                             aPanels[j] = new Rectangle(pnl_point,new Size(Wpnl,Hpnl));
+                            g.DrawRectangle(blkPen, aPanels[j]);
 
                             if (PwdrType == "Fixed")
                             {
