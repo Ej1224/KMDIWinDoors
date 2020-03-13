@@ -115,20 +115,20 @@
             this.c70ToolStripMenuItem,
             this.premilineToolStripMenuItem});
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem1.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premilineToolStripMenuItem
             // 
             this.premilineToolStripMenuItem.Name = "premilineToolStripMenuItem";
-            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.premilineToolStripMenuItem.Text = "Premiline";
             // 
             // viewToolStripMenuItem
@@ -369,6 +369,7 @@
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.cbxWindowType2);
+            this.panel2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.Location = new System.Drawing.Point(5, 252);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(146, 168);
@@ -411,14 +412,14 @@
             "Transom"});
             this.cbxDivider.Location = new System.Drawing.Point(71, 9);
             this.cbxDivider.Name = "cbxDivider";
-            this.cbxDivider.Size = new System.Drawing.Size(66, 25);
+            this.cbxDivider.Size = new System.Drawing.Size(66, 21);
             this.cbxDivider.TabIndex = 14;
             // 
             // numHeight2
             // 
             this.numHeight2.Location = new System.Drawing.Point(7, 135);
             this.numHeight2.Name = "numHeight2";
-            this.numHeight2.Size = new System.Drawing.Size(126, 25);
+            this.numHeight2.Size = new System.Drawing.Size(126, 22);
             this.numHeight2.TabIndex = 11;
             // 
             // label8
@@ -426,7 +427,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(7, 119);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 19);
+            this.label8.Size = new System.Drawing.Size(42, 13);
             this.label8.TabIndex = 5;
             this.label8.Text = "Height";
             // 
@@ -434,7 +435,7 @@
             // 
             this.numWidth2.Location = new System.Drawing.Point(7, 94);
             this.numWidth2.Name = "numWidth2";
-            this.numWidth2.Size = new System.Drawing.Size(125, 25);
+            this.numWidth2.Size = new System.Drawing.Size(125, 22);
             this.numWidth2.TabIndex = 10;
             // 
             // label9
@@ -442,16 +443,17 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(7, 78);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(46, 19);
+            this.label9.Size = new System.Drawing.Size(39, 13);
             this.label9.TabIndex = 3;
             this.label9.Text = "Width";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(7, 36);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(91, 19);
+            this.label10.Size = new System.Drawing.Size(77, 13);
             this.label10.TabIndex = 1;
             this.label10.Text = "Window Type";
             // 
@@ -467,7 +469,7 @@
             this.cbxWindowType2.Location = new System.Drawing.Point(7, 53);
             this.cbxWindowType2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbxWindowType2.Name = "cbxWindowType2";
-            this.cbxWindowType2.Size = new System.Drawing.Size(77, 25);
+            this.cbxWindowType2.Size = new System.Drawing.Size(77, 21);
             this.cbxWindowType2.TabIndex = 2;
             this.cbxWindowType2.SelectedIndexChanged += new System.EventHandler(this.cbxWindowType2_SelectedIndexChanged);
             // 
