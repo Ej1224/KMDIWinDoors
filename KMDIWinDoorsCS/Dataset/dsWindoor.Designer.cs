@@ -624,6 +624,8 @@ namespace KMDIWinDoorsCS.Dataset {
             
             private global::System.Data.DataColumn columnwndrHeight;
             
+            private global::System.Data.DataColumn columnpidTag_ref;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dtPanelDataTable() {
@@ -715,6 +717,14 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn pidTag_refColumn {
+                get {
+                    return this.columnpidTag_ref;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -750,7 +760,7 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dtPanelRow AdddtPanelRow(int pid, dtFrameRow parentdtFrameRowBydtFrame_dtPanel, string wndrDivider, string wndrType, string wndrOrient, int wndrWidth, int wndrHeight) {
+            public dtPanelRow AdddtPanelRow(int pid, dtFrameRow parentdtFrameRowBydtFrame_dtPanel, string wndrDivider, string wndrType, string wndrOrient, int wndrWidth, int wndrHeight, int pidTag_ref) {
                 dtPanelRow rowdtPanelRow = ((dtPanelRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         pid,
@@ -759,7 +769,8 @@ namespace KMDIWinDoorsCS.Dataset {
                         wndrType,
                         wndrOrient,
                         wndrWidth,
-                        wndrHeight};
+                        wndrHeight,
+                        pidTag_ref};
                 if ((parentdtFrameRowBydtFrame_dtPanel != null)) {
                     columnValuesArray[1] = parentdtFrameRowBydtFrame_dtPanel[0];
                 }
@@ -792,6 +803,7 @@ namespace KMDIWinDoorsCS.Dataset {
                 this.columnwndrOrient = base.Columns["wndrOrient"];
                 this.columnwndrWidth = base.Columns["wndrWidth"];
                 this.columnwndrHeight = base.Columns["wndrHeight"];
+                this.columnpidTag_ref = base.Columns["pidTag_ref"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -811,6 +823,8 @@ namespace KMDIWinDoorsCS.Dataset {
                 base.Columns.Add(this.columnwndrWidth);
                 this.columnwndrHeight = new global::System.Data.DataColumn("wndrHeight", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnwndrHeight);
+                this.columnpidTag_ref = new global::System.Data.DataColumn("pidTag_ref", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnpidTag_ref);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1203,6 +1217,22 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int pidTag_ref {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtPanel.pidTag_refColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'pidTag_ref\' in table \'dtPanel\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtPanel.pidTag_refColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dtFrameRow dtFrameRow {
                 get {
                     return ((dtFrameRow)(this.GetParentRow(this.Table.ParentRelations["dtFrame_dtPanel"])));
@@ -1294,6 +1324,18 @@ namespace KMDIWinDoorsCS.Dataset {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetwndrHeightNull() {
                 this[this.tabledtPanel.wndrHeightColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IspidTag_refNull() {
+                return this.IsNull(this.tabledtPanel.pidTag_refColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetpidTag_refNull() {
+                this[this.tabledtPanel.pidTag_refColumn] = global::System.Convert.DBNull;
             }
         }
         

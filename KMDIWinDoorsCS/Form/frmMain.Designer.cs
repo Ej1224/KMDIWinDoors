@@ -64,6 +64,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.cbxWindowType2 = new System.Windows.Forms.ComboBox();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.pbxEditor = new System.Windows.Forms.PictureBox();
             this.pnlRight = new System.Windows.Forms.Panel();
@@ -115,20 +116,20 @@
             this.c70ToolStripMenuItem,
             this.premilineToolStripMenuItem});
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(98, 22);
             this.newToolStripMenuItem1.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premilineToolStripMenuItem
             // 
             this.premilineToolStripMenuItem.Name = "premilineToolStripMenuItem";
-            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.premilineToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.premilineToolStripMenuItem.Text = "Premiline";
             // 
             // viewToolStripMenuItem
@@ -269,7 +270,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(146, 168);
             this.panel1.TabIndex = 12;
-            this.panel1.Tag = "1";
+            this.panel1.Tag = "0";
             // 
             // chkWdrOrientation
             // 
@@ -374,7 +375,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(146, 168);
             this.panel2.TabIndex = 13;
-            this.panel2.Tag = "2";
+            this.panel2.Tag = "1";
             // 
             // chkWdrOrientation2
             // 
@@ -477,6 +478,7 @@
             // 
             this.pnlMain.AutoScroll = true;
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.button2);
             this.pnlMain.Controls.Add(this.button1);
             this.pnlMain.Controls.Add(this.pbxEditor);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -487,8 +489,20 @@
             this.pnlMain.TabIndex = 0;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
             // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(470, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(551, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -662,6 +676,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cbxWindowType2;
         private System.Windows.Forms.ComboBox cbxDivider;
+        private System.Windows.Forms.Button button2;
     }
 }
 
