@@ -93,10 +93,14 @@ namespace KMDIWinDoorsCS
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            numfWidth.Maximum = decimal.MaxValue;
+            numfHeight.Maximum = decimal.MaxValue;
+
             numWidth.Maximum = decimal.MaxValue;
-            numWidth2.Maximum = decimal.MaxValue;
             numHeight.Maximum = decimal.MaxValue;
-            numHeight2.Maximum = decimal.MaxValue;
+
+            //numWidth2.Maximum = decimal.MaxValue;
+            //numHeight2.Maximum = decimal.MaxValue;
             pbxEditor.Width = 0;
             pbxEditor.Height = 0;
         }
@@ -133,40 +137,20 @@ namespace KMDIWinDoorsCS
         private void numWidth_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown num = (NumericUpDown)sender;
-            //int fwidth = 0, fheight = 0;
-            if (sender == numWidth)
-            {
-                fwidth = decimal.ToInt32(num.Value);
-            }
-            else if (sender == numHeight)
-            {
-                fheight = decimal.ToInt32(num.Value);
-            }
+            ////if (flowLayoutPanel1.Controls.OfType<Panel>().Count() > 1)
+            ////{
+                numWidth.Maximum = numfWidth.Value; //- numWidth2.Value;
+                numHeight.Maximum = numfHeight.Value; //- numHeight2.Value;
 
-            foreach (var frame in pnlFields.Controls.OfType<FlowLayoutPanel>())
-            {
-                foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
-                {
-                    foreach (var properties in pnl.Controls.OfType<Control>().OrderBy(ee => ee.TabIndex))
-                    {
-                        string prop = properties.Name;
-                        if (prop.Contains("num"))
-                        {
-                            NumericUpDown numprop = (NumericUpDown)properties;
-                            if (prop.Contains("Width"))
-                            {
-                                fwidth += Convert.ToInt32(numprop.Value);
-                            }
-                            else if (prop.Contains("Height"))
-                            {
-                                fheight += Convert.ToInt32(numprop.Value);
-                            }
-                        }
-                    }
-                }
-            }
-            pbxEditor.Width = fwidth;
-            pbxEditor.Height = fheight;
+                numWidth2.Maximum = numfWidth.Value; //- numWidth.Value;
+                numHeight2.Maximum = numfWidth.Value; //- numWidth.Value;
+            //}
+            //else
+            //{
+            //    numWidth.Maximum = decimal.MaxValue;
+            //    numHeight.Maximum = decimal.MaxValue;
+            //}
+            
             pbxEditor.Invalidate();
             //CreatePanels("Fixed");
         }
@@ -281,14 +265,27 @@ namespace KMDIWinDoorsCS
             foreach (var frame in pnlfield.Controls.OfType<FlowLayoutPanel>())
             {
                 int totalWidth = 0, totalHeight = 0, wndr = 0;
-                foreach (var rd in frame.Controls.OfType<RadioButton>())
+                foreach (var rd in frame.Controls.OfType<RadioButton>()) //Search RadioButton in FrameFLP
                 {
                     if (rd.Checked == true)
                     {
                         wndr = Convert.ToInt32(rd.Tag);
                     }
                 }
-                foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag))
+
+                foreach (var numf in frame.Controls.OfType<NumericUpDown>()) //Search NumericUpDown in FrameFLP
+                {
+                    if (numf.Name == "numfWidth")
+                    {
+                        totalWidth = Convert.ToInt32(numf.Value);
+                    }
+                    else if (numf.Name == "numfHeight")
+                    {
+                        totalHeight = Convert.ToInt32(numf.Value);
+                    }
+                }
+
+                foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag)) //Search Panel in FrameFLP OrderBy TAG
                 {
                     string wndrType = "", wndrDivider = "", wndrOrient = "";
                     int wndrWidth = 0, wndrHeight = 0;
@@ -316,24 +313,57 @@ namespace KMDIWinDoorsCS
                             if (prop.Contains("Width"))
                             {
                                 wndrWidth = Convert.ToInt32(numprop.Value);
-                                totalWidth += wndrWidth;
+                                //totalWidth += wndrWidth;
                             }
                             else if (prop.Contains("Height"))
                             {
                                 wndrHeight = Convert.ToInt32(numprop.Value);
-                                totalHeight += wndrHeight;
+                                //totalHeight += wndrHeight;
                             }
                         }
                     }
                     int pnlId = Convert.ToInt32(pnl.Name.Remove(0,5));
-                    ds.dtPanel.Rows.Add(pnlId,
-                                        frame.Tag,
-                                        wndrDivider,
-                                        wndrType,
-                                        wndrOrient,
-                                        wndrWidth,
-                                        wndrHeight,
-                                        pnl.Tag);
+                    
+                    if (wndrDivider == "Mullion")
+                    {
+                        DataRow dr = ds.dtPanel.Select("pid=" + pnl.Tag).FirstOrDefault();
+                        if (dr != null)
+                        {
+                            int div_W = 0;
+                            if (wndr == 53)
+                            {
+                                div_W = 10;
+                            }
+                            else if (wndr == 67)
+                            {
+                                div_W = 20;
+                            }
+                            dr["wndrWidth"] = Convert.ToInt32(dr["wndrWidth"]) - div_W;
+                            ds.dtPanel.Rows.Add(pnlId,
+                                                frame.Tag,
+                                                wndrDivider,
+                                                wndrType,
+                                                wndrOrient,
+                                                wndrWidth - div_W,
+                                                wndrHeight,
+                                                pnl.Tag);
+                        }
+                    }
+                    else if (wndrDivider == "Transom")
+                    {
+                        //INSERT FOR TRANSOM
+                    }
+                    else
+                    {
+                        ds.dtPanel.Rows.Add(pnlId,
+                                            frame.Tag,
+                                            wndrDivider,
+                                            wndrType,
+                                            wndrOrient,
+                                            wndrWidth,
+                                            wndrHeight,
+                                            pnl.Tag);
+                    }
                 }
                 ds.dtFrame.Rows.Add(frame.Tag,
                                     wndr,
@@ -475,6 +505,7 @@ namespace KMDIWinDoorsCS
                 chkWdrOrientation2.Enabled = false;
                 chkWdrOrientation2.Text = "";
             }
+            pbxEditor.Invalidate();
         }
 
         private void chkWdrOrientation2_CheckedChanged(object sender, EventArgs e)
@@ -534,6 +565,8 @@ namespace KMDIWinDoorsCS
 
         private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            numfWidth.Value = 400;
+            numfHeight.Value = 400;
             numWidth.Value = 400;
             numHeight.Value = 400;
             //ftype = 53;
@@ -565,138 +598,173 @@ namespace KMDIWinDoorsCS
             cbxDivider.Text = "Mullion";
             cbxWindowType2.Text = "Fixed";
             numWidth.Value = 200;
-            numHeight.Value = 200;
+            //numHeight.Value = 200;
             numWidth2.Value = 200;
-            numHeight2.Value = 200;
+            numHeight2.Value = 400;
             flowLayoutPanel1.Controls.Add(panel2);
+            pbxEditor.Invalidate();
+        }
+
+        private void numfWidth_ValueChanged(object sender, EventArgs e)
+        {
+            NumericUpDown num = (NumericUpDown)sender;
+            if (sender == numfWidth)
+            {
+                fwidth = decimal.ToInt32(num.Value);
+            }
+            else if (sender == numfHeight)
+            {
+                fheight = decimal.ToInt32(num.Value);
+            }
+            
+            numWidth.Maximum = numfWidth.Value; //- numWidth2.Value;
+            numHeight.Maximum = numfHeight.Value; //- numHeight2.Value;
+
+            numWidth2.Maximum = numfWidth.Value; //- numWidth.Value;
+            numHeight2.Maximum = numfWidth.Value; //- numWidth.Value;
+
+            pbxEditor.Width = fwidth;
+            pbxEditor.Height = fheight;
             pbxEditor.Invalidate();
         }
 
         private void pbxEditor_Paint(object sender, PaintEventArgs e)
         {
-            int count_frame = pnlFields.Controls.Count;
-            if (count_frame != 0)
+            try
             {
-                dsWindoorFill(pnlFields);
-                
-                Graphics g = e.Graphics;
-                g.ScaleTransform(zoom, zoom);
-                
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                
-                Rectangle[] aFrames = new Rectangle[ds.dtFrame.Rows.Count];
-                Rectangle[] aMainPanel = new Rectangle[ds.dtFrame.Rows.Count];
-                Rectangle[] aPanels = new Rectangle[ds.dtPanel.Rows.Count];
-
-                DataTable Fdt = ds.dtFrame;
-                DataTable Pdt = ds.dtPanel;
-                for (int i = 0; i < Fdt.Rows.Count; i++)
+                int count_frame = pnlFields.Controls.Count;
+                if (count_frame != 0)
                 {
-                    int fid = Convert.ToInt32(Fdt.Rows[i]["fid"].ToString()),
-                        wndr = Convert.ToInt32(Fdt.Rows[i]["wndr"].ToString()),
-                        tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
-                        tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
-                        fpnl_tWidth = tWidth - wndr,
-                        fpnl_tHeight = tHeight - wndr,
-                        fpnl_sashW = fpnl_tWidth - 20,
-                        fpnl_sashH = fpnl_tHeight - 20;
-                    if (i+1 == 1)
+                    dsWindoorFill(pnlFields);
+
+                    Graphics g = e.Graphics;
+                    g.ScaleTransform(zoom, zoom);
+
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                    Rectangle[] aFrames = new Rectangle[ds.dtFrame.Rows.Count];
+                    Rectangle[] aMainPanel = new Rectangle[ds.dtFrame.Rows.Count];
+                    Rectangle[] aPanels = new Rectangle[ds.dtPanel.Rows.Count];
+
+                    DataTable Fdt = ds.dtFrame;
+                    DataTable Pdt = ds.dtPanel;
+                    for (int i = 0; i < Fdt.Rows.Count; i++)
                     {
-                        int tsWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"]),
-                            tsHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"]);
-                        aFrames[i] = new Rectangle(new Point(0,0),new Size(tsWidth,tsHeight));
-                        aMainPanel[i] = new Rectangle(new Point(wndr / 2, wndr / 2), new Size(tsWidth - wndr, tsHeight - wndr));
-                    }
-                    Point fpnl_cntrP = new Point((tWidth - (tWidth - wndr)) / 2 + aFrames[i].X,
-                                                 (tHeight - (tHeight - wndr)) / 2 + aFrames[i].Y);
+                        int fid = Convert.ToInt32(Fdt.Rows[i]["fid"].ToString()),
+                            wndr = Convert.ToInt32(Fdt.Rows[i]["wndr"].ToString()),
+                            tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
+                            tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
+                            fpnl_tWidth = tWidth - wndr,
+                            fpnl_tHeight = tHeight - wndr,
+                            fpnl_sashW = fpnl_tWidth - 20,
+                            fpnl_sashH = fpnl_tHeight - 20;
+                        if (i + 1 == 1)
+                        {
+                            int tsWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"]),
+                                tsHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"]);
+                            aFrames[i] = new Rectangle(new Point(0, 0), new Size(tsWidth, tsHeight));
+                            aMainPanel[i] = new Rectangle(new Point(wndr / 2, wndr / 2), new Size(tsWidth - wndr, tsHeight - wndr));
+                        }
+                        Point fpnl_cntrP = new Point((tWidth - (tWidth - wndr)) / 2 + aFrames[i].X,
+                                                     (tHeight - (tHeight - wndr)) / 2 + aFrames[i].Y);
 
-                    int pnlCount = Pdt.Rows.Count;
-                    for (int j = 0; j < pnlCount; j++)
-                    {
-                        int fid_ref = Convert.ToInt32(Pdt.Rows[j]["fid_ref"].ToString()),
-                            pid = Convert.ToInt32(Pdt.Rows[j]["pid"].ToString()),
-                            wndrWidth = Convert.ToInt32(Pdt.Rows[j]["wndrWidth"].ToString()),
-                            wndrHeight = Convert.ToInt32(Pdt.Rows[j]["wndrHeight"].ToString()),
-                            div_Width = 0;
-                            //div_Height = 0;
-                        string PwdrType = Pdt.Rows[j]["wndrType"].ToString(),
-                               wndrDivider = Pdt.Rows[j]["wndrDivider"].ToString();
+                        int numofMullion = Pdt.AsEnumerable().Where(x => x["wndrDivider"].ToString() == "Mullion").ToList().Count;
+                        //int numofTransom = Pdt.AsEnumerable().Where(x => x["wndrDivider"].ToString() == "Transom").ToList().Count;
+                        int pnlCount = Pdt.Rows.Count;
 
-                        Point pnl_point = new Point(wndr/2,wndr/2); //Basic coordinates of the 1st Panel
-
-
+                        int div_W = 0;
                         if (wndr == 53)
                         {
-                            div_Width = 82;
+                            div_W = 20;
+                            //div_W = 82;
                         }
                         else if (wndr == 67)
                         {
-                            div_Width = 112;
+                            div_W = 40;
+                            //div_W = 112;
                         }
+                        
+                        int Global_pnlW = (aMainPanel[i].Width - (div_W * numofMullion)) / (numofMullion + 1);
+                        //int Global_pnlH = aMainPanel[i].Width / (numofTransom + 1);
 
-                        int Wpnl = wndrWidth - wndr,
-                            Hpnl = wndrHeight - wndr;
-
-                        if (fid_ref == fid)
+                        for (int j = 0; j < pnlCount; j++)
                         {
-                            if (pnlCount > 1)
+                            int fid_ref = Convert.ToInt32(Pdt.Rows[j]["fid_ref"].ToString()),
+                                pid = Convert.ToInt32(Pdt.Rows[j]["pid"].ToString()),
+                                wndrWidth = Convert.ToInt32(Pdt.Rows[j]["wndrWidth"].ToString()),
+                                wndrHeight = Convert.ToInt32(Pdt.Rows[j]["wndrHeight"].ToString());
+                            //div_Height = 0;
+                            string PwdrType = Pdt.Rows[j]["wndrType"].ToString(),
+                                   wndrDivider = Pdt.Rows[j]["wndrDivider"].ToString();
+
+                            Point pnl_point = new Point(wndr / 2, wndr / 2); //Basic coordinates of the 1st Panel
+                            
+                            //int Wpnl = wndrWidth - wndr,
+                            //    Hpnl = wndrHeight - wndr;
+
+                            if (fid_ref == fid)
                             {
-                                if (pid == 1)
+                                if (pnlCount > 1)
                                 {
-                                    //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
-                                    //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
-                                    aPanels[j] = new Rectangle(pnl_point, new Size(Wpnl, Hpnl));
+                                    if (pid == 1)
+                                    {
+                                        //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
+                                        //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
+                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
+                                    }
+                                    else
+                                    {
+                                        int pnlTag_Width = 0,
+                                            pnlTag_Height = 0,
+                                            pnlTag_X = 0,
+                                            pnlTag_Y = 0,
+                                            pidTag_ref = Convert.ToInt32(Pdt.Rows[j]["pidTag_ref"].ToString());
+
+                                        for (int a = 0; a < Pdt.Rows.Count; a++)
+                                        {
+                                            if (pidTag_ref == Convert.ToInt32(Pdt.Rows[a]["pid"].ToString()))
+                                            {
+                                                pnlTag_Width = Convert.ToInt32(Pdt.Rows[a]["wndrWidth"].ToString());
+                                                pnlTag_Height = Convert.ToInt32(Pdt.Rows[a]["wndrHeight"].ToString());
+                                                pnlTag_X = aPanels[a].X;
+                                                pnlTag_Y = aPanels[a].Y;
+                                                break;
+                                            }
+                                        }
+
+                                        if (wndrDivider == "Mullion")
+                                        {
+                                            pnl_point = new Point(pnlTag_X + Global_pnlW + div_W, pnlTag_Y);
+                                            aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
+                                            Rectangle mullion = new Rectangle(new Point(pnlTag_X + Global_pnlW, pnlTag_Y),
+                                                                              new Size(div_W, aMainPanel[i].Height));
+                                            g.DrawRectangle(blkPen, mullion);
+                                        }
+                                        else if (wndrDivider == "Transom")
+                                        {
+
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    int pnlTag_Width = 0,
-                                        pnlTag_Height = 0,
-                                        pnlTag_X = 0,
-                                        pnlTag_Y = 0,
-                                        pidTag_ref = Convert.ToInt32(Pdt.Rows[j]["pidTag_ref"].ToString());
-
-                                    for (int a = 0; a < Pdt.Rows.Count; a++)
+                                    if (pid == 1)
                                     {
-                                        if (pidTag_ref == Convert.ToInt32(Pdt.Rows[a]["pid"].ToString()))
-                                        {
-                                            pnlTag_Width = Convert.ToInt32(Pdt.Rows[a]["wndrWidth"].ToString());
-                                            pnlTag_Height = Convert.ToInt32(Pdt.Rows[a]["wndrHeight"].ToString());
-                                            pnlTag_X = aPanels[a].X;
-                                            pnlTag_Y = aPanels[a].Y;
-                                            break;
-                                        }
-                                    }
-
-                                    if (wndrDivider == "Mullion")
-                                    {
-                                        pnl_point = new Point(pnlTag_X + pnlTag_Width + div_Width, pnlTag_Y);
-                                        aPanels[j] = new Rectangle(pnl_point, new Size(Wpnl, Hpnl));
-                                    }
-                                    else if (wndrDivider == "Transom")
-                                    {
-
+                                        //int Wpnl = wndrWidth - wndr,
+                                        //    Hpnl = wndrHeight - wndr;
+                                        //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
+                                        //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
+                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
                                     }
                                 }
-                            }
-                            else
-                            {
-                                if (pid == 1)
-                                {
-                                    //int Wpnl = wndrWidth - wndr,
-                                    //    Hpnl = wndrHeight - wndr;
-                                    //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
-                                    //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
-                                    aPanels[j] = new Rectangle(pnl_point, new Size(Wpnl, Hpnl));
-                                }
-                            }
-                                                 
-                            g.DrawRectangle(blkPen, aPanels[j]);
 
+                                g.DrawRectangle(blkPen, aPanels[j]);
+
+                            }
                         }
-                    }
 
-                    Point[] fcrnr_pnts = new[] //DRAWING for frame cornerlines
-                    {
+                        Point[] fcrnr_pnts = new[] //DRAWING for frame cornerlines
+                        {
                         new Point(aFrames[i].X,aFrames[i].Y),
                         new Point(fpnl_cntrP.X,fpnl_cntrP.Y),
                         new Point(aFrames[i].X +tWidth,aFrames[i].Y),
@@ -707,135 +775,140 @@ namespace KMDIWinDoorsCS
                         new Point(fpnl_cntrP.X + fpnl_tWidth,fpnl_cntrP.Y + fpnl_tHeight)
                     };
 
-                    for (int k = 0; k < fcrnr_pnts.Length - 1; k += 2)
-                    {
-                        g.DrawLine(blkPen, fcrnr_pnts[k], fcrnr_pnts[k + 1]);
+                        for (int k = 0; k < fcrnr_pnts.Length - 1; k += 2)
+                        {
+                            g.DrawLine(blkPen, fcrnr_pnts[k], fcrnr_pnts[k + 1]);
+                        }
+
                     }
 
-                }
-
-                foreach (Rectangle pnls in aPanels)
-                {
-                    g.FillRectangle(new SolidBrush(Color.Gray), pnls);
-                }
-                for (int i = 0; i < Fdt.Rows.Count; i++)
-                {
-                    int fid = Convert.ToInt32(Fdt.Rows[i]["fid"].ToString()),
-                        wndr = Convert.ToInt32(Fdt.Rows[i]["wndr"].ToString()),
-                        tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
-                        tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
-                        fpnl_tWidth = tWidth - wndr,
-                        fpnl_tHeight = tHeight - wndr,
-                        fpnl_sashW = fpnl_tWidth - 20,
-                        fpnl_sashH = fpnl_tHeight - 20;
-                    for (int j = 0; j < Pdt.Rows.Count; j++)
+                    foreach (Rectangle pnls in aPanels)
                     {
-                        int fid_ref = Convert.ToInt32(Pdt.Rows[j]["fid_ref"].ToString()),
-                                wndrWidth = Convert.ToInt32(Pdt.Rows[j]["wndrWidth"].ToString()),
-                                wndrHeight = Convert.ToInt32(Pdt.Rows[j]["wndrHeight"].ToString());
-                        string PwdrType = Pdt.Rows[j]["wndrType"].ToString(),
-                               wndrOrient = Pdt.Rows[j]["wndrOrient"].ToString();
-                        if (PwdrType == "Fixed")
+                        g.FillRectangle(new SolidBrush(Color.Gray), pnls);
+                    }
+                    for (int i = 0; i < Fdt.Rows.Count; i++)
+                    {
+                        int fid = Convert.ToInt32(Fdt.Rows[i]["fid"].ToString()),
+                            wndr = Convert.ToInt32(Fdt.Rows[i]["wndr"].ToString()),
+                            tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
+                            tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
+                            fpnl_tWidth = tWidth - wndr,
+                            fpnl_tHeight = tHeight - wndr,
+                            fpnl_sashW = fpnl_tWidth - 20,
+                            fpnl_sashH = fpnl_tHeight - 20;
+                        for (int j = 0; j < Pdt.Rows.Count; j++)
                         {
-                            Font drawFont = new Font("Segoe UI", 12);
-                            StringFormat drawFormat = new StringFormat();
-                            drawFormat.Alignment = StringAlignment.Center;
-                            drawFormat.LineAlignment = StringAlignment.Center;
-                            g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), aPanels[j], drawFormat);
-                        }
-                        else
-                        {
-                            Point sashPoint = new Point(aPanels[j].X + 10, aPanels[j].Y + 10);
-                            Rectangle sashRect = new Rectangle(sashPoint,
-                                                               new Size(fpnl_sashW, fpnl_sashH));
-                            Pen dgrayPen = new Pen(Color.DimGray);
+                            int fid_ref = Convert.ToInt32(Pdt.Rows[j]["fid_ref"].ToString()),
+                                    wndrWidth = Convert.ToInt32(Pdt.Rows[j]["wndrWidth"].ToString()),
+                                    wndrHeight = Convert.ToInt32(Pdt.Rows[j]["wndrHeight"].ToString());
+                            string PwdrType = Pdt.Rows[j]["wndrType"].ToString(),
+                                   wndrOrient = Pdt.Rows[j]["wndrOrient"].ToString();
+                            if (PwdrType == "Fixed")
                             {
-                                var dgPen = dgrayPen;
-                                dgPen.DashStyle = DashStyle.Dash;
-                                dgPen.Width = 3;
+                                Font drawFont = new Font("Segoe UI", 12);
+                                StringFormat drawFormat = new StringFormat();
+                                drawFormat.Alignment = StringAlignment.Center;
+                                drawFormat.LineAlignment = StringAlignment.Center;
+                                g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), aPanels[j], drawFormat);
                             }
-                            g.DrawRectangle(blkPen, sashRect);
-
-                            if (PwdrType == "Casement")
+                            else
                             {
-                                if (wndrOrient == "R")
+                                Point sashPoint = new Point(aPanels[j].X + 10, aPanels[j].Y + 10);
+                                Rectangle sashRect = new Rectangle(sashPoint,
+                                                                   new Size(fpnl_sashW, fpnl_sashH));
+                                Pen dgrayPen = new Pen(Color.DimGray);
                                 {
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
-                                                         new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))));
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))),
-                                                         new Point(sashPoint.X, fpnl_sashH + sashPoint.Y));
+                                    var dgPen = dgrayPen;
+                                    dgPen.DashStyle = DashStyle.Dash;
+                                    dgPen.Width = 3;
                                 }
-                                else if (wndrOrient == "L")
-                                {
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, sashPoint.Y),
-                                                         new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))));
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))),
-                                                         new Point(sashPoint.X + fpnl_sashW, fpnl_sashH + sashPoint.Y));
-                                }
-                            }
-                            else if (PwdrType == "Awning")
-                            {
-                                if (wndrOrient == "Norm")
-                                {
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y + fpnl_sashH),
-                                                         new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y));
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y),
-                                                         new Point(sashPoint.X + fpnl_sashW, fpnl_sashH + sashPoint.Y));
-                                }
-                                else if (wndrOrient == "Invrt")
-                                {
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
-                                                         new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH));
-                                    g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH),
-                                                         new Point(sashPoint.X + fpnl_sashW, sashPoint.Y));
-                                }
-                            }
-                            else if (PwdrType == "Sliding")
-                            {
-                                float arwStart_x1 = sashPoint.X + (fpnl_sashW / 10),
-                                          center_y1 = sashPoint.Y + (fpnl_sashH / 2),
-                                          arwEnd_x2 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) + (fpnl_sashW / 10),
-                                          arwHeadUp_x3,
-                                          arwHeadUp_y3 = center_y1 - (center_y1 / 4),
-                                          arwHeadUp_x4,
-                                          arwHeadUp_y4 = center_y1 + (center_y1 / 4);
+                                g.DrawRectangle(blkPen, sashRect);
 
-                                if (wndrOrient == "R")
+                                if (PwdrType == "Casement")
                                 {
-                                    arwHeadUp_x3 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
-                                    arwHeadUp_x4 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
+                                    if (wndrOrient == "R")
+                                    {
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                                             new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))));
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))),
+                                                             new Point(sashPoint.X, fpnl_sashH + sashPoint.Y));
+                                    }
+                                    else if (wndrOrient == "L")
+                                    {
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, sashPoint.Y),
+                                                             new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))));
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))),
+                                                             new Point(sashPoint.X + fpnl_sashW, fpnl_sashH + sashPoint.Y));
+                                    }
+                                }
+                                else if (PwdrType == "Awning")
+                                {
+                                    if (wndrOrient == "Norm")
+                                    {
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y + fpnl_sashH),
+                                                             new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y));
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y),
+                                                             new Point(sashPoint.X + fpnl_sashW, fpnl_sashH + sashPoint.Y));
+                                    }
+                                    else if (wndrOrient == "Invrt")
+                                    {
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                                             new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH));
+                                        g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH),
+                                                             new Point(sashPoint.X + fpnl_sashW, sashPoint.Y));
+                                    }
+                                }
+                                else if (PwdrType == "Sliding")
+                                {
+                                    float arwStart_x1 = sashPoint.X + (fpnl_sashW / 10),
+                                              center_y1 = sashPoint.Y + (fpnl_sashH / 2),
+                                              arwEnd_x2 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) + (fpnl_sashW / 10),
+                                              arwHeadUp_x3,
+                                              arwHeadUp_y3 = center_y1 - (center_y1 / 4),
+                                              arwHeadUp_x4,
+                                              arwHeadUp_y4 = center_y1 + (center_y1 / 4);
 
-                                    g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                                    if (wndrOrient == "R")
+                                    {
+                                        arwHeadUp_x3 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
+                                        arwHeadUp_x4 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
+
+                                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                                                                         new PointF(arwEnd_x2, center_y1));
+                                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
+                                                                         new PointF(arwEnd_x2, center_y1));
+                                    }
+                                    else if (wndrOrient == "L")
+                                    {
+                                        arwHeadUp_x3 = sashPoint.X + arwStart_x1;
+                                        arwHeadUp_x4 = sashPoint.X + arwStart_x1;
+
+                                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
+                                                                         new PointF(arwStart_x1, center_y1));
+                                        g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
+                                                                         new PointF(arwStart_x1, center_y1));
+                                    }
+                                    g.DrawLine(new Pen(Color.Black), new PointF(arwStart_x1, center_y1),
                                                                      new PointF(arwEnd_x2, center_y1));
-                                    g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
-                                                                     new PointF(arwEnd_x2, center_y1));
                                 }
-                                else if (wndrOrient == "L")
-                                {
-                                    arwHeadUp_x3 = sashPoint.X + arwStart_x1;
-                                    arwHeadUp_x4 = sashPoint.X + arwStart_x1;
-
-                                    g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
-                                                                     new PointF(arwStart_x1, center_y1));
-                                    g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x4, arwHeadUp_y4),
-                                                                     new PointF(arwStart_x1, center_y1));
-                                }
-                                g.DrawLine(new Pen(Color.Black), new PointF(arwStart_x1, center_y1),
-                                                                 new PointF(arwEnd_x2, center_y1));
                             }
                         }
                     }
+
+                    g.DrawRectangles(blkPen, aFrames);
+                    g.DrawRectangles(blkPen, aMainPanel);
+
+                    int w = 2;
+                    int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+                    g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                           0,
+                                                                           fwidth - w,
+                                                                           fheight - w));
                 }
-                
-                g.DrawRectangles(blkPen, aFrames);
-                g.DrawRectangles(blkPen, aMainPanel);
-                
-                int w = 2;
-                int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-                g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
-                                                                       0,
-                                                                       fwidth - w,
-                                                                       fheight - w));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

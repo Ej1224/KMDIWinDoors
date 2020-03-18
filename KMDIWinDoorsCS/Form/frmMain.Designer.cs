@@ -44,6 +44,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.rdWindow = new System.Windows.Forms.RadioButton();
             this.rdDoor = new System.Windows.Forms.RadioButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numfWidth = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numfHeight = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chkWdrOrientation = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -76,6 +80,8 @@
             this.mnsMain.SuspendLayout();
             this.pnlProperties.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numfWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numfHeight)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
@@ -175,7 +181,7 @@
             this.pnlProperties.Location = new System.Drawing.Point(0, 25);
             this.pnlProperties.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlProperties.Name = "pnlProperties";
-            this.pnlProperties.Size = new System.Drawing.Size(157, 477);
+            this.pnlProperties.Size = new System.Drawing.Size(157, 673);
             this.pnlProperties.TabIndex = 1;
             // 
             // pnlFields
@@ -185,7 +191,7 @@
             this.pnlFields.Location = new System.Drawing.Point(0, 29);
             this.pnlFields.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlFields.Name = "pnlFields";
-            this.pnlFields.Size = new System.Drawing.Size(157, 448);
+            this.pnlFields.Size = new System.Drawing.Size(157, 644);
             this.pnlFields.TabIndex = 2;
             // 
             // Label3
@@ -205,6 +211,10 @@
             this.flowLayoutPanel1.Controls.Add(this.label5);
             this.flowLayoutPanel1.Controls.Add(this.rdWindow);
             this.flowLayoutPanel1.Controls.Add(this.rdDoor);
+            this.flowLayoutPanel1.Controls.Add(this.label12);
+            this.flowLayoutPanel1.Controls.Add(this.numfWidth);
+            this.flowLayoutPanel1.Controls.Add(this.label11);
+            this.flowLayoutPanel1.Controls.Add(this.numfHeight);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -213,7 +223,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(161, 430);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(161, 509);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.Tag = "1";
             // 
@@ -255,6 +265,40 @@
             this.rdDoor.UseVisualStyleBackColor = true;
             this.rdDoor.CheckedChanged += new System.EventHandler(this.rdType_CheckedChanged);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 74);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(39, 13);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Width";
+            // 
+            // numfWidth
+            // 
+            this.numfWidth.Location = new System.Drawing.Point(3, 90);
+            this.numfWidth.Name = "numfWidth";
+            this.numfWidth.Size = new System.Drawing.Size(126, 22);
+            this.numfWidth.TabIndex = 16;
+            this.numfWidth.ValueChanged += new System.EventHandler(this.numfWidth_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(3, 115);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(42, 13);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Height";
+            // 
+            // numfHeight
+            // 
+            this.numfHeight.Location = new System.Drawing.Point(3, 131);
+            this.numfHeight.Name = "numfHeight";
+            this.numfHeight.Size = new System.Drawing.Size(125, 22);
+            this.numfHeight.TabIndex = 15;
+            this.numfHeight.ValueChanged += new System.EventHandler(this.numfWidth_ValueChanged);
+            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -266,7 +310,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.lblType);
             this.panel1.Controls.Add(this.cbxWindowType);
-            this.panel1.Location = new System.Drawing.Point(3, 77);
+            this.panel1.Location = new System.Drawing.Point(3, 159);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(146, 168);
             this.panel1.TabIndex = 12;
@@ -371,7 +415,7 @@
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.cbxWindowType2);
             this.panel2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(5, 252);
+            this.panel2.Location = new System.Drawing.Point(7, 350);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(146, 168);
             this.panel2.TabIndex = 13;
@@ -422,6 +466,7 @@
             this.numHeight2.Name = "numHeight2";
             this.numHeight2.Size = new System.Drawing.Size(126, 22);
             this.numHeight2.TabIndex = 11;
+            this.numHeight2.ValueChanged += new System.EventHandler(this.numWidth_ValueChanged);
             // 
             // label8
             // 
@@ -438,6 +483,7 @@
             this.numWidth2.Name = "numWidth2";
             this.numWidth2.Size = new System.Drawing.Size(125, 22);
             this.numWidth2.TabIndex = 10;
+            this.numWidth2.ValueChanged += new System.EventHandler(this.numWidth_ValueChanged);
             // 
             // label9
             // 
@@ -485,7 +531,7 @@
             this.pnlMain.Location = new System.Drawing.Point(157, 25);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(633, 477);
+            this.pnlMain.Size = new System.Drawing.Size(633, 673);
             this.pnlMain.TabIndex = 0;
             this.pnlMain.SizeChanged += new System.EventHandler(this.pnlMain_SizeChanged);
             // 
@@ -530,7 +576,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlRight.Location = new System.Drawing.Point(790, 25);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(163, 477);
+            this.pnlRight.Size = new System.Drawing.Size(163, 673);
             this.pnlRight.TabIndex = 1;
             // 
             // pnlItems
@@ -540,7 +586,7 @@
             this.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlItems.Location = new System.Drawing.Point(0, 29);
             this.pnlItems.Name = "pnlItems";
-            this.pnlItems.Size = new System.Drawing.Size(161, 446);
+            this.pnlItems.Size = new System.Drawing.Size(161, 642);
             this.pnlItems.TabIndex = 3;
             // 
             // label6
@@ -560,7 +606,7 @@
             this.pnlToolStrip.Controls.Add(this.trkbrZoom);
             this.pnlToolStrip.Controls.Add(this.lblZoom);
             this.pnlToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlToolStrip.Location = new System.Drawing.Point(0, 502);
+            this.pnlToolStrip.Location = new System.Drawing.Point(0, 698);
             this.pnlToolStrip.Name = "pnlToolStrip";
             this.pnlToolStrip.Size = new System.Drawing.Size(953, 23);
             this.pnlToolStrip.TabIndex = 0;
@@ -591,7 +637,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 525);
+            this.ClientSize = new System.Drawing.Size(953, 721);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlProperties);
@@ -610,6 +656,8 @@
             this.pnlProperties.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numfWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numfHeight)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
@@ -677,6 +725,10 @@
         private System.Windows.Forms.ComboBox cbxWindowType2;
         private System.Windows.Forms.ComboBox cbxDivider;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numfWidth;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown numfHeight;
     }
 }
 
