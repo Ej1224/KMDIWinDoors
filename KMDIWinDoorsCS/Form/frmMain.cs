@@ -285,6 +285,8 @@ namespace KMDIWinDoorsCS
                     }
                 }
 
+                int pnlCount = frame.Controls.OfType<Panel>().Count();
+
                 foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag)) //Search Panel in FrameFLP OrderBy TAG
                 {
                     string wndrType = "", wndrDivider = "", wndrOrient = "";
@@ -326,28 +328,24 @@ namespace KMDIWinDoorsCS
                     
                     if (wndrDivider == "Mullion")
                     {
-                        DataRow dr = ds.dtPanel.Select("pid=" + pnl.Tag).FirstOrDefault();
-                        if (dr != null)
+                        int div_W = 0;
+                        if (wndr == 53)
                         {
-                            int div_W = 0;
-                            if (wndr == 53)
-                            {
-                                div_W = 10;
-                            }
-                            else if (wndr == 67)
-                            {
-                                div_W = 20;
-                            }
-                            dr["wndrWidth"] = Convert.ToInt32(dr["wndrWidth"]) - div_W;
-                            ds.dtPanel.Rows.Add(pnlId,
-                                                frame.Tag,
-                                                wndrDivider,
-                                                wndrType,
-                                                wndrOrient,
-                                                wndrWidth - div_W,
-                                                wndrHeight,
-                                                pnl.Tag);
+                            div_W = 10;
                         }
+                        else if (wndr == 67)
+                        {
+                            div_W = 20;
+                        }
+                        int Width_Output = (((wndrWidth * pnlCount) - wndr) - div_W) / pnlCount;
+                        ds.dtPanel.Rows.Add(pnlId,
+                                            frame.Tag,
+                                            wndrDivider,
+                                            wndrType,
+                                            wndrOrient,
+                                            Width_Output,
+                                            wndrHeight,
+                                            pnl.Tag);
                     }
                     else if (wndrDivider == "Transom")
                     {
@@ -369,6 +367,21 @@ namespace KMDIWinDoorsCS
                                     wndr,
                                     totalWidth,
                                     totalHeight);
+                /*DataRow[] results = ds.dtPanel.Select("fid_ref=" + frame.Tag);
+
+                int numofDivider = results.AsEnumerable().Where(x => x["wndrDivider"].ToString() != "").ToList().Count;
+                if (numofDivider > 0)
+                {
+                    foreach (var pnl in frame.Controls.OfType<Panel>().OrderBy(ee => ee.Tag)) //loop into panels of Frame to deduct *wndr
+                    {
+                        int pnlId = Convert.ToInt32(pnl.Name.Remove(0, 5));
+                        DataRow dr = ds.dtPanel.Select("pid=" + pnlId).FirstOrDefault();
+                        if (dr != null)
+                        {
+                           dr["wndrWidth"] = Convert.ToInt32(dr["wndrWidth"]) - wndr;
+                        }
+                    }
+                }*/
             }
         }
 
@@ -655,9 +668,9 @@ namespace KMDIWinDoorsCS
                             tWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"].ToString()),
                             tHeight = Convert.ToInt32(Fdt.Rows[i]["tHeight"].ToString()),
                             fpnl_tWidth = tWidth - wndr,
-                            fpnl_tHeight = tHeight - wndr,
+                            fpnl_tHeight = tHeight - wndr;/*,
                             fpnl_sashW = fpnl_tWidth - 20,
-                            fpnl_sashH = fpnl_tHeight - 20;
+                            fpnl_sashH = fpnl_tHeight - 20;*/
                         if (i + 1 == 1)
                         {
                             int tsWidth = Convert.ToInt32(Fdt.Rows[i]["tWidth"]),
@@ -675,12 +688,12 @@ namespace KMDIWinDoorsCS
                         int div_W = 0;
                         if (wndr == 53)
                         {
-                            div_W = 20;
+                            div_W = 10;
                             //div_W = 82;
                         }
                         else if (wndr == 67)
                         {
-                            div_W = 40;
+                            div_W = 20;
                             //div_W = 112;
                         }
                         
@@ -698,9 +711,9 @@ namespace KMDIWinDoorsCS
                                    wndrDivider = Pdt.Rows[j]["wndrDivider"].ToString();
 
                             Point pnl_point = new Point(wndr / 2, wndr / 2); //Basic coordinates of the 1st Panel
-                            
-                            //int Wpnl = wndrWidth - wndr,
-                            //    Hpnl = wndrHeight - wndr;
+
+                            int Wpnl = wndrWidth - wndr,
+                                Hpnl = wndrHeight - wndr;
 
                             if (fid_ref == fid)
                             {
@@ -710,7 +723,8 @@ namespace KMDIWinDoorsCS
                                     {
                                         //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
                                         //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
-                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
+                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW + (Global_pnlW - Wpnl),
+                                                                                       aMainPanel[i].Height));
                                     }
                                     else
                                     {
@@ -735,7 +749,9 @@ namespace KMDIWinDoorsCS
                                         if (wndrDivider == "Mullion")
                                         {
                                             pnl_point = new Point(pnlTag_X + Global_pnlW + div_W, pnlTag_Y);
-                                            aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
+                                            aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW + (Global_pnlW - Wpnl),
+                                                                                           aMainPanel[i].Height));
+
                                             Rectangle mullion = new Rectangle(new Point(pnlTag_X + Global_pnlW, pnlTag_Y),
                                                                               new Size(div_W, aMainPanel[i].Height));
                                             g.DrawRectangle(blkPen, mullion);
@@ -754,7 +770,8 @@ namespace KMDIWinDoorsCS
                                         //    Hpnl = wndrHeight - wndr;
                                         //pnl_point = new Point((tWidth - Wpnl) / 2 + aFrames[i].X,
                                         //                      (tHeight - Hpnl) / 2 + aFrames[i].Y);
-                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW, aMainPanel[i].Height));
+                                        aPanels[j] = new Rectangle(pnl_point, new Size(Global_pnlW + (Global_pnlW - Wpnl),
+                                                                                       aMainPanel[i].Height));
                                     }
                                 }
 
