@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SamplesKMDIWinDoorsCS
+namespace SamplesKMDIWinDoorsCS.Forms
 {
-    public partial class Form1 : Form
+    public partial class frmDimensions : Form
     {
-        public Form1()
+        public frmDimensions()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
