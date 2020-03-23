@@ -9,12 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SamplesKMDIWinDoorsCS
+namespace KMDIWinDoorsCS
 {
-    public partial class Form1 : Form
+    public partial class frmMain2 : Form
     {
         Pen blkPen = new Pen(Color.Black);
-        public Form1()
+        public frmMain2()
         {
             InitializeComponent();
         }
@@ -104,9 +104,9 @@ namespace SamplesKMDIWinDoorsCS
                 }
                 else if (windowtype.Contains("Sliding"))
                 {
-                    float arwStart_x1 = sashPoint.X + (fpnl_sashW / 10),
+                    float arwStart_x1 = sashPoint.X + (fpnl_sashW / 20),
                           center_y1 = sashPoint.Y + (fpnl_sashH / 2),
-                          arwEnd_x2 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) + (fpnl_sashW / 10),
+                          arwEnd_x2 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) + (fpnl_sashW / 20),
                           arwHeadUp_x3,
                           arwHeadUp_y3 = center_y1 - (center_y1 / 4),
                           arwHeadUp_x4,
@@ -114,8 +114,8 @@ namespace SamplesKMDIWinDoorsCS
                     
                     if (windowtype == "SlidingR")
                     {
-                        arwHeadUp_x3 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
-                        arwHeadUp_x4 = (sashPoint.X + fpnl_sashW) - arwStart_x1;
+                        arwHeadUp_x3 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - 20;
+                        arwHeadUp_x4 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - 20;
 
                         g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
                                                          new PointF(arwEnd_x2, center_y1));
@@ -124,8 +124,8 @@ namespace SamplesKMDIWinDoorsCS
                     }
                     else if (windowtype == "SlidingL")
                     {
-                        arwHeadUp_x3 = sashPoint.X + arwStart_x1 + 20;
-                        arwHeadUp_x4 = sashPoint.X + arwStart_x1 + 20;
+                        arwHeadUp_x3 = sashPoint.X + arwStart_x1 + 30;
+                        arwHeadUp_x4 = sashPoint.X + arwStart_x1 + 30;
 
                         g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
                                                          new PointF(arwStart_x1, center_y1));
@@ -152,7 +152,8 @@ namespace SamplesKMDIWinDoorsCS
             dgvControls.Rows.Add(Properties.Resources.Mullion, "Mullion");
             dgvControls.Rows.Add(Properties.Resources.Transom, "Transom");
             dgvControls.ClearSelection();
-            splitContainer1.SplitterDistance = 154;
+            splitContainer1.SplitterDistance = 133;
+            
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -270,6 +271,14 @@ namespace SamplesKMDIWinDoorsCS
                 pnlSel.Tag = "SlidingL";
             }
             pnlSel.Invalidate();
+        }
+
+        private void rdDoor_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void rdWindow_CheckedChanged(object sender, EventArgs e)
+        {
         }
     }
 }
