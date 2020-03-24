@@ -73,9 +73,19 @@ namespace KMDIWinDoorsCS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MultiplePanel {
+        internal static System.Drawing.Bitmap MultiplePanel_Mul {
             get {
-                object obj = ResourceManager.GetObject("MultiplePanel", resourceCulture);
+                object obj = ResourceManager.GetObject("MultiplePanel_Mul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MultiplePanel_Trans {
+            get {
+                object obj = ResourceManager.GetObject("MultiplePanel_Trans", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

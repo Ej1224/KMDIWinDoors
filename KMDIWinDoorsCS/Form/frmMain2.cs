@@ -19,13 +19,19 @@ namespace KMDIWinDoorsCS
             InitializeComponent();
         }
 
-        private Panel CreatePanels(string name)
+        private Panel CreatePanels(string name,
+                                   DockStyle dok = DockStyle.Fill,
+                                   int Pwidth = 0,
+                                   int Pheight = 0)
         {
             Panel cr8newpnl = new Panel();
             cr8newpnl.Name = name;
             cr8newpnl.BackColor = Color.DarkGray;
             cr8newpnl.BorderStyle = BorderStyle.FixedSingle;
-            cr8newpnl.Dock = DockStyle.Fill;
+            cr8newpnl.Dock = dok;
+            cr8newpnl.Margin = new Padding(0);
+            cr8newpnl.Padding = new Padding(0);
+            cr8newpnl.Size = new Size(Pwidth, Pheight);
             cr8newpnl.Tag = "Fixed";
             cr8newpnl.Paint += new PaintEventHandler(pnl_Paint);
             cr8newpnl.MouseClick += new MouseEventHandler(pnl_MouseClick);
@@ -138,19 +144,87 @@ namespace KMDIWinDoorsCS
             }
         }
 
-        private Panel CreateFrame(string name)
+        private Panel CreateFrame(string name,
+                                  int fwidth,
+                                  int fheight,
+                                  int wndr,
+                                  int id)
         {
             Panel frame = new Panel();
+            frame.Name = name + "_" + id;
+            frame.BorderStyle = BorderStyle.FixedSingle;
+            frame.Margin = new Padding(0);
+            frame.Padding = new Padding(wndr);
+            frame.Size = new Size(fwidth, fheight);
+            frame.Tag = id;
+            frame.Paint += new PaintEventHandler(pnlFrame_Paint);
 
+            Panel pnl_inner = new Panel();
+            pnl_inner.Name = "pnl_inner" + id;
+            pnl_inner.AllowDrop = true;
+            pnl_inner.BorderStyle = BorderStyle.FixedSingle;
+            pnl_inner.Dock = DockStyle.Fill;
+            pnl_inner.Margin = new Padding(0);
+            pnl_inner.Padding = new Padding(0);
+            pnl_inner.Tag = wndr;
+            pnl_inner.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
+            pnl_inner.DragOver += new DragEventHandler(pnl_inner_DragOver);
+
+            frame.Controls.Add(pnl_inner);
             return frame;
+        }
+
+        private FlowLayoutPanel CreateMultiPnl(string name,
+                                               string div,
+                                               int wndr)
+        {
+            FlowLayoutPanel multi = new FlowLayoutPanel();
+            multi.Name = name;
+            multi.AllowDrop = true;
+            multi.BackColor = Color.DarkGray;
+            multi.BorderStyle = BorderStyle.FixedSingle;
+            multi.Dock = DockStyle.Fill;
+            multi.Padding = new Padding(0);
+            multi.Margin = new Padding(0);
+            multi.Tag = wndr;
+            if (div == "Mullion")
+            {
+                multi.FlowDirection = FlowDirection.LeftToRight;
+            }
+            else if (div == "Transom")
+            {
+                multi.FlowDirection = FlowDirection.TopDown;
+            }
+            multi.DragOver += new DragEventHandler(pnl_inner_DragOver);
+            multi.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
+
+            return multi;
+        }
+
+        private Panel CreateDiv(string name,
+                                string divtype)/*,
+                                int divWidth,
+                                int divHeight)*/
+        {
+            Panel div = new Panel();
+            div.Name = name;
+            div.BackColor = Color.CadetBlue;
+            div.BorderStyle = BorderStyle.FixedSingle;
+            div.Margin = new Padding(0);
+            div.Padding = new Padding(0);
+            //div.Size = new Size(divWidth, divHeight);
+            div.Tag = "Fixed";
+
+            return div;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
-            dgvControls.Rows.Add(Properties.Resources.MultiplePanel, "Multiple Panel");
+            dgvControls.Rows.Add(Properties.Resources.MultiplePanel_Mul, "Multiple Panel");
             dgvControls.Rows.Add(Properties.Resources.Mullion, "Mullion");
             dgvControls.Rows.Add(Properties.Resources.Transom, "Transom");
+            dgvControls.Rows[1].Cells[0].Tag = "Mullion";
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 133;
             
@@ -169,23 +243,123 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Location = new Point(cX, cY);
             }
+            tsSize.Text = (flpMain.Width - 2).ToString() + " x " + (flpMain.Height - 2).ToString();
         }
 
         private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            flpMain.Visible = true;
-            flpMain.Size = new Size(400 + 2, 400 + 2); //Always add 2px to make the UI borderStyle thick
+            int defwidth = 400, 
+                defheight = 400, 
+                defwndr = 26, //if window 52/2 = 26; elseif door 67/2 = 33
+                flp_cntr = flpMain.Controls.Count + 1;
+
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = defwidth;
+            frm.numHeight.Value = defwidth;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                defwidth = Convert.ToInt32(frm.numWidth.Value);
+                defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                Panel frame = CreateFrame("pnlFrame", defwidth, defheight, defwndr, flp_cntr);
+                flpMain.Controls.Add(frame);
+            }
+
         }
-        
+
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
         {
-            Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control;
-            Panel pnl = (Panel)sender;
+            Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control; //Control na babagsak
+            Control pnl = (Control)sender; //Control na babagsakan
             if (c != null)
             {
-                pnlCntr++;
-                c.Name += pnlCntr;
-                pnl_inner.Controls.Add(c);
+                int wndr = Convert.ToInt32(pnl.Tag),
+                    div = 0;
+                if (c.Name.Contains("Mullion"))
+                {
+                    c.Name += pnlCntr;
+                    if (wndr == 26)
+                    {
+                        c.Width = 10;
+                    }
+                    else if (wndr == 33)
+                    {
+                        c.Width = 20;
+                    }
+                    c.Height = pnl.Height;
+                    pnl.Controls.Add(c);
+                }
+                else if (c.Name.Contains("Transom"))
+                {
+                    c.Name += pnlCntr;
+                    if (wndr == 26)
+                    {
+                        c.Height = 10;
+                    }
+                    else if (wndr == 33)
+                    {
+                        c.Height = 20;
+                    }
+                    c.Width = pnl.Width;
+                    pnl.Controls.Add(c);
+                }
+                else
+                {
+                    if (pnl.Name.Contains("Multi"))
+                    {
+                        frmDimensions frm = new frmDimensions();
+                        FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
+                        
+                        if (wndr == 26)
+                        {
+                            div = 10;
+                        }
+                        else if (wndr == 33)
+                        {
+                            div = 20;
+                        }
+
+                        if (fpnl.FlowDirection == FlowDirection.LeftToRight)
+                        {
+                            frm.numWidth.Value = (pnl.Width - div) / 2;
+                            frm.numHeight.Value = pnl.Height;
+                        }
+                        else if (fpnl.FlowDirection == FlowDirection.TopDown)
+                        {
+                            frm.numWidth.Value = pnl.Width;
+                            frm.numHeight.Value = (pnl.Height - div) / 2;
+                        }
+
+                        if (frm.ShowDialog() == DialogResult.OK)
+                        {
+                            int Pwidth = Convert.ToInt32(frm.numWidth.Value),
+                                Pheight = Convert.ToInt32(frm.numHeight.Value);
+
+                            pnlCntr++;
+                            c.Name += pnlCntr;
+                            c.Dock = DockStyle.None;
+                            c.Size = new Size(Pwidth, Pheight);
+                            c.Tag = pnl.Tag;
+                            pnl.Controls.Add(c);
+                        }
+                    }
+                    else if (pnl.Name.Contains("Panel_"))
+                    {
+                        pnlCntr++;
+                        c.Name += pnlCntr;
+                        c.Tag = pnl.Tag;
+                        pnl.Controls.Add(c);
+                    }
+                    else
+                    {
+                        pnlCntr++;
+                        c.Name += pnlCntr;
+                        c.Tag = pnl.Tag;
+                        pnl.Controls.Add(c);
+                    }
+                }
+                
             }
         }
 
@@ -198,6 +372,7 @@ namespace KMDIWinDoorsCS
         {
             Graphics g = e.Graphics;
             Panel pfr = (Panel)sender;
+            Panel pnl_inner = (Panel)pfr.Controls[0];
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
@@ -222,6 +397,7 @@ namespace KMDIWinDoorsCS
             {
                 g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
             }
+            pnl_inner.Invalidate();
         }
 
         int pnlCntr = 0;
@@ -230,12 +406,24 @@ namespace KMDIWinDoorsCS
             if (e.Button == MouseButtons.Left)
             {
                 string ctrltype = dgvControls.Rows[e.RowIndex].Cells[1].Value.ToString();
+                Control ctrl = new Control();
                 if (ctrltype == "Single Panel")
                 {
-                    Control ctrl = new Control();
                     ctrl = CreatePanels("Panel_");
-                    dgvControls.DoDragDrop(ctrl, DragDropEffects.Move);
                 }
+                else if (ctrltype == "Multiple Panel")
+                {
+                    ctrl = CreateMultiPnl("Multi_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag),0);
+                }
+                else if (ctrltype == "Mullion")
+                {
+                    ctrl = CreateDiv("Mullion_",ctrltype);
+                }
+                else if (ctrltype == "Transom")
+                {
+                    ctrl = CreateDiv("Transom_", ctrltype);
+                }
+                dgvControls.DoDragDrop(ctrl, DragDropEffects.Move);
             }
         }
         
@@ -272,13 +460,65 @@ namespace KMDIWinDoorsCS
             }
             pnlSel.Invalidate();
         }
-
-        private void rdDoor_CheckedChanged(object sender, EventArgs e)
+        
+        private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                frmDimensions frm = new frmDimensions();
+                FlowLayoutPanel edt = (FlowLayoutPanel)sender;
+                frm.numWidth.Value = edt.Width - 2;
+                frm.numHeight.Value = edt.Height - 2;
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    edt.Width = Convert.ToInt32(frm.numWidth.Value) + 2;
+                    edt.Height = Convert.ToInt32(frm.numHeight.Value) + 2;
+                }
+            }
         }
 
-        private void rdWindow_CheckedChanged(object sender, EventArgs e)
+        private void tsSize_DoubleClick(object sender, EventArgs e)
         {
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = flpMain.Width - 2;
+            frm.numHeight.Value = flpMain.Height - 2;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                flpMain.Width = Convert.ToInt32(frm.numWidth.Value) + 2;
+                flpMain.Height = Convert.ToInt32(frm.numHeight.Value) + 2;
+            }
+        }
+
+        private void pnlMain_Scroll(object sender, ScrollEventArgs e)
+        {
+            foreach (Panel frame in flpMain.Controls)
+            {
+                frame.Invalidate();
+            }
+        }
+
+        private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex == 1)
+            {
+                cmenuMultiP.Show(MousePosition.X, MousePosition.Y);
+            }
+        }
+
+        private void cmenuMultiP_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem == mullionToolStripMenuItem)
+            {
+                dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Mul;
+                dgvControls.Rows[1].Cells[0].Tag = "Mullion";
+            }
+            else if (e.ClickedItem == transomToolStripMenuItem)
+            {
+                dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Trans;
+                dgvControls.Rows[1].Cells[0].Tag = "Transom";
+            }
         }
     }
 }

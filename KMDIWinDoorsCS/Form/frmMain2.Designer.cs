@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pnlMain = new System.Windows.Forms.Panel();
-            this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-            this.pnlFrame = new System.Windows.Forms.Panel();
-            this.pnl_inner = new System.Windows.Forms.Panel();
             this.pnlControlMain = new System.Windows.Forms.Panel();
             this.dgvControls = new System.Windows.Forms.DataGridView();
             this.ImageCol = new System.Windows.Forms.DataGridViewImageColumn();
             this.DescCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
+            this.pnlMain = new System.Windows.Forms.Panel();
+            this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
             this.mnsMainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,25 +59,36 @@
             this.slidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSlidingR = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSlidingL = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.stsEditor = new System.Windows.Forms.StatusStrip();
+            this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cmenuMultiP = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mullionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.pnlMain.SuspendLayout();
-            this.flpMain.SuspendLayout();
-            this.pnlFrame.SuspendLayout();
             this.pnlControlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).BeginInit();
+            this.pnlMain.SuspendLayout();
             this.mnsMainMenu.SuspendLayout();
             this.pnlRight.SuspendLayout();
             this.cmenuPanel.SuspendLayout();
+            this.tsMain.SuspendLayout();
+            this.stsEditor.SuspendLayout();
+            this.cmenuMultiP.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 49);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -88,58 +98,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pnlMain);
-            this.splitContainer1.Size = new System.Drawing.Size(860, 452);
-            this.splitContainer1.SplitterDistance = 133;
+            this.splitContainer1.Size = new System.Drawing.Size(1042, 459);
+            this.splitContainer1.SplitterDistance = 130;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // pnlMain
-            // 
-            this.pnlMain.Controls.Add(this.flpMain);
-            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 0);
-            this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(721, 450);
-            this.pnlMain.TabIndex = 3;
-            this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
-            // 
-            // flpMain
-            // 
-            this.flpMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flpMain.Controls.Add(this.pnlFrame);
-            this.flpMain.Location = new System.Drawing.Point(159, 24);
-            this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(402, 402);
-            this.flpMain.TabIndex = 1;
-            this.flpMain.Visible = false;
-            this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
-            // 
-            // pnlFrame
-            // 
-            this.pnlFrame.AllowDrop = true;
-            this.pnlFrame.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlFrame.Controls.Add(this.pnl_inner);
-            this.pnlFrame.Location = new System.Drawing.Point(0, 0);
-            this.pnlFrame.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlFrame.Name = "pnlFrame";
-            this.pnlFrame.Padding = new System.Windows.Forms.Padding(26);
-            this.pnlFrame.Size = new System.Drawing.Size(400, 400);
-            this.pnlFrame.TabIndex = 0;
-            this.pnlFrame.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlFrame_Paint);
-            // 
-            // pnl_inner
-            // 
-            this.pnl_inner.AllowDrop = true;
-            this.pnl_inner.AutoScroll = true;
-            this.pnl_inner.BackColor = System.Drawing.SystemColors.Control;
-            this.pnl_inner.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnl_inner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnl_inner.Location = new System.Drawing.Point(26, 26);
-            this.pnl_inner.Margin = new System.Windows.Forms.Padding(0);
-            this.pnl_inner.Name = "pnl_inner";
-            this.pnl_inner.Size = new System.Drawing.Size(346, 346);
-            this.pnl_inner.TabIndex = 0;
-            this.pnl_inner.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnl_inner_DragDrop);
-            this.pnl_inner.DragOver += new System.Windows.Forms.DragEventHandler(this.pnl_inner_DragOver);
             // 
             // pnlControlMain
             // 
@@ -148,7 +109,7 @@
             this.pnlControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlControlMain.Location = new System.Drawing.Point(0, 0);
             this.pnlControlMain.Name = "pnlControlMain";
-            this.pnlControlMain.Size = new System.Drawing.Size(131, 450);
+            this.pnlControlMain.Size = new System.Drawing.Size(128, 457);
             this.pnlControlMain.TabIndex = 5;
             // 
             // dgvControls
@@ -162,14 +123,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -179,8 +140,9 @@
             this.dgvControls.RowTemplate.Height = 55;
             this.dgvControls.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvControls.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvControls.Size = new System.Drawing.Size(131, 421);
+            this.dgvControls.Size = new System.Drawing.Size(128, 428);
             this.dgvControls.TabIndex = 5;
+            this.dgvControls.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvControls_CellMouseClick);
             this.dgvControls.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvControls_CellMouseDown);
             // 
             // ImageCol
@@ -208,9 +170,32 @@
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 29);
+            this.label1.Size = new System.Drawing.Size(128, 29);
             this.label1.TabIndex = 4;
             this.label1.Text = "Controls";
+            // 
+            // pnlMain
+            // 
+            this.pnlMain.AutoScroll = true;
+            this.pnlMain.Controls.Add(this.flpMain);
+            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMain.Location = new System.Drawing.Point(0, 0);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(906, 457);
+            this.pnlMain.TabIndex = 3;
+            this.pnlMain.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pnlMain_Scroll);
+            this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
+            // 
+            // flpMain
+            // 
+            this.flpMain.BackColor = System.Drawing.SystemColors.Control;
+            this.flpMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpMain.Location = new System.Drawing.Point(252, 38);
+            this.flpMain.Name = "flpMain";
+            this.flpMain.Size = new System.Drawing.Size(402, 402);
+            this.flpMain.TabIndex = 1;
+            this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
+            this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
             // 
             // mnsMainMenu
             // 
@@ -218,7 +203,8 @@
             this.fileToolStripMenuItem});
             this.mnsMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnsMainMenu.Name = "mnsMainMenu";
-            this.mnsMainMenu.Size = new System.Drawing.Size(967, 24);
+            this.mnsMainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.mnsMainMenu.Size = new System.Drawing.Size(1149, 24);
             this.mnsMainMenu.TabIndex = 1;
             this.mnsMainMenu.Text = "msMain";
             // 
@@ -258,9 +244,9 @@
             this.pnlRight.Controls.Add(this.pnlItems);
             this.pnlRight.Controls.Add(this.label6);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(860, 24);
+            this.pnlRight.Location = new System.Drawing.Point(1042, 49);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(107, 452);
+            this.pnlRight.Size = new System.Drawing.Size(107, 481);
             this.pnlRight.TabIndex = 2;
             // 
             // pnlItems
@@ -268,7 +254,7 @@
             this.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlItems.Location = new System.Drawing.Point(0, 29);
             this.pnlItems.Name = "pnlItems";
-            this.pnlItems.Size = new System.Drawing.Size(105, 421);
+            this.pnlItems.Size = new System.Drawing.Size(105, 450);
             this.pnlItems.TabIndex = 3;
             // 
             // label6
@@ -376,13 +362,106 @@
             this.tsmSlidingL.Text = "L";
             this.tsmSlidingL.Click += new System.EventHandler(this.tsm_Click);
             // 
+            // tsMain
+            // 
+            this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripButton,
+            this.openToolStripButton,
+            this.saveToolStripButton,
+            this.printToolStripButton});
+            this.tsMain.Location = new System.Drawing.Point(0, 24);
+            this.tsMain.Name = "tsMain";
+            this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.tsMain.Size = new System.Drawing.Size(1149, 25);
+            this.tsMain.TabIndex = 3;
+            this.tsMain.Text = "toolStrip1";
+            // 
+            // stsEditor
+            // 
+            this.stsEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsSize});
+            this.stsEditor.Location = new System.Drawing.Point(0, 508);
+            this.stsEditor.Name = "stsEditor";
+            this.stsEditor.Size = new System.Drawing.Size(1042, 22);
+            this.stsEditor.TabIndex = 2;
+            this.stsEditor.Text = "statusStrip1";
+            // 
+            // tsSize
+            // 
+            this.tsSize.DoubleClickEnabled = true;
+            this.tsSize.Name = "tsSize";
+            this.tsSize.Size = new System.Drawing.Size(55, 17);
+            this.tsSize.Text = "400 x 400";
+            this.tsSize.DoubleClick += new System.EventHandler(this.tsSize_DoubleClick);
+            // 
+            // cmenuMultiP
+            // 
+            this.cmenuMultiP.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mullionToolStripMenuItem,
+            this.transomToolStripMenuItem});
+            this.cmenuMultiP.Name = "cmenuMultiP";
+            this.cmenuMultiP.Size = new System.Drawing.Size(120, 48);
+            this.cmenuMultiP.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmenuMultiP_ItemClicked);
+            // 
+            // mullionToolStripMenuItem
+            // 
+            this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mullionToolStripMenuItem.Text = "Mullion";
+            // 
+            // transomToolStripMenuItem
+            // 
+            this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.transomToolStripMenuItem.Text = "Transom";
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openToolStripButton.Text = "&Open";
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveToolStripButton.Text = "&Save";
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.printToolStripButton.Text = "&Print";
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 476);
+            this.ClientSize = new System.Drawing.Size(1149, 530);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.stsEditor);
             this.Controls.Add(this.pnlRight);
+            this.Controls.Add(this.tsMain);
             this.Controls.Add(this.mnsMainMenu);
             this.MainMenuStrip = this.mnsMainMenu;
             this.Name = "frmMain2";
@@ -393,15 +472,18 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.pnlMain.ResumeLayout(false);
-            this.flpMain.ResumeLayout(false);
-            this.pnlFrame.ResumeLayout(false);
             this.pnlControlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).EndInit();
+            this.pnlMain.ResumeLayout(false);
             this.mnsMainMenu.ResumeLayout(false);
             this.mnsMainMenu.PerformLayout();
             this.pnlRight.ResumeLayout(false);
             this.cmenuPanel.ResumeLayout(false);
+            this.tsMain.ResumeLayout(false);
+            this.tsMain.PerformLayout();
+            this.stsEditor.ResumeLayout(false);
+            this.stsEditor.PerformLayout();
+            this.cmenuMultiP.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -410,7 +492,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Panel pnlFrame;
         private System.Windows.Forms.FlowLayoutPanel flpMain;
         private System.Windows.Forms.MenuStrip mnsMainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -426,7 +507,6 @@
         private System.Windows.Forms.DataGridView dgvControls;
         private System.Windows.Forms.DataGridViewImageColumn ImageCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescCol;
-        private System.Windows.Forms.Panel pnl_inner;
         private System.Windows.Forms.ContextMenuStrip cmenuPanel;
         private System.Windows.Forms.ToolStripMenuItem typeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmFixed;
@@ -439,6 +519,16 @@
         private System.Windows.Forms.ToolStripMenuItem slidingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmSlidingR;
         private System.Windows.Forms.ToolStripMenuItem tsmSlidingL;
+        private System.Windows.Forms.ToolStrip tsMain;
+        private System.Windows.Forms.ToolStripButton newToolStripButton;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripButton printToolStripButton;
+        private System.Windows.Forms.StatusStrip stsEditor;
+        private System.Windows.Forms.ToolStripStatusLabel tsSize;
+        private System.Windows.Forms.ContextMenuStrip cmenuMultiP;
+        private System.Windows.Forms.ToolStripMenuItem mullionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transomToolStripMenuItem;
     }
 }
 

@@ -73,6 +73,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsWindoor.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Form\frmDimensions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmDimensions.Designer.cs">
+      <DependentUpon>frmDimensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\frmMain2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +93,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form\frmDimensions.resx">
+      <DependentUpon>frmDimensions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\frmMain2.resx">
       <DependentUpon>frmMain2.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,6 +139,7 @@
   <ItemGroup>
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
+    <None Include="Resources\MultiplePanel1.png" />
     <Content Include="Resources\SinglePanel.png" />
     <Content Include="Resources\Transom.png" />
   </ItemGroup>
