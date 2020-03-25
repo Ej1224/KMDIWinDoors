@@ -178,9 +178,9 @@ Public Class frmMain
            innf_rect
         }
 
-        Dim fra As Rectangle()
+        'Dim fra As Rectangle()
 
-        fra(1) = New Rectangle(center_X, center_Y, fwidth, fheight)
+        'fra(1) = New Rectangle(center_X, center_Y, fwidth, fheight)
 
         Dim windowtype As New Label
         With windowtype

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -60,15 +60,16 @@
             this.tsmSlidingR = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmSlidingL = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.cmenuMultiP = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mullionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,14 +124,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -188,6 +189,8 @@
             // 
             // flpMain
             // 
+            this.flpMain.AccessibleDescription = "";
+            this.flpMain.AccessibleName = "";
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
             this.flpMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flpMain.Location = new System.Drawing.Point(252, 38);
@@ -271,9 +274,10 @@
             // cmenuPanel
             // 
             this.cmenuPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.typeToolStripMenuItem});
+            this.typeToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.cmenuPanel.Name = "cmenuPanel";
-            this.cmenuPanel.Size = new System.Drawing.Size(99, 26);
+            this.cmenuPanel.Size = new System.Drawing.Size(108, 48);
             // 
             // typeToolStripMenuItem
             // 
@@ -283,8 +287,9 @@
             this.awningToolStripMenuItem,
             this.slidingToolStripMenuItem});
             this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
-            this.typeToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.typeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.typeToolStripMenuItem.Text = "Type";
+            this.typeToolStripMenuItem.Visible = false;
             // 
             // tsmFixed
             // 
@@ -377,45 +382,6 @@
             this.tsMain.TabIndex = 3;
             this.tsMain.Text = "toolStrip1";
             // 
-            // stsEditor
-            // 
-            this.stsEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsSize});
-            this.stsEditor.Location = new System.Drawing.Point(0, 508);
-            this.stsEditor.Name = "stsEditor";
-            this.stsEditor.Size = new System.Drawing.Size(1042, 22);
-            this.stsEditor.TabIndex = 2;
-            this.stsEditor.Text = "statusStrip1";
-            // 
-            // tsSize
-            // 
-            this.tsSize.DoubleClickEnabled = true;
-            this.tsSize.Name = "tsSize";
-            this.tsSize.Size = new System.Drawing.Size(55, 17);
-            this.tsSize.Text = "400 x 400";
-            this.tsSize.DoubleClick += new System.EventHandler(this.tsSize_DoubleClick);
-            // 
-            // cmenuMultiP
-            // 
-            this.cmenuMultiP.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mullionToolStripMenuItem,
-            this.transomToolStripMenuItem});
-            this.cmenuMultiP.Name = "cmenuMultiP";
-            this.cmenuMultiP.Size = new System.Drawing.Size(120, 48);
-            this.cmenuMultiP.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmenuMultiP_ItemClicked);
-            // 
-            // mullionToolStripMenuItem
-            // 
-            this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.mullionToolStripMenuItem.Text = "Mullion";
-            // 
-            // transomToolStripMenuItem
-            // 
-            this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.transomToolStripMenuItem.Text = "Transom";
-            // 
             // newToolStripButton
             // 
             this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -452,6 +418,52 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.printToolStripButton.Text = "&Print";
+            // 
+            // stsEditor
+            // 
+            this.stsEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsSize});
+            this.stsEditor.Location = new System.Drawing.Point(0, 508);
+            this.stsEditor.Name = "stsEditor";
+            this.stsEditor.Size = new System.Drawing.Size(1042, 22);
+            this.stsEditor.TabIndex = 2;
+            this.stsEditor.Text = "statusStrip1";
+            // 
+            // tsSize
+            // 
+            this.tsSize.DoubleClickEnabled = true;
+            this.tsSize.Name = "tsSize";
+            this.tsSize.Size = new System.Drawing.Size(55, 17);
+            this.tsSize.Text = "400 x 400";
+            this.tsSize.DoubleClick += new System.EventHandler(this.tsSize_DoubleClick);
+            // 
+            // cmenuMultiP
+            // 
+            this.cmenuMultiP.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mullionToolStripMenuItem,
+            this.transomToolStripMenuItem});
+            this.cmenuMultiP.Name = "cmenuMultiP";
+            this.cmenuMultiP.Size = new System.Drawing.Size(120, 48);
+            this.cmenuMultiP.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmenuMultiP_ItemClicked);
+            // 
+            // mullionToolStripMenuItem
+            // 
+            this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.mullionToolStripMenuItem.Text = "Mullion";
+            // 
+            // transomToolStripMenuItem
+            // 
+            this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.transomToolStripMenuItem.Text = "Transom";
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // frmMain2
             // 
@@ -529,6 +541,7 @@
         private System.Windows.Forms.ContextMenuStrip cmenuMultiP;
         private System.Windows.Forms.ToolStripMenuItem mullionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
 

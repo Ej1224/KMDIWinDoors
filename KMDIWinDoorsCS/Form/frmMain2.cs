@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace KMDIWinDoorsCS
 {
@@ -27,7 +28,6 @@ namespace KMDIWinDoorsCS
             Panel cr8newpnl = new Panel();
             cr8newpnl.Name = name;
             cr8newpnl.BackColor = Color.DarkGray;
-            cr8newpnl.BorderStyle = BorderStyle.FixedSingle;
             cr8newpnl.Dock = dok;
             cr8newpnl.Margin = new Padding(0);
             cr8newpnl.Padding = new Padding(0);
@@ -39,11 +39,21 @@ namespace KMDIWinDoorsCS
             return cr8newpnl;
         }
 
-        Panel pnlSel;
+        Panel pnlSel, pnlSel_parent;
 
         private void pnl_MouseClick(object sender, MouseEventArgs e)
         {
             pnlSel = (Panel)sender;
+            pnlSel_parent = (Panel)pnlSel.Parent;
+            if (pnlSel.Name.Contains("Panel"))
+            {
+                typeToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                typeToolStripMenuItem.Visible = false;
+            }
+
             if (e.Button == MouseButtons.Right)
             {
                 cmenuPanel.Show(new Point(MousePosition.X, MousePosition.Y));
@@ -142,6 +152,12 @@ namespace KMDIWinDoorsCS
                                                      new PointF(arwEnd_x2, center_y1));
                 }
             }
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                   0,
+                                                                   pnl.ClientRectangle.Width - w,
+                                                                   pnl.ClientRectangle.Height - w));
         }
 
         private Panel CreateFrame(string name,
@@ -152,23 +168,25 @@ namespace KMDIWinDoorsCS
         {
             Panel frame = new Panel();
             frame.Name = name + "_" + id;
-            frame.BorderStyle = BorderStyle.FixedSingle;
+            //frame.BorderStyle = BorderStyle.FixedSingle;
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
             frame.Size = new Size(fwidth, fheight);
             frame.Tag = id;
             frame.Paint += new PaintEventHandler(pnlFrame_Paint);
+            frame.MouseClick += new MouseEventHandler(pnl_MouseClick);
 
             Panel pnl_inner = new Panel();
             pnl_inner.Name = "pnl_inner" + id;
             pnl_inner.AllowDrop = true;
-            pnl_inner.BorderStyle = BorderStyle.FixedSingle;
+            //pnl_inner.BorderStyle = BorderStyle.FixedSingle;
             pnl_inner.Dock = DockStyle.Fill;
             pnl_inner.Margin = new Padding(0);
             pnl_inner.Padding = new Padding(0);
             pnl_inner.Tag = wndr;
             pnl_inner.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
             pnl_inner.DragOver += new DragEventHandler(pnl_inner_DragOver);
+            pnl_inner.Paint += new PaintEventHandler(border_paint);
 
             frame.Controls.Add(pnl_inner);
             return frame;
@@ -181,8 +199,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel multi = new FlowLayoutPanel();
             multi.Name = name;
             multi.AllowDrop = true;
-            multi.BackColor = Color.DarkGray;
-            multi.BorderStyle = BorderStyle.FixedSingle;
+            multi.BackColor = SystemColors.ActiveCaption;
             multi.Dock = DockStyle.Fill;
             multi.Padding = new Padding(0);
             multi.Margin = new Padding(0);
@@ -197,25 +214,60 @@ namespace KMDIWinDoorsCS
             }
             multi.DragOver += new DragEventHandler(pnl_inner_DragOver);
             multi.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
+            multi.Paint += new PaintEventHandler(flp_paint);
+            multi.MouseClick += new MouseEventHandler(pnl_MouseClick);
 
             return multi;
         }
 
+        private void flp_paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            Font drawFont = new Font("Segoe UI", 12);
+            StringFormat drawFormat = new StringFormat();
+            drawFormat.Alignment = StringAlignment.Near;
+            drawFormat.LineAlignment = StringAlignment.Near;
+            g.DrawString("Multi_Panel", drawFont, new SolidBrush(Color.Black), 0,0);
+            //g.DrawString("Multi_Panel", drawFont, new SolidBrush(Color.Black), e.ClipRectangle, drawFormat);
+
+            Panel pnl = (Panel)sender;
+
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                   0,
+                                                                   pnl.ClientRectangle.Width - w,
+                                                                   pnl.ClientRectangle.Height - w));
+        }
+
         private Panel CreateDiv(string name,
-                                string divtype)/*,
-                                int divWidth,
-                                int divHeight)*/
+                                string divtype)
         {
             Panel div = new Panel();
             div.Name = name;
             div.BackColor = Color.CadetBlue;
-            div.BorderStyle = BorderStyle.FixedSingle;
             div.Margin = new Padding(0);
             div.Padding = new Padding(0);
-            //div.Size = new Size(divWidth, divHeight);
             div.Tag = "Fixed";
+            div.Paint += new PaintEventHandler(border_paint);
+            div.MouseClick += new MouseEventHandler(pnl_MouseClick);
 
             return div;
+        }
+
+        private void border_paint(object sender, PaintEventArgs e)
+        {
+            Panel pnl = (Panel)sender;
+            Graphics g = e.Graphics;
+
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                   0,
+                                                                   pnl.ClientRectangle.Width - w,
+                                                                   pnl.ClientRectangle.Height - w));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -304,13 +356,35 @@ namespace KMDIWinDoorsCS
                     c.Width = pnl.Width;
                     pnl.Controls.Add(c);
                 }
+                else if (c.Name.Contains("Multi_"))
+                {
+                    FlowLayoutPanel fpnl = (FlowLayoutPanel)c;
+                    string divmode = "";
+                    if (fpnl.FlowDirection == FlowDirection.LeftToRight)
+                    {
+                        divmode = "Mullion";
+                    }
+                    else if (fpnl.FlowDirection == FlowDirection.TopDown)
+                    {
+                        divmode = "Transom";
+                    }
+                    string input = Interaction.InputBox("Input no. of " + divmode,"WinDoor Maker","1");
+                    if (input != "" && input != "0")
+                    {
+                        c.Name += pnlCntr;
+                        c.AccessibleDescription = input;
+                        c.Tag = pnl.Tag;
+                        pnl.Controls.Add(c);
+                    }
+                }
                 else
                 {
                     if (pnl.Name.Contains("Multi"))
                     {
                         frmDimensions frm = new frmDimensions();
                         FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
-                        
+                        int access_desc = Convert.ToInt32(fpnl.AccessibleDescription);
+
                         if (wndr == 26)
                         {
                             div = 10;
@@ -322,19 +396,27 @@ namespace KMDIWinDoorsCS
 
                         if (fpnl.FlowDirection == FlowDirection.LeftToRight)
                         {
-                            frm.numWidth.Value = (pnl.Width - div) / 2;
+                            frm.numWidth.Value = (pnl.Width - (div * access_desc)) / 2;
+                            //frm.numWidth.Value = (pnl.Width) / 2;
+                            //frm.numWidth.Value = (pnl.Width + (wndr * 2)) / 2;
                             frm.numHeight.Value = pnl.Height;
+                            //frm.numHeight.Value = pnl.Height + (wndr * 2);
                         }
                         else if (fpnl.FlowDirection == FlowDirection.TopDown)
                         {
                             frm.numWidth.Value = pnl.Width;
-                            frm.numHeight.Value = (pnl.Height - div) / 2;
+                            //frm.numWidth.Value = pnl.Width + (wndr * 2);
+                            frm.numHeight.Value = (pnl.Height - (div * access_desc)) / 2;
+                            //frm.numHeight.Value = (pnl.Height) / 2;
+                            //frm.numHeight.Value = (pnl.Height + (wndr * 2)) / 2;
                         }
 
                         if (frm.ShowDialog() == DialogResult.OK)
                         {
                             int Pwidth = Convert.ToInt32(frm.numWidth.Value),
                                 Pheight = Convert.ToInt32(frm.numHeight.Value);
+                            //int Pwidth = Convert.ToInt32(frm.numWidth.Value - (wndr * 2)),
+                            //    Pheight = Convert.ToInt32(frm.numHeight.Value - (wndr * 2));
 
                             pnlCntr++;
                             c.Name += pnlCntr;
@@ -397,7 +479,15 @@ namespace KMDIWinDoorsCS
             {
                 g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
             }
-            pnl_inner.Invalidate();
+
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                   0,
+                                                                   pfr.ClientRectangle.Width - w,
+                                                                   pfr.ClientRectangle.Height - w));
+
+            //pnl_inner.Invalidate();
         }
 
         int pnlCntr = 0;
@@ -493,10 +583,10 @@ namespace KMDIWinDoorsCS
 
         private void pnlMain_Scroll(object sender, ScrollEventArgs e)
         {
-            foreach (Panel frame in flpMain.Controls)
-            {
-                frame.Invalidate();
-            }
+            //foreach (Panel frame in flpMain.Controls)
+            //{
+            //    frame.Invalidate();
+            //}
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -519,6 +609,12 @@ namespace KMDIWinDoorsCS
                 dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Trans;
                 dgvControls.Rows[1].Cells[0].Tag = "Transom";
             }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pnlSel_parent.Controls.Remove(pnlSel);
+            pnlSel_parent.Invalidate();
         }
     }
 }
