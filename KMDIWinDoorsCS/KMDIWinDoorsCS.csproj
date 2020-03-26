@@ -138,6 +138,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\AddNew_Window.png" />
+    <None Include="Resources\AddNew_Door.png" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />

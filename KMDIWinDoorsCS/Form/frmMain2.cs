@@ -168,7 +168,6 @@ namespace KMDIWinDoorsCS
         {
             Panel frame = new Panel();
             frame.Name = name + "_" + id;
-            //frame.BorderStyle = BorderStyle.FixedSingle;
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
             frame.Size = new Size(fwidth, fheight);
@@ -179,7 +178,6 @@ namespace KMDIWinDoorsCS
             Panel pnl_inner = new Panel();
             pnl_inner.Name = "pnl_inner" + id;
             pnl_inner.AllowDrop = true;
-            //pnl_inner.BorderStyle = BorderStyle.FixedSingle;
             pnl_inner.Dock = DockStyle.Fill;
             pnl_inner.Margin = new Padding(0);
             pnl_inner.Padding = new Padding(0);
@@ -194,11 +192,13 @@ namespace KMDIWinDoorsCS
 
         private FlowLayoutPanel CreateMultiPnl(string name,
                                                string div,
-                                               int wndr)
+                                               int wndr,
+                                               string numDiv)
         {
             FlowLayoutPanel multi = new FlowLayoutPanel();
             multi.Name = name;
             multi.AllowDrop = true;
+            multi.AccessibleDescription = numDiv;
             multi.BackColor = SystemColors.ActiveCaption;
             multi.Dock = DockStyle.Fill;
             multi.Padding = new Padding(0);
@@ -223,16 +223,16 @@ namespace KMDIWinDoorsCS
         private void flp_paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            Panel pnl = (Panel)sender;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             Font drawFont = new Font("Segoe UI", 12);
             StringFormat drawFormat = new StringFormat();
             drawFormat.Alignment = StringAlignment.Near;
             drawFormat.LineAlignment = StringAlignment.Near;
-            g.DrawString("Multi_Panel", drawFont, new SolidBrush(Color.Black), 0,0);
+            g.DrawString("Multi_Panel (" + pnl.AccessibleDescription + ")", drawFont, new SolidBrush(Color.Black), 0,0);
             //g.DrawString("Multi_Panel", drawFont, new SolidBrush(Color.Black), e.ClipRectangle, drawFormat);
 
-            Panel pnl = (Panel)sender;
 
             int w = 1;
             int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
@@ -273,12 +273,13 @@ namespace KMDIWinDoorsCS
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
-            dgvControls.Rows.Add(Properties.Resources.MultiplePanel_Mul, "Multiple Panel");
+            dgvControls.Rows.Add(Properties.Resources.MultiplePanel_Mul, "Multiple Panel(1)");
             dgvControls.Rows.Add(Properties.Resources.Mullion, "Mullion");
             dgvControls.Rows.Add(Properties.Resources.Transom, "Transom");
             dgvControls.Rows[1].Cells[0].Tag = "Mullion";
+            dgvControls.Rows[1].Cells[1].Tag = 1;
             dgvControls.ClearSelection();
-            splitContainer1.SplitterDistance = 133;
+            splitContainer1.SplitterDistance = 150;
             
         }
 
@@ -287,37 +288,23 @@ namespace KMDIWinDoorsCS
             int cX, cY;
             cX = (pnlMain.Width - flpMain.Width) / 2;
             cY = (pnlMain.Height - flpMain.Height) / 2;
-            if (cX <= 0 || cY <= 0)
+            if (cX <= 0 && cY <= 0)
             {
-                flpMain.Location = new Point(100, 100);
+                flpMain.Location = new Point(50, 50);
+            }
+            else if (cX <= 0)
+            {
+                flpMain.Location = new Point(50, cY);
+            }
+            else if (cY <= 0)
+            {
+                flpMain.Location = new Point(cX, 50);
             }
             else
             {
                 flpMain.Location = new Point(cX, cY);
             }
             tsSize.Text = (flpMain.Width - 2).ToString() + " x " + (flpMain.Height - 2).ToString();
-        }
-
-        private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int defwidth = 400, 
-                defheight = 400, 
-                defwndr = 26, //if window 52/2 = 26; elseif door 67/2 = 33
-                flp_cntr = flpMain.Controls.Count + 1;
-
-            frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = defwidth;
-            frm.numHeight.Value = defwidth;
-
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                defwidth = Convert.ToInt32(frm.numWidth.Value);
-                defheight = Convert.ToInt32(frm.numHeight.Value);
-
-                Panel frame = CreateFrame("pnlFrame", defwidth, defheight, defwndr, flp_cntr);
-                flpMain.Controls.Add(frame);
-            }
-
         }
 
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
@@ -356,27 +343,6 @@ namespace KMDIWinDoorsCS
                     c.Width = pnl.Width;
                     pnl.Controls.Add(c);
                 }
-                else if (c.Name.Contains("Multi_"))
-                {
-                    FlowLayoutPanel fpnl = (FlowLayoutPanel)c;
-                    string divmode = "";
-                    if (fpnl.FlowDirection == FlowDirection.LeftToRight)
-                    {
-                        divmode = "Mullion";
-                    }
-                    else if (fpnl.FlowDirection == FlowDirection.TopDown)
-                    {
-                        divmode = "Transom";
-                    }
-                    string input = Interaction.InputBox("Input no. of " + divmode,"WinDoor Maker","1");
-                    if (input != "" && input != "0")
-                    {
-                        c.Name += pnlCntr;
-                        c.AccessibleDescription = input;
-                        c.Tag = pnl.Tag;
-                        pnl.Controls.Add(c);
-                    }
-                }
                 else
                 {
                     if (pnl.Name.Contains("Multi"))
@@ -384,6 +350,7 @@ namespace KMDIWinDoorsCS
                         frmDimensions frm = new frmDimensions();
                         FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
                         int access_desc = Convert.ToInt32(fpnl.AccessibleDescription);
+                        int Pwidth = 0, Pheight = 0;
 
                         if (wndr == 26)
                         {
@@ -396,27 +363,24 @@ namespace KMDIWinDoorsCS
 
                         if (fpnl.FlowDirection == FlowDirection.LeftToRight)
                         {
-                            frm.numWidth.Value = (pnl.Width - (div * access_desc)) / 2;
-                            //frm.numWidth.Value = (pnl.Width) / 2;
-                            //frm.numWidth.Value = (pnl.Width + (wndr * 2)) / 2;
-                            frm.numHeight.Value = pnl.Height;
-                            //frm.numHeight.Value = pnl.Height + (wndr * 2);
+                            Pwidth = (pnl.Width - (div * access_desc)) / (access_desc + 1);
+                            Pheight = pnl.Height;
+                            
                         }
                         else if (fpnl.FlowDirection == FlowDirection.TopDown)
                         {
-                            frm.numWidth.Value = pnl.Width;
-                            //frm.numWidth.Value = pnl.Width + (wndr * 2);
-                            frm.numHeight.Value = (pnl.Height - (div * access_desc)) / 2;
-                            //frm.numHeight.Value = (pnl.Height) / 2;
-                            //frm.numHeight.Value = (pnl.Height + (wndr * 2)) / 2;
+                            Pwidth = pnl.Width;
+                            Pheight = (pnl.Height - (div * access_desc)) / (access_desc + 1);
+
                         }
+
+                        frm.numWidth.Value = Pwidth;
+                        frm.numHeight.Value = Pheight;
 
                         if (frm.ShowDialog() == DialogResult.OK)
                         {
-                            int Pwidth = Convert.ToInt32(frm.numWidth.Value),
-                                Pheight = Convert.ToInt32(frm.numHeight.Value);
-                            //int Pwidth = Convert.ToInt32(frm.numWidth.Value - (wndr * 2)),
-                            //    Pheight = Convert.ToInt32(frm.numHeight.Value - (wndr * 2));
+                            Pwidth = Convert.ToInt32(frm.numWidth.Value);
+                            Pheight = Convert.ToInt32(frm.numHeight.Value);
 
                             pnlCntr++;
                             c.Name += pnlCntr;
@@ -501,9 +465,10 @@ namespace KMDIWinDoorsCS
                 {
                     ctrl = CreatePanels("Panel_");
                 }
-                else if (ctrltype == "Multiple Panel")
+                else if (ctrltype.Contains("Multiple Panel"))
                 {
-                    ctrl = CreateMultiPnl("Multi_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag),0);
+                    ctrl = CreateMultiPnl("Multi_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag),0, 
+                                                    Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
                 }
                 else if (ctrltype == "Mullion")
                 {
@@ -596,19 +561,60 @@ namespace KMDIWinDoorsCS
                 cmenuMultiP.Show(MousePosition.X, MousePosition.Y);
             }
         }
-
-        private void cmenuMultiP_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        
+        private void tsmMultiP_Clicked(object sender, EventArgs e)
         {
-            if (e.ClickedItem == mullionToolStripMenuItem)
+            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+            if (tsm == mullionToolStripMenuItem)
             {
                 dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Mul;
                 dgvControls.Rows[1].Cells[0].Tag = "Mullion";
             }
-            else if (e.ClickedItem == transomToolStripMenuItem)
+            else if (tsm == transomToolStripMenuItem)
             {
                 dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Trans;
                 dgvControls.Rows[1].Cells[0].Tag = "Transom";
             }
+            else if (tsm == divCountToolStripMenuItem)
+            {
+                string input = Interaction.InputBox("Input no. of division", "WinDoor Maker", "1");
+                if (input != "" && input != "0")
+                {
+                    dgvControls.Rows[1].Cells[1].Tag = input;
+                    dgvControls.Rows[1].Cells[1].Value = "Multiple Panel(" + input + ")";
+                }
+            }
+        }
+
+        private void tsBtnNewWindoor(object sender, EventArgs e)
+        {
+            int defwidth = 400,
+                defheight = 400,
+                defwndr = 0, //if window 52/2 = 26; elseif door 67/2 = 33
+                flp_cntr = flpMain.Controls.Count + 1;
+
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = defwidth;
+            frm.numHeight.Value = defwidth;
+
+            if (sender == tsBtnNwin)
+            {
+                defwndr = 26;
+            }
+            else if (sender == tsBtnNdoor)
+            {
+                defwndr = 33;
+            }
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                defwidth = Convert.ToInt32(frm.numWidth.Value);
+                defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                Panel frame = CreateFrame("pnlFrame", defwidth, defheight, defwndr, flp_cntr);
+                flpMain.Controls.Add(frame);
+            }
+
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
