@@ -195,20 +195,21 @@
             this.pnlMain.TabIndex = 3;
             this.pnlMain.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pnlMain_Scroll);
             this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
+            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
             // 
             // flpMain
             // 
             this.flpMain.AccessibleDescription = "";
             this.flpMain.AccessibleName = "";
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
-            this.flpMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain.Location = new System.Drawing.Point(323, 33);
+            this.flpMain.Location = new System.Drawing.Point(354, 114);
             this.flpMain.Margin = new System.Windows.Forms.Padding(4);
             this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(535, 494);
+            this.flpMain.Size = new System.Drawing.Size(400, 400);
             this.flpMain.TabIndex = 1;
             this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
+            this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
             // 
             // mnsMainMenu
@@ -238,19 +239,19 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.c70ToolStripMenuItem.Text = "C70";
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.premiLineToolStripMenuItem.Text = "PremiLine";
             // 
             // pnlRight
@@ -534,12 +535,14 @@
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.tsMain);
             this.Controls.Add(this.mnsMainMenu);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.mnsMainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain2_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

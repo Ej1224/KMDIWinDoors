@@ -20,6 +20,16 @@ namespace KMDIWinDoorsCS
             InitializeComponent();
         }
 
+        public IEnumerable<Control> GetAll(Control control, Type type, string name)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAll(ctrl, type, name))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type)
+                                      .Where(c => c.Name.Contains(name));
+        }
+
         private Panel CreatePanels(string name,
                                    DockStyle dok = DockStyle.Fill,
                                    int Pwidth = 0,
@@ -39,12 +49,33 @@ namespace KMDIWinDoorsCS
             return cr8newpnl;
         }
 
-        Panel pnlSel, pnlSel_parent;
+        Panel pnlSel, prev_pnlSel, pnlSel_parent, prev_pnlSel_parent;
+        string pnlnameSel, prev_pnlnameSel;
+        Type pnltypeSel, prev_pnltypeSel;
 
         private void pnl_MouseClick(object sender, MouseEventArgs e)
         {
             pnlSel = (Panel)sender;
             pnlSel_parent = (Panel)pnlSel.Parent;
+
+            pnlnameSel = pnlSel.Name;
+            pnltypeSel = pnlSel.GetType();
+
+            var c = GetAll(flpMain, prev_pnltypeSel, prev_pnlnameSel);
+            foreach (var ctrl in c)
+            {
+                ctrl.AccessibleName = "Black";
+                ctrl.Invalidate();
+            }
+
+            pnlSel.AccessibleName = "Blue";
+            pnlSel.Invalidate();
+
+            prev_pnlnameSel = pnlnameSel;
+            prev_pnlSel = pnlSel;
+            prev_pnlSel_parent = pnlSel_parent;
+            prev_pnltypeSel = pnltypeSel;
+
             if (pnlSel.Name.Contains("Panel"))
             {
                 typeToolStripMenuItem.Visible = true;
@@ -78,11 +109,11 @@ namespace KMDIWinDoorsCS
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.Alignment = StringAlignment.Center;
                 drawFormat.LineAlignment = StringAlignment.Center;
-                g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), e.ClipRectangle, drawFormat);
+                g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), pnl.ClientRectangle, drawFormat);
             }
             else
             {
-                Point sashPoint = new Point(e.ClipRectangle.X + 8, e.ClipRectangle.Y + 8);
+                Point sashPoint = new Point(pnl.ClientRectangle.X + 8, pnl.ClientRectangle.Y + 8);
                 Rectangle sashRect = new Rectangle(sashPoint,
                                                    new Size(fpnl_sashW, fpnl_sashH));
                 Pen dgrayPen = new Pen(Color.DimGray);
@@ -152,9 +183,21 @@ namespace KMDIWinDoorsCS
                                                      new PointF(arwEnd_x2, center_y1));
                 }
             }
+
+            string accname_col = pnl.AccessibleName;
+            Color col = Color.Black;
+            if (accname_col == "Black")
+            {
+                col = Color.Black;
+            }
+            else if (accname_col == "Blue")
+            {
+                col = Color.Blue;
+            }
+
             int w = 1;
             int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+            g.DrawRectangle(new Pen(col, w), new Rectangle(0,
                                                                    0,
                                                                    pnl.ClientRectangle.Width - w,
                                                                    pnl.ClientRectangle.Height - w));
@@ -231,12 +274,21 @@ namespace KMDIWinDoorsCS
             drawFormat.Alignment = StringAlignment.Near;
             drawFormat.LineAlignment = StringAlignment.Near;
             g.DrawString("Multi_Panel (" + pnl.AccessibleDescription + ")", drawFont, new SolidBrush(Color.Black), 0,0);
-            //g.DrawString("Multi_Panel", drawFont, new SolidBrush(Color.Black), e.ClipRectangle, drawFormat);
-
+            
+            string accname_col = pnl.AccessibleName;
+            Color col = Color.Black;
+            if (accname_col == "Black")
+            {
+                col = Color.Black;
+            }
+            else if (accname_col == "Blue")
+            {
+                col = Color.Blue;
+            }
 
             int w = 1;
             int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+            g.DrawRectangle(new Pen(col, w), new Rectangle(0,
                                                                    0,
                                                                    pnl.ClientRectangle.Width - w,
                                                                    pnl.ClientRectangle.Height - w));
@@ -262,9 +314,20 @@ namespace KMDIWinDoorsCS
             Panel pnl = (Panel)sender;
             Graphics g = e.Graphics;
 
+            string accname_col = pnl.AccessibleName;
+            Color col = Color.Black;
+            if (accname_col == "Black")
+            {
+                col = Color.Black;
+            }
+            else if (accname_col == "Blue")
+            {
+                col = Color.Blue;
+            }
+
             int w = 1;
             int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+            g.DrawRectangle(new Pen(col, w), new Rectangle(0,
                                                                    0,
                                                                    pnl.ClientRectangle.Width - w,
                                                                    pnl.ClientRectangle.Height - w));
@@ -280,7 +343,7 @@ namespace KMDIWinDoorsCS
             dgvControls.Rows[1].Cells[1].Tag = 1;
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
-            
+            flpMain.Size = new Size(400,400);
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -304,7 +367,8 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Location = new Point(cX, cY);
             }
-            tsSize.Text = (flpMain.Width - 2).ToString() + " x " + (flpMain.Height - 2).ToString();
+            tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+            pnlMain.Invalidate();
         }
 
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
@@ -444,14 +508,25 @@ namespace KMDIWinDoorsCS
                 g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
             }
 
+
+            string accname_col = pfr.AccessibleName;
+            Color col = Color.Black;
+            if (accname_col == "Black")
+            {
+                col = Color.Black;
+            }
+            else if (accname_col == "Blue")
+            {
+                col = Color.Blue;
+            }
+
             int w = 1;
             int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+            g.DrawRectangle(new Pen(col, w), new Rectangle(0,
                                                                    0,
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
 
-            //pnl_inner.Invalidate();
         }
 
         int pnlCntr = 0;
@@ -536,22 +611,114 @@ namespace KMDIWinDoorsCS
         private void tsSize_DoubleClick(object sender, EventArgs e)
         {
             frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = flpMain.Width - 2;
-            frm.numHeight.Value = flpMain.Height - 2;
+            frm.numWidth.Value = flpMain.Width;
+            frm.numHeight.Value = flpMain.Height;
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                flpMain.Width = Convert.ToInt32(frm.numWidth.Value) + 2;
-                flpMain.Height = Convert.ToInt32(frm.numHeight.Value) + 2;
+                flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
+                flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
             }
         }
 
         private void pnlMain_Scroll(object sender, ScrollEventArgs e)
         {
-            //foreach (Panel frame in flpMain.Controls)
+            //var c = GetAll(flpMain, typeof(Panel), "Panel_");
+            //foreach (var ctrl in c)
             //{
-            //    frame.Invalidate();
+            //    ctrl.Invalidate();
             //}
+        }
+        
+
+        private void pnlMain_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            int flp_X = flpMain.Location.X,
+                flp_Y = flpMain.Location.Y,
+                flp_Width = flpMain.Width,
+                flp_Height = flpMain.Height;
+
+            string dmnsion_w = flpMain.Width.ToString();
+            Point dmnsion_w_startP = new Point(flp_X,flp_Y - 15);
+            Point dmnsion_w_endP = new Point(flp_X + flp_Width,flp_Y - 15);
+            Font dmnsion_font = new Font("Segoe UI",12);
+
+            Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
+            double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
+
+            //arrow for WIDTH
+            Point[] arrwhd_pnts_W1 =
+            {
+                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
+                dmnsion_w_startP,
+                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
+            };
+            Point[] arrwhd_pnts_W2 =
+            {
+                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
+                dmnsion_w_endP,
+                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
+            };
+
+            g.DrawLines(Pens.Red, arrwhd_pnts_W1);
+            g.DrawLine(Pens.Red,dmnsion_w_startP,dmnsion_w_endP);
+            g.DrawLines(Pens.Red, arrwhd_pnts_W2);
+            TextRenderer.DrawText(g,
+                                  dmnsion_w, 
+                                  dmnsion_font, 
+                                  new Point((int)(mid - (s.Width / 2)), 
+                                  dmnsion_w_startP.Y - s.Height), 
+                                  Color.Black);
+            //arrow for WIDTH
+
+
+            //arrow for HEIGHT
+            string dmnsion_h = flpMain.Height.ToString();
+            Point dmnsion_h_startP = new Point(flp_X - 15, flp_Y);
+            Point dmnsion_h_endP = new Point(flp_X - 15, flp_Y + flp_Height);
+
+            Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
+            double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
+
+            Point[] arrwhd_pnts_H1 =
+            {
+                new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
+                dmnsion_h_startP,
+                new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
+            };
+            Point[] arrwhd_pnts_H2 =
+            {
+                new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
+                dmnsion_h_endP,
+                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
+            };
+
+            g.DrawLines(Pens.Red, arrwhd_pnts_H1);
+            g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
+            g.DrawLines(Pens.Red, arrwhd_pnts_H2);
+            TextRenderer.DrawText(g,
+                                  dmnsion_h,
+                                  dmnsion_font,
+                                  new Point(dmnsion_h_startP.X - s2.Width, (int)(mid2 - (s2.Height / 2))),
+                                  Color.Black);
+            //arrow for HEIGHT
+        }
+
+        private void flpMain_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            FlowLayoutPanel fpnl = (FlowLayoutPanel)sender;
+
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                   0,
+                                                                   fpnl.ClientRectangle.Width - w,
+                                                                   fpnl.ClientRectangle.Height - w));
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -615,6 +782,24 @@ namespace KMDIWinDoorsCS
                 flpMain.Controls.Add(frame);
             }
 
+        }
+
+        private void frmMain2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                var c = GetAll(flpMain, pnltypeSel, pnlnameSel);
+                //var c = GetAll(flpMain, typeof(Control), pnlnameSel.Substring(0,pnlnameSel.IndexOf("_")));
+                foreach (var ctrl in c)
+                {
+                    ctrl.AccessibleName = "Black";
+                    ctrl.Invalidate();
+                }
+                pnlSel = null;
+                pnltypeSel = null;
+                pnlnameSel = null;
+                pnlSel_parent = null;
+            }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
