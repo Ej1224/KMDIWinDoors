@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -39,6 +39,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnlProperties = new System.Windows.Forms.Panel();
+            this.pnlPropertiesBody = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.rdWindow = new System.Windows.Forms.RadioButton();
+            this.rdDoor = new System.Windows.Forms.RadioButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numfWidth = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numfHeight = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.chkWdrOrientation = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numHeight = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numWidth = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.cbxWindowType = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.mnsMainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +101,14 @@
             this.pnlControlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).BeginInit();
             this.pnlMain.SuspendLayout();
+            this.pnlProperties.SuspendLayout();
+            this.pnlPropertiesBody.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numfWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numfHeight)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
             this.mnsMainMenu.SuspendLayout();
             this.pnlRight.SuspendLayout();
             this.cmenuPanel.SuspendLayout();
@@ -104,6 +132,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pnlMain);
+            this.splitContainer1.Panel2.Controls.Add(this.pnlProperties);
             this.splitContainer1.Size = new System.Drawing.Size(1303, 631);
             this.splitContainer1.SplitterDistance = 187;
             this.splitContainer1.SplitterWidth = 5;
@@ -131,14 +160,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 35);
             this.dgvControls.Margin = new System.Windows.Forms.Padding(4);
@@ -188,10 +217,10 @@
             this.pnlMain.AutoScroll = true;
             this.pnlMain.Controls.Add(this.flpMain);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 0);
+            this.pnlMain.Location = new System.Drawing.Point(185, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(4);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1109, 629);
+            this.pnlMain.Size = new System.Drawing.Size(924, 629);
             this.pnlMain.TabIndex = 3;
             this.pnlMain.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pnlMain_Scroll);
             this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
@@ -203,7 +232,7 @@
             this.flpMain.AccessibleName = "";
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain.Location = new System.Drawing.Point(354, 114);
+            this.flpMain.Location = new System.Drawing.Point(262, 114);
             this.flpMain.Margin = new System.Windows.Forms.Padding(4);
             this.flpMain.Name = "flpMain";
             this.flpMain.Size = new System.Drawing.Size(400, 400);
@@ -211,6 +240,228 @@
             this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
+            // 
+            // pnlProperties
+            // 
+            this.pnlProperties.AutoScroll = true;
+            this.pnlProperties.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlProperties.Controls.Add(this.pnlPropertiesBody);
+            this.pnlProperties.Controls.Add(this.label2);
+            this.pnlProperties.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlProperties.Location = new System.Drawing.Point(0, 0);
+            this.pnlProperties.Name = "pnlProperties";
+            this.pnlProperties.Size = new System.Drawing.Size(185, 629);
+            this.pnlProperties.TabIndex = 4;
+            // 
+            // pnlPropertiesBody
+            // 
+            this.pnlPropertiesBody.AutoScroll = true;
+            this.pnlPropertiesBody.Controls.Add(this.flowLayoutPanel1);
+            this.pnlPropertiesBody.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlPropertiesBody.Location = new System.Drawing.Point(0, 35);
+            this.pnlPropertiesBody.Name = "pnlPropertiesBody";
+            this.pnlPropertiesBody.Size = new System.Drawing.Size(183, 592);
+            this.pnlPropertiesBody.TabIndex = 6;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowLayoutPanel1.Controls.Add(this.label5);
+            this.flowLayoutPanel1.Controls.Add(this.rdWindow);
+            this.flowLayoutPanel1.Controls.Add(this.rdDoor);
+            this.flowLayoutPanel1.Controls.Add(this.label12);
+            this.flowLayoutPanel1.Controls.Add(this.numfWidth);
+            this.flowLayoutPanel1.Controls.Add(this.label11);
+            this.flowLayoutPanel1.Controls.Add(this.numfHeight);
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(183, 414);
+            this.flowLayoutPanel1.TabIndex = 6;
+            this.flowLayoutPanel1.Tag = "1";
+            this.flowLayoutPanel1.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(3, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 25);
+            this.label5.TabIndex = 9;
+            this.label5.Tag = "0";
+            this.label5.Text = "Frame 1";
+            // 
+            // rdWindow
+            // 
+            this.rdWindow.Checked = true;
+            this.rdWindow.Location = new System.Drawing.Point(3, 35);
+            this.rdWindow.Name = "rdWindow";
+            this.rdWindow.Size = new System.Drawing.Size(130, 23);
+            this.rdWindow.TabIndex = 1;
+            this.rdWindow.TabStop = true;
+            this.rdWindow.Tag = "53";
+            this.rdWindow.Text = "Window    ";
+            this.rdWindow.UseVisualStyleBackColor = true;
+            // 
+            // rdDoor
+            // 
+            this.rdDoor.Location = new System.Drawing.Point(3, 64);
+            this.rdDoor.Name = "rdDoor";
+            this.rdDoor.Size = new System.Drawing.Size(130, 23);
+            this.rdDoor.TabIndex = 2;
+            this.rdDoor.Tag = "67";
+            this.rdDoor.Text = "Door";
+            this.rdDoor.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 90);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(46, 19);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Width";
+            // 
+            // numfWidth
+            // 
+            this.numfWidth.Location = new System.Drawing.Point(3, 112);
+            this.numfWidth.Name = "numfWidth";
+            this.numfWidth.Size = new System.Drawing.Size(126, 26);
+            this.numfWidth.TabIndex = 16;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(3, 141);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(50, 19);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Height";
+            // 
+            // numfHeight
+            // 
+            this.numfHeight.Location = new System.Drawing.Point(3, 163);
+            this.numfHeight.Name = "numfHeight";
+            this.numfHeight.Size = new System.Drawing.Size(125, 26);
+            this.numfHeight.TabIndex = 15;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.chkWdrOrientation);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.numHeight);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.numWidth);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.lblType);
+            this.panel2.Controls.Add(this.cbxWindowType);
+            this.panel2.Location = new System.Drawing.Point(3, 195);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(146, 214);
+            this.panel2.TabIndex = 12;
+            this.panel2.Tag = "0";
+            // 
+            // chkWdrOrientation
+            // 
+            this.chkWdrOrientation.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkWdrOrientation.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.chkWdrOrientation.FlatAppearance.BorderSize = 0;
+            this.chkWdrOrientation.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
+            this.chkWdrOrientation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkWdrOrientation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkWdrOrientation.Location = new System.Drawing.Point(90, 66);
+            this.chkWdrOrientation.Name = "chkWdrOrientation";
+            this.chkWdrOrientation.Size = new System.Drawing.Size(43, 21);
+            this.chkWdrOrientation.TabIndex = 4;
+            this.chkWdrOrientation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkWdrOrientation.UseVisualStyleBackColor = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(7, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 25);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Panel 1";
+            // 
+            // numHeight
+            // 
+            this.numHeight.Location = new System.Drawing.Point(7, 175);
+            this.numHeight.Name = "numHeight";
+            this.numHeight.Size = new System.Drawing.Size(126, 26);
+            this.numHeight.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 151);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(50, 19);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Height";
+            // 
+            // numWidth
+            // 
+            this.numWidth.Location = new System.Drawing.Point(7, 118);
+            this.numWidth.Name = "numWidth";
+            this.numWidth.Size = new System.Drawing.Size(125, 26);
+            this.numWidth.TabIndex = 5;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 94);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 19);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Width";
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(7, 36);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(91, 19);
+            this.lblType.TabIndex = 1;
+            this.lblType.Text = "Window Type";
+            // 
+            // cbxWindowType
+            // 
+            this.cbxWindowType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxWindowType.FormattingEnabled = true;
+            this.cbxWindowType.Items.AddRange(new object[] {
+            "Fixed",
+            "Awning",
+            "Casement",
+            "Sliding"});
+            this.cbxWindowType.Location = new System.Drawing.Point(7, 61);
+            this.cbxWindowType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cbxWindowType.Name = "cbxWindowType";
+            this.cbxWindowType.Size = new System.Drawing.Size(77, 27);
+            this.cbxWindowType.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(183, 35);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Properties";
             // 
             // mnsMainMenu
             // 
@@ -311,7 +562,7 @@
             // tsmFixed
             // 
             this.tsmFixed.Name = "tsmFixed";
-            this.tsmFixed.Size = new System.Drawing.Size(149, 26);
+            this.tsmFixed.Size = new System.Drawing.Size(181, 26);
             this.tsmFixed.Text = "Fixed";
             this.tsmFixed.Click += new System.EventHandler(this.tsm_Click);
             // 
@@ -321,7 +572,7 @@
             this.tsmCasementR,
             this.tsmCasementL});
             this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
-            this.casementToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.casementToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.casementToolStripMenuItem.Text = "Casement";
             // 
             // tsmCasementR
@@ -344,7 +595,7 @@
             this.tsmAwningNorm,
             this.tsmAwningInvrt});
             this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
-            this.awningToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.awningToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.awningToolStripMenuItem.Text = "Awning";
             // 
             // tsmAwningNorm
@@ -367,7 +618,7 @@
             this.tsmSlidingR,
             this.tsmSlidingL});
             this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
-            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.slidingToolStripMenuItem.Text = "Sliding";
             // 
             // tsmSlidingR
@@ -507,14 +758,14 @@
             // mullionToolStripMenuItem
             // 
             this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.mullionToolStripMenuItem.Text = "Mullion";
             this.mullionToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // transomToolStripMenuItem
             // 
             this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.transomToolStripMenuItem.Text = "Transom";
             this.transomToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
@@ -550,6 +801,17 @@
             this.pnlControlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).EndInit();
             this.pnlMain.ResumeLayout(false);
+            this.pnlProperties.ResumeLayout(false);
+            this.pnlPropertiesBody.ResumeLayout(false);
+            this.pnlPropertiesBody.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numfWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numfHeight)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWidth)).EndInit();
             this.mnsMainMenu.ResumeLayout(false);
             this.mnsMainMenu.PerformLayout();
             this.pnlRight.ResumeLayout(false);
@@ -567,7 +829,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.FlowLayoutPanel flpMain;
         private System.Windows.Forms.MenuStrip mnsMainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -609,6 +870,27 @@
         private System.Windows.Forms.ToolStripMenuItem divCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsBtnNwin;
         private System.Windows.Forms.ToolStripButton tsBtnNdoor;
+        private System.Windows.Forms.Panel pnlProperties;
+        internal System.Windows.Forms.Label label2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton rdWindow;
+        private System.Windows.Forms.RadioButton rdDoor;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numfWidth;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown numfHeight;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox chkWdrOrientation;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown numHeight;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numWidth;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.ComboBox cbxWindowType;
+        private System.Windows.Forms.Panel pnlPropertiesBody;
+        public System.Windows.Forms.FlowLayoutPanel flpMain;
     }
 }
 

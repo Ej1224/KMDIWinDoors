@@ -15,19 +15,10 @@ namespace KMDIWinDoorsCS
     public partial class frmMain2 : Form
     {
         Pen blkPen = new Pen(Color.Black);
+        Class.csFunctions csfunc = new Class.csFunctions();
         public frmMain2()
         {
             InitializeComponent();
-        }
-
-        public IEnumerable<Control> GetAll(Control control, Type type, string name)
-        {
-            var controls = control.Controls.Cast<Control>();
-
-            return controls.SelectMany(ctrl => GetAll(ctrl, type, name))
-                                      .Concat(controls)
-                                      .Where(c => c.GetType() == type)
-                                      .Where(c => c.Name.Contains(name));
         }
 
         private Panel CreatePanels(string name,
@@ -61,7 +52,7 @@ namespace KMDIWinDoorsCS
             pnlnameSel = pnlSel.Name;
             pnltypeSel = pnlSel.GetType();
 
-            var c = GetAll(flpMain, prev_pnltypeSel, prev_pnlnameSel);
+            var c = csfunc.GetAll(flpMain, prev_pnltypeSel, prev_pnlnameSel);
             foreach (var ctrl in c)
             {
                 ctrl.AccessibleName = "Black";
@@ -217,6 +208,7 @@ namespace KMDIWinDoorsCS
             frame.Tag = id;
             frame.Paint += new PaintEventHandler(pnlFrame_Paint);
             frame.MouseClick += new MouseEventHandler(pnl_MouseClick);
+            frame.PaddingChanged += new EventHandler(frame_PaddingChanged);
 
             Panel pnl_inner = new Panel();
             pnl_inner.Name = "pnl_inner" + id;
@@ -231,6 +223,12 @@ namespace KMDIWinDoorsCS
 
             frame.Controls.Add(pnl_inner);
             return frame;
+        }
+
+        private void frame_PaddingChanged(object sender, EventArgs e)
+        {
+            Panel pnlFrame = (Panel)sender;
+            pnlFrame.Controls[0].Invalidate();
         }
 
         private FlowLayoutPanel CreateMultiPnl(string name,
@@ -333,6 +331,164 @@ namespace KMDIWinDoorsCS
                                                                    pnl.ClientRectangle.Height - w));
         }
 
+        private FlowLayoutPanel CreateFrameProperties(string name,
+                                                      int count,
+                                                      int fwidth,
+                                                      int fheight,
+                                                      int wndr)
+        {
+            bool bool_win = false, bool_door = false;
+            if (wndr == 26)
+            {
+                bool_win = true;
+            }
+            else if (wndr == 33)
+            {
+                bool_door = true;
+            }
+
+            FlowLayoutPanel fprop;
+            Label lbl;
+            RadioButton rd;
+            NumericUpDown num;
+
+            fprop = new FlowLayoutPanel();
+            fprop.Name = name + "_" + count;
+            fprop.AutoSize = true;
+            fprop.BorderStyle = BorderStyle.FixedSingle;
+            fprop.Font = new Font("Segoe UI", 8.25f);
+            fprop.Dock = DockStyle.Top;
+            fprop.Padding = new Padding(0, 7, 0, 0);
+            fprop.Margin = new Padding(3, 4, 3, 4);
+
+            lbl = new Label();
+            lbl.Text = name + " " + count;
+            lbl.BorderStyle = BorderStyle.FixedSingle;
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            fprop.Controls.Add(lbl);
+
+            rd = new RadioButton();
+            rd.Name = "rdWindow_" + count;
+            rd.AutoSize = false;
+            rd.Checked = bool_win;
+            rd.Margin = new Padding(3, 3, 3, 3);
+            rd.Padding = new Padding(0);
+            rd.Size = new Size(140, 23);
+            rd.TabStop = true;
+            rd.Tag = name + "_" + count;
+            rd.Text = "Window";
+            rd.CheckedChanged += new EventHandler(rd_CheckChanged);
+            fprop.Controls.Add(rd);
+
+            rd = new RadioButton();
+            rd.Name = "rdDoor_" + count;
+            rd.AutoSize = false;
+            rd.Checked = bool_door;
+            rd.Margin = new Padding(3, 3, 3, 3);
+            rd.Padding = new Padding(0);
+            rd.Size = new Size(140, 23);
+            rd.TabStop = true;
+            rd.Tag = name + "_" + count;
+            rd.Text = "Door";
+            rd.CheckedChanged += new EventHandler(rd_CheckChanged);
+            fprop.Controls.Add(rd);
+
+            lbl = new Label();
+            lbl.Text = "Width";
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI", 8.25f);
+            lbl.Margin = new Padding(3, 0, 3, 0);
+            fprop.Controls.Add(lbl);
+
+            num = new NumericUpDown();
+            num.Name = "numfWidth_" + count;
+            num.AutoSize = false;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(135, 26);
+            num.Maximum = decimal.MaxValue;
+            num.Margin = new Padding(3, 3, 3, 3);
+            num.Value = fwidth;
+            num.ValueChanged += new EventHandler(num_ValueChanged);
+            fprop.Controls.Add(num);
+
+            lbl = new Label();
+            lbl.Text = "Height";
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI", 8.25f);
+            lbl.Margin = new Padding(3, 0, 3, 0);
+            fprop.Controls.Add(lbl);
+
+            num = new NumericUpDown();
+            num.Name = "numfHeight_" + count;
+            num.AutoSize = false;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(135, 26);
+            num.Maximum = decimal.MaxValue;
+            num.Margin = new Padding(3, 3, 3, 3);
+            num.Value = fheight;
+            num.ValueChanged += new EventHandler(num_ValueChanged);
+            fprop.Controls.Add(num);
+
+            return fprop;
+        }
+
+        public void rd_CheckChanged(object sender, EventArgs e)
+        {
+            RadioButton rd = (RadioButton)sender;
+            int wndr_padd = 0;
+            if (rd.Checked == true)
+            {
+                if (rd.Name.Contains("rdWindow_"))
+                {
+                    wndr_padd = 26;
+                }
+                else if (rd.Name.Contains("rdDoor_"))
+                {
+                    wndr_padd = 33;
+                }
+                var c = csfunc.GetAll(flpMain, typeof(Panel), rd.Tag.ToString());
+                foreach (var ctrl in c)
+                {
+                    ctrl.Padding = new Padding(wndr_padd);
+                    ctrl.Invalidate();
+                }
+            }
+        }
+
+        private void num_ValueChanged(object sender, EventArgs e)
+        {
+            NumericUpDown num = (NumericUpDown)sender;
+            string frameName = num.Parent.Name;
+
+            var c = csfunc.GetAll(flpMain, typeof(Panel), frameName);
+            foreach (var ctrl in c)
+            {
+                if (num.Name.Contains("numfWidth_"))
+                {
+                    ctrl.Width = Convert.ToInt32(num.Value);
+                }
+                else if (num.Name.Contains("numfHeight_"))
+                {
+                    ctrl.Height = Convert.ToInt32(num.Value);
+                }
+                ctrl.Invalidate();
+
+                var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
+                foreach (Panel pnl in PnlCollect)
+                {
+                    pnl.Invalidate();
+                }
+
+                var FlpCollect = csfunc.GetAll(ctrl, typeof(FlowLayoutPanel));
+                foreach (FlowLayoutPanel flp in FlpCollect)
+                {
+                    flp.Invalidate();
+                }
+            }
+
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -344,6 +500,7 @@ namespace KMDIWinDoorsCS
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
             flpMain.Size = new Size(400,400);
+            pnlProperties.Size = new Size(185, 629);
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -368,6 +525,8 @@ namespace KMDIWinDoorsCS
                 flpMain.Location = new Point(cX, cY);
             }
             tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+            flpMain.Invalidate();
             pnlMain.Invalidate();
         }
 
@@ -526,7 +685,6 @@ namespace KMDIWinDoorsCS
                                                                    0,
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
-
         }
 
         int pnlCntr = 0;
@@ -591,23 +749,6 @@ namespace KMDIWinDoorsCS
             pnlSel.Invalidate();
         }
         
-        private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                frmDimensions frm = new frmDimensions();
-                FlowLayoutPanel edt = (FlowLayoutPanel)sender;
-                frm.numWidth.Value = edt.Width - 2;
-                frm.numHeight.Value = edt.Height - 2;
-
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    edt.Width = Convert.ToInt32(frm.numWidth.Value) + 2;
-                    edt.Height = Convert.ToInt32(frm.numHeight.Value) + 2;
-                }
-            }
-        }
-
         private void tsSize_DoubleClick(object sender, EventArgs e)
         {
             frmDimensions frm = new frmDimensions();
@@ -721,6 +862,19 @@ namespace KMDIWinDoorsCS
                                                                    fpnl.ClientRectangle.Height - w));
         }
 
+        private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = flpMain.Width;
+            frm.numHeight.Value = flpMain.Height;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
+                flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
+            }
+        }
+
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex == 1)
@@ -728,7 +882,7 @@ namespace KMDIWinDoorsCS
                 cmenuMultiP.Show(MousePosition.X, MousePosition.Y);
             }
         }
-        
+
         private void tsmMultiP_Clicked(object sender, EventArgs e)
         {
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
@@ -766,10 +920,12 @@ namespace KMDIWinDoorsCS
 
             if (sender == tsBtnNwin)
             {
+                frm.Text = "Window dimension";
                 defwndr = 26;
             }
             else if (sender == tsBtnNdoor)
             {
+                frm.Text = "Door dimension";
                 defwndr = 33;
             }
 
@@ -778,8 +934,15 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                Panel frame = CreateFrame("pnlFrame", defwidth, defheight, defwndr, flp_cntr);
+                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, flp_cntr);
                 flpMain.Controls.Add(frame);
+                FlowLayoutPanel prop = CreateFrameProperties("Frame", 
+                                                             flpMain.Controls.Count, 
+                                                             defwidth,
+                                                             defheight,
+                                                             defwndr);
+                pnlPropertiesBody.Controls.Add(prop);
+                prop.BringToFront();
             }
 
         }
@@ -788,8 +951,7 @@ namespace KMDIWinDoorsCS
         {
             if (e.KeyCode == Keys.Escape)
             {
-                var c = GetAll(flpMain, pnltypeSel, pnlnameSel);
-                //var c = GetAll(flpMain, typeof(Control), pnlnameSel.Substring(0,pnlnameSel.IndexOf("_")));
+                var c = csfunc.GetAll(flpMain, pnltypeSel, pnlnameSel);
                 foreach (var ctrl in c)
                 {
                     ctrl.AccessibleName = "Black";
@@ -804,8 +966,14 @@ namespace KMDIWinDoorsCS
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var c = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Name);
+            foreach (var ctrl in c)
+            {
+                pnlPropertiesBody.Controls.Remove(ctrl);
+            }
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
         }
+
     }
 }
