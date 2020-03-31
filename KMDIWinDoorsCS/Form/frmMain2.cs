@@ -205,7 +205,7 @@ namespace KMDIWinDoorsCS
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
             frame.Size = new Size(fwidth, fheight);
-            frame.Tag = id;
+            frame.Tag = wndr;
             frame.Paint += new PaintEventHandler(pnlFrame_Paint);
             frame.MouseClick += new MouseEventHandler(pnl_MouseClick);
             frame.PaddingChanged += new EventHandler(frame_PaddingChanged);
@@ -216,7 +216,8 @@ namespace KMDIWinDoorsCS
             pnl_inner.Dock = DockStyle.Fill;
             pnl_inner.Margin = new Padding(0);
             pnl_inner.Padding = new Padding(0);
-            pnl_inner.Tag = wndr;
+            //pnl_inner.Tag = wndr;
+            pnl_inner.Tag = frame.Name;
             pnl_inner.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
             pnl_inner.DragOver += new DragEventHandler(pnl_inner_DragOver);
             pnl_inner.Paint += new PaintEventHandler(border_paint);
@@ -489,6 +490,188 @@ namespace KMDIWinDoorsCS
 
         }
 
+        private Panel CreatePanelProperties(string name,
+                                            int count,
+                                            int Pwidth,
+                                            int Pheight,
+                                            bool num_bool)
+        {
+            Panel Pprop;
+            Label lbl;
+            ComboBox cbx;
+            CheckBox chk;
+            NumericUpDown num;
+
+            Pprop = new Panel();
+            Pprop.Name = name;
+            Pprop.BorderStyle = BorderStyle.FixedSingle;
+            Pprop.AutoSize = true;
+            Pprop.Margin = new Padding(3, 3, 3, 3);
+
+            lbl = new Label();
+            lbl.Name = name;
+            lbl.Text = "Panel " + count;
+            lbl.AutoSize = true;
+            lbl.BorderStyle = BorderStyle.FixedSingle;
+            lbl.Font = new Font("Segoe UI", 10,FontStyle.Italic);
+            lbl.Location = new Point(7, 9);
+            Pprop.Controls.Add(lbl);
+
+            lbl = new Label();
+            lbl.Text = "Type";
+            lbl.AutoSize = true;
+            lbl.Location = new Point(7, 36);
+            Pprop.Controls.Add(lbl);
+
+            cbx = new ComboBox();
+            cbx.Name = "cbxWindowType_" + count;
+            cbx.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx.Margin = new Padding(3, 4, 3, 4);
+            cbx.Size = new Size(77, 27);
+            cbx.Items.Add("Fixed");
+            cbx.Items.Add("Awning");
+            cbx.Items.Add("Casement");
+            cbx.Items.Add("Sliding");
+            cbx.Location = new Point(7, 50);
+            cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
+            Pprop.Controls.Add(cbx);
+
+            chk = new CheckBox();
+            chk.Name = "chkWdrOrientation_" + count;
+            chk.Appearance = Appearance.Button;
+            chk.BackColor = SystemColors.ControlDark;
+            chk.FlatAppearance.BorderSize = 0;
+            chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
+            chk.FlatStyle = FlatStyle.Flat;
+            chk.Font = new Font("Segoe UI", 8.25f);
+            chk.Size = new Size(43, 21);
+            chk.TextAlign = ContentAlignment.MiddleCenter;
+            chk.Location = new Point(90, 50);
+            chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
+            Pprop.Controls.Add(chk);
+
+            lbl = new Label();
+            lbl.Text = "Width";
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI", 8.25f);
+            lbl.Margin = new Padding(3, 0, 3, 0);
+            lbl.Location = new Point(7, 80);
+            Pprop.Controls.Add(lbl);
+
+            num = new NumericUpDown();
+            num.Name = "numWidth_" + count;
+            num.AutoSize = false;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(135, 26);
+            num.Maximum = decimal.MaxValue;
+            num.Margin = new Padding(3, 3, 3, 3);
+            num.Value = Pwidth;
+            num.Location = new Point(7, 100);
+            //num.ValueChanged += new EventHandler(num_ValueChanged);
+            num.Enabled = num_bool;
+            Pprop.Controls.Add(num);
+
+            lbl = new Label();
+            lbl.Text = "Height";
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI", 8.25f);
+            lbl.Margin = new Padding(3, 0, 3, 0);
+            lbl.Location = new Point(7, 130);
+            Pprop.Controls.Add(lbl);
+
+            num = new NumericUpDown();
+            num.Name = "numHeight_" + count;
+            num.AutoSize = false;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(135, 26);
+            num.Maximum = decimal.MaxValue;
+            num.Margin = new Padding(3, 3, 3, 3);
+            num.Value = Pheight;
+            //num.ValueChanged += new EventHandler(num_ValueChanged);
+            num.Location = new Point(7, 150);
+            num.Enabled = num_bool;
+            Pprop.Controls.Add(num);
+
+            return Pprop;
+        }
+
+        private void chk_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chk = (CheckBox)sender;
+            if (chk.Checked == true)
+            {
+                if (chk.Text == "R")
+                {
+                    chk.Text = "L";
+                }
+                else if (chk.Text == "Norm")
+                {
+                    chk.Text = "Invrt";
+                }
+            }
+            else if (chk.Checked == false)
+            {
+                if (chk.Text == "L")
+                {
+                    chk.Text = "R";
+                }
+                else if (chk.Text == "Invrt")
+                {
+                    chk.Text = "Norm";
+                }
+            }
+
+            ComboBox cbx = new ComboBox();
+            var cbxcol = csfunc.GetAll(chk.Parent, typeof(ComboBox));
+            foreach (ComboBox ctrl in cbxcol)
+            {
+                cbx = ctrl;
+            }
+
+            var pnlcol = csfunc.GetAll(flpMain, typeof(Panel), chk.Parent.Name);
+            foreach (Panel ctrl in pnlcol)
+            {
+                ctrl.Tag = cbx.Text + chk.Text;
+                ctrl.Invalidate();
+            }
+        }
+
+        private void cbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox cbx = (ComboBox)sender;
+
+            CheckBox chk = new CheckBox();
+            var chkcol = csfunc.GetAll(cbx.Parent, typeof(CheckBox));
+            foreach (CheckBox ctrl in chkcol)
+            {
+                chk = ctrl;
+            }
+
+            chk.Checked = false;
+            if (cbx.Text == "Casement" || cbx.Text == "Sliding")
+            {
+                chk.Enabled = true;
+                chk.Text = "R";
+            }
+            else if (cbx.Text == "Awning")
+            {
+                chk.Enabled = true;
+                chk.Text = "Norm";
+            }
+            else if (cbx.Text == "Fixed")
+            {
+                chk.Enabled = false;
+                chk.Text = "";
+            }
+
+            var pnlcol = csfunc.GetAll(flpMain, typeof(Panel),cbx.Parent.Name);
+            foreach (Panel ctrl in pnlcol)
+            {
+                ctrl.Tag = cbx.Text + chk.Text;
+                ctrl.Invalidate();
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -532,15 +715,32 @@ namespace KMDIWinDoorsCS
 
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
         {
+            var Multi = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
+            var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
+
             Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control; //Control na babagsak
             Control pnl = (Control)sender; //Control na babagsakan
             if (c != null)
             {
-                int wndr = Convert.ToInt32(pnl.Tag),
-                    div = 0;
+                int wndr = 0, div = 0;
+                FlowLayoutPanel fprop = new FlowLayoutPanel();
+                var framecol = csfunc.GetAll(flpMain, typeof(Panel), pnl.Tag.ToString()); //pnl.Tag = FrameName
+                foreach (var ctrl in framecol)
+                {
+                    wndr = Convert.ToInt32(ctrl.Tag.ToString());
+                }
+
+                var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnl.Tag.ToString()); //pnl.Tag = FrameName
+                foreach (FlowLayoutPanel ctrl in fpropcol)
+                {
+                    fprop = ctrl;
+                }
+
                 if (c.Name.Contains("Mullion"))
                 {
-                    c.Name += pnlCntr;
+                    var mul = csfunc.GetAll(flpMain, typeof(Panel), "Mullion");
+
+                    c.Name += (mul.Count() + 1);
                     if (wndr == 26)
                     {
                         c.Width = 10;
@@ -554,7 +754,9 @@ namespace KMDIWinDoorsCS
                 }
                 else if (c.Name.Contains("Transom"))
                 {
-                    c.Name += pnlCntr;
+                    var transom = csfunc.GetAll(flpMain, typeof(Panel), "Transom");
+
+                    c.Name += (transom.Count() + 1);
                     if (wndr == 26)
                     {
                         c.Height = 10;
@@ -605,25 +807,51 @@ namespace KMDIWinDoorsCS
                             Pwidth = Convert.ToInt32(frm.numWidth.Value);
                             Pheight = Convert.ToInt32(frm.numHeight.Value);
 
-                            pnlCntr++;
-                            c.Name += pnlCntr;
                             c.Dock = DockStyle.None;
                             c.Size = new Size(Pwidth, Pheight);
                             c.Tag = pnl.Tag;
+                            if (c.Name.Contains("Panel"))
+                            {
+                                c.Name += (cpnl.Count() + 1);
+                                Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1),Pwidth,Pheight,true);
+                                fprop.Controls.Add(Pprop);
+                            }
+                            else if (c.Name.Contains("Multi"))
+                            {
+                                c.Name += (Multi.Count() + 1);
+                            }
                             pnl.Controls.Add(c);
                         }
                     }
                     else if (pnl.Name.Contains("Panel_"))
                     {
-                        pnlCntr++;
-                        c.Name += pnlCntr;
+                        if (c.Name.Contains("Panel"))
+                        {
+                            c.Name += (cpnl.Count() + 1);
+                            Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Width, pnl.Height,false);
+                            //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
+                            fprop.Controls.Add(Pprop);
+                        }
+                        else if (c.Name.Contains("Multi"))
+                        {
+                            c.Name += (Multi.Count() + 1);
+                        }
                         c.Tag = pnl.Tag;
                         pnl.Controls.Add(c);
                     }
                     else
                     {
-                        pnlCntr++;
-                        c.Name += pnlCntr;
+                        if (c.Name.Contains("Panel"))
+                        {
+                            c.Name += (cpnl.Count() + 1);
+                            Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Width, pnl.Height,false);
+                            //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
+                            fprop.Controls.Add(Pprop);
+                        }
+                        else if (c.Name.Contains("Multi"))
+                        {
+                            c.Name += (Multi.Count() + 1);
+                        }
                         c.Tag = pnl.Tag;
                         pnl.Controls.Add(c);
                     }
@@ -686,8 +914,7 @@ namespace KMDIWinDoorsCS
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
         }
-
-        int pnlCntr = 0;
+        
         private void dgvControls_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -771,7 +998,6 @@ namespace KMDIWinDoorsCS
             //}
         }
         
-
         private void pnlMain_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -966,10 +1192,31 @@ namespace KMDIWinDoorsCS
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var c = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Name);
-            foreach (var ctrl in c)
+            if (pnlSel.Name.Contains("Frame"))
             {
-                pnlPropertiesBody.Controls.Remove(ctrl);
+                var c = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Name);
+                foreach (var ctrl in c)
+                {
+                    pnlPropertiesBody.Controls.Remove(ctrl);
+                }
+            }
+            else if (pnlSel.Name.Contains("Panel"))
+            {
+                FlowLayoutPanel fprop = new FlowLayoutPanel();
+                var flpcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Tag.ToString());
+                foreach (FlowLayoutPanel ctrl in flpcol)
+                {
+                    fprop = ctrl;
+                }
+
+                Panel pprop = new Panel();
+                var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), pnlSel.Name);
+                foreach (Panel ctrl in pnlcol)
+                {
+                    pprop = ctrl;
+                }
+
+                fprop.Controls.Remove(pprop);
             }
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();

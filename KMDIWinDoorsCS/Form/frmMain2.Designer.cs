@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -160,14 +160,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 35);
             this.dgvControls.Margin = new System.Windows.Forms.Padding(4);
@@ -281,7 +281,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(183, 414);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(183, 406);
             this.flowLayoutPanel1.TabIndex = 6;
             this.flowLayoutPanel1.Tag = "1";
             this.flowLayoutPanel1.Visible = false;
@@ -354,6 +354,7 @@
             // 
             // panel2
             // 
+            this.panel2.AutoSize = true;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.chkWdrOrientation);
             this.panel2.Controls.Add(this.label3);
@@ -365,7 +366,7 @@
             this.panel2.Controls.Add(this.cbxWindowType);
             this.panel2.Location = new System.Drawing.Point(3, 195);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(146, 214);
+            this.panel2.Size = new System.Drawing.Size(138, 206);
             this.panel2.TabIndex = 12;
             this.panel2.Tag = "0";
             // 
@@ -562,7 +563,7 @@
             // tsmFixed
             // 
             this.tsmFixed.Name = "tsmFixed";
-            this.tsmFixed.Size = new System.Drawing.Size(181, 26);
+            this.tsmFixed.Size = new System.Drawing.Size(149, 26);
             this.tsmFixed.Text = "Fixed";
             this.tsmFixed.Click += new System.EventHandler(this.tsm_Click);
             // 
@@ -572,7 +573,7 @@
             this.tsmCasementR,
             this.tsmCasementL});
             this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
-            this.casementToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.casementToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.casementToolStripMenuItem.Text = "Casement";
             // 
             // tsmCasementR
@@ -595,7 +596,7 @@
             this.tsmAwningNorm,
             this.tsmAwningInvrt});
             this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
-            this.awningToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.awningToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.awningToolStripMenuItem.Text = "Awning";
             // 
             // tsmAwningNorm
@@ -618,7 +619,7 @@
             this.tsmSlidingR,
             this.tsmSlidingL});
             this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
-            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.slidingToolStripMenuItem.Text = "Sliding";
             // 
             // tsmSlidingR
@@ -758,14 +759,14 @@
             // mullionToolStripMenuItem
             // 
             this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.mullionToolStripMenuItem.Text = "Mullion";
             this.mullionToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // transomToolStripMenuItem
             // 
             this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.transomToolStripMenuItem.Text = "Transom";
             this.transomToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
