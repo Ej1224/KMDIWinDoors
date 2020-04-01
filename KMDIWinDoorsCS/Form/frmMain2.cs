@@ -28,12 +28,13 @@ namespace KMDIWinDoorsCS
         {
             Panel cr8newpnl = new Panel();
             cr8newpnl.Name = name;
+            cr8newpnl.AccessibleDescription = "";
+            cr8newpnl.TabStop = false; //for panelname viewmode
             cr8newpnl.BackColor = Color.DarkGray;
             cr8newpnl.Dock = dok;
             cr8newpnl.Margin = new Padding(0);
             cr8newpnl.Padding = new Padding(0);
             cr8newpnl.Size = new Size(Pwidth, Pheight);
-            cr8newpnl.Tag = "Fixed";
             cr8newpnl.Paint += new PaintEventHandler(pnl_Paint);
             cr8newpnl.MouseClick += new MouseEventHandler(pnl_MouseClick);
 
@@ -93,7 +94,22 @@ namespace KMDIWinDoorsCS
             int fpnl_sashW = pnl.Width - 20,
                 fpnl_sashH = pnl.Height - 20;
 
-            string windowtype = Convert.ToString(pnl.Tag);
+            Point sashPoint = new Point(pnl.ClientRectangle.X + 8, pnl.ClientRectangle.Y + 8);
+
+            if (pnl.TabStop == true)
+            {
+                Font dmnsion_font = new Font("Segoe UI", 12);
+
+                Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
+                double mid = (pnl.Width) / 2;
+                TextRenderer.DrawText(g,
+                                      pnl.Name,
+                                      dmnsion_font,
+                                      new Point(sashPoint.X + 3, sashPoint.Y + 3),
+                                      Color.Blue);
+            }
+
+            string windowtype = pnl.AccessibleDescription;
             if (windowtype == "Fixed")
             {
                 Font drawFont = new Font("Segoe UI", 12);
@@ -104,7 +120,6 @@ namespace KMDIWinDoorsCS
             }
             else
             {
-                Point sashPoint = new Point(pnl.ClientRectangle.X + 8, pnl.ClientRectangle.Y + 8);
                 Rectangle sashRect = new Rectangle(sashPoint,
                                                    new Size(fpnl_sashW, fpnl_sashH));
                 Pen dgrayPen = new Pen(Color.DimGray);
@@ -152,8 +167,8 @@ namespace KMDIWinDoorsCS
                     
                     if (windowtype == "SlidingR")
                     {
-                        arwHeadUp_x3 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - 20;
-                        arwHeadUp_x4 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - 20;
+                        arwHeadUp_x3 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - (fpnl_sashW / 10);
+                        arwHeadUp_x4 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) - (fpnl_sashW / 10);
 
                         g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
                                                          new PointF(arwEnd_x2, center_y1));
@@ -162,8 +177,8 @@ namespace KMDIWinDoorsCS
                     }
                     else if (windowtype == "SlidingL")
                     {
-                        arwHeadUp_x3 = sashPoint.X + arwStart_x1 + 30;
-                        arwHeadUp_x4 = sashPoint.X + arwStart_x1 + 30;
+                        arwHeadUp_x3 = sashPoint.X + arwStart_x1 + (fpnl_sashW / 10);
+                        arwHeadUp_x4 = sashPoint.X + arwStart_x1 + (fpnl_sashW / 10);
 
                         g.DrawLine(new Pen(Color.Black), new PointF(arwHeadUp_x3, arwHeadUp_y3),
                                                          new PointF(arwStart_x1, center_y1));
@@ -202,6 +217,7 @@ namespace KMDIWinDoorsCS
         {
             Panel frame = new Panel();
             frame.Name = name + "_" + id;
+            frame.AccessibleDescription = "viewmodeOff";
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
             frame.Size = new Size(fwidth, fheight);
@@ -452,6 +468,7 @@ namespace KMDIWinDoorsCS
                 foreach (var ctrl in c)
                 {
                     ctrl.Padding = new Padding(wndr_padd);
+                    ctrl.Tag = wndr_padd;
                     ctrl.Invalidate();
                 }
             }
@@ -567,8 +584,8 @@ namespace KMDIWinDoorsCS
             num.Margin = new Padding(3, 3, 3, 3);
             num.Value = Pwidth;
             num.Location = new Point(7, 100);
-            //num.ValueChanged += new EventHandler(num_ValueChanged);
             num.Enabled = num_bool;
+            num.ValueChanged += new EventHandler(Pnum_ValueChanged);
             Pprop.Controls.Add(num);
 
             lbl = new Label();
@@ -587,12 +604,33 @@ namespace KMDIWinDoorsCS
             num.Maximum = decimal.MaxValue;
             num.Margin = new Padding(3, 3, 3, 3);
             num.Value = Pheight;
-            //num.ValueChanged += new EventHandler(num_ValueChanged);
+            num.ValueChanged += new EventHandler(Pnum_ValueChanged);
             num.Location = new Point(7, 150);
             num.Enabled = num_bool;
             Pprop.Controls.Add(num);
 
             return Pprop;
+        }
+
+        private void Pnum_ValueChanged(object sender, EventArgs e)
+        {
+            NumericUpDown pnum = (NumericUpDown)sender;
+            Panel pnl = new Panel();
+            var c = csfunc.GetAll(flpMain, typeof(Panel), pnum.Parent.Name);
+            foreach (Panel ctrl in c)
+            {
+                pnl = ctrl;
+            }
+
+            if (pnum.Name.Contains("Width"))
+            {
+                pnl.Width = Convert.ToInt32(pnum.Value);
+            }
+            else if (pnum.Name.Contains("Height"))
+            {
+                pnl.Height = Convert.ToInt32(pnum.Value);
+            }
+            pnl.Invalidate();
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -631,7 +669,7 @@ namespace KMDIWinDoorsCS
             var pnlcol = csfunc.GetAll(flpMain, typeof(Panel), chk.Parent.Name);
             foreach (Panel ctrl in pnlcol)
             {
-                ctrl.Tag = cbx.Text + chk.Text;
+                ctrl.AccessibleDescription = cbx.Text + chk.Text;
                 ctrl.Invalidate();
             }
         }
@@ -667,7 +705,7 @@ namespace KMDIWinDoorsCS
             var pnlcol = csfunc.GetAll(flpMain, typeof(Panel),cbx.Parent.Name);
             foreach (Panel ctrl in pnlcol)
             {
-                ctrl.Tag = cbx.Text + chk.Text;
+                ctrl.AccessibleDescription = cbx.Text + chk.Text;
                 ctrl.Invalidate();
             }
         }
@@ -872,6 +910,19 @@ namespace KMDIWinDoorsCS
             Panel pnl_inner = (Panel)pfr.Controls[0];
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            if (pfr.AccessibleDescription == "viewmodeOn")
+            {
+                Font dmnsion_font = new Font("Segoe UI", 12);
+
+                Size s = TextRenderer.MeasureText(pfr.Name, dmnsion_font);
+                double mid = (pfr.Width) / 2;
+                TextRenderer.DrawText(g,
+                                      pfr.Name,
+                                      dmnsion_font,
+                                      new Point((int)(mid - (s.Width / 2)),3),
+                                      Color.Blue);
+            }
 
             int pInnerX = pnl_inner.Location.X,
                 pInnerY = pnl_inner.Location.Y,
@@ -1101,6 +1152,41 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void chkView_CheckedChanged(object sender, EventArgs e)
+        {
+            string accdesc = "";
+            if (chkView.Checked == true)
+            {
+                accdesc = "viewmodeOn";
+            }
+            else
+            {
+                accdesc = "viewmodeOff";
+            }
+
+            var frcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), "Frame");
+            foreach (Panel ctrl in frcol)
+            {
+                var frcol2 = csfunc.GetAll(flpMain, typeof(Panel), ctrl.Name);
+                foreach (Panel ctrl2 in frcol2)
+                {
+                    ctrl2.AccessibleDescription = accdesc;
+                    ctrl2.Invalidate();
+                }
+            }
+
+            var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), "Panel");
+            foreach (Panel ctrl in pnlcol)
+            {
+                var pnlcol2 = csfunc.GetAll(flpMain, typeof(Panel), ctrl.Name);
+                foreach (Panel ctrl2 in pnlcol2)
+                {
+                    ctrl2.TabStop = chkView.Checked;
+                    ctrl2.Invalidate();
+                }
+            }
+        }
+
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && e.RowIndex == 1)
@@ -1217,6 +1303,28 @@ namespace KMDIWinDoorsCS
                 }
 
                 fprop.Controls.Remove(pprop);
+            }
+            else if (pnlSel.Name.Contains("Multi"))
+            {
+                var pnlcol1 = csfunc.GetAll(pnlSel, typeof(Panel), "Panel");
+                foreach (Panel ctrl1 in pnlcol1)
+                {
+                    FlowLayoutPanel fprop = new FlowLayoutPanel();
+                    var flpcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), ctrl1.Tag.ToString());
+                    foreach (FlowLayoutPanel ctrl2 in flpcol)
+                    {
+                        fprop = ctrl2;
+                    }
+
+                    Panel pprop = new Panel();
+                    var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), ctrl1.Name);
+                    foreach (Panel ctrl3 in pnlcol)
+                    {
+                        pprop = ctrl3;
+                    }
+
+                    fprop.Controls.Remove(pprop);
+                }
             }
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
