@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -40,6 +40,7 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlProperties = new System.Windows.Forms.Panel();
+            this.chkView = new System.Windows.Forms.CheckBox();
             this.pnlPropertiesBody = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.mnsMainMenu = new System.Windows.Forms.MenuStrip();
@@ -51,17 +52,6 @@
             this.pnlItems = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.cmenuPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.typeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmFixed = new System.Windows.Forms.ToolStripMenuItem();
-            this.casementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmCasementR = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmCasementL = new System.Windows.Forms.ToolStripMenuItem();
-            this.awningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmAwningNorm = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmAwningInvrt = new System.Windows.Forms.ToolStripMenuItem();
-            this.slidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmSlidingR = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmSlidingL = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
@@ -77,7 +67,6 @@
             this.mullionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkView = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -137,14 +126,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 35);
             this.dgvControls.Margin = new System.Windows.Forms.Padding(4);
@@ -192,6 +181,7 @@
             // pnlMain
             // 
             this.pnlMain.AutoScroll = true;
+            this.pnlMain.AutoSize = true;
             this.pnlMain.Controls.Add(this.flpMain);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(185, 0);
@@ -230,6 +220,23 @@
             this.pnlProperties.Name = "pnlProperties";
             this.pnlProperties.Size = new System.Drawing.Size(185, 629);
             this.pnlProperties.TabIndex = 4;
+            // 
+            // chkView
+            // 
+            this.chkView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkView.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkView.AutoSize = true;
+            this.chkView.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.chkView.FlatAppearance.BorderSize = 0;
+            this.chkView.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
+            this.chkView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkView.Location = new System.Drawing.Point(130, 4);
+            this.chkView.Name = "chkView";
+            this.chkView.Size = new System.Drawing.Size(47, 27);
+            this.chkView.TabIndex = 2;
+            this.chkView.Text = "View";
+            this.chkView.UseVisualStyleBackColor = false;
+            this.chkView.CheckedChanged += new System.EventHandler(this.chkView_CheckedChanged);
             // 
             // pnlPropertiesBody
             // 
@@ -331,103 +338,14 @@
             // 
             this.cmenuPanel.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cmenuPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.typeToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.cmenuPanel.Name = "cmenuPanel";
-            this.cmenuPanel.Size = new System.Drawing.Size(123, 52);
-            // 
-            // typeToolStripMenuItem
-            // 
-            this.typeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmFixed,
-            this.casementToolStripMenuItem,
-            this.awningToolStripMenuItem,
-            this.slidingToolStripMenuItem});
-            this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
-            this.typeToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
-            this.typeToolStripMenuItem.Text = "Type";
-            this.typeToolStripMenuItem.Visible = false;
-            // 
-            // tsmFixed
-            // 
-            this.tsmFixed.Name = "tsmFixed";
-            this.tsmFixed.Size = new System.Drawing.Size(181, 26);
-            this.tsmFixed.Text = "Fixed";
-            this.tsmFixed.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // casementToolStripMenuItem
-            // 
-            this.casementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmCasementR,
-            this.tsmCasementL});
-            this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
-            this.casementToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.casementToolStripMenuItem.Text = "Casement";
-            // 
-            // tsmCasementR
-            // 
-            this.tsmCasementR.Name = "tsmCasementR";
-            this.tsmCasementR.Size = new System.Drawing.Size(93, 26);
-            this.tsmCasementR.Text = "R";
-            this.tsmCasementR.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // tsmCasementL
-            // 
-            this.tsmCasementL.Name = "tsmCasementL";
-            this.tsmCasementL.Size = new System.Drawing.Size(93, 26);
-            this.tsmCasementL.Text = "L";
-            this.tsmCasementL.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // awningToolStripMenuItem
-            // 
-            this.awningToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmAwningNorm,
-            this.tsmAwningInvrt});
-            this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
-            this.awningToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.awningToolStripMenuItem.Text = "Awning";
-            // 
-            // tsmAwningNorm
-            // 
-            this.tsmAwningNorm.Name = "tsmAwningNorm";
-            this.tsmAwningNorm.Size = new System.Drawing.Size(122, 26);
-            this.tsmAwningNorm.Text = "Norm";
-            this.tsmAwningNorm.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // tsmAwningInvrt
-            // 
-            this.tsmAwningInvrt.Name = "tsmAwningInvrt";
-            this.tsmAwningInvrt.Size = new System.Drawing.Size(122, 26);
-            this.tsmAwningInvrt.Text = "Invrt";
-            this.tsmAwningInvrt.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // slidingToolStripMenuItem
-            // 
-            this.slidingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmSlidingR,
-            this.tsmSlidingL});
-            this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
-            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.slidingToolStripMenuItem.Text = "Sliding";
-            // 
-            // tsmSlidingR
-            // 
-            this.tsmSlidingR.Name = "tsmSlidingR";
-            this.tsmSlidingR.Size = new System.Drawing.Size(93, 26);
-            this.tsmSlidingR.Text = "R";
-            this.tsmSlidingR.Click += new System.EventHandler(this.tsm_Click);
-            // 
-            // tsmSlidingL
-            // 
-            this.tsmSlidingL.Name = "tsmSlidingL";
-            this.tsmSlidingL.Size = new System.Drawing.Size(93, 26);
-            this.tsmSlidingL.Text = "L";
-            this.tsmSlidingL.Click += new System.EventHandler(this.tsm_Click);
+            this.cmenuPanel.Size = new System.Drawing.Size(123, 28);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -565,23 +483,6 @@
             this.divCountToolStripMenuItem.Text = "Div-Count";
             this.divCountToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
-            // chkView
-            // 
-            this.chkView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkView.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkView.AutoSize = true;
-            this.chkView.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.chkView.FlatAppearance.BorderSize = 0;
-            this.chkView.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
-            this.chkView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkView.Location = new System.Drawing.Point(130, 4);
-            this.chkView.Name = "chkView";
-            this.chkView.Size = new System.Drawing.Size(47, 27);
-            this.chkView.TabIndex = 2;
-            this.chkView.Text = "View";
-            this.chkView.UseVisualStyleBackColor = false;
-            this.chkView.CheckedChanged += new System.EventHandler(this.chkView_CheckedChanged);
-            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -602,6 +503,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain2_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.pnlControlMain.ResumeLayout(false);
@@ -641,17 +543,6 @@
         private System.Windows.Forms.DataGridViewImageColumn ImageCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn DescCol;
         private System.Windows.Forms.ContextMenuStrip cmenuPanel;
-        private System.Windows.Forms.ToolStripMenuItem typeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmFixed;
-        private System.Windows.Forms.ToolStripMenuItem casementToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmCasementR;
-        private System.Windows.Forms.ToolStripMenuItem tsmCasementL;
-        private System.Windows.Forms.ToolStripMenuItem awningToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmAwningNorm;
-        private System.Windows.Forms.ToolStripMenuItem tsmAwningInvrt;
-        private System.Windows.Forms.ToolStripMenuItem slidingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmSlidingR;
-        private System.Windows.Forms.ToolStripMenuItem tsmSlidingL;
         private System.Windows.Forms.ToolStrip tsMain;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;

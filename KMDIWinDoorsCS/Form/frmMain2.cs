@@ -68,14 +68,14 @@ namespace KMDIWinDoorsCS
             prev_pnlSel_parent = pnlSel_parent;
             prev_pnltypeSel = pnltypeSel;
 
-            if (pnlSel.Name.Contains("Panel"))
-            {
-                typeToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                typeToolStripMenuItem.Visible = false;
-            }
+            //if (pnlSel.Name.Contains("Panel"))
+            //{
+            //    typeToolStripMenuItem.Visible = true;
+            //}
+            //else
+            //{
+            //    typeToolStripMenuItem.Visible = false;
+            //}
 
             if (e.Button == MouseButtons.Right)
             {
@@ -110,8 +110,15 @@ namespace KMDIWinDoorsCS
             }
 
             string windowtype = pnl.AccessibleDescription;
-            if (windowtype == "Fixed")
+            Rectangle sashRect = new Rectangle(sashPoint,
+                                               new Size(fpnl_sashW, fpnl_sashH));
+
+            if (windowtype.Contains("Fixed"))
             {
+                if (windowtype == "FixeddSash")
+                {
+                    g.DrawRectangle(blkPen, sashRect);
+                }
                 Font drawFont = new Font("Segoe UI", 12);
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.Alignment = StringAlignment.Center;
@@ -120,8 +127,6 @@ namespace KMDIWinDoorsCS
             }
             else
             {
-                Rectangle sashRect = new Rectangle(sashPoint,
-                                                   new Size(fpnl_sashW, fpnl_sashH));
                 Pen dgrayPen = new Pen(Color.DimGray);
                     dgrayPen.DashStyle = DashStyle.Dash;
                     dgrayPen.Width = 3;
@@ -187,6 +192,17 @@ namespace KMDIWinDoorsCS
                     }
                     g.DrawLine(new Pen(Color.Black), new PointF(arwStart_x1, center_y1),
                                                      new PointF(arwEnd_x2, center_y1));
+                }
+                else if (windowtype == "Tilt&Turn")
+                {
+                    g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                        new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))));
+                    g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))),
+                                         new Point(sashPoint.X, fpnl_sashH + sashPoint.Y));
+                    g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
+                                         new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH));
+                    g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH),
+                                         new Point(sashPoint.X + fpnl_sashW, sashPoint.Y));
                 }
             }
 
@@ -454,6 +470,8 @@ namespace KMDIWinDoorsCS
         {
             RadioButton rd = (RadioButton)sender;
             int wndr_padd = 0;
+            Panel pnl = new Panel();
+
             if (rd.Checked == true)
             {
                 if (rd.Name.Contains("rdWindow_"))
@@ -464,12 +482,37 @@ namespace KMDIWinDoorsCS
                 {
                     wndr_padd = 33;
                 }
-                var c = csfunc.GetAll(flpMain, typeof(Panel), rd.Tag.ToString());
-                foreach (var ctrl in c)
+
+                Panel frame = new Panel();
+                var c = csfunc.GetAll(flpMain, typeof(Panel), rd.Tag.ToString());//Searching for Frame
+                foreach (Panel ctrl in c)
                 {
                     ctrl.Padding = new Padding(wndr_padd);
                     ctrl.Tag = wndr_padd;
                     ctrl.Invalidate();
+                    frame = ctrl;
+                }
+
+                var pnlcol = csfunc.GetAll(frame, typeof(Panel), "Panel");
+                foreach (Panel ctrl in pnlcol)
+                {
+                    pnl = ctrl;
+                }
+            }
+
+            var numcol = csfunc.GetAll(rd.Parent, typeof(NumericUpDown), "pnum");
+            foreach (NumericUpDown ctrl in numcol)
+            {
+                if (ctrl.Enabled == false)
+                {
+                    if (ctrl.Name.Contains("Width"))
+                    {
+                        ctrl.Value = pnl.Width;
+                    }
+                    else if (ctrl.Name.Contains("Height"))
+                    {
+                        ctrl.Value = pnl.Height;
+                    }
                 }
             }
         }
@@ -478,8 +521,9 @@ namespace KMDIWinDoorsCS
         {
             NumericUpDown num = (NumericUpDown)sender;
             string frameName = num.Parent.Name;
+            Panel snglPnl = new Panel();
 
-            var c = csfunc.GetAll(flpMain, typeof(Panel), frameName);
+            var c = csfunc.GetAll(flpMain, typeof(Panel), frameName); // Searching for Frame
             foreach (var ctrl in c)
             {
                 if (num.Name.Contains("numfWidth_"))
@@ -495,6 +539,7 @@ namespace KMDIWinDoorsCS
                 var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
                 foreach (Panel pnl in PnlCollect)
                 {
+                    snglPnl = pnl;
                     pnl.Invalidate();
                 }
 
@@ -505,6 +550,27 @@ namespace KMDIWinDoorsCS
                 }
             }
 
+            var numcol = csfunc.GetAll(num.Parent, typeof(NumericUpDown)); //Searching for NumericUpDown of Single Panel
+            foreach (NumericUpDown ctrl in numcol)
+            {
+                if (ctrl.Enabled == false)
+                {
+                    if (num.Name.Contains("numfWidth_"))
+                    {
+                        if (ctrl.Name.Contains("Width"))
+                        {
+                            ctrl.Value = snglPnl.Width;
+                        }
+                    }
+                    else if (num.Name.Contains("numfHeight_"))
+                    {
+                        if (ctrl.Name.Contains("Height"))
+                        {
+                            ctrl.Value = snglPnl.Height;
+                        }
+                    }
+                }
+            }
         }
 
         private Panel CreatePanelProperties(string name,
@@ -549,6 +615,7 @@ namespace KMDIWinDoorsCS
             cbx.Items.Add("Awning");
             cbx.Items.Add("Casement");
             cbx.Items.Add("Sliding");
+            cbx.Items.Add("Tilt&Turn");
             cbx.Location = new Point(7, 50);
             cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
             Pprop.Controls.Add(cbx);
@@ -561,7 +628,7 @@ namespace KMDIWinDoorsCS
             chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
             chk.FlatStyle = FlatStyle.Flat;
             chk.Font = new Font("Segoe UI", 8.25f);
-            chk.Size = new Size(43, 21);
+            chk.Size = new Size(50, 21);
             chk.TextAlign = ContentAlignment.MiddleCenter;
             chk.Location = new Point(90, 50);
             chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
@@ -576,7 +643,7 @@ namespace KMDIWinDoorsCS
             Pprop.Controls.Add(lbl);
 
             num = new NumericUpDown();
-            num.Name = "numWidth_" + count;
+            num.Name = "pnumWidth_" + count;
             num.AutoSize = false;
             num.Font = new Font("Segoe UI", 8.25f);
             num.Size = new Size(135, 26);
@@ -597,7 +664,7 @@ namespace KMDIWinDoorsCS
             Pprop.Controls.Add(lbl);
 
             num = new NumericUpDown();
-            num.Name = "numHeight_" + count;
+            num.Name = "pnumHeight_" + count;
             num.AutoSize = false;
             num.Font = new Font("Segoe UI", 8.25f);
             num.Size = new Size(135, 26);
@@ -631,6 +698,7 @@ namespace KMDIWinDoorsCS
                 pnl.Height = Convert.ToInt32(pnum.Value);
             }
             pnl.Invalidate();
+
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -646,6 +714,10 @@ namespace KMDIWinDoorsCS
                 {
                     chk.Text = "Invrt";
                 }
+                else if (chk.Text == "None")
+                {
+                    chk.Text = "dSash";
+                }
             }
             else if (chk.Checked == false)
             {
@@ -656,6 +728,10 @@ namespace KMDIWinDoorsCS
                 else if (chk.Text == "Invrt")
                 {
                     chk.Text = "Norm";
+                }
+                else if (chk.Text == "dSash")
+                {
+                    chk.Text = "None";
                 }
             }
 
@@ -698,6 +774,11 @@ namespace KMDIWinDoorsCS
             }
             else if (cbx.Text == "Fixed")
             {
+                chk.Enabled = true;
+                chk.Text = "None";
+            }
+            else if (cbx.Text == "Tilt&Turn")
+            {
                 chk.Enabled = false;
                 chk.Text = "";
             }
@@ -722,6 +803,8 @@ namespace KMDIWinDoorsCS
             splitContainer1.SplitterDistance = 150;
             flpMain.Size = new Size(400,400);
             pnlProperties.Size = new Size(185, 629);
+
+            pnlMain.Size = new Size(924, 800);
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -993,39 +1076,39 @@ namespace KMDIWinDoorsCS
             }
         }
         
-        private void tsm_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-            if (tsm == tsmFixed)
-            {
-                pnlSel.Tag = "Fixed";
-            }
-            else if (tsm == tsmCasementR)
-            {
-                pnlSel.Tag = "CasementR";
-            }
-            else if (tsm == tsmCasementL)
-            {
-                pnlSel.Tag = "CasementL";
-            }
-            else if (tsm == tsmAwningNorm)
-            {
-                pnlSel.Tag = "AwningNorm";
-            }
-            else if (tsm == tsmAwningInvrt)
-            {
-                pnlSel.Tag = "AwningInvrt";
-            }
-            else if (tsm == tsmSlidingR)
-            {
-                pnlSel.Tag = "SlidingR";
-            }
-            else if (tsm == tsmSlidingL)
-            {
-                pnlSel.Tag = "SlidingL";
-            }
-            pnlSel.Invalidate();
-        }
+        //private void tsm_Click(object sender, EventArgs e)
+        //{
+        //    ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
+        //    if (tsm == tsmFixed)
+        //    {
+        //        pnlSel.Tag = "Fixed";
+        //    }
+        //    else if (tsm == tsmCasementR)
+        //    {
+        //        pnlSel.Tag = "CasementR";
+        //    }
+        //    else if (tsm == tsmCasementL)
+        //    {
+        //        pnlSel.Tag = "CasementL";
+        //    }
+        //    else if (tsm == tsmAwningNorm)
+        //    {
+        //        pnlSel.Tag = "AwningNorm";
+        //    }
+        //    else if (tsm == tsmAwningInvrt)
+        //    {
+        //        pnlSel.Tag = "AwningInvrt";
+        //    }
+        //    else if (tsm == tsmSlidingR)
+        //    {
+        //        pnlSel.Tag = "SlidingR";
+        //    }
+        //    else if (tsm == tsmSlidingL)
+        //    {
+        //        pnlSel.Tag = "SlidingL";
+        //    }
+        //    pnlSel.Invalidate();
+        //}
         
         private void tsSize_DoubleClick(object sender, EventArgs e)
         {
