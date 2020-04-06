@@ -593,11 +593,11 @@ namespace KMDIWinDoorsCS
 
         private void trkbrZoom_ValueChanged(object sender, EventArgs e)
         {
-            //zoom = trkbrZoom.Value / 100f;
-            //lblZoom.Text = trkbrZoom.Value.ToString() + "%";
-            //float new_fwidth, new_fheight;
-            //new_fwidth = fwidth * zoom;
-            //new_fheight = fheight * zoom;
+            zoom = trkbrZoom.Value / 100f;
+            lblZoom.Text = trkbrZoom.Value.ToString() + "%";
+            float new_fwidth, new_fheight;
+            new_fwidth = fwidth * zoom;
+            new_fheight = fheight * zoom;
 
             ////fwidth = Convert.ToInt32(fwidth * zoom);
             ////fheight = Convert.ToInt32(fheight * zoom);
