@@ -404,6 +404,7 @@ namespace KMDIWinDoorsCS
             fprop.Dock = DockStyle.Top;
             fprop.Padding = new Padding(0, 7, 0, 0);
             fprop.Margin = new Padding(3, 4, 3, 4);
+            fprop.SizeChanged += new EventHandler(flpProp_SizeChanged);
 
             lbl = new Label();
             lbl.Text = name + " " + count;
@@ -477,6 +478,48 @@ namespace KMDIWinDoorsCS
             return fprop;
         }
 
+        private string UpdateLblDescription(FlowLayoutPanel flp)
+        {
+            string desc = "";
+            string wndrtype = "",
+                   wndrcol = "";
+
+            var pnlcol = csfunc.GetAll(flp, typeof(Panel), "Panel");
+            if (pnlcol.Count() != 0)
+            {
+                foreach (Panel item in pnlcol)
+                {
+                    foreach (var ctrl in item.Controls)
+                    {
+                        if (ctrl.GetType() == typeof(ComboBox))
+                        {
+                            ComboBox cbx = (ComboBox)ctrl;
+                            wndrcol += cbx.Text + ", ";
+                        }
+                    }
+                }
+            }
+
+            var rdcol = csfunc.GetAll(flp, typeof(RadioButton));
+            foreach (RadioButton item in rdcol)
+            {
+                if (item.Checked == true)
+                {
+                    wndrtype = item.Text;
+                }
+            }
+
+            desc = pnlcol.Count().ToString() + " Panel(s) " + wndrtype + "\n(" + wndrcol + ")";
+
+            return desc;
+        }
+
+        private void flpProp_SizeChanged(object sender, EventArgs e)
+        {
+            FlowLayoutPanel flp = (FlowLayoutPanel)sender;
+            lblDesc.Text = UpdateLblDescription(flp);
+        }
+
         public void rd_CheckChanged(object sender, EventArgs e)
         {
             RadioButton rd = (RadioButton)sender;
@@ -526,12 +569,19 @@ namespace KMDIWinDoorsCS
                     }
                 }
             }
+
+            FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
+            lblDesc.Text = UpdateLblDescription(flp);
+
+            flpMain.Invalidate();
         }
 
         private void num_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown num = (NumericUpDown)sender;
-            string frameName = num.Parent.Name;
+            string frameName = num.Parent.Name,
+                   str_width = "",
+                   str_height = "";
             Panel snglPnl = new Panel();
 
             var c = csfunc.GetAll(flpMain, typeof(Panel), frameName); // Searching for Frame
@@ -561,6 +611,7 @@ namespace KMDIWinDoorsCS
                 }
             }
 
+
             var numcol = csfunc.GetAll(num.Parent, typeof(NumericUpDown)); //Searching for NumericUpDown of Single Panel
             foreach (NumericUpDown ctrl in numcol)
             {
@@ -581,7 +632,19 @@ namespace KMDIWinDoorsCS
                         }
                     }
                 }
+                
+                if (ctrl.Name.Contains("numfWidth_"))
+                {
+                    str_width = ctrl.Value.ToString();
+                }
+                else if (ctrl.Name.Contains("numfHeight_"))
+                {
+                    str_height = ctrl.Value.ToString();
+                }
             }
+            lblDimension.Text = str_width + " x " + str_height;
+
+            flpMain.Invalidate();
         }
 
         private Panel CreatePanelProperties(string name,
@@ -709,7 +772,7 @@ namespace KMDIWinDoorsCS
                 pnl.Height = Convert.ToInt32(pnum.Value);
             }
             pnl.Invalidate();
-
+            flpMain.Invalidate();
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -759,6 +822,7 @@ namespace KMDIWinDoorsCS
                 ctrl.AccessibleDescription = cbx.Text + chk.Text;
                 ctrl.Invalidate();
             }
+            flpMain.Invalidate();
         }
 
         private void cbx_SelectedIndexChanged(object sender, EventArgs e)
@@ -795,6 +859,12 @@ namespace KMDIWinDoorsCS
                 ctrl.AccessibleDescription = cbx.Text + chk.Text;
                 ctrl.Invalidate();
             }
+
+
+            FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
+            lblDesc.Text = UpdateLblDescription(flp);
+
+            flpMain.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1058,7 +1128,7 @@ namespace KMDIWinDoorsCS
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
         }
-        
+
         private void dgvControls_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -1113,6 +1183,20 @@ namespace KMDIWinDoorsCS
                                                                    0,
                                                                    fpnl.ClientRectangle.Width - w,
                                                                    fpnl.ClientRectangle.Height - w));
+            //THIS CODE IS TO SAVE IMAGE IN PnlMain
+            try
+            {
+                Bitmap bm = new Bitmap(flpMain.Size.Width, flpMain.Size.Height);
+                flpMain.DrawToBitmap(bm, new Rectangle(0, 0,
+                                                       flpMain.Size.Width, flpMain.Size.Height));
+
+                //bm.Save(@"D:\TestDrawToBitmap.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                pbox1.Image = bm;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1185,25 +1269,7 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //THIS CODE IS TO SAVE IMAGE IN PnlMain
-            try
-            {
-                Bitmap bm = new Bitmap(flpMain.Size.Width, flpMain.Size.Height);
-                flpMain.DrawToBitmap(bm, new Rectangle(0,0,
-                                                       flpMain.Size.Width, flpMain.Size.Height));
-
-                bm.Save(@"D:\TestDrawToBitmap.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
-                pbox1.Image = bm;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        
         private void pnlMain_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -1350,6 +1416,8 @@ namespace KMDIWinDoorsCS
                                                              defwndr);
                 pnlPropertiesBody.Controls.Add(prop);
                 prop.BringToFront();
+
+                lblDimension.Text = defwidth + " x " + defheight;
             }
 
         }

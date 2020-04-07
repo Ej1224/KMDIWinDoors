@@ -39,7 +39,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
             this.pnlProperties = new System.Windows.Forms.Panel();
             this.chkView = new System.Windows.Forms.CheckBox();
             this.pnlPropertiesBody = new System.Windows.Forms.Panel();
@@ -53,6 +52,7 @@
             this.pnlItems = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pbox1 = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.lblItem1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.cmenuPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -73,6 +73,8 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
+            this.lblDimension = new System.Windows.Forms.Label();
+            this.lblDesc = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -86,6 +88,7 @@
             this.pnlItems.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbox1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.cmenuPanel.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.stsEditor.SuspendLayout();
@@ -193,7 +196,6 @@
             this.pnlMain.AutoScroll = true;
             this.pnlMain.AutoSize = true;
             this.pnlMain.Controls.Add(this.flpMain);
-            this.pnlMain.Controls.Add(this.button1);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(185, 0);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(4);
@@ -218,17 +220,6 @@
             this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(773, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pnlProperties
             // 
@@ -350,11 +341,12 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.pbox1);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.lblItem1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(222, 257);
+            this.panel1.Size = new System.Drawing.Size(222, 373);
             this.panel1.TabIndex = 1;
             // 
             // pbox1
@@ -364,9 +356,21 @@
             this.pbox1.Location = new System.Drawing.Point(0, 35);
             this.pbox1.Name = "pbox1";
             this.pbox1.Size = new System.Drawing.Size(220, 220);
-            this.pbox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbox1.TabIndex = 1;
             this.pbox1.TabStop = false;
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.lblDesc);
+            this.panel2.Controls.Add(this.lblDimension);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 255);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(2);
+            this.panel2.Size = new System.Drawing.Size(220, 116);
+            this.panel2.TabIndex = 2;
             // 
             // lblItem1
             // 
@@ -564,6 +568,29 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
+            // lblDimension
+            // 
+            this.lblDimension.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDimension.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblDimension.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDimension.Location = new System.Drawing.Point(2, 2);
+            this.lblDimension.Name = "lblDimension";
+            this.lblDimension.Size = new System.Drawing.Size(216, 23);
+            this.lblDimension.TabIndex = 0;
+            this.lblDimension.Text = "400 x 400";
+            this.lblDimension.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblDesc
+            // 
+            this.lblDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDesc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesc.Location = new System.Drawing.Point(2, 25);
+            this.lblDesc.Name = "lblDesc";
+            this.lblDesc.Size = new System.Drawing.Size(216, 89);
+            this.lblDesc.TabIndex = 1;
+            this.lblDesc.Text = "Description";
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -599,6 +626,7 @@
             this.pnlItems.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbox1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.cmenuPanel.ResumeLayout(false);
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
@@ -654,7 +682,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pbox1;
         internal System.Windows.Forms.Label lblItem1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblDimension;
+        private System.Windows.Forms.Label lblDesc;
     }
 }
 
