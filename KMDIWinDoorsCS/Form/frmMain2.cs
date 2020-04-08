@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.Text.RegularExpressions;
 
 namespace KMDIWinDoorsCS
 {
@@ -482,9 +483,13 @@ namespace KMDIWinDoorsCS
         {
             string desc = "";
             string wndrtype = "",
-                   wndrcol = "";
+                   wndrcol = "",
+                   str_wndr = "";
+            //int loop_cntr = 0;
 
-            var pnlcol = csfunc.GetAll(flp, typeof(Panel), "Panel");
+            var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), "Panel");
+            int cnt_pnlcol = pnlcol.Count();
+
             if (pnlcol.Count() != 0)
             {
                 foreach (Panel item in pnlcol)
@@ -494,22 +499,72 @@ namespace KMDIWinDoorsCS
                         if (ctrl.GetType() == typeof(ComboBox))
                         {
                             ComboBox cbx = (ComboBox)ctrl;
-                            wndrcol += cbx.Text + ", ";
+                            wndrcol += cbx.Text;
                         }
                     }
                 }
             }
+            
+            int countAwng = Regex.Matches(wndrcol, "Awning").Count;
+            int countCasm = Regex.Matches(wndrcol, "Casement").Count;
+            int countFixd = Regex.Matches(wndrcol, "Fixed").Count;
+            int countSlid = Regex.Matches(wndrcol, "Sliding").Count;
+            int countTntr = Regex.Matches(wndrcol, "Tilt&Turn").Count;
 
-            var rdcol = csfunc.GetAll(flp, typeof(RadioButton));
+            if (countAwng > 0)
+            {
+                str_wndr += countAwng + " Awning";
+            }
+            if (countCasm > 0)
+            {
+                str_wndr += ", " + countCasm + " Casement";
+            }
+            if (countFixd > 0)
+            {
+                str_wndr += ", " + countFixd + " Fixed";
+            }
+            if (countSlid > 0)
+            {
+                str_wndr += ", " + countSlid + " Sliding";
+            }
+            if (countTntr > 0)
+            {
+                str_wndr += ", " + countTntr + " Tilt & Turn";
+            }
+
+            //if (cnt_pnlcol > loop_cntr)
+            //{
+            //    wndrcol += cbx.Text + ", ";
+            //}
+            //else if (cnt_pnlcol == loop_cntr)
+            //{
+            //    wndrcol += cbx.Text;
+            //}
+
+            string wndrloop = "";
+            var rdcol = csfunc.GetAll(pnlPropertiesBody, typeof(RadioButton));
             foreach (RadioButton item in rdcol)
             {
                 if (item.Checked == true)
                 {
-                    wndrtype = item.Text;
+                    wndrloop += item.Text;
                 }
             }
 
-            desc = pnlcol.Count().ToString() + " Panel(s) " + wndrtype + "\n(" + wndrcol + ")";
+            if (wndrloop.Contains("Window") && wndrloop.Contains("Door"))
+            {
+                wndrtype = "Window/Door";
+            }
+            else if (wndrloop.Contains("Window") && wndrloop.Contains("Door") == false)
+            {
+                wndrtype = "Window";
+            }
+            else if (wndrloop.Contains("Window") == false && wndrloop.Contains("Door"))
+            {
+                wndrtype = "Door";
+            }
+
+            desc = pnlcol.Count().ToString() + " Panel(s) " + wndrtype + "\n(" + str_wndr.TrimStart(' ',',') + ")";
 
             return desc;
         }
@@ -642,7 +697,6 @@ namespace KMDIWinDoorsCS
                     str_height = ctrl.Value.ToString();
                 }
             }
-            lblDimension.Text = str_width + " x " + str_height;
 
             flpMain.Invalidate();
         }
@@ -878,11 +932,8 @@ namespace KMDIWinDoorsCS
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
 
-            //pnlDraw.Size = new Size(600, 600);
-            flpMain.Size = new Size(400, 400);
+            flpMain.Size = new Size(0, 0);
             pnlProperties.Size = new Size(185, 629);
-
-            //pnlMain.Size = new Size(924, 800);
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -907,6 +958,7 @@ namespace KMDIWinDoorsCS
                 flpMain.Location = new Point(cX, cY);
             }
             tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+            lblDimension.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
             flpMain.Invalidate();
             pnlMain.Invalidate();
@@ -1166,6 +1218,8 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
+
+                lblDimension.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
             }
         }
         
@@ -1183,14 +1237,13 @@ namespace KMDIWinDoorsCS
                                                                    0,
                                                                    fpnl.ClientRectangle.Width - w,
                                                                    fpnl.ClientRectangle.Height - w));
-            //THIS CODE IS TO SAVE IMAGE IN PnlMain
+            //THIS CODE IS TO SAVE IMAGE from PnlMain
             try
             {
                 Bitmap bm = new Bitmap(flpMain.Size.Width, flpMain.Size.Height);
                 flpMain.DrawToBitmap(bm, new Rectangle(0, 0,
                                                        flpMain.Size.Width, flpMain.Size.Height));
 
-                //bm.Save(@"D:\TestDrawToBitmap.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
                 pbox1.Image = bm;
             }
             catch (Exception ex)
@@ -1209,6 +1262,8 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
+
+                lblDimension.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
             }
         }
 
@@ -1269,83 +1324,106 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
         }
-        
+
+        bool paint_pnlMain = false;
+
         private void pnlMain_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            //g.ScaleTransform(zoom, zoom);
+            if (paint_pnlMain == true)
+            {
+                Graphics g = e.Graphics;
+                //g.ScaleTransform(zoom, zoom);
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            int flp_X = flpMain.Location.X,
-                flp_Y = flpMain.Location.Y,
-                flp_Width = flpMain.Width,
-                flp_Height = flpMain.Height;
+                int flp_X = flpMain.Location.X,
+                    flp_Y = flpMain.Location.Y,
+                    flp_Width = flpMain.Width,
+                    flp_Height = flpMain.Height;
 
-            string dmnsion_w = flpMain.Width.ToString();
-            Point dmnsion_w_startP = new Point(flp_X, flp_Y - 15);
-            Point dmnsion_w_endP = new Point(flp_X + flp_Width, flp_Y - 15);
-            Font dmnsion_font = new Font("Segoe UI", 12);
+                string dmnsion_w = flpMain.Width.ToString();
+                Point dmnsion_w_startP = new Point(flp_X, flp_Y - 15);
+                Point dmnsion_w_endP = new Point(flp_X + flp_Width, flp_Y - 15);
+                Font dmnsion_font = new Font("Segoe UI", 12);
 
-            Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
-            double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
+                Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
+                double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
 
-            //arrow for WIDTH
-            Point[] arrwhd_pnts_W1 =
-             {
+                //arrow for WIDTH
+                Point[] arrwhd_pnts_W1 =
+                 {
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
                 dmnsion_w_startP,
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
             };
-            Point[] arrwhd_pnts_W2 =
-            {
+                Point[] arrwhd_pnts_W2 =
+                {
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
                 dmnsion_w_endP,
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
             };
 
-            g.DrawLines(Pens.Red, arrwhd_pnts_W1);
-            g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
-            g.DrawLines(Pens.Red, arrwhd_pnts_W2);
-            TextRenderer.DrawText(g,
-                                  dmnsion_w,
-                                  dmnsion_font,
-                                  new Point((int)(mid - (s.Width / 2)),
-                                  dmnsion_w_startP.Y - s.Height),
-                                  Color.Black);
-            //arrow for WIDTH
+                g.DrawLines(Pens.Red, arrwhd_pnts_W1);
+                g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
+                g.DrawLines(Pens.Red, arrwhd_pnts_W2);
+                TextRenderer.DrawText(g,
+                                      dmnsion_w,
+                                      dmnsion_font,
+                                      new Point((int)(mid - (s.Width / 2)),
+                                      dmnsion_w_startP.Y - s.Height),
+                                      Color.Black);
+                //arrow for WIDTH
 
 
-            //arrow for HEIGHT
-            string dmnsion_h = flpMain.Height.ToString();
-            Point dmnsion_h_startP = new Point(flp_X - 15, flp_Y);
-            Point dmnsion_h_endP = new Point(flp_X - 15, flp_Y + flp_Height);
+                //arrow for HEIGHT
+                string dmnsion_h = flpMain.Height.ToString();
+                Point dmnsion_h_startP = new Point(flp_X - 15, flp_Y);
+                Point dmnsion_h_endP = new Point(flp_X - 15, flp_Y + flp_Height);
 
-            Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
-            double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
+                Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
+                double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
 
-            Point[] arrwhd_pnts_H1 =
-            {
+                Point[] arrwhd_pnts_H1 =
+                {
                 new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
                 dmnsion_h_startP,
                 new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
             };
-            Point[] arrwhd_pnts_H2 =
-            {
+                Point[] arrwhd_pnts_H2 =
+                {
                 new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
                 dmnsion_h_endP,
                 new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
             };
 
-            g.DrawLines(Pens.Red, arrwhd_pnts_H1);
-            g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
-            g.DrawLines(Pens.Red, arrwhd_pnts_H2);
-            TextRenderer.DrawText(g,
-                                  dmnsion_h,
-                                  dmnsion_font,
-                                  new Point(dmnsion_h_startP.X - s2.Width, (int)(mid2 - (s2.Height / 2))),
-                                  Color.Black);
-            //arrow for HEIGHT
+                g.DrawLines(Pens.Red, arrwhd_pnts_H1);
+                g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
+                g.DrawLines(Pens.Red, arrwhd_pnts_H2);
+                TextRenderer.DrawText(g,
+                                      dmnsion_h,
+                                      dmnsion_font,
+                                      new Point(dmnsion_h_startP.X - s2.Width, (int)(mid2 - (s2.Height / 2))),
+                                      Color.Black);
+                //arrow for HEIGHT
+            }
+        }
+
+        private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            paint_pnlMain = true;
+            tsMain.Enabled = true;
+            flpMain.Size = new Size(400, 400);
+            flpMain.Visible = true;
+            pnlMain.Invalidate();
+        }
+
+        private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            paint_pnlMain = true;
+            tsMain.Enabled = true;
+            flpMain.Size = new Size(400, 400);
+            flpMain.Visible = true;
+            pnlMain.Invalidate();
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -1416,8 +1494,6 @@ namespace KMDIWinDoorsCS
                                                              defwndr);
                 pnlPropertiesBody.Controls.Add(prop);
                 prop.BringToFront();
-
-                lblDimension.Text = defwidth + " x " + defheight;
             }
 
         }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -53,6 +53,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pbox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblDesc = new System.Windows.Forms.Label();
+            this.lblDimension = new System.Windows.Forms.Label();
             this.lblItem1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.cmenuPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -73,8 +75,6 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
-            this.lblDimension = new System.Windows.Forms.Label();
-            this.lblDesc = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -139,14 +139,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 35);
             this.dgvControls.Margin = new System.Windows.Forms.Padding(4);
@@ -217,6 +217,7 @@
             this.flpMain.Name = "flpMain";
             this.flpMain.Size = new System.Drawing.Size(400, 400);
             this.flpMain.TabIndex = 1;
+            this.flpMain.Visible = false;
             this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
@@ -299,20 +300,22 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.c70ToolStripMenuItem.Text = "C70";
+            this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.premiLineToolStripMenuItem.Text = "PremiLine";
+            this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.premiLineToolStripMenuItem_Click);
             // 
             // pnlRight
             // 
@@ -372,6 +375,30 @@
             this.panel2.Size = new System.Drawing.Size(220, 116);
             this.panel2.TabIndex = 2;
             // 
+            // lblDesc
+            // 
+            this.lblDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDesc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesc.Location = new System.Drawing.Point(2, 25);
+            this.lblDesc.Name = "lblDesc";
+            this.lblDesc.Size = new System.Drawing.Size(216, 89);
+            this.lblDesc.TabIndex = 1;
+            this.lblDesc.Text = "Description";
+            this.lblDesc.UseMnemonic = false;
+            // 
+            // lblDimension
+            // 
+            this.lblDimension.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDimension.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblDimension.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDimension.Location = new System.Drawing.Point(2, 2);
+            this.lblDimension.Name = "lblDimension";
+            this.lblDimension.Size = new System.Drawing.Size(216, 23);
+            this.lblDimension.TabIndex = 0;
+            this.lblDimension.Text = "0 x 0";
+            this.lblDimension.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // lblItem1
             // 
             this.lblItem1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -413,6 +440,7 @@
             // 
             // tsMain
             // 
+            this.tsMain.Enabled = false;
             this.tsMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -568,29 +596,6 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
-            // lblDimension
-            // 
-            this.lblDimension.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDimension.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblDimension.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDimension.Location = new System.Drawing.Point(2, 2);
-            this.lblDimension.Name = "lblDimension";
-            this.lblDimension.Size = new System.Drawing.Size(216, 23);
-            this.lblDimension.TabIndex = 0;
-            this.lblDimension.Text = "400 x 400";
-            this.lblDimension.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblDesc
-            // 
-            this.lblDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDesc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDesc.Location = new System.Drawing.Point(2, 25);
-            this.lblDesc.Name = "lblDesc";
-            this.lblDesc.Size = new System.Drawing.Size(216, 89);
-            this.lblDesc.TabIndex = 1;
-            this.lblDesc.Text = "Description";
-            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -646,7 +651,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem c70ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem premiLineToolStripMenuItem;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlItems;
         internal System.Windows.Forms.Label label6;
@@ -685,6 +689,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblDimension;
         private System.Windows.Forms.Label lblDesc;
+        private System.Windows.Forms.ToolStripMenuItem premiLineToolStripMenuItem;
     }
 }
 
