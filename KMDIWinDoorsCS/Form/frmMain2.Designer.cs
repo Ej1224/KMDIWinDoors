@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -50,12 +50,6 @@
             this.premiLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlItems = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pbox1 = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.lblDesc = new System.Windows.Forms.Label();
-            this.lblDimension = new System.Windows.Forms.Label();
-            this.lblItem1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.cmenuPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,10 +79,6 @@
             this.pnlProperties.SuspendLayout();
             this.mnsMainMenu.SuspendLayout();
             this.pnlRight.SuspendLayout();
-            this.pnlItems.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbox1)).BeginInit();
-            this.panel2.SuspendLayout();
             this.cmenuPanel.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.stsEditor.SuspendLayout();
@@ -139,14 +129,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 35);
             this.dgvControls.Margin = new System.Windows.Forms.Padding(4);
@@ -300,20 +290,20 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
             this.premiLineToolStripMenuItem.Text = "PremiLine";
             this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.premiLineToolStripMenuItem_Click);
             // 
@@ -332,84 +322,12 @@
             // pnlItems
             // 
             this.pnlItems.AutoScroll = true;
-            this.pnlItems.Controls.Add(this.panel1);
             this.pnlItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlItems.Location = new System.Drawing.Point(0, 35);
             this.pnlItems.Margin = new System.Windows.Forms.Padding(4);
             this.pnlItems.Name = "pnlItems";
             this.pnlItems.Size = new System.Drawing.Size(222, 619);
             this.pnlItems.TabIndex = 3;
-            // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pbox1);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.lblItem1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(222, 373);
-            this.panel1.TabIndex = 1;
-            // 
-            // pbox1
-            // 
-            this.pbox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbox1.Location = new System.Drawing.Point(0, 35);
-            this.pbox1.Name = "pbox1";
-            this.pbox1.Size = new System.Drawing.Size(220, 220);
-            this.pbox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbox1.TabIndex = 1;
-            this.pbox1.TabStop = false;
-            // 
-            // panel2
-            // 
-            this.panel2.AutoScroll = true;
-            this.panel2.Controls.Add(this.lblDesc);
-            this.panel2.Controls.Add(this.lblDimension);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 255);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(2);
-            this.panel2.Size = new System.Drawing.Size(220, 116);
-            this.panel2.TabIndex = 2;
-            // 
-            // lblDesc
-            // 
-            this.lblDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDesc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDesc.Location = new System.Drawing.Point(2, 25);
-            this.lblDesc.Name = "lblDesc";
-            this.lblDesc.Size = new System.Drawing.Size(216, 89);
-            this.lblDesc.TabIndex = 1;
-            this.lblDesc.Text = "Description";
-            this.lblDesc.UseMnemonic = false;
-            // 
-            // lblDimension
-            // 
-            this.lblDimension.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDimension.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblDimension.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDimension.Location = new System.Drawing.Point(2, 2);
-            this.lblDimension.Name = "lblDimension";
-            this.lblDimension.Size = new System.Drawing.Size(216, 23);
-            this.lblDimension.TabIndex = 0;
-            this.lblDimension.Text = "0 x 0";
-            this.lblDimension.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblItem1
-            // 
-            this.lblItem1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblItem1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblItem1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItem1.Location = new System.Drawing.Point(0, 0);
-            this.lblItem1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblItem1.Name = "lblItem1";
-            this.lblItem1.Size = new System.Drawing.Size(220, 35);
-            this.lblItem1.TabIndex = 3;
-            this.lblItem1.Text = "Item 1";
             // 
             // label6
             // 
@@ -628,10 +546,6 @@
             this.mnsMainMenu.ResumeLayout(false);
             this.mnsMainMenu.PerformLayout();
             this.pnlRight.ResumeLayout(false);
-            this.pnlItems.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbox1)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.cmenuPanel.ResumeLayout(false);
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
@@ -683,12 +597,6 @@
         private System.Windows.Forms.CheckBox chkView;
         private System.Windows.Forms.TrackBar trkZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pbox1;
-        internal System.Windows.Forms.Label lblItem1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblDimension;
-        private System.Windows.Forms.Label lblDesc;
         private System.Windows.Forms.ToolStripMenuItem premiLineToolStripMenuItem;
     }
 }

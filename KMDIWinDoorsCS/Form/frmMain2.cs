@@ -572,7 +572,9 @@ namespace KMDIWinDoorsCS
         private void flpProp_SizeChanged(object sender, EventArgs e)
         {
             FlowLayoutPanel flp = (FlowLayoutPanel)sender;
-            lblDesc.Text = UpdateLblDescription(flp);
+            Label lbl = new Label();
+            lbl = itemsLblSearch("lbldesc_");
+            lbl.Text = UpdateLblDescription(flp);
         }
 
         public void rd_CheckChanged(object sender, EventArgs e)
@@ -626,7 +628,9 @@ namespace KMDIWinDoorsCS
             }
 
             FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
-            lblDesc.Text = UpdateLblDescription(flp);
+            Label lbl = new Label();
+            lbl = itemsLblSearch("lbldesc_");
+            lbl.Text = UpdateLblDescription(flp);
 
             flpMain.Invalidate();
         }
@@ -916,9 +920,95 @@ namespace KMDIWinDoorsCS
 
 
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
-            lblDesc.Text = UpdateLblDescription(flp);
+            Label lbl = new Label();
+            lbl = itemsLblSearch("lbldesc_");
+            lbl.Text = UpdateLblDescription(flp);
 
             flpMain.Invalidate();
+        }
+
+        private Panel CreateNewItem(string name,
+                                    int count,
+                                    string dimension,
+                                    string description)
+        {
+            Panel itmpnl,pnl;
+            Label lbl;
+            PictureBox pbox;
+
+            itmpnl = new Panel();
+            itmpnl.Name = name + "_" + count;
+            itmpnl.BorderStyle = BorderStyle.FixedSingle;
+            itmpnl.Dock = DockStyle.Top;
+            itmpnl.Height = 373;
+
+            lbl = new Label();
+            lbl.Name = itmpnl.Name;
+            lbl.BorderStyle = BorderStyle.FixedSingle;
+            lbl.Dock = DockStyle.Top;
+            lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lbl.Height = 20;
+            lbl.Margin = new Padding(4, 0, 4, 0);
+            lbl.Text = name + " " + count;
+            itmpnl.Controls.Add(lbl);
+
+            pbox = new PictureBox();
+            pbox.Name = itmpnl.Name;
+            pbox.BorderStyle = BorderStyle.FixedSingle;
+            pbox.Dock = DockStyle.Fill;
+            pbox.Size = new Size(220, 220);
+            pbox.SizeMode = PictureBoxSizeMode.Zoom;
+            itmpnl.Controls.Add(pbox);
+            pbox.BringToFront();
+
+            pnl = new Panel();
+            pnl.Name = "pnl_itmbot_" + count;
+            pnl.Dock = DockStyle.Bottom;
+            pnl.Padding = new Padding(2);
+            pnl.Height = 116;
+            itmpnl.Controls.Add(pnl);
+
+            lbl = new Label();
+            lbl.Name = "lbldimension_" + count;
+            lbl.BorderStyle = BorderStyle.FixedSingle;
+            lbl.Dock = DockStyle.Top;
+            lbl.Height = 23;
+            lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lbl.TextAlign = ContentAlignment.TopCenter;
+            lbl.Text = dimension;
+            lbl.Tag = itmpnl.Name;
+            pnl.Controls.Add(lbl);
+
+            lbl = new Label();
+            lbl.Name = "lbldesc_" + count;
+            lbl.AutoEllipsis = true;
+            lbl.BorderStyle = BorderStyle.FixedSingle;
+            lbl.Dock = DockStyle.Fill;
+            lbl.Font = new Font("Segoe UI", 8.25f);
+            lbl.UseMnemonic = false;
+            lbl.Text = description;
+            lbl.Tag = itmpnl.Name;
+
+            pnl.Controls.Add(lbl);
+            lbl.BringToFront();
+
+            return itmpnl;
+        }
+
+
+        private Label itemsLblSearch(string searchstr)
+        {
+            Label lbl = new Label();
+
+            var lblcoll = csfunc.GetAll(pnlItems, typeof(Label), searchstr);
+            foreach (Label ctrl in lblcoll)
+            {
+                if (ctrl.Tag.ToString() == flpMain.Tag.ToString())
+                {
+                    lbl = ctrl;
+                }
+            }
+            return lbl;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -958,7 +1048,9 @@ namespace KMDIWinDoorsCS
                 flpMain.Location = new Point(cX, cY);
             }
             tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-            lblDimension.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+            Label lbl = new Label();
+            lbl = itemsLblSearch("lbldimension_");
+            lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
             flpMain.Invalidate();
             pnlMain.Invalidate();
@@ -1219,10 +1311,12 @@ namespace KMDIWinDoorsCS
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
-                lblDimension.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
+                Label lbl = new Label();
+                lbl = itemsLblSearch("lbldimension_");
+                lbl.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
             }
         }
-        
+
         private void flpMain_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -1244,13 +1338,20 @@ namespace KMDIWinDoorsCS
                 flpMain.DrawToBitmap(bm, new Rectangle(0, 0,
                                                        flpMain.Size.Width, flpMain.Size.Height));
 
-                pbox1.Image = bm;
+                if (flpMain.Tag != null)
+                {
+                    var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain.Tag.ToString());
+                    foreach (PictureBox ctrl in pbxcoll)
+                    {
+                        ctrl.Image = bm;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+    }
 
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -1263,7 +1364,9 @@ namespace KMDIWinDoorsCS
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
-                lblDimension.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
+                Label lbl = new Label();
+                lbl = itemsLblSearch("lbldimension_");
+                lbl.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
             }
         }
 
@@ -1410,20 +1513,69 @@ namespace KMDIWinDoorsCS
 
         private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            paint_pnlMain = true;
-            tsMain.Enabled = true;
-            flpMain.Size = new Size(400, 400);
-            flpMain.Visible = true;
-            pnlMain.Invalidate();
+            int defwidth = 400,
+                defheight = 400,
+                pnl_cntr = pnlItems.Controls.Count + 1;
+
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = defwidth;
+            frm.numHeight.Value = defwidth;
+            
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                defwidth = Convert.ToInt32(frm.numWidth.Value);
+                defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                paint_pnlMain = true;
+                tsMain.Enabled = true;
+                flpMain.Size = new Size(defwidth, defheight);
+                flpMain.Visible = true;
+                flpMain.Controls.Clear();
+                pnlMain.Invalidate();
+
+                Panel pnl = new Panel();
+                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "Description");
+                pnlItems.Controls.Add(pnl);
+                pnl.BringToFront();
+
+                flpMain.Tag = "Item_" + pnl_cntr;
+
+                pnlPropertiesBody.Controls.Clear();
+            }
+
         }
 
         private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            paint_pnlMain = true;
-            tsMain.Enabled = true;
-            flpMain.Size = new Size(400, 400);
-            flpMain.Visible = true;
-            pnlMain.Invalidate();
+            int defwidth = 400,
+                defheight = 400,
+                pnl_cntr = pnlItems.Controls.Count + 1;
+
+            frmDimensions frm = new frmDimensions();
+            frm.numWidth.Value = defwidth;
+            frm.numHeight.Value = defwidth;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                defwidth = Convert.ToInt32(frm.numWidth.Value);
+                defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                paint_pnlMain = true;
+                tsMain.Enabled = true;
+                flpMain.Size = new Size(defwidth, defheight);
+                flpMain.Visible = true;
+                flpMain.Controls.Clear();
+                pnlMain.Invalidate();
+
+                Panel pnl = new Panel();
+                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "Description");
+                pnlItems.Controls.Add(pnl);
+                pnl.BringToFront();
+
+                flpMain.Tag = "Item_" + pnl_cntr;
+                pnlPropertiesBody.Controls.Clear();
+            }
+
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
