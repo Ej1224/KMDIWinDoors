@@ -479,7 +479,8 @@ namespace KMDIWinDoorsCS
             return fprop;
         }
 
-        private string UpdateLblDescription(FlowLayoutPanel flp)
+        private string UpdateLblDescription(FlowLayoutPanel flp,
+                                            string profiletype)
         {
             string desc = "";
             string wndrtype = "",
@@ -532,15 +533,6 @@ namespace KMDIWinDoorsCS
                 str_wndr += ", " + countTntr + " Tilt & Turn";
             }
 
-            //if (cnt_pnlcol > loop_cntr)
-            //{
-            //    wndrcol += cbx.Text + ", ";
-            //}
-            //else if (cnt_pnlcol == loop_cntr)
-            //{
-            //    wndrcol += cbx.Text;
-            //}
-
             string wndrloop = "";
             var rdcol = csfunc.GetAll(pnlPropertiesBody, typeof(RadioButton));
             foreach (RadioButton item in rdcol)
@@ -564,7 +556,7 @@ namespace KMDIWinDoorsCS
                 wndrtype = "Door";
             }
 
-            desc = pnlcol.Count().ToString() + " Panel(s) " + wndrtype + "\n(" + str_wndr.TrimStart(' ',',') + ")";
+            desc = profiletype + "\n" + pnlcol.Count().ToString() + " Panel " + wndrtype + "\n(" + str_wndr.TrimStart(' ',',') + ")";
 
             return desc;
         }
@@ -574,7 +566,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)sender;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp);
+            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
         }
 
         public void rd_CheckChanged(object sender, EventArgs e)
@@ -630,7 +622,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp);
+            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
 
             flpMain.Invalidate();
         }
@@ -922,7 +914,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp);
+            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
 
             flpMain.Invalidate();
         }
@@ -950,6 +942,16 @@ namespace KMDIWinDoorsCS
             lbl.Height = 20;
             lbl.Margin = new Padding(4, 0, 4, 0);
             lbl.Text = name + " " + count;
+            lbl.Cursor = Cursors.Hand;
+            lbl.ForeColor = Color.Blue;
+
+            if (itemselected != null)
+            {
+                itemselected.ForeColor = Color.Black;
+            }
+            itemselected = lbl;
+
+            lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
             itmpnl.Controls.Add(lbl);
 
             pbox = new PictureBox();
@@ -987,6 +989,7 @@ namespace KMDIWinDoorsCS
             lbl.Font = new Font("Segoe UI", 8.25f);
             lbl.UseMnemonic = false;
             lbl.Text = description;
+            lbl.AccessibleDescription = description;
             lbl.Tag = itmpnl.Name;
 
             pnl.Controls.Add(lbl);
@@ -995,6 +998,16 @@ namespace KMDIWinDoorsCS
             return itmpnl;
         }
 
+        Label itemselected = null;
+
+        private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            itemselected.ForeColor = Color.Black;
+
+            Label lbl = (Label)sender;
+            lbl.ForeColor = Color.Blue;
+            itemselected = lbl;
+        }
 
         private Label itemsLblSearch(string searchstr)
         {
@@ -1048,12 +1061,18 @@ namespace KMDIWinDoorsCS
                 flpMain.Location = new Point(cX, cY);
             }
             tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-            Label lbl = new Label();
-            lbl = itemsLblSearch("lbldimension_");
-            lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
-            flpMain.Invalidate();
-            pnlMain.Invalidate();
+            //if (flpMain.Tag != null)
+            //{
+            //    string flptag = flpMain.Tag.ToString();
+            //    string lastnum = flptag.Substring(flptag.Length - 1);
+            //    Label lbl = new Label();
+            //    lbl = itemsLblSearch("lbldimension_" + lastnum);
+            //    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+            //    flpMain.Invalidate();
+            //    pnlMain.Invalidate();
+            //}
         }
 
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
@@ -1311,9 +1330,17 @@ namespace KMDIWinDoorsCS
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
-                Label lbl = new Label();
-                lbl = itemsLblSearch("lbldimension_");
-                lbl.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
+                if (flpMain.Tag != null)
+                {
+                    string flptag = flpMain.Tag.ToString();
+                    string lastnum = flptag.Substring(flptag.Length - 1);
+                    Label lbl = new Label();
+                    lbl = itemsLblSearch("lbldimension_" + lastnum);
+                    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+                    flpMain.Invalidate();
+                    pnlMain.Invalidate();
+                }
             }
         }
 
@@ -1364,9 +1391,17 @@ namespace KMDIWinDoorsCS
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
-                Label lbl = new Label();
-                lbl = itemsLblSearch("lbldimension_");
-                lbl.Text = frm.numWidth.Value.ToString() + " x " + frm.numHeight.Value.ToString();
+                if (flpMain.Tag != null)
+                {
+                    string flptag = flpMain.Tag.ToString();
+                    string lastnum = flptag.Substring(flptag.Length - 1);
+                    Label lbl = new Label();
+                    lbl = itemsLblSearch("lbldimension_" + lastnum);
+                    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+                    flpMain.Invalidate();
+                    pnlMain.Invalidate();
+                }
             }
         }
 
@@ -1411,6 +1446,7 @@ namespace KMDIWinDoorsCS
         {
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
+
 
             float wd = flpMain.Width * zoom,
                   ht = flpMain.Height * zoom;
@@ -1534,7 +1570,7 @@ namespace KMDIWinDoorsCS
                 pnlMain.Invalidate();
 
                 Panel pnl = new Panel();
-                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "Description");
+                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "C70 Profile");
                 pnlItems.Controls.Add(pnl);
                 pnl.BringToFront();
 
@@ -1560,6 +1596,8 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
+                flpMain.Tag = "Item_" + pnl_cntr;
+
                 paint_pnlMain = true;
                 tsMain.Enabled = true;
                 flpMain.Size = new Size(defwidth, defheight);
@@ -1568,11 +1606,10 @@ namespace KMDIWinDoorsCS
                 pnlMain.Invalidate();
 
                 Panel pnl = new Panel();
-                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "Description");
+                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "PremiLine Profile");
                 pnlItems.Controls.Add(pnl);
                 pnl.BringToFront();
 
-                flpMain.Tag = "Item_" + pnl_cntr;
                 pnlPropertiesBody.Controls.Clear();
             }
 
@@ -1612,14 +1649,14 @@ namespace KMDIWinDoorsCS
 
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
-            int defwidth = 400,
-                defheight = 400,
+            int defwidth = flpMain.Width,
+                defheight = flpMain.Height,
                 defwndr = 0, //if window 52/2 = 26; elseif door 67/2 = 33
                 flp_cntr = flpMain.Controls.Count + 1;
 
             frmDimensions frm = new frmDimensions();
             frm.numWidth.Value = defwidth;
-            frm.numHeight.Value = defwidth;
+            frm.numHeight.Value = defheight;
 
             if (sender == tsBtnNwin)
             {
