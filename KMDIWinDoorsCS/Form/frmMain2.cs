@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace KMDIWinDoorsCS
 {
@@ -944,6 +947,7 @@ namespace KMDIWinDoorsCS
             lbl.Text = name + " " + count;
             lbl.Cursor = Cursors.Hand;
             lbl.ForeColor = Color.Blue;
+            lbl.Tag = count;
 
             if (itemselected != null)
             {
@@ -1005,6 +1009,11 @@ namespace KMDIWinDoorsCS
             itemselected.ForeColor = Color.Black;
 
             Label lbl = (Label)sender;
+            int item_id = Convert.ToInt32(lbl.Tag);
+
+            flpMain.Controls.Clear();
+            flpMain.Controls.Add(itemslist[item_id]);
+                        
             lbl.ForeColor = Color.Blue;
             itemselected = lbl;
         }
@@ -1023,7 +1032,7 @@ namespace KMDIWinDoorsCS
             }
             return lbl;
         }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -1547,6 +1556,8 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        IDictionary<int, Panel> itemslist = new Dictionary<int, Panel>();
+
         private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int defwidth = 400,
@@ -1578,7 +1589,6 @@ namespace KMDIWinDoorsCS
 
                 pnlPropertiesBody.Controls.Clear();
             }
-
         }
 
         private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1613,6 +1623,30 @@ namespace KMDIWinDoorsCS
                 pnlPropertiesBody.Controls.Clear();
             }
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //itemslist.Add("a", "one");
+            //itemslist.Add("a", "two");
+            //itemslist.Add("b", "two");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //for (int i = 0; i < itemslist.Count; i++)
+            //{
+            //    Console.WriteLine("Key: {0}, Value: {1}",
+            //                                            itemslist.Keys.ElementAt(i),
+            //                                            itemslist[itemslist.Keys.ElementAt(i)]);
+            //}
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            Panel wdw = (Panel)flpMain.Controls[0];
+            itemslist.Add(pnlItems.Controls.Count, wdw);
+            MessageBox.Show("Saved");
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)

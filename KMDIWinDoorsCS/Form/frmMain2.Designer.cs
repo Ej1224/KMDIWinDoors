@@ -38,6 +38,8 @@
             this.DescCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlProperties = new System.Windows.Forms.Panel();
             this.chkView = new System.Windows.Forms.CheckBox();
@@ -185,6 +187,8 @@
             // 
             this.pnlMain.AutoScroll = true;
             this.pnlMain.AutoSize = true;
+            this.pnlMain.Controls.Add(this.button2);
+            this.pnlMain.Controls.Add(this.button1);
             this.pnlMain.Controls.Add(this.flpMain);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(185, 0);
@@ -194,6 +198,26 @@
             this.pnlMain.TabIndex = 3;
             this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(705, 18);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(624, 18);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // flpMain
             // 
@@ -422,6 +446,7 @@
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // printToolStripButton
             // 
@@ -598,6 +623,8 @@
         private System.Windows.Forms.TrackBar trkZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
         private System.Windows.Forms.ToolStripMenuItem premiLineToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 
