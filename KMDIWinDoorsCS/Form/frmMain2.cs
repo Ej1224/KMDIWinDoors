@@ -938,7 +938,7 @@ namespace KMDIWinDoorsCS
             itmpnl.Height = 373;
 
             lbl = new Label();
-            lbl.Name = itmpnl.Name;
+            lbl.Name = "lbl_item" + count;
             lbl.BorderStyle = BorderStyle.FixedSingle;
             lbl.Dock = DockStyle.Top;
             lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
@@ -948,6 +948,7 @@ namespace KMDIWinDoorsCS
             lbl.Cursor = Cursors.Hand;
             lbl.ForeColor = Color.Blue;
             lbl.Tag = count;
+            lbl.AccessibleDescription = dimension;
 
             if (itemselected != null)
             {
@@ -1010,10 +1011,17 @@ namespace KMDIWinDoorsCS
 
             Label lbl = (Label)sender;
             int item_id = Convert.ToInt32(lbl.Tag);
+            string WxH = lbl.AccessibleDescription.Replace(" ","");
+            string[] dimension = WxH.Split('x');
+
+            flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
 
             flpMain.Controls.Clear();
             flpMain.Controls.Add(itemslist[item_id]);
-                        
+
+            pnlPropertiesBody.Controls.Clear();
+            pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
+
             lbl.ForeColor = Color.Blue;
             itemselected = lbl;
         }
@@ -1071,17 +1079,8 @@ namespace KMDIWinDoorsCS
             }
             tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
-            //if (flpMain.Tag != null)
-            //{
-            //    string flptag = flpMain.Tag.ToString();
-            //    string lastnum = flptag.Substring(flptag.Length - 1);
-            //    Label lbl = new Label();
-            //    lbl = itemsLblSearch("lbldimension_" + lastnum);
-            //    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-
-            //    flpMain.Invalidate();
-            //    pnlMain.Invalidate();
-            //}
+            pnlMain.Invalidate();
+            flpMain.Invalidate();
         }
 
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
@@ -1347,6 +1346,10 @@ namespace KMDIWinDoorsCS
                     lbl = itemsLblSearch("lbldimension_" + lastnum);
                     lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
+                    Label lblitm = new Label();
+                    lblitm = itemsLblSearch("lbl_item" + lastnum);
+                    lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
                     flpMain.Invalidate();
                     pnlMain.Invalidate();
                 }
@@ -1407,6 +1410,10 @@ namespace KMDIWinDoorsCS
                     Label lbl = new Label();
                     lbl = itemsLblSearch("lbldimension_" + lastnum);
                     lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+                    Label lblitm = new Label();
+                    lblitm = itemsLblSearch("lbl_item" + lastnum);
+                    lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
                     flpMain.Invalidate();
                     pnlMain.Invalidate();
@@ -1556,7 +1563,6 @@ namespace KMDIWinDoorsCS
             }
         }
 
-        IDictionary<int, Panel> itemslist = new Dictionary<int, Panel>();
 
         private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1624,28 +1630,18 @@ namespace KMDIWinDoorsCS
             }
 
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //itemslist.Add("a", "one");
-            //itemslist.Add("a", "two");
-            //itemslist.Add("b", "two");
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //for (int i = 0; i < itemslist.Count; i++)
-            //{
-            //    Console.WriteLine("Key: {0}, Value: {1}",
-            //                                            itemslist.Keys.ElementAt(i),
-            //                                            itemslist[itemslist.Keys.ElementAt(i)]);
-            //}
-        }
+        
+        IDictionary<int, Panel> itemslist = new Dictionary<int, Panel>();
+        IDictionary<int, Panel> propertieslist = new Dictionary<int, Panel>();
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             Panel wdw = (Panel)flpMain.Controls[0];
-            itemslist.Add(pnlItems.Controls.Count, wdw);
+            Panel prop = (Panel)pnlPropertiesBody.Controls[0];
+            int item_id = pnlItems.Controls.Count;
+
+            itemslist.Add(item_id, wdw);
+            propertieslist.Add(item_id, prop);
             MessageBox.Show("Saved");
         }
 
