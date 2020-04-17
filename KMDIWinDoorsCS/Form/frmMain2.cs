@@ -947,7 +947,7 @@ namespace KMDIWinDoorsCS
             lbl.Text = name + " " + count;
             lbl.Cursor = Cursors.Hand;
             lbl.ForeColor = Color.Blue;
-            lbl.Tag = count;
+            lbl.Tag = itmpnl.Name;
             lbl.AccessibleDescription = dimension;
 
             if (itemselected != null)
@@ -1010,17 +1010,29 @@ namespace KMDIWinDoorsCS
             itemselected.ForeColor = Color.Black;
 
             Label lbl = (Label)sender;
-            int item_id = Convert.ToInt32(lbl.Tag);
+            string lblname = lbl.Name;
+            //int indxOf_lblname = lblname.IndexOf("m");
+            string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
+            int item_id = Convert.ToInt32(getnum_lblname);
+
             string WxH = lbl.AccessibleDescription.Replace(" ","");
             string[] dimension = WxH.Split('x');
 
             flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-
+            flpMain.Tag = "Item_" + item_id;
             flpMain.Controls.Clear();
-            flpMain.Controls.Add(itemslist[item_id]);
+            foreach (Panel item in itemslist[item_id])
+            {
+                flpMain.Controls.Add(item);
+            }
+            //flpMain.Controls.Add(itemslist[item_id]);
 
             pnlPropertiesBody.Controls.Clear();
-            pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
+            foreach (Panel item in propertieslist[item_id])
+            {
+                pnlPropertiesBody.Controls.Add(item);
+            }
+            //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
 
             lbl.ForeColor = Color.Blue;
             itemselected = lbl;
@@ -1631,18 +1643,59 @@ namespace KMDIWinDoorsCS
 
         }
         
-        IDictionary<int, Panel> itemslist = new Dictionary<int, Panel>();
-        IDictionary<int, Panel> propertieslist = new Dictionary<int, Panel>();
+        IDictionary<int, List<Panel>> itemslist = new Dictionary<int, List<Panel>>();
+        IDictionary<int, List<Panel>> propertieslist = new Dictionary<int, List<Panel>>();
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            Panel wdw = (Panel)flpMain.Controls[0];
-            Panel prop = (Panel)pnlPropertiesBody.Controls[0];
+            //Panel wdw = (Panel)flpMain.Controls[0];
+            //Panel prop = (Panel)pnlPropertiesBody.Controls[0];
+            List<Panel> wndwList = new List<Panel>();
+            foreach (Panel item in flpMain.Controls)
+            {
+                wndwList.Add(item);
+            }
+            List<Panel> propList = new List<Panel>();
+            foreach (Panel item in pnlPropertiesBody.Controls)
+            {
+                propList.Add(item);
+            }
+
             int item_id = pnlItems.Controls.Count;
 
-            itemslist.Add(item_id, wdw);
-            propertieslist.Add(item_id, prop);
+            itemslist.Add(item_id, wndwList);
+            propertieslist.Add(item_id, propList);
             MessageBox.Show("Saved");
+        }
+
+        private void UppdateDictionaries()
+        {
+            string getnum_str = flpMain.Tag.ToString().Substring(5, flpMain.Tag.ToString().Length - 5);
+            int item_id = Convert.ToInt32(getnum_str);
+
+            List<Panel> pnlist = new List<Panel>();
+            foreach (Panel item in flpMain.Controls)
+            {
+                pnlist.Add(item);
+            }
+            itemslist[item_id] = pnlist;
+
+            List<Panel> itemlist = new List<Panel>();
+            foreach (Panel item in pnlPropertiesBody.Controls)
+            {
+                itemlist.Add(item);
+            }
+            propertieslist[item_id] = itemlist;
+        }
+
+        private void flpMain_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            UppdateDictionaries();
+        }
+
+        private void flpMain_ControlAdded(object sender, ControlEventArgs e)
+        {
+            UppdateDictionaries();
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
