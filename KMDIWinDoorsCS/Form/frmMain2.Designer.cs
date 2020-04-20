@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -126,14 +126,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -203,8 +203,6 @@
             this.flpMain.TabIndex = 1;
             this.flpMain.Visible = false;
             this.flpMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
-            this.flpMain.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpMain_ControlAdded);
-            this.flpMain.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.flpMain_ControlRemoved);
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             this.flpMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.flpMain_MouseDoubleClick);
             // 
@@ -217,7 +215,7 @@
             this.pnlProperties.Controls.Add(this.label2);
             this.pnlProperties.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlProperties.Location = new System.Drawing.Point(0, 0);
-            this.pnlProperties.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlProperties.Margin = new System.Windows.Forms.Padding(2);
             this.pnlProperties.Name = "pnlProperties";
             this.pnlProperties.Size = new System.Drawing.Size(139, 497);
             this.pnlProperties.TabIndex = 4;
@@ -232,7 +230,7 @@
             this.chkView.FlatAppearance.CheckedBackColor = System.Drawing.Color.SteelBlue;
             this.chkView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.chkView.Location = new System.Drawing.Point(93, 3);
-            this.chkView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkView.Margin = new System.Windows.Forms.Padding(2);
             this.chkView.Name = "chkView";
             this.chkView.Size = new System.Drawing.Size(40, 23);
             this.chkView.TabIndex = 2;
@@ -245,7 +243,7 @@
             this.pnlPropertiesBody.AutoScroll = true;
             this.pnlPropertiesBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPropertiesBody.Location = new System.Drawing.Point(0, 29);
-            this.pnlPropertiesBody.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlPropertiesBody.Margin = new System.Windows.Forms.Padding(2);
             this.pnlPropertiesBody.Name = "pnlPropertiesBody";
             this.pnlPropertiesBody.Size = new System.Drawing.Size(137, 466);
             this.pnlPropertiesBody.TabIndex = 6;
@@ -288,22 +286,22 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.c70ToolStripMenuItem.Text = "C70";
-            this.c70ToolStripMenuItem.Click += new System.EventHandler(this.c70ToolStripMenuItem_Click);
+            this.c70ToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.premiLineToolStripMenuItem.Text = "PremiLine";
-            this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.premiLineToolStripMenuItem_Click);
+            this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
             // 
             // pnlRight
             // 
@@ -412,6 +410,7 @@
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
             this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
@@ -500,7 +499,7 @@
             this.trkZoom.AutoSize = false;
             this.trkZoom.LargeChange = 25;
             this.trkZoom.Location = new System.Drawing.Point(92, 553);
-            this.trkZoom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.trkZoom.Margin = new System.Windows.Forms.Padding(2);
             this.trkZoom.Maximum = 300;
             this.trkZoom.Minimum = 5;
             this.trkZoom.Name = "trkZoom";
@@ -527,6 +526,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.TextChanged += new System.EventHandler(this.frmMain2_TextChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain2_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

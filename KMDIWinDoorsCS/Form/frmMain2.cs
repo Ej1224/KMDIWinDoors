@@ -1007,35 +1007,55 @@ namespace KMDIWinDoorsCS
 
         private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            itemselected.ForeColor = Color.Black;
+            bool save = false;
 
-            Label lbl = (Label)sender;
-            string lblname = lbl.Name;
-            //int indxOf_lblname = lblname.IndexOf("m");
-            string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
-            int item_id = Convert.ToInt32(getnum_lblname);
-
-            string WxH = lbl.AccessibleDescription.Replace(" ","");
-            string[] dimension = WxH.Split('x');
-
-            flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-            flpMain.Tag = "Item_" + item_id;
-            flpMain.Controls.Clear();
-            foreach (Panel item in itemslist[item_id])
+            if (Text.Contains("*") == true)
             {
-                flpMain.Controls.Add(item);
+                if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    save = true;
+                }
             }
-            //flpMain.Controls.Add(itemslist[item_id]);
-
-            pnlPropertiesBody.Controls.Clear();
-            foreach (Panel item in propertieslist[item_id])
+            else
             {
-                pnlPropertiesBody.Controls.Add(item);
+                save = true;
             }
-            //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
 
-            lbl.ForeColor = Color.Blue;
-            itemselected = lbl;
+            if (save == true)
+            {
+                itemselected.ForeColor = Color.Black;
+
+                Label lbl = (Label)sender;
+                string lblname = lbl.Name;
+                //int indxOf_lblname = lblname.IndexOf("m");
+                string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
+                int item_id = Convert.ToInt32(getnum_lblname);
+
+                string WxH = lbl.AccessibleDescription.Replace(" ", "");
+                string[] dimension = WxH.Split('x');
+
+                flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                flpMain.Tag = "Item_" + item_id;
+                flpMain.Controls.Clear();
+                foreach (Panel item in itemslist[item_id])
+                {
+                    flpMain.Controls.Add(item);
+                }
+                //flpMain.Controls.Add(itemslist[item_id]);
+
+                pnlPropertiesBody.Controls.Clear();
+                foreach (Panel item in propertieslist[item_id])
+                {
+                    pnlPropertiesBody.Controls.Add(item);
+                }
+                //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
+
+                lbl.ForeColor = Color.Blue;
+                itemselected = lbl;
+
+                UppdateDictionaries();
+                Text = ">> " + lbl.Text; // + "*";
+            }
         }
 
         private Label itemsLblSearch(string searchstr)
@@ -1052,7 +1072,48 @@ namespace KMDIWinDoorsCS
             }
             return lbl;
         }
-        
+        private void UppdateDictionaries()
+        {
+            if (flpMain.Tag != null)
+            {
+                string getnum_str = flpMain.Tag.ToString().Substring(5, flpMain.Tag.ToString().Length - 5);
+                int item_id = Convert.ToInt32(getnum_str);
+
+                if (itemslist.ContainsKey(item_id) == true)
+                {
+                    List<Panel> pnlist = new List<Panel>();
+                    foreach (Panel item in flpMain.Controls)
+                    {
+                        pnlist.Add(item);
+                    }
+                    itemslist[item_id] = pnlist;
+
+                    List<Panel> itemlist = new List<Panel>();
+                    foreach (Panel item in pnlPropertiesBody.Controls)
+                    {
+                        itemlist.Add(item);
+                    }
+                    propertieslist[item_id] = itemlist;
+                }
+                else if (itemslist.ContainsKey(item_id) == false)
+                {
+                    List<Panel> pnlist = new List<Panel>();
+                    foreach (Panel item in flpMain.Controls)
+                    {
+                        pnlist.Add(item);
+                    }
+                    itemslist.Add(item_id, pnlist);
+
+                    List<Panel> itemlist = new List<Panel>();
+                    foreach (Panel item in pnlPropertiesBody.Controls)
+                    {
+                        itemlist.Add(item);
+                    }
+                    propertieslist.Add(item_id, itemlist);
+                }
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -1576,41 +1637,91 @@ namespace KMDIWinDoorsCS
         }
 
 
-        private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int defwidth = 400,
-                defheight = 400,
-                pnl_cntr = pnlItems.Controls.Count + 1;
+        //private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    int defwidth = 400,
+        //        defheight = 400,
+        //        pnl_cntr = pnlItems.Controls.Count + 1;
 
-            frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = defwidth;
-            frm.numHeight.Value = defwidth;
+        //    frmDimensions frm = new frmDimensions();
+        //    frm.numWidth.Value = defwidth;
+        //    frm.numHeight.Value = defwidth;
             
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                defwidth = Convert.ToInt32(frm.numWidth.Value);
-                defheight = Convert.ToInt32(frm.numHeight.Value);
+        //    if (frm.ShowDialog() == DialogResult.OK)
+        //    {
+        //        defwidth = Convert.ToInt32(frm.numWidth.Value);
+        //        defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                paint_pnlMain = true;
-                tsMain.Enabled = true;
-                flpMain.Size = new Size(defwidth, defheight);
-                flpMain.Visible = true;
-                flpMain.Controls.Clear();
-                pnlMain.Invalidate();
+        //        paint_pnlMain = true;
+        //        tsMain.Enabled = true;
+        //        flpMain.Size = new Size(defwidth, defheight);
+        //        flpMain.Visible = true;
+        //        flpMain.Controls.Clear();
+        //        pnlMain.Invalidate();
 
-                Panel pnl = new Panel();
-                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "C70 Profile");
-                pnlItems.Controls.Add(pnl);
-                pnl.BringToFront();
+        //        Panel pnl = new Panel();
+        //        pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "C70 Profile");
+        //        pnlItems.Controls.Add(pnl);
+        //        pnl.BringToFront();
 
-                flpMain.Tag = "Item_" + pnl_cntr;
+        //        flpMain.Tag = "Item_" + pnl_cntr;
 
-                pnlPropertiesBody.Controls.Clear();
-            }
-        }
+        //        pnlPropertiesBody.Controls.Clear();
 
-        private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
+        //        Text = " >> Item " + pnl_cntr + "*";
+        //    }
+        //}
+
+        //private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    int defwidth = 400,
+        //        defheight = 400,
+        //        pnl_cntr = pnlItems.Controls.Count + 1;
+
+        //    frmDimensions frm = new frmDimensions();
+        //    frm.numWidth.Value = defwidth;
+        //    frm.numHeight.Value = defwidth;
+
+        //    if (frm.ShowDialog() == DialogResult.OK)
+        //    {
+        //        defwidth = Convert.ToInt32(frm.numWidth.Value);
+        //        defheight = Convert.ToInt32(frm.numHeight.Value);
+
+        //        flpMain.Tag = "Item_" + pnl_cntr;
+
+        //        paint_pnlMain = true;
+        //        tsMain.Enabled = true;
+        //        flpMain.Size = new Size(defwidth, defheight);
+        //        flpMain.Visible = true;
+        //        flpMain.Controls.Clear();
+        //        pnlMain.Invalidate();
+
+        //        Panel pnl = new Panel();
+        //        pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "PremiLine Profile");
+        //        pnlItems.Controls.Add(pnl);
+        //        pnl.BringToFront();
+
+        //        pnlPropertiesBody.Controls.Clear();
+        //    }
+
+        //}
+
+        private void ProfileTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            string profiletype = "";
+
+            if (menu == c70ToolStripMenuItem)
+            {
+                profiletype = "C70 Profile";
+            }
+            else if (menu == premiLineToolStripMenuItem)
+            {
+                profiletype = "PremiLine Profile";
+            }
+
+            bool save = false;
+
             int defwidth = 400,
                 defheight = 400,
                 pnl_cntr = pnlItems.Controls.Count + 1;
@@ -1619,30 +1730,49 @@ namespace KMDIWinDoorsCS
             frm.numWidth.Value = defwidth;
             frm.numHeight.Value = defwidth;
 
-            if (frm.ShowDialog() == DialogResult.OK)
+            if (Text.Contains("*") == true)
             {
-                defwidth = Convert.ToInt32(frm.numWidth.Value);
-                defheight = Convert.ToInt32(frm.numHeight.Value);
-
-                flpMain.Tag = "Item_" + pnl_cntr;
-
-                paint_pnlMain = true;
-                tsMain.Enabled = true;
-                flpMain.Size = new Size(defwidth, defheight);
-                flpMain.Visible = true;
-                flpMain.Controls.Clear();
-                pnlMain.Invalidate();
-
-                Panel pnl = new Panel();
-                pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "PremiLine Profile");
-                pnlItems.Controls.Add(pnl);
-                pnl.BringToFront();
-
-                pnlPropertiesBody.Controls.Clear();
+                if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    save = true;
+                }
+            }
+            else
+            {
+                save = true;
             }
 
+            if (save == true)
+            {
+                UppdateDictionaries();
+                Text = Text.Replace("*","");
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    defwidth = Convert.ToInt32(frm.numWidth.Value);
+                    defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                    paint_pnlMain = true;
+                    tsMain.Enabled = true;
+                    flpMain.Size = new Size(defwidth, defheight);
+                    flpMain.Visible = true;
+                    flpMain.Controls.Clear();
+                    pnlMain.Invalidate();
+
+                    Panel pnl = new Panel();
+                    pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype);
+                    pnlItems.Controls.Add(pnl);
+                    pnl.BringToFront();
+
+                    flpMain.Tag = "Item_" + pnl_cntr;
+
+                    pnlPropertiesBody.Controls.Clear();
+
+                    Text = " >> Item " + pnl_cntr + "*";
+                }
+            }
         }
-        
+
         IDictionary<int, List<Panel>> itemslist = new Dictionary<int, List<Panel>>();
         IDictionary<int, List<Panel>> propertieslist = new Dictionary<int, List<Panel>>();
 
@@ -1650,52 +1780,37 @@ namespace KMDIWinDoorsCS
         {
             //Panel wdw = (Panel)flpMain.Controls[0];
             //Panel prop = (Panel)pnlPropertiesBody.Controls[0];
-            List<Panel> wndwList = new List<Panel>();
-            foreach (Panel item in flpMain.Controls)
-            {
-                wndwList.Add(item);
-            }
-            List<Panel> propList = new List<Panel>();
-            foreach (Panel item in pnlPropertiesBody.Controls)
-            {
-                propList.Add(item);
-            }
+            //List<Panel> wndwList = new List<Panel>();
+            //foreach (Panel item in flpMain.Controls)
+            //{
+            //    wndwList.Add(item);
+            //}
+            //List<Panel> propList = new List<Panel>();
+            //foreach (Panel item in pnlPropertiesBody.Controls)
+            //{
+            //    propList.Add(item);
+            //}
 
-            int item_id = pnlItems.Controls.Count;
+            //int item_id = pnlItems.Controls.Count;
 
-            itemslist.Add(item_id, wndwList);
-            propertieslist.Add(item_id, propList);
+            //itemslist.Add(item_id, wndwList);
+            //propertieslist.Add(item_id, propList);
+
+            UppdateDictionaries();
+            Text = Text.Replace("*", "");
             MessageBox.Show("Saved");
         }
 
-        private void UppdateDictionaries()
+        private void frmMain2_TextChanged(object sender, EventArgs e)
         {
-            string getnum_str = flpMain.Tag.ToString().Substring(5, flpMain.Tag.ToString().Length - 5);
-            int item_id = Convert.ToInt32(getnum_str);
-
-            List<Panel> pnlist = new List<Panel>();
-            foreach (Panel item in flpMain.Controls)
+            if (Text.Contains("*"))
             {
-                pnlist.Add(item);
+                saveToolStripButton.Enabled = true;
             }
-            itemslist[item_id] = pnlist;
-
-            List<Panel> itemlist = new List<Panel>();
-            foreach (Panel item in pnlPropertiesBody.Controls)
+            else
             {
-                itemlist.Add(item);
+                saveToolStripButton.Enabled = false;
             }
-            propertieslist[item_id] = itemlist;
-        }
-
-        private void flpMain_ControlRemoved(object sender, ControlEventArgs e)
-        {
-            UppdateDictionaries();
-        }
-
-        private void flpMain_ControlAdded(object sender, ControlEventArgs e)
-        {
-            UppdateDictionaries();
         }
 
         private void dgvControls_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
