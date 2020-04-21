@@ -574,6 +574,10 @@ namespace KMDIWinDoorsCS
 
         public void rd_CheckChanged(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
             RadioButton rd = (RadioButton)sender;
             int wndr_padd = 0;
             Panel pnl = new Panel();
@@ -632,6 +636,11 @@ namespace KMDIWinDoorsCS
 
         private void num_ValueChanged(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             NumericUpDown num = (NumericUpDown)sender;
             string frameName = num.Parent.Name,
                    str_width = "",
@@ -808,6 +817,11 @@ namespace KMDIWinDoorsCS
 
         private void Pnum_ValueChanged(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             NumericUpDown pnum = (NumericUpDown)sender;
             Panel pnl = new Panel();
             var c = csfunc.GetAll(flpMain, typeof(Panel), pnum.Parent.Name);
@@ -830,6 +844,11 @@ namespace KMDIWinDoorsCS
 
         private void chk_CheckedChanged(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             CheckBox chk = (CheckBox)sender;
             if (chk.Checked == true)
             {
@@ -880,6 +899,11 @@ namespace KMDIWinDoorsCS
 
         private void cbx_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             ComboBox cbx = (ComboBox)sender;
 
             CheckBox chk = new CheckBox();
@@ -1008,12 +1032,15 @@ namespace KMDIWinDoorsCS
         private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             bool save = false;
+            Label lbl = (Label)sender;
 
             if (Text.Contains("*") == true)
             {
                 if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     save = true;
+                    UppdateDictionaries();
+                    Text = ">> " + lbl.Text;
                 }
             }
             else
@@ -1025,7 +1052,6 @@ namespace KMDIWinDoorsCS
             {
                 itemselected.ForeColor = Color.Black;
 
-                Label lbl = (Label)sender;
                 string lblname = lbl.Name;
                 //int indxOf_lblname = lblname.IndexOf("m");
                 string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
@@ -1402,6 +1428,11 @@ namespace KMDIWinDoorsCS
         
         private void tsSize_DoubleClick(object sender, EventArgs e)
         {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             frmDimensions frm = new frmDimensions();
             frm.numWidth.Value = flpMain.Width;
             frm.numHeight.Value = flpMain.Height;
@@ -1410,6 +1441,9 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
+
+                static_wd = flpMain.Width;
+                static_ht = flpMain.Height;
 
                 if (flpMain.Tag != null)
                 {
@@ -1459,11 +1493,11 @@ namespace KMDIWinDoorsCS
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
-    }
+        }
 
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -1530,6 +1564,7 @@ namespace KMDIWinDoorsCS
         }
 
         float zoom = 1f;
+        int static_wd = 0, static_ht = 0;
 
         private void trkZoom_ValueChanged(object sender, EventArgs e)
         {
@@ -1547,8 +1582,10 @@ namespace KMDIWinDoorsCS
             flpMain.Invalidate();
 
             var c = csfunc.GetAll(flpMain, typeof(Panel));
-            foreach (var ctrl in c)
+            foreach (Panel ctrl in c)
             {
+                ctrl.Width = Convert.ToInt32(ctrl.Width * zoom);
+                ctrl.Height = Convert.ToInt32(ctrl.Height * zoom);
                 ctrl.Invalidate();
             }
         }
@@ -1778,24 +1815,6 @@ namespace KMDIWinDoorsCS
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            //Panel wdw = (Panel)flpMain.Controls[0];
-            //Panel prop = (Panel)pnlPropertiesBody.Controls[0];
-            //List<Panel> wndwList = new List<Panel>();
-            //foreach (Panel item in flpMain.Controls)
-            //{
-            //    wndwList.Add(item);
-            //}
-            //List<Panel> propList = new List<Panel>();
-            //foreach (Panel item in pnlPropertiesBody.Controls)
-            //{
-            //    propList.Add(item);
-            //}
-
-            //int item_id = pnlItems.Controls.Count;
-
-            //itemslist.Add(item_id, wndwList);
-            //propertieslist.Add(item_id, propList);
-
             UppdateDictionaries();
             Text = Text.Replace("*", "");
             MessageBox.Show("Saved");
@@ -1900,6 +1919,13 @@ namespace KMDIWinDoorsCS
                 pnlnameSel = null;
                 pnlSel_parent = null;
             }
+            //else if (e.Control && e.KeyCode == Keys.S)
+            //{
+            //    UppdateDictionaries();
+            //    Text = Text.Replace("*", "");
+            //    MessageBox.Show("Saved");
+                //saveToolStripButton.PerformClick();
+            //}
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
