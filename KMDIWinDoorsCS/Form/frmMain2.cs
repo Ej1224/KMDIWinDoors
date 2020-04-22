@@ -358,7 +358,20 @@ namespace KMDIWinDoorsCS
         private void border_paint(object sender, PaintEventArgs e)
         {
             Panel pnl = (Panel)sender;
+            Panel frame = (Panel)pnl.Parent;
             Graphics g = e.Graphics;
+
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            if (frame.Tag.ToString() == "0")
+            {
+                int cond = pnl.Width + pnl.Height;
+
+                for (int i = 10; i < cond; i += 10)
+                {
+                    g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
+                }
+            }
 
             string accname_col = pnl.AccessibleName;
             Color col = Color.Black;
@@ -440,6 +453,19 @@ namespace KMDIWinDoorsCS
             rd.TabStop = true;
             rd.Tag = name + "_" + count;
             rd.Text = "Door";
+            rd.CheckedChanged += new EventHandler(rd_CheckChanged);
+            fprop.Controls.Add(rd);
+
+            rd = new RadioButton();
+            rd.Name = "rdConcrete_" + count;
+            rd.AutoSize = false;
+            rd.Checked = false;
+            rd.Margin = new Padding(3, 3, 3, 3);
+            rd.Padding = new Padding(0);
+            rd.Size = new Size(140, 23);
+            rd.TabStop = true;
+            rd.Tag = name + "_" + count;
+            rd.Text = "Concrete";
             rd.CheckedChanged += new EventHandler(rd_CheckChanged);
             fprop.Controls.Add(rd);
 
@@ -591,6 +617,10 @@ namespace KMDIWinDoorsCS
                 else if (rd.Name.Contains("rdDoor_"))
                 {
                     wndr_padd = 33;
+                }
+                else if (rd.Name.Contains("rdConcrete_"))
+                {
+                    wndr_padd = 0;
                 }
 
                 Panel frame = new Panel();
@@ -1344,6 +1374,7 @@ namespace KMDIWinDoorsCS
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
+
             if (pfr.AccessibleDescription == "viewmodeOn")
             {
                 Font dmnsion_font = new Font("Segoe UI", 12);
@@ -1357,13 +1388,27 @@ namespace KMDIWinDoorsCS
                                       Color.Blue);
             }
 
-            int pInnerX = pnl_inner.Location.X,
+            //if (pfr.Tag.ToString() == "0")
+            //{
+            //    pnl_inner.Visible = false;
+            //    int cond = pfr.Width + pfr.Height;
+
+            //    for (int i = 10; i < cond; i += 10)
+            //    {
+            //        g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
+            //    }
+            //}
+            //else
+            //{
+            //    pnl_inner.Visible = true;
+
+                int pInnerX = pnl_inner.Location.X,
                 pInnerY = pnl_inner.Location.Y,
                 pInnerWd = pnl_inner.Width,
                 pInnerHt = pnl_inner.Height;
 
-            Point[] corner_points = new[]
-            {
+                Point[] corner_points = new[]
+                {
                 new Point(0,0),
                 new Point(pInnerX,pInnerY),
                 new Point(pfr.ClientRectangle.Width,0),
@@ -1372,13 +1417,13 @@ namespace KMDIWinDoorsCS
                 new Point(pInnerX,pInnerY + pInnerHt),
                 new Point(pfr.ClientRectangle.Width,pfr.ClientRectangle.Height),
                 new Point(pInnerX + pInnerWd,pInnerY + pInnerHt)
-            };
+                };
 
-            for (int i = 0; i < corner_points.Length - 1; i += 2)
-            {
-                g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
-            }
-
+                for (int i = 0; i < corner_points.Length - 1; i += 2)
+                {
+                    g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
+                }
+            //}
 
             string accname_col = pfr.AccessibleName;
             Color col = Color.Black;
