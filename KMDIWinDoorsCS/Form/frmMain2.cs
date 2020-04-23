@@ -124,6 +124,15 @@ namespace KMDIWinDoorsCS
                 drawFormat.LineAlignment = StringAlignment.Center;
                 g.DrawString("Fixed", drawFont, new SolidBrush(Color.Black), pnl.ClientRectangle, drawFormat);
             }
+            else if (windowtype == "Concrete")
+            {
+                int cond = pnl.Width + pnl.Height;
+
+                for (int i = 10; i < cond; i += 10)
+                {
+                    g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
+                }
+            }
             else
             {
                 Pen dgrayPen = new Pen(Color.DimGray);
@@ -782,6 +791,7 @@ namespace KMDIWinDoorsCS
             cbx.Items.Add("Casement");
             cbx.Items.Add("Sliding");
             cbx.Items.Add("Tilt&Turn");
+            cbx.Items.Add("Concrete");
             cbx.Location = new Point(7, 50);
             cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
             Pprop.Controls.Add(cbx);
@@ -959,6 +969,11 @@ namespace KMDIWinDoorsCS
                 chk.Enabled = true;
                 chk.Text = "None";
             }
+            else if (cbx.Text == "Concrete")
+            {
+                chk.Enabled = false;
+                chk.Text = "";
+            }
 
             var pnlcol = csfunc.GetAll(flpMain, typeof(Panel),cbx.Parent.Name);
             foreach (Panel ctrl in pnlcol)
@@ -1128,6 +1143,7 @@ namespace KMDIWinDoorsCS
             }
             return lbl;
         }
+
         private void UppdateDictionaries()
         {
             if (flpMain.Tag != null)
@@ -1387,43 +1403,28 @@ namespace KMDIWinDoorsCS
                                       new Point((int)(mid - (s.Width / 2)),3),
                                       Color.Blue);
             }
+            
+            int pInnerX = pnl_inner.Location.X,
+            pInnerY = pnl_inner.Location.Y,
+            pInnerWd = pnl_inner.Width,
+            pInnerHt = pnl_inner.Height;
 
-            //if (pfr.Tag.ToString() == "0")
-            //{
-            //    pnl_inner.Visible = false;
-            //    int cond = pfr.Width + pfr.Height;
+            Point[] corner_points = new[]
+            {
+            new Point(0,0),
+            new Point(pInnerX,pInnerY),
+            new Point(pfr.ClientRectangle.Width,0),
+            new Point(pInnerX + pInnerWd,pInnerY),
+            new Point(0,pfr.ClientRectangle.Height),
+            new Point(pInnerX,pInnerY + pInnerHt),
+            new Point(pfr.ClientRectangle.Width,pfr.ClientRectangle.Height),
+            new Point(pInnerX + pInnerWd,pInnerY + pInnerHt)
+            };
 
-            //    for (int i = 10; i < cond; i += 10)
-            //    {
-            //        g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
-            //    }
-            //}
-            //else
-            //{
-            //    pnl_inner.Visible = true;
-
-                int pInnerX = pnl_inner.Location.X,
-                pInnerY = pnl_inner.Location.Y,
-                pInnerWd = pnl_inner.Width,
-                pInnerHt = pnl_inner.Height;
-
-                Point[] corner_points = new[]
-                {
-                new Point(0,0),
-                new Point(pInnerX,pInnerY),
-                new Point(pfr.ClientRectangle.Width,0),
-                new Point(pInnerX + pInnerWd,pInnerY),
-                new Point(0,pfr.ClientRectangle.Height),
-                new Point(pInnerX,pInnerY + pInnerHt),
-                new Point(pfr.ClientRectangle.Width,pfr.ClientRectangle.Height),
-                new Point(pInnerX + pInnerWd,pInnerY + pInnerHt)
-                };
-
-                for (int i = 0; i < corner_points.Length - 1; i += 2)
-                {
-                    g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
-                }
-            //}
+            for (int i = 0; i < corner_points.Length - 1; i += 2)
+            {
+                g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
+            }
 
             string accname_col = pfr.AccessibleName;
             Color col = Color.Black;
