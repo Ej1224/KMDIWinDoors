@@ -223,6 +223,31 @@ namespace KMDIWinDoorsCS
                                              new Point(sashPoint.X + fpnl_sashW, fpnl_sashH + sashPoint.Y));
                     }
                 }
+                else if (windowtype.Contains("Louver"))
+                {
+                    pnl.BackColor = Color.Black;
+
+                    g.DrawRectangle(Pens.Black, sashRect);
+                    g.FillRectangle(new SolidBrush(Color.DarkGray), sashRect);
+
+                    Rectangle gallery1 = new Rectangle(sashPoint,
+                                         new Size(10, fpnl_sashH));
+                    Pen blkpen = new Pen(Color.Black, 2);
+                    g.DrawRectangle(blkpen, gallery1);
+
+
+                    Rectangle gallery2 = new Rectangle(new Point(sashPoint.X + (fpnl_sashW - 10), sashPoint.Y),
+                                         new Size(10, fpnl_sashH));
+                    g.DrawRectangle(blkpen, gallery2);
+
+                    int bladesheight = fpnl_sashH / 6;
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Rectangle blades = new Rectangle(new Point(sashPoint.X + 10, sashPoint.Y + (bladesheight * i)), new Size(fpnl_sashW - 20, bladesheight * i));
+                        g.DrawRectangle(blkpen, blades);
+                    }
+                }
             }
 
             string accname_col = pnl.AccessibleName;
@@ -791,6 +816,7 @@ namespace KMDIWinDoorsCS
             cbx.Items.Add("Casement");
             cbx.Items.Add("Sliding");
             cbx.Items.Add("Tilt&Turn");
+            cbx.Items.Add("Louver");
             cbx.Items.Add("Concrete");
             cbx.Location = new Point(7, 50);
             cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
@@ -807,8 +833,22 @@ namespace KMDIWinDoorsCS
             chk.Size = new Size(50, 21);
             chk.TextAlign = ContentAlignment.MiddleCenter;
             chk.Location = new Point(90, 50);
+            chk.Visible = true;
             chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
             Pprop.Controls.Add(chk);
+
+            num = new NumericUpDown();
+            num.Name = "numBladeCount_" + count;
+            num.BackColor = SystemColors.ControlDark;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(50, 21);
+            num.Maximum = decimal.MaxValue;
+            num.Value = 1;
+            num.Location = new Point(90, 50);
+            num.Visible = false;
+            num.Minimum = 2;
+            //num.ValueChanged += new EventHandler(Pnum_ValueChanged);
+            Pprop.Controls.Add(num);
 
             lbl = new Label();
             lbl.Text = "Width";
@@ -953,7 +993,16 @@ namespace KMDIWinDoorsCS
                 chk = ctrl;
             }
 
+            NumericUpDown num = new NumericUpDown();
+            var numcol = csfunc.GetAll(cbx.Parent, typeof(NumericUpDown), "numBladeCount_");
+            foreach (NumericUpDown ctrl in numcol)
+            {
+                num = ctrl;
+            }
+
             chk.Checked = false;
+            chk.Visible = true;
+            num.Visible = false;
             if (cbx.Text == "Casement" || cbx.Text == "Sliding")
             {
                 chk.Enabled = true;
@@ -973,6 +1022,11 @@ namespace KMDIWinDoorsCS
             {
                 chk.Enabled = false;
                 chk.Text = "";
+            }
+            else if (cbx.Text == "Louver")
+            {
+                chk.Visible = false;
+                num.Visible = true;
             }
 
             var pnlcol = csfunc.GetAll(flpMain, typeof(Panel),cbx.Parent.Name);
