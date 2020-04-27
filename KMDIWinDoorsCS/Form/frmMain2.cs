@@ -95,18 +95,18 @@ namespace KMDIWinDoorsCS
 
             Point sashPoint = new Point(pnl.ClientRectangle.X + 8, pnl.ClientRectangle.Y + 8);
 
-            if (pnl.TabStop == true)
-            {
-                Font dmnsion_font = new Font("Segoe UI", 12);
+            //if (pnl.TabStop == true)
+            //{
+            //    Font dmnsion_font = new Font("Segoe UI", 12);
 
-                Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
-                double mid = (pnl.Width) / 2;
-                TextRenderer.DrawText(g,
-                                      pnl.Name,
-                                      dmnsion_font,
-                                      new Point(sashPoint.X + 3, sashPoint.Y + 3),
-                                      Color.Blue);
-            }
+            //    Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
+            //    double mid = (pnl.Width) / 2;
+            //    TextRenderer.DrawText(g,
+            //                          pnl.Name,
+            //                          dmnsion_font,
+            //                          new Point(sashPoint.X + 3, sashPoint.Y + 3),
+            //                          Color.Blue);
+            //}
 
             string windowtype = pnl.AccessibleDescription;
             Rectangle sashRect = new Rectangle(sashPoint,
@@ -114,6 +114,7 @@ namespace KMDIWinDoorsCS
 
             if (windowtype.Contains("Fixed"))
             {
+                pnl.BackColor = Color.DarkGray;
                 if (windowtype == "FixeddSash")
                 {
                     g.DrawRectangle(blkPen, sashRect);
@@ -126,6 +127,7 @@ namespace KMDIWinDoorsCS
             }
             else if (windowtype == "Concrete")
             {
+                pnl.BackColor = Color.DarkGray;
                 int cond = pnl.Width + pnl.Height;
 
                 for (int i = 10; i < cond; i += 10)
@@ -142,6 +144,8 @@ namespace KMDIWinDoorsCS
 
                 if (windowtype == "CasementR")
                 {
+                    pnl.BackColor = Color.DarkGray;
+
                     g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
                                          new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))));
                     g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, (sashPoint.Y + (fpnl_sashH / 2))),
@@ -149,6 +153,8 @@ namespace KMDIWinDoorsCS
                 }
                 else if (windowtype == "CasementL")
                 {
+                    pnl.BackColor = Color.DarkGray;
+
                     g.DrawLine(dgrayPen, new Point(sashPoint.X + fpnl_sashW, sashPoint.Y),
                                          new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))));
                     g.DrawLine(dgrayPen, new Point(sashPoint.X, (sashPoint.Y + (fpnl_sashH / 2))),
@@ -156,6 +162,8 @@ namespace KMDIWinDoorsCS
                 }
                 else if (windowtype == "AwningNorm")
                 {
+                    pnl.BackColor = Color.DarkGray;
+
                     g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y + fpnl_sashH),
                                          new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y));
                     g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y),
@@ -170,6 +178,8 @@ namespace KMDIWinDoorsCS
                 }
                 else if (windowtype.Contains("Sliding"))
                 {
+                    pnl.BackColor = Color.DarkGray;
+
                     float arwStart_x1 = sashPoint.X + (fpnl_sashW / 20),
                           center_y1 = sashPoint.Y + (fpnl_sashH / 2),
                           arwEnd_x2 = ((sashPoint.X + fpnl_sashW) - arwStart_x1) + (fpnl_sashW / 20),
@@ -203,6 +213,8 @@ namespace KMDIWinDoorsCS
                 }
                 else if (windowtype.Contains("Tilt&Turn"))
                 {
+                    pnl.BackColor = Color.DarkGray;
+
                     g.DrawLine(dgrayPen, new Point(sashPoint.X, sashPoint.Y),
                                          new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH));
                     g.DrawLine(dgrayPen, new Point(sashPoint.X + (fpnl_sashW / 2), sashPoint.Y + fpnl_sashH),
@@ -225,6 +237,8 @@ namespace KMDIWinDoorsCS
                 }
                 else if (windowtype.Contains("Louver"))
                 {
+                    int numblades = Convert.ToInt32(windowtype.Replace("Louver",""));
+
                     pnl.BackColor = Color.Black;
 
                     g.DrawRectangle(Pens.Black, sashRect);
@@ -240,14 +254,27 @@ namespace KMDIWinDoorsCS
                                          new Size(10, fpnl_sashH));
                     g.DrawRectangle(blkpen, gallery2);
 
-                    int bladesheight = fpnl_sashH / 6;
+                    int bladesheight = fpnl_sashH / numblades;
 
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < numblades; i++)
                     {
                         Rectangle blades = new Rectangle(new Point(sashPoint.X + 10, sashPoint.Y + (bladesheight * i)), new Size(fpnl_sashW - 20, bladesheight * i));
                         g.DrawRectangle(blkpen, blades);
                     }
                 }
+            }
+
+            if (pnl.TabStop == true)
+            {
+                Font dmnsion_font = new Font("Segoe UI", 12);
+
+                Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
+                double mid = (pnl.Width) / 2;
+                TextRenderer.DrawText(g,
+                                      pnl.Name,
+                                      dmnsion_font,
+                                      new Point(sashPoint.X + 3, sashPoint.Y + 3),
+                                      Color.Blue);
             }
 
             string accname_col = pnl.AccessibleName;
@@ -553,6 +580,7 @@ namespace KMDIWinDoorsCS
 
             var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), "Panel");
             int cnt_pnlcol = pnlcol.Count();
+            int bladecount = 0;
 
             if (pnlcol.Count() != 0)
             {
@@ -565,6 +593,14 @@ namespace KMDIWinDoorsCS
                             ComboBox cbx = (ComboBox)ctrl;
                             wndrcol += cbx.Text;
                         }
+                        if (ctrl.GetType() == typeof(NumericUpDown))
+                        {
+                            NumericUpDown bnum = (NumericUpDown)ctrl;
+                            if (bnum.Name.Contains("numBladeCount_"))
+                            {
+                                bladecount = Convert.ToInt32(bnum.Value);
+                            }
+                        }
                     }
                 }
             }
@@ -572,6 +608,7 @@ namespace KMDIWinDoorsCS
             int countAwng = Regex.Matches(wndrcol, "Awning").Count;
             int countCasm = Regex.Matches(wndrcol, "Casement").Count;
             int countFixd = Regex.Matches(wndrcol, "Fixed").Count;
+            int countLvr = Regex.Matches(wndrcol, "Louver").Count;
             int countSlid = Regex.Matches(wndrcol, "Sliding").Count;
             int countTntr = Regex.Matches(wndrcol, "Tilt&Turn").Count;
 
@@ -586,6 +623,10 @@ namespace KMDIWinDoorsCS
             if (countFixd > 0)
             {
                 str_wndr += ", " + countFixd + " Fixed";
+            }
+            if (countLvr > 0)
+            {
+                str_wndr += ", " + countLvr + " Louver(" + bladecount + " blade)";
             }
             if (countSlid > 0)
             {
@@ -847,7 +888,7 @@ namespace KMDIWinDoorsCS
             num.Location = new Point(90, 50);
             num.Visible = false;
             num.Minimum = 2;
-            //num.ValueChanged += new EventHandler(Pnum_ValueChanged);
+            num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
             Pprop.Controls.Add(num);
 
             lbl = new Label();
@@ -893,6 +934,32 @@ namespace KMDIWinDoorsCS
             Pprop.Controls.Add(num);
 
             return Pprop;
+        }
+
+        private void BladeNum_ValueChanged(object sender, EventArgs e)
+        {
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
+            string accdesc = "";
+            NumericUpDown bnum = (NumericUpDown)sender;
+            accdesc = "Louver" + bnum.Value;
+
+            var pnlcol = csfunc.GetAll(flpMain, typeof(Panel), bnum.Parent.Name);
+            foreach (Panel ctrl in pnlcol)
+            {
+                ctrl.AccessibleDescription = accdesc;
+                ctrl.Invalidate();
+            }
+
+            FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
+            Label lbl = new Label();
+            lbl = itemsLblSearch("lbldesc_");
+            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
+
+            flpMain.Invalidate();
         }
 
         private void Pnum_ValueChanged(object sender, EventArgs e)
@@ -1029,13 +1096,22 @@ namespace KMDIWinDoorsCS
                 num.Visible = true;
             }
 
+            string accdesc = "";
+            if (cbx.Text == "Louver")
+            {
+                accdesc = cbx.Text + num.Value;
+            }
+            else
+            {
+                accdesc = cbx.Text + chk.Text;
+            }
+
             var pnlcol = csfunc.GetAll(flpMain, typeof(Panel),cbx.Parent.Name);
             foreach (Panel ctrl in pnlcol)
             {
-                ctrl.AccessibleDescription = cbx.Text + chk.Text;
+                ctrl.AccessibleDescription = accdesc;
                 ctrl.Invalidate();
             }
-
 
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
             Label lbl = new Label();
