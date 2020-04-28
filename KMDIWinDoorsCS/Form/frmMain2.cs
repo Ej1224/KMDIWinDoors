@@ -28,12 +28,13 @@ namespace KMDIWinDoorsCS
         private Panel CreatePanels(string name,
                                    DockStyle dok = DockStyle.Fill,
                                    int Pwidth = 0,
-                                   int Pheight = 0)
+                                   int Pheight = 0,
+                                   string wndrtype = "")
         {
             Panel cr8newpnl = new Panel();
             cr8newpnl.Name = name;
             cr8newpnl.AllowDrop = false;
-            cr8newpnl.AccessibleDescription = "";
+            cr8newpnl.AccessibleDescription = wndrtype;
             cr8newpnl.TabStop = false; //for panelname viewmode
             cr8newpnl.BackColor = Color.DarkGray;
             cr8newpnl.Dock = dok;
@@ -74,6 +75,15 @@ namespace KMDIWinDoorsCS
             prev_pnlSel = pnlSel;
             prev_pnlSel_parent = pnlSel_parent;
             prev_pnltypeSel = pnltypeSel;
+
+            if (pnlSel.Name.Contains("Multi"))
+            {
+                autoToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                autoToolStripMenuItem.Visible = false;
+            }
 
             if (e.Button == MouseButtons.Right)
             {
@@ -1314,6 +1324,80 @@ namespace KMDIWinDoorsCS
                     propertieslist.Add(item_id, itemlist);
                 }
             }
+        }
+
+        private void AutoCreate(string wndrtype,
+                                int wndrCount,
+                                int wndr)
+        {
+            FlowLayoutPanel multipnl = (FlowLayoutPanel)pnlSel;
+            int wd = 0, ht = 0, div = 0,
+                divWD = 0, divHT = 0;
+            string divtype = "";
+
+            if (wndr == 26)
+            {
+                div = 10;
+            }
+            else if (wndr == 33)
+            {
+                div = 20;
+            }
+
+            if (multipnl.FlowDirection == FlowDirection.LeftToRight)
+            {
+                wd = (multipnl.Width - (div * wndrCount)) / (wndrCount + 1);
+                ht = multipnl.Height;
+
+                divWD = div;
+                divHT = multipnl.Height;
+
+                divtype = "Transom";
+            }
+            else if (multipnl.FlowDirection == FlowDirection.TopDown)
+            {
+                wd = multipnl.Width;
+                ht = (multipnl.Height - (div * wndrCount)) / (wndrCount + 1);
+
+                divWD = multipnl.Width;
+                divHT = div;
+
+                divtype = "Mullion";
+            }
+
+            for (int i = 1; i <= wndrCount + 1; i++)
+            {
+                Panel pnl = new Panel();
+                pnl = CreatePanels("Panel_" + i,DockStyle.None,wd,ht, wndrtype);
+                multipnl.Controls.Add(pnl);
+
+                if (i != wndrCount + 1)
+                {
+                    pnl = new Panel();
+                    pnl = CreateDiv(divtype + "_" + i, divtype);
+                    pnl.Size = new Size(divWD, divHT);
+                    multipnl.Controls.Add(pnl);
+                }
+            }
+            //if (wndrtype == "Fixed")
+            //{
+
+            //}
+        }
+
+        private void AutoCreateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmSel = (ToolStripMenuItem)sender;
+            int numdiv = Convert.ToInt32(pnlSel.AccessibleDescription),
+                wndr = 0;
+
+            var framecol = csfunc.GetAll(flpMain, typeof(Panel), pnlSel.Tag.ToString()); //pnl.Tag = FrameName
+            foreach (var ctrl in framecol)
+            {
+                wndr = Convert.ToInt32(ctrl.Tag.ToString());
+            }
+
+            AutoCreate(tsmSel.Text, numdiv, wndr);
         }
 
         private void Form1_Load(object sender, EventArgs e)
