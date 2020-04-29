@@ -828,7 +828,8 @@ namespace KMDIWinDoorsCS
                                             int count,
                                             int Pwidth,
                                             int Pheight,
-                                            bool num_bool)
+                                            bool num_bool,
+                                            string pnlwndrtype = "")
         {
             Panel Pprop;
             Label lbl;
@@ -857,22 +858,6 @@ namespace KMDIWinDoorsCS
             lbl.Location = new Point(7, 36);
             Pprop.Controls.Add(lbl);
 
-            cbx = new ComboBox();
-            cbx.Name = "cbxWindowType_" + count;
-            cbx.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbx.Margin = new Padding(3, 4, 3, 4);
-            cbx.Size = new Size(77, 27);
-            cbx.Items.Add("Fixed");
-            cbx.Items.Add("Awning");
-            cbx.Items.Add("Casement");
-            cbx.Items.Add("Sliding");
-            cbx.Items.Add("Tilt&Turn");
-            cbx.Items.Add("Louver");
-            cbx.Items.Add("Concrete");
-            cbx.Location = new Point(7, 50);
-            cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
-            Pprop.Controls.Add(cbx);
-
             chk = new CheckBox();
             chk.Name = "chkWdrOrientation_" + count;
             chk.Appearance = Appearance.Button;
@@ -900,6 +885,23 @@ namespace KMDIWinDoorsCS
             num.Minimum = 2;
             num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
             Pprop.Controls.Add(num);
+
+            cbx = new ComboBox();
+            cbx.Name = "cbxWindowType_" + count;
+            cbx.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx.Margin = new Padding(3, 4, 3, 4);
+            cbx.Size = new Size(77, 27);
+            cbx.Items.Add("Fixed");
+            cbx.Items.Add("Awning");
+            cbx.Items.Add("Casement");
+            cbx.Items.Add("Sliding");
+            cbx.Items.Add("Tilt&Turn");
+            cbx.Items.Add("Louver");
+            cbx.Items.Add("Concrete");
+            cbx.Location = new Point(7, 50);
+            cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
+            Pprop.Controls.Add(cbx);
+            cbx.Text = pnlwndrtype;
 
             lbl = new Label();
             lbl.Text = "Width";
@@ -1328,7 +1330,8 @@ namespace KMDIWinDoorsCS
 
         private void AutoCreate(string wndrtype,
                                 int wndrCount,
-                                int wndr)
+                                int wndr,
+                                FlowLayoutPanel fprop)
         {
             FlowLayoutPanel multipnl = (FlowLayoutPanel)pnlSel;
             int wd = 0, ht = 0, div = 0,
@@ -1365,11 +1368,19 @@ namespace KMDIWinDoorsCS
                 divtype = "Mullion";
             }
 
+            var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
+            int pnlcount = cpnl.Count();
+
             for (int i = 1; i <= wndrCount + 1; i++)
             {
+                pnlcount++;
                 Panel pnl = new Panel();
-                pnl = CreatePanels("Panel_" + i,DockStyle.None,wd,ht, wndrtype);
+                pnl = CreatePanels("Panel_" + pnlcount,DockStyle.None, wd, ht, wndrtype);
+                pnl.Tag = multipnl.Tag;
                 multipnl.Controls.Add(pnl);
+
+                Panel Pprop = CreatePanelProperties(pnl.Name, pnlcount, wd, ht, true, wndrtype);
+                fprop.Controls.Add(Pprop);
 
                 if (i != wndrCount + 1)
                 {
@@ -1379,10 +1390,6 @@ namespace KMDIWinDoorsCS
                     multipnl.Controls.Add(pnl);
                 }
             }
-            //if (wndrtype == "Fixed")
-            //{
-
-            //}
         }
 
         private void AutoCreateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1397,7 +1404,14 @@ namespace KMDIWinDoorsCS
                 wndr = Convert.ToInt32(ctrl.Tag.ToString());
             }
 
-            AutoCreate(tsmSel.Text, numdiv, wndr);
+            FlowLayoutPanel fprop = new FlowLayoutPanel();
+            var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Tag.ToString()); //pnl.Tag = FrameName
+            foreach (FlowLayoutPanel ctrl in fpropcol)
+            {
+                fprop = ctrl;
+            }
+
+            AutoCreate(tsmSel.Text, numdiv, wndr, fprop);
         }
 
         private void Form1_Load(object sender, EventArgs e)

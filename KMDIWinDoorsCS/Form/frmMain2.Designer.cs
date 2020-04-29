@@ -375,7 +375,6 @@
             this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
             this.awningToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.awningToolStripMenuItem.Text = "Awning";
-            this.awningToolStripMenuItem.Visible = false;
             this.awningToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // casementToolStripMenuItem
@@ -383,7 +382,6 @@
             this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
             this.casementToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.casementToolStripMenuItem.Text = "Casement";
-            this.casementToolStripMenuItem.Visible = false;
             this.casementToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // slidingToolStripMenuItem
@@ -391,7 +389,6 @@
             this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
             this.slidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.slidingToolStripMenuItem.Text = "Sliding";
-            this.slidingToolStripMenuItem.Visible = false;
             this.slidingToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // tiltTurnToolStripMenuItem
@@ -399,7 +396,6 @@
             this.tiltTurnToolStripMenuItem.Name = "tiltTurnToolStripMenuItem";
             this.tiltTurnToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tiltTurnToolStripMenuItem.Text = "Tilt&Turn";
-            this.tiltTurnToolStripMenuItem.Visible = false;
             this.tiltTurnToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // louverToolStripMenuItem
@@ -407,7 +403,6 @@
             this.louverToolStripMenuItem.Name = "louverToolStripMenuItem";
             this.louverToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.louverToolStripMenuItem.Text = "Louver";
-            this.louverToolStripMenuItem.Visible = false;
             this.louverToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
