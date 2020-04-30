@@ -579,8 +579,7 @@ namespace KMDIWinDoorsCS
             return fprop;
         }
 
-        private string UpdateLblDescription(FlowLayoutPanel flp,
-                                            string profiletype)
+        private string UpdateLblDescription(string profiletype)
         {
             string desc = "";
             string wndrtype = "",
@@ -680,7 +679,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)sender;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
+            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
         }
 
         public void rd_CheckChanged(object sender, EventArgs e)
@@ -744,7 +743,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
+            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             flpMain.Invalidate();
         }
@@ -969,7 +968,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
+            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             flpMain.Invalidate();
         }
@@ -1128,7 +1127,7 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
-            lbl.Text = UpdateLblDescription(flp, lbl.AccessibleDescription);
+            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             flpMain.Invalidate();
         }
@@ -1268,6 +1267,10 @@ namespace KMDIWinDoorsCS
 
                 UppdateDictionaries();
                 Text = ">> " + lbl.Text; // + "*";
+
+                Label lbl2 = new Label();
+                lbl2 = itemsLblSearch("lbldesc_");
+                lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
             }
         }
 
