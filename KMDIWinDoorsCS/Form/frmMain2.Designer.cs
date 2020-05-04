@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -67,6 +67,8 @@
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -76,8 +78,8 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.costingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -135,14 +137,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -273,7 +275,8 @@
             // 
             this.mnsMainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnsMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.costingToolStripMenuItem});
             this.mnsMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnsMainMenu.Name = "mnsMainMenu";
             this.mnsMainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -295,7 +298,7 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
@@ -426,8 +429,8 @@
             this.openToolStripButton,
             this.saveToolStripButton,
             this.printToolStripButton,
-            this.toolStripButton1,
-            this.toolStripButton2});
+            this.tsb_Undo,
+            this.tsb_Redo});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
             this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -493,6 +496,24 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.printToolStripButton.Text = "&Print";
+            // 
+            // tsb_Undo
+            // 
+            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
+            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Undo.Name = "tsb_Undo";
+            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Undo.Text = "Undo";
+            // 
+            // tsb_Redo
+            // 
+            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
+            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Redo.Name = "tsb_Redo";
+            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Redo.Text = "Redo";
             // 
             // stsEditor
             // 
@@ -576,23 +597,19 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
-            // toolStripButton1
+            // costingToolStripMenuItem
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.costingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultValuesToolStripMenuItem});
+            this.costingToolStripMenuItem.Name = "costingToolStripMenuItem";
+            this.costingToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.costingToolStripMenuItem.Text = "Costing";
             // 
-            // toolStripButton2
+            // defaultValuesToolStripMenuItem
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // frmMain2
             // 
@@ -685,8 +702,10 @@
         private System.Windows.Forms.ToolStripMenuItem slidingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiltTurnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem louverToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton tsb_Undo;
+        private System.Windows.Forms.ToolStripButton tsb_Redo;
+        private System.Windows.Forms.ToolStripMenuItem costingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defaultValuesToolStripMenuItem;
     }
 }
 
