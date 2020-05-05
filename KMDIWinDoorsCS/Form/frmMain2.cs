@@ -1845,26 +1845,26 @@ namespace KMDIWinDoorsCS
 
         private void trkZoom_ValueChanged(object sender, EventArgs e)
         {
+            
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
 
-
-            float wd = flpMain.Width * zoom,
-                  ht = flpMain.Height * zoom;
+            float wd = static_wd * zoom,
+                  ht = static_ht * zoom;
 
             flpMain.Width = Convert.ToInt32(wd);
             flpMain.Height = Convert.ToInt32(ht);
 
-            pnlMain.Invalidate();
-            flpMain.Invalidate();
+            //pnlMain.Invalidate();
+            //flpMain.Invalidate();
 
-            var c = csfunc.GetAll(flpMain, typeof(Panel));
-            foreach (Panel ctrl in c)
-            {
-                ctrl.Width = Convert.ToInt32(ctrl.Width * zoom);
-                ctrl.Height = Convert.ToInt32(ctrl.Height * zoom);
-                ctrl.Invalidate();
-            }
+            //var c = csfunc.GetAll(flpMain, typeof(Panel));
+            //foreach (Panel ctrl in c)
+            //{
+            //    ctrl.Width = Convert.ToInt32(ctrl.Width * zoom);
+            //    ctrl.Height = Convert.ToInt32(ctrl.Height * zoom);
+            //    ctrl.Invalidate();
+            //}
         }
 
         bool paint_pnlMain = false;
@@ -1883,7 +1883,8 @@ namespace KMDIWinDoorsCS
                     flp_Width = flpMain.Width,
                     flp_Height = flpMain.Height;
 
-                string dmnsion_w = flpMain.Width.ToString();
+                //string dmnsion_w = flpMain.Width.ToString();
+                string dmnsion_w = static_wd.ToString();
                 Point dmnsion_w_startP = new Point(flp_X, flp_Y - 15);
                 Point dmnsion_w_endP = new Point(flp_X + flp_Width, flp_Y - 15);
                 Font dmnsion_font = new Font("Segoe UI", 12);
@@ -1918,7 +1919,8 @@ namespace KMDIWinDoorsCS
 
 
                 //arrow for HEIGHT
-                string dmnsion_h = flpMain.Height.ToString();
+                //string dmnsion_h = flpMain.Height.ToString();
+                string dmnsion_h = static_ht.ToString();
                 Point dmnsion_h_startP = new Point(flp_X - 15, flp_Y);
                 Point dmnsion_h_endP = new Point(flp_X - 15, flp_Y + flp_Height);
 
@@ -2069,6 +2071,10 @@ namespace KMDIWinDoorsCS
                     paint_pnlMain = true;
                     tsMain.Enabled = true;
                     flpMain.Size = new Size(defwidth, defheight);
+
+                    static_wd = flpMain.Width;
+                    static_ht = flpMain.Height;
+
                     flpMain.Visible = true;
                     flpMain.Controls.Clear();
                     pnlMain.Invalidate();

@@ -48,6 +48,8 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.c70ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.premiLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.costingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlItems = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -78,8 +80,6 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
-            this.costingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.defaultValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -304,16 +304,30 @@
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.c70ToolStripMenuItem.Text = "C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.premiLineToolStripMenuItem.Text = "PremiLine";
             this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
+            // 
+            // costingToolStripMenuItem
+            // 
+            this.costingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultValuesToolStripMenuItem});
+            this.costingToolStripMenuItem.Name = "costingToolStripMenuItem";
+            this.costingToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.costingToolStripMenuItem.Text = "Costing";
+            // 
+            // defaultValuesToolStripMenuItem
+            // 
+            this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // pnlRight
             // 
@@ -586,7 +600,7 @@
             this.trkZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.trkZoom.AutoSize = false;
             this.trkZoom.LargeChange = 25;
-            this.trkZoom.Location = new System.Drawing.Point(92, 553);
+            this.trkZoom.Location = new System.Drawing.Point(106, 553);
             this.trkZoom.Margin = new System.Windows.Forms.Padding(2);
             this.trkZoom.Maximum = 300;
             this.trkZoom.Minimum = 5;
@@ -596,20 +610,6 @@
             this.trkZoom.TickFrequency = 25;
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
-            // 
-            // costingToolStripMenuItem
-            // 
-            this.costingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.defaultValuesToolStripMenuItem});
-            this.costingToolStripMenuItem.Name = "costingToolStripMenuItem";
-            this.costingToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.costingToolStripMenuItem.Text = "Costing";
-            // 
-            // defaultValuesToolStripMenuItem
-            // 
-            this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // frmMain2
             // 
