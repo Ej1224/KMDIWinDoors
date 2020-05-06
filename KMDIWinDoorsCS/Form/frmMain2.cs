@@ -1437,15 +1437,16 @@ namespace KMDIWinDoorsCS
             int cX, cY;
             cX = (pnlMain.Width - flpMain.Width) / 2;
             cY = (pnlMain.Height - flpMain.Height) / 2;
-            if (cX <= 0 && cY <= 0)
+
+            if (cX <= 30 && cY <= 30)
             {
                 flpMain.Location = new Point(50, 50);
             }
-            else if (cX <= 0)
+            else if (cX <= 30)
             {
                 flpMain.Location = new Point(50, cY);
             }
-            else if (cY <= 0)
+            else if (cY <= 30)
             {
                 flpMain.Location = new Point(cX, 50);
             }
@@ -1453,7 +1454,10 @@ namespace KMDIWinDoorsCS
             {
                 flpMain.Location = new Point(cX, cY);
             }
-            tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+            if (trackzoom == false)
+            {
+                tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+            }
 
             pnlMain.Invalidate();
             flpMain.Invalidate();
@@ -1711,11 +1715,14 @@ namespace KMDIWinDoorsCS
             }
 
             frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = flpMain.Width;
-            frm.numHeight.Value = flpMain.Height;
+            frm.numWidth.Value = static_wd;
+            frm.numHeight.Value = static_ht;
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
+                trkZoom.Value = 100;
+                trackzoom = false;
+
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
@@ -1757,16 +1764,19 @@ namespace KMDIWinDoorsCS
             //THIS CODE IS TO SAVE IMAGE from PnlMain
             try
             {
-                Bitmap bm = new Bitmap(flpMain.Size.Width, flpMain.Size.Height);
-                flpMain.DrawToBitmap(bm, new Rectangle(0, 0,
-                                                       flpMain.Size.Width, flpMain.Size.Height));
-
-                if (flpMain.Tag != null)
+                if (trackzoom == false)
                 {
-                    var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain.Tag.ToString());
-                    foreach (PictureBox ctrl in pbxcoll)
+                    Bitmap bm = new Bitmap(flpMain.Size.Width, flpMain.Size.Height);
+                    flpMain.DrawToBitmap(bm, new Rectangle(0, 0,
+                                                           flpMain.Size.Width, flpMain.Size.Height));
+
+                    if (flpMain.Tag != null)
                     {
-                        ctrl.Image = bm;
+                        var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain.Tag.ToString());
+                        foreach (PictureBox ctrl in pbxcoll)
+                        {
+                            ctrl.Image = bm;
+                        }
                     }
                 }
             }
@@ -1778,7 +1788,8 @@ namespace KMDIWinDoorsCS
 
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            frmDimensions frm = new frmDimensions();
+            tsSize_DoubleClick(sender, e);
+            /*frmDimensions frm = new frmDimensions();
             frm.numWidth.Value = flpMain.Width;
             frm.numHeight.Value = flpMain.Height;
 
@@ -1802,7 +1813,7 @@ namespace KMDIWinDoorsCS
                     flpMain.Invalidate();
                     pnlMain.Invalidate();
                 }
-            }
+            }*/
         }
 
         private void chkView_CheckedChanged(object sender, EventArgs e)
@@ -1842,10 +1853,12 @@ namespace KMDIWinDoorsCS
 
         float zoom = 1f;
         int static_wd = 0, static_ht = 0;
+        bool trackzoom;
 
         private void trkZoom_ValueChanged(object sender, EventArgs e)
         {
-            
+            trackzoom = true;
+
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
 
@@ -1894,17 +1907,18 @@ namespace KMDIWinDoorsCS
 
                 //arrow for WIDTH
                 Point[] arrwhd_pnts_W1 =
-                 {
+                {
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
                 dmnsion_w_startP,
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
-            };
+                };
+
                 Point[] arrwhd_pnts_W2 =
                 {
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
                 dmnsion_w_endP,
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
-            };
+                };
 
                 g.DrawLines(Pens.Red, arrwhd_pnts_W1);
                 g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
@@ -2102,7 +2116,7 @@ namespace KMDIWinDoorsCS
             Text = Text.Replace("*", "");
             MessageBox.Show("Saved");
         }
-
+        
         private void frmMain2_TextChanged(object sender, EventArgs e)
         {
             if (Text.Contains("*"))
