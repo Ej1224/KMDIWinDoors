@@ -320,6 +320,7 @@ namespace KMDIWinDoorsCS
             frame.Size = new Size(fwidth, fheight);
             frame.Tag = wndr;
             frame.Cursor = Cursors.Hand;
+            frame.TabIndex = id;
             frame.Paint += new PaintEventHandler(pnlFrame_Paint);
             frame.MouseClick += new MouseEventHandler(pnl_MouseClick);
             frame.PaddingChanged += new EventHandler(frame_PaddingChanged);
@@ -1868,6 +1869,18 @@ namespace KMDIWinDoorsCS
             flpMain.Width = Convert.ToInt32(wd);
             flpMain.Height = Convert.ToInt32(ht);
 
+            foreach (Panel pnl in flpMain.Controls)
+            {
+                int id = pnl.TabIndex;
+
+                List<int> lstDimensions = new List<int>();
+                lstDimensions = dictFrameDimension[id];
+
+                float fwd = lstDimensions[0] * zoom,
+                      fht = lstDimensions[1] * zoom;
+                pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
+            }
+
             //pnlMain.Invalidate();
             //flpMain.Invalidate();
 
@@ -2161,6 +2174,8 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        IDictionary<int, List<int>> dictFrameDimension = new Dictionary<int, List<int>>();
+
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
             int defwidth = flpMain.Width,
@@ -2197,6 +2212,11 @@ namespace KMDIWinDoorsCS
                                                              defwndr);
                 pnlPropertiesBody.Controls.Add(prop);
                 prop.BringToFront();
+
+                List<int> lstDimensions = new List<int>();
+                lstDimensions.Add(defwidth);
+                lstDimensions.Add(defheight);
+                dictFrameDimension.Add(flp_cntr, lstDimensions);
             }
 
         }
