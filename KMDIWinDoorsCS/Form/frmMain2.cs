@@ -1872,12 +1872,15 @@ namespace KMDIWinDoorsCS
             foreach (Panel pnl in flpMain.Controls)
             {
                 int id = pnl.TabIndex;
+                int wndr = Convert.ToInt32(pnl.Tag);
 
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictFrameDimension[id];
 
                 float fwd = lstDimensions[0] * zoom,
                       fht = lstDimensions[1] * zoom;
+
+                pnl.Padding = new Padding(Convert.ToInt32(wndr * zoom));
                 pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
             }
 
@@ -2178,8 +2181,8 @@ namespace KMDIWinDoorsCS
 
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
-            int defwidth = flpMain.Width,
-                defheight = flpMain.Height,
+            int defwidth = static_wd,
+                defheight = static_ht,
                 defwndr = 0, //if window 52/2 = 26; elseif door 67/2 = 33
                 flp_cntr = flpMain.Controls.Count + 1;
 
@@ -2204,7 +2207,11 @@ namespace KMDIWinDoorsCS
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
                 Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, flp_cntr);
+
+                frame.Padding = new Padding(Convert.ToInt32(defwndr * zoom));
+                frame.Size = new Size(Convert.ToInt32(defwidth * zoom), Convert.ToInt32(defheight * zoom));
                 flpMain.Controls.Add(frame);
+
                 FlowLayoutPanel prop = CreateFrameProperties("Frame", 
                                                              flpMain.Controls.Count, 
                                                              defwidth,
@@ -2216,7 +2223,15 @@ namespace KMDIWinDoorsCS
                 List<int> lstDimensions = new List<int>();
                 lstDimensions.Add(defwidth);
                 lstDimensions.Add(defheight);
-                dictFrameDimension.Add(flp_cntr, lstDimensions);
+
+                if (dictFrameDimension.ContainsKey(flp_cntr))
+                {
+                    dictFrameDimension[flp_cntr] =  lstDimensions;
+                }
+                else
+                {
+                    dictFrameDimension.Add(flp_cntr, lstDimensions);
+                }
             }
 
         }
