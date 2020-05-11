@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -137,14 +137,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -208,7 +208,7 @@
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
             this.flpMain.Cursor = System.Windows.Forms.Cursors.Hand;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain.Location = new System.Drawing.Point(196, 84);
+            this.flpMain.Location = new System.Drawing.Point(170, 86);
             this.flpMain.Name = "flpMain";
             this.flpMain.Size = new System.Drawing.Size(300, 325);
             this.flpMain.TabIndex = 1;

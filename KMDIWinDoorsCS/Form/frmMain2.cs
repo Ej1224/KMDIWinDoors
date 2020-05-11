@@ -712,7 +712,7 @@ namespace KMDIWinDoorsCS
                 var c = csfunc.GetAll(flpMain, typeof(Panel), rd.Tag.ToString());//Searching for Frame
                 foreach (Panel ctrl in c)
                 {
-                    ctrl.Padding = new Padding(wndr_padd);
+                    ctrl.Padding = new Padding(Convert.ToInt32(wndr_padd * zoom));
                     ctrl.Tag = wndr_padd;
                     ctrl.Invalidate();
                     frame = ctrl;
@@ -746,6 +746,7 @@ namespace KMDIWinDoorsCS
             lbl = itemsLblSearch("lbldesc_");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
+            trackzoom = true;
             flpMain.Invalidate();
         }
 
@@ -760,19 +761,27 @@ namespace KMDIWinDoorsCS
             string frameName = num.Parent.Name,
                    str_width = "",
                    str_height = "";
+            int frameid = 0;
             Panel snglPnl = new Panel();
+            List<int> lstDimensions = new List<int>();
 
             var c = csfunc.GetAll(flpMain, typeof(Panel), frameName); // Searching for Frame
             foreach (var ctrl in c)
             {
+                frameid = ctrl.TabIndex;
+                lstDimensions = dictFrameDimension[frameid];
+
                 if (num.Name.Contains("numfWidth_"))
                 {
-                    ctrl.Width = Convert.ToInt32(num.Value);
+                    lstDimensions[0] = Convert.ToInt32(num.Value);
+                    ctrl.Width = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
                 }
                 else if (num.Name.Contains("numfHeight_"))
                 {
-                    ctrl.Height = Convert.ToInt32(num.Value);
+                    lstDimensions[1] = Convert.ToInt32(num.Value);
+                    ctrl.Height = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
                 }
+                dictFrameDimension[frameid] = lstDimensions;
                 ctrl.Invalidate();
 
                 var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
@@ -821,6 +830,7 @@ namespace KMDIWinDoorsCS
                 }
             }
 
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
