@@ -94,7 +94,6 @@ namespace KMDIWinDoorsCS
         private void pnl_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.ScaleTransform(zoom, zoom);
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
@@ -333,6 +332,7 @@ namespace KMDIWinDoorsCS
             pnl_inner.Margin = new Padding(0);
             pnl_inner.Padding = new Padding(0);
             //pnl_inner.Tag = wndr;
+            //pnl_inner.TabIndex = id;
             pnl_inner.Tag = frame.Name;
             pnl_inner.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
             pnl_inner.DragOver += new DragEventHandler(pnl_inner_DragOver);
@@ -746,7 +746,7 @@ namespace KMDIWinDoorsCS
             lbl = itemsLblSearch("lbldesc_");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
-            trackzoom = true;
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
@@ -1474,6 +1474,8 @@ namespace KMDIWinDoorsCS
             flpMain.Invalidate();
         }
 
+        IDictionary<int, List<int>> dictPanelDimension = new Dictionary<int, List<int>>();
+
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
         {
             var Multi = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
@@ -1483,6 +1485,8 @@ namespace KMDIWinDoorsCS
             Control pnl = (Control)sender; //Control na babagsakan
             if (c != null)
             {
+                List<int> lstDimensions = new List<int>();
+
                 int wndr = 0, div = 0;
                 FlowLayoutPanel fprop = new FlowLayoutPanel();
                 var framecol = csfunc.GetAll(flpMain, typeof(Panel), pnl.Tag.ToString()); //pnl.Tag = FrameName
@@ -1602,10 +1606,22 @@ namespace KMDIWinDoorsCS
                     }
                     else
                     {
+                        int cpnlcount = cpnl.Count() + 1;
+                        int id = pnl.Parent.TabIndex;
+
+                        List<int> lstFrameDimension = new List<int>();
+                        lstFrameDimension = dictFrameDimension[id];
+                        int orig_wd = lstFrameDimension[0] - (wndr * 2),
+                            orig_ht = lstFrameDimension[1] - (wndr * 2);
+
+                        lstDimensions.Add(orig_wd);
+                        lstDimensions.Add(orig_ht);
+
                         if (c.Name.Contains("Panel"))
                         {
-                            c.Name += (cpnl.Count() + 1);
-                            Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Width, pnl.Height,false);
+                            c.Name += cpnlcount;
+                            Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), orig_wd, orig_ht,false);
+                            //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), c.Width, c.Height,false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
                             fprop.Controls.Add(Pprop);
                         }
@@ -1613,8 +1629,23 @@ namespace KMDIWinDoorsCS
                         {
                             c.Name += (Multi.Count() + 1);
                         }
+
+                        if (dictPanelDimension.ContainsKey(cpnlcount))
+                        {
+                            dictPanelDimension[cpnlcount] = lstDimensions;
+                        }
+                        else
+                        {
+                            dictPanelDimension.Add(cpnlcount, lstDimensions);
+                        }
+
+                        c.Width = Convert.ToInt32(orig_wd * zoom);
+                        c.Height = Convert.ToInt32(orig_ht * zoom);
+                        c.TabIndex = cpnlcount;
                         c.Tag = pnl.Tag;
+                        c.Dock = DockStyle.Fill;
                         pnl.Controls.Add(c);
+
                     }
                 }
                 
@@ -2322,6 +2353,9 @@ namespace KMDIWinDoorsCS
             }
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
+
+            trackzoom = false;
+            flpMain.Invalidate();
         }
 
     }
