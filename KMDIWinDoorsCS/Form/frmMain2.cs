@@ -761,7 +761,7 @@ namespace KMDIWinDoorsCS
             string frameName = num.Parent.Name,
                    str_width = "",
                    str_height = "";
-            int frameid = 0;
+            int frameid = 0, wndr = 0;
             Panel snglPnl = new Panel();
             List<int> lstDimensions = new List<int>();
 
@@ -769,6 +769,7 @@ namespace KMDIWinDoorsCS
             foreach (var ctrl in c)
             {
                 frameid = ctrl.TabIndex;
+                wndr = Convert.ToInt32(ctrl.Tag);
                 lstDimensions = dictFrameDimension[frameid];
 
                 if (num.Name.Contains("numfWidth_"))
@@ -808,14 +809,16 @@ namespace KMDIWinDoorsCS
                     {
                         if (ctrl.Name.Contains("Width"))
                         {
-                            ctrl.Value = snglPnl.Width;
+                            //ctrl.Value = snglPnl.Width;
+                            ctrl.Value = num.Value - (wndr * 2);
                         }
                     }
                     else if (num.Name.Contains("numfHeight_"))
                     {
                         if (ctrl.Name.Contains("Height"))
                         {
-                            ctrl.Value = snglPnl.Height;
+                            ctrl.Value = num.Value - (wndr * 2);
+                            //ctrl.Value = snglPnl.Height;
                         }
                     }
                 }
@@ -981,6 +984,7 @@ namespace KMDIWinDoorsCS
             lbl = itemsLblSearch("lbldesc_");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
@@ -1008,6 +1012,8 @@ namespace KMDIWinDoorsCS
                 pnl.Height = Convert.ToInt32(pnum.Value);
             }
             pnl.Invalidate();
+
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
@@ -1063,6 +1069,8 @@ namespace KMDIWinDoorsCS
                 ctrl.AccessibleDescription = cbx.Text + chk.Text;
                 ctrl.Invalidate();
             }
+
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
@@ -1140,6 +1148,7 @@ namespace KMDIWinDoorsCS
             lbl = itemsLblSearch("lbldesc_");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
+            trackzoom = false;
             flpMain.Invalidate();
         }
 
@@ -1646,6 +1655,8 @@ namespace KMDIWinDoorsCS
                         c.Dock = DockStyle.Fill;
                         pnl.Controls.Add(c);
 
+                        trackzoom = false;
+                        flpMain.Invalidate();
                     }
                 }
                 
@@ -2251,7 +2262,10 @@ namespace KMDIWinDoorsCS
 
                 frame.Padding = new Padding(Convert.ToInt32(defwndr * zoom));
                 frame.Size = new Size(Convert.ToInt32(defwidth * zoom), Convert.ToInt32(defheight * zoom));
+
                 flpMain.Controls.Add(frame);
+                trackzoom = false;
+                flpMain.Invalidate();
 
                 FlowLayoutPanel prop = CreateFrameProperties("Frame", 
                                                              flpMain.Controls.Count, 
