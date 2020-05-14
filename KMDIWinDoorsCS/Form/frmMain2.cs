@@ -1548,8 +1548,12 @@ namespace KMDIWinDoorsCS
                     {
                         frmDimensions frm = new frmDimensions();
                         FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
-                        int access_desc = Convert.ToInt32(fpnl.AccessibleDescription);
-                        int Pwidth = 0, Pheight = 0;
+                        int numdiv = Convert.ToInt32(fpnl.AccessibleDescription);
+                        string[] real_dimensions = pnl.AccessibleDefaultActionDescription.Split('x');
+                        int Pwidth = 0, 
+                            Pheight = 0,
+                            real_Pwidth = Convert.ToInt32(real_dimensions[0]),
+                            real_Pheight = Convert.ToInt32(real_dimensions[1]);
 
                         if (wndr == 26)
                         {
@@ -1562,15 +1566,18 @@ namespace KMDIWinDoorsCS
 
                         if (fpnl.FlowDirection == FlowDirection.LeftToRight)
                         {
-                            Pwidth = (pnl.Width - (div * access_desc)) / (access_desc + 1);
-                            Pheight = pnl.Height;
-                            
+                            Pwidth = (real_Pwidth - (div * numdiv)) / (numdiv + 1);
+                            Pheight = real_Pheight;
+                            //Pwidth = (pnl.Width - (div * numdiv)) / (numdiv + 1);
+                            //Pheight = pnl.Height;
+
                         }
                         else if (fpnl.FlowDirection == FlowDirection.TopDown)
                         {
-                            Pwidth = pnl.Width;
-                            Pheight = (pnl.Height - (div * access_desc)) / (access_desc + 1);
-
+                            Pwidth = real_Pwidth;
+                            Pheight = (real_Pheight - (div * numdiv)) / (numdiv + 1);
+                            //Pwidth = pnl.Width;
+                            //Pheight = (pnl.Height - (div * numdiv)) / (numdiv + 1);
                         }
 
                         frm.numWidth.Value = Pwidth;
@@ -1582,7 +1589,7 @@ namespace KMDIWinDoorsCS
                             Pheight = Convert.ToInt32(frm.numHeight.Value);
 
                             c.Dock = DockStyle.None;
-                            c.Size = new Size(Pwidth, Pheight);
+                            c.Size = new Size(Convert.ToInt32(Pwidth * zoom), Convert.ToInt32(Pheight * zoom));
                             c.Tag = pnl.Tag;
                             if (c.Name.Contains("Panel"))
                             {
@@ -1593,6 +1600,7 @@ namespace KMDIWinDoorsCS
                             else if (c.Name.Contains("Multi"))
                             {
                                 c.Name += (Multi.Count() + 1);
+                                c.AccessibleDefaultActionDescription = Pwidth + "x" + Pheight;
                             }
                             pnl.Controls.Add(c);
                         }
@@ -1637,6 +1645,7 @@ namespace KMDIWinDoorsCS
                         else if (c.Name.Contains("Multi"))
                         {
                             c.Name += (Multi.Count() + 1);
+                            c.AccessibleDefaultActionDescription = orig_wd + "x" + orig_ht;
                         }
 
                         if (dictPanelDimension.ContainsKey(cpnlcount))
