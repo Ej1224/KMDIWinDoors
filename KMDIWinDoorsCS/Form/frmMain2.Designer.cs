@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -80,6 +80,8 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
+            this.btnAddZoom = new System.Windows.Forms.Button();
+            this.btnSubtractZoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -137,14 +139,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -600,10 +602,10 @@
             this.trkZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.trkZoom.AutoSize = false;
             this.trkZoom.LargeChange = 25;
-            this.trkZoom.Location = new System.Drawing.Point(106, 553);
+            this.trkZoom.Location = new System.Drawing.Point(138, 554);
             this.trkZoom.Margin = new System.Windows.Forms.Padding(2);
             this.trkZoom.Maximum = 300;
-            this.trkZoom.Minimum = 5;
+            this.trkZoom.Minimum = 10;
             this.trkZoom.Name = "trkZoom";
             this.trkZoom.Size = new System.Drawing.Size(142, 20);
             this.trkZoom.TabIndex = 4;
@@ -611,11 +613,37 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
+            // btnAddZoom
+            // 
+            this.btnAddZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddZoom.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddZoom.Location = new System.Drawing.Point(284, 552);
+            this.btnAddZoom.Name = "btnAddZoom";
+            this.btnAddZoom.Size = new System.Drawing.Size(25, 23);
+            this.btnAddZoom.TabIndex = 5;
+            this.btnAddZoom.Text = "+";
+            this.btnAddZoom.UseVisualStyleBackColor = true;
+            this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
+            // 
+            // btnSubtractZoom
+            // 
+            this.btnSubtractZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSubtractZoom.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSubtractZoom.Location = new System.Drawing.Point(108, 552);
+            this.btnSubtractZoom.Name = "btnSubtractZoom";
+            this.btnSubtractZoom.Size = new System.Drawing.Size(25, 23);
+            this.btnSubtractZoom.TabIndex = 6;
+            this.btnSubtractZoom.Text = "-";
+            this.btnSubtractZoom.UseVisualStyleBackColor = true;
+            this.btnSubtractZoom.Click += new System.EventHandler(this.btnZoom_Click);
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 578);
+            this.Controls.Add(this.btnSubtractZoom);
+            this.Controls.Add(this.btnAddZoom);
             this.Controls.Add(this.trkZoom);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.stsEditor);
@@ -706,6 +734,8 @@
         private System.Windows.Forms.ToolStripButton tsb_Redo;
         private System.Windows.Forms.ToolStripMenuItem costingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defaultValuesToolStripMenuItem;
+        private System.Windows.Forms.Button btnAddZoom;
+        private System.Windows.Forms.Button btnSubtractZoom;
     }
 }
 

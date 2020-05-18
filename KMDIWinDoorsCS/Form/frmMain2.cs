@@ -1491,6 +1491,7 @@ namespace KMDIWinDoorsCS
         {
             var Multi = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
             var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
+            int cpnlcount = cpnl.Count() + 1;
 
             Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control; //Control na babagsak
             Control pnl = (Control)sender; //Control na babagsakan
@@ -1619,9 +1620,24 @@ namespace KMDIWinDoorsCS
                             c.Tag = pnl.Tag;
                             if (c.Name.Contains("Panel"))
                             {
-                                c.Name += (cpnl.Count() + 1);
+                                c.Name += cpnlcount;
+                                //c.Name += (cpnl.Count() + 1);
                                 Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1),Pwidth,Pheight,true);
                                 fprop.Controls.Add(Pprop);
+
+                                c.TabIndex = cpnlcount;
+
+                                lstDimensions.Add(Pwidth);
+                                lstDimensions.Add(Pheight);
+
+                                if (dictPanelDimension.ContainsKey(cpnlcount))
+                                {
+                                    dictPanelDimension[cpnlcount] = lstDimensions;
+                                }
+                                else
+                                {
+                                    dictPanelDimension.Add(cpnlcount, lstDimensions);
+                                }
                             }
                             else if (c.Name.Contains("Multi"))
                             {
@@ -1662,7 +1678,6 @@ namespace KMDIWinDoorsCS
                     }
                     else
                     {
-                        int cpnlcount = cpnl.Count() + 1;
                         int id = pnl.Parent.TabIndex;
 
                         List<int> lstFrameDimension = new List<int>();
@@ -2021,6 +2036,18 @@ namespace KMDIWinDoorsCS
                       mulht = lstDimensions[1] * zoom;
                 mul.Size = new Size(Convert.ToInt32(mulwd), Convert.ToInt32(mulht));
             }
+
+            var PanelCol = csfunc.GetAll(flpMain, typeof(Panel), "Panel_");
+            foreach (Panel pnl in PanelCol)
+            {
+                int id = pnl.TabIndex;
+                List<int> lstDimensions = new List<int>();
+                lstDimensions = dictPanelDimension[id];
+
+                float pnlwd = lstDimensions[0] * zoom,
+                      pnlht = lstDimensions[1] * zoom;
+                pnl.Size = new Size(Convert.ToInt32(pnlwd), Convert.ToInt32(pnlht));
+            }
         }
 
         bool paint_pnlMain = false;
@@ -2089,13 +2116,14 @@ namespace KMDIWinDoorsCS
                 new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
                 dmnsion_h_startP,
                 new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
-            };
+                };
+
                 Point[] arrwhd_pnts_H2 =
                 {
                 new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
                 dmnsion_h_endP,
                 new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
-            };
+                };
 
                 g.DrawLines(Pens.Red, arrwhd_pnts_H1);
                 g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
@@ -2269,6 +2297,26 @@ namespace KMDIWinDoorsCS
             else
             {
                 saveToolStripButton.Enabled = false;
+            }
+        }
+
+        private void btnZoom_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+
+            if (btn == btnAddZoom)
+            {
+                if (trkZoom.Value < trkZoom.Maximum)
+                {
+                    trkZoom.Value += 10;
+                }
+            }
+            else if (btn == btnSubtractZoom)
+            {
+                if (trkZoom.Value > trkZoom.Minimum)
+                {
+                    trkZoom.Value -= 10;
+                }
             }
         }
 
