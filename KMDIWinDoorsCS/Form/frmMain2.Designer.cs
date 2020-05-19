@@ -63,14 +63,6 @@
             this.louverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -80,8 +72,16 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
-            this.btnAddZoom = new System.Windows.Forms.Button();
             this.btnSubtractZoom = new System.Windows.Forms.Button();
+            this.btnAddZoom = new System.Windows.Forms.Button();
+            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -454,83 +454,6 @@
             this.tsMain.TabIndex = 3;
             this.tsMain.Text = "toolStrip1";
             // 
-            // tsBtnNwin
-            // 
-            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
-            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNwin.Name = "tsBtnNwin";
-            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
-            this.tsBtnNwin.Text = "New Window";
-            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // tsBtnNdoor
-            // 
-            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
-            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
-            this.tsBtnNdoor.Name = "tsBtnNdoor";
-            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
-            this.tsBtnNdoor.Text = "New Door";
-            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.newToolStripButton.Text = "&New";
-            // 
-            // openToolStripButton
-            // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.openToolStripButton.Text = "&Open";
-            // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Enabled = false;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
-            // 
-            // printToolStripButton
-            // 
-            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
-            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.printToolStripButton.Text = "&Print";
-            // 
-            // tsb_Undo
-            // 
-            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
-            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Undo.Name = "tsb_Undo";
-            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Undo.Text = "Undo";
-            // 
-            // tsb_Redo
-            // 
-            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
-            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Redo.Name = "tsb_Redo";
-            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Redo.Text = "Redo";
-            // 
             // stsEditor
             // 
             this.stsEditor.AutoSize = false;
@@ -613,29 +536,115 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
-            // btnAddZoom
-            // 
-            this.btnAddZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddZoom.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddZoom.Location = new System.Drawing.Point(284, 552);
-            this.btnAddZoom.Name = "btnAddZoom";
-            this.btnAddZoom.Size = new System.Drawing.Size(25, 23);
-            this.btnAddZoom.TabIndex = 5;
-            this.btnAddZoom.Text = "+";
-            this.btnAddZoom.UseVisualStyleBackColor = true;
-            this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
-            // 
             // btnSubtractZoom
             // 
             this.btnSubtractZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSubtractZoom.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSubtractZoom.Location = new System.Drawing.Point(108, 552);
+            this.btnSubtractZoom.BackgroundImage = global::KMDIWinDoorsCS.Properties.Resources.minus2_104px;
+            this.btnSubtractZoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnSubtractZoom.FlatAppearance.BorderSize = 0;
+            this.btnSubtractZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSubtractZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSubtractZoom.Location = new System.Drawing.Point(115, 553);
             this.btnSubtractZoom.Name = "btnSubtractZoom";
             this.btnSubtractZoom.Size = new System.Drawing.Size(25, 23);
             this.btnSubtractZoom.TabIndex = 6;
-            this.btnSubtractZoom.Text = "-";
             this.btnSubtractZoom.UseVisualStyleBackColor = true;
             this.btnSubtractZoom.Click += new System.EventHandler(this.btnZoom_Click);
+            // 
+            // btnAddZoom
+            // 
+            this.btnAddZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddZoom.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddZoom.BackgroundImage = global::KMDIWinDoorsCS.Properties.Resources.plus2_104px;
+            this.btnAddZoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAddZoom.FlatAppearance.BorderSize = 0;
+            this.btnAddZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddZoom.Location = new System.Drawing.Point(278, 553);
+            this.btnAddZoom.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAddZoom.Name = "btnAddZoom";
+            this.btnAddZoom.Size = new System.Drawing.Size(25, 23);
+            this.btnAddZoom.TabIndex = 5;
+            this.btnAddZoom.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAddZoom.UseVisualStyleBackColor = false;
+            this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
+            // 
+            // tsBtnNwin
+            // 
+            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
+            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNwin.Name = "tsBtnNwin";
+            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
+            this.tsBtnNwin.Text = "New Window";
+            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
+            // 
+            // tsBtnNdoor
+            // 
+            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
+            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
+            this.tsBtnNdoor.Name = "tsBtnNdoor";
+            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
+            this.tsBtnNdoor.Text = "New Door";
+            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.newToolStripButton.Text = "&New";
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.openToolStripButton.Text = "&Open";
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.printToolStripButton.Text = "&Print";
+            // 
+            // tsb_Undo
+            // 
+            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
+            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Undo.Name = "tsb_Undo";
+            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Undo.Text = "Undo";
+            // 
+            // tsb_Redo
+            // 
+            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
+            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Redo.Name = "tsb_Redo";
+            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Redo.Text = "Redo";
             // 
             // frmMain2
             // 

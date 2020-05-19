@@ -1460,15 +1460,15 @@ namespace KMDIWinDoorsCS
 
             if (cX <= 30 && cY <= 30)
             {
-                flpMain.Location = new Point(50, 50);
+                flpMain.Location = new Point(60, 60);
             }
             else if (cX <= 30)
             {
-                flpMain.Location = new Point(50, cY);
+                flpMain.Location = new Point(60, cY);
             }
             else if (cY <= 30)
             {
-                flpMain.Location = new Point(cX, 50);
+                flpMain.Location = new Point(cX, 60);
             }
             else
             {
@@ -1486,12 +1486,15 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<int>> dictPanelDimension = new Dictionary<int, List<int>>();
         IDictionary<int, List<int>> dictMultiPanelDimension = new Dictionary<int, List<int>>();
         IDictionary<int, List<int>> dictMullionDimension = new Dictionary<int, List<int>>();
+        IDictionary<int, List<int>> dictTransomDimension = new Dictionary<int, List<int>>();
 
+        int cpnlcount = 0,
+            mulcount = 0,
+            trnscount = 0;// cpnl.Count() + 1;
         private void pnl_inner_DragDrop(object sender, DragEventArgs e)
         {
             var Multi = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
             var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
-            int cpnlcount = cpnl.Count() + 1;
 
             Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control; //Control na babagsak
             Control pnl = (Control)sender; //Control na babagsakan
@@ -1500,6 +1503,7 @@ namespace KMDIWinDoorsCS
                 List<int> lstDimensions = new List<int>();
                 List<int> lstMultiPDimensions = new List<int>();
                 List<int> lstMullionDimensions = new List<int>();
+                List<int> lstTransomDimensions = new List<int>();
 
                 int wndr = 0, div = 0;
                 FlowLayoutPanel fprop = new FlowLayoutPanel();
@@ -1517,14 +1521,15 @@ namespace KMDIWinDoorsCS
 
                 if (c.Name.Contains("Mullion"))
                 {
-                    var mul = csfunc.GetAll(flpMain, typeof(Panel), "Mullion");
+                    mulcount++;
+                    //var mul = csfunc.GetAll(flpMain, typeof(Panel), "Mullion");
 
                     string[] real_dimensions = pnl.AccessibleDefaultActionDescription.Split('x');
                     int Pwidth = 0,
                         real_Pwidth = Convert.ToInt32(real_dimensions[0]),
                         real_Pheight = Convert.ToInt32(real_dimensions[1]);
 
-                    c.Name += (mul.Count() + 1);
+                    c.Name += mulcount;
                     if (wndr == 26)
                     {
                         Pwidth = 10;
@@ -1537,36 +1542,60 @@ namespace KMDIWinDoorsCS
                     }
                     c.Width = Convert.ToInt32(Pwidth * zoom);
                     c.Height = Convert.ToInt32(real_Pheight * zoom);
-                    c.TabIndex = mul.Count() + 1;
+                    c.TabIndex = mulcount;
 
                     lstMullionDimensions.Add(Pwidth);
                     lstMullionDimensions.Add(real_Pheight);
 
                     if (dictMullionDimension.ContainsKey(Multi.Count() + 1))
                     {
-                        dictMullionDimension[mul.Count() + 1] = lstMullionDimensions;
+                        dictMullionDimension[mulcount] = lstMullionDimensions;
                     }
                     else
                     {
-                        dictMullionDimension.Add(mul.Count() + 1, lstMullionDimensions);
+                        dictMullionDimension.Add(mulcount, lstMullionDimensions);
                     }
 
                     pnl.Controls.Add(c);
                 }
                 else if (c.Name.Contains("Transom"))
                 {
-                    var transom = csfunc.GetAll(flpMain, typeof(Panel), "Transom");
+                    trnscount++;
+                    //var transom = csfunc.GetAll(flpMain, typeof(Panel), "Transom");
 
-                    c.Name += (transom.Count() + 1);
+                    string[] real_dimensions = pnl.AccessibleDefaultActionDescription.Split('x');
+                    int Pheight = 0,
+                        real_Pwidth = Convert.ToInt32(real_dimensions[0]),
+                        real_Pheight = Convert.ToInt32(real_dimensions[1]);
+
+                    c.Name += trnscount;
                     if (wndr == 26)
                     {
-                        c.Height = 10;
+                        Pheight = 10;
+                        //c.Height = 10;
                     }
                     else if (wndr == 33)
                     {
-                        c.Height = 20;
+                        Pheight = 20;
+                        //c.Height = 20;
                     }
-                    c.Width = pnl.Width;
+
+                    c.Width = Convert.ToInt32(real_Pwidth * zoom);
+                    c.Height = Convert.ToInt32(Pheight * zoom);
+                    c.TabIndex = trnscount;
+
+                    lstTransomDimensions.Add(real_Pwidth);
+                    lstTransomDimensions.Add(Pheight);
+
+                    if (dictTransomDimension.ContainsKey(Multi.Count() + 1))
+                    {
+                        dictTransomDimension[trnscount] = lstTransomDimensions;
+                    }
+                    else
+                    {
+                        dictTransomDimension.Add(trnscount, lstTransomDimensions);
+                    }
+
                     pnl.Controls.Add(c);
                 }
                 else
@@ -1620,9 +1649,10 @@ namespace KMDIWinDoorsCS
                             c.Tag = pnl.Tag;
                             if (c.Name.Contains("Panel"))
                             {
+                                cpnlcount++;
                                 c.Name += cpnlcount;
                                 //c.Name += (cpnl.Count() + 1);
-                                Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1),Pwidth,Pheight,true);
+                                Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, Pwidth,Pheight,true);
                                 fprop.Controls.Add(Pprop);
 
                                 c.TabIndex = cpnlcount;
@@ -1690,8 +1720,9 @@ namespace KMDIWinDoorsCS
 
                         if (c.Name.Contains("Panel"))
                         {
+                            cpnlcount++;
                             c.Name += cpnlcount;
-                            Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), orig_wd, orig_ht,false);
+                            Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, orig_wd, orig_ht,false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), c.Width, c.Height,false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
                             fprop.Controls.Add(Pprop);
@@ -2035,6 +2066,18 @@ namespace KMDIWinDoorsCS
                 float mulwd = lstDimensions[0] * zoom,
                       mulht = lstDimensions[1] * zoom;
                 mul.Size = new Size(Convert.ToInt32(mulwd), Convert.ToInt32(mulht));
+            }
+
+            var TransomCol = csfunc.GetAll(flpMain, typeof(Panel), "Transom_");
+            foreach (Panel trns in TransomCol)
+            {
+                int id = trns.TabIndex;
+                List<int> lstDimensions = new List<int>();
+                lstDimensions = dictTransomDimension[id];
+
+                float trnswd = lstDimensions[0] * zoom,
+                      trnsht = lstDimensions[1] * zoom;
+                trns.Size = new Size(Convert.ToInt32(trnswd), Convert.ToInt32(trnsht));
             }
 
             var PanelCol = csfunc.GetAll(flpMain, typeof(Panel), "Panel_");

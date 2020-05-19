@@ -83,6 +83,16 @@ namespace KMDIWinDoorsCS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap minus2_104px {
+            get {
+                object obj = ResourceManager.GetObject("minus2_104px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Mullion {
             get {
                 object obj = ResourceManager.GetObject("Mullion", resourceCulture);
@@ -106,6 +116,26 @@ namespace KMDIWinDoorsCS.Properties {
         internal static System.Drawing.Bitmap MultiplePanel_Trans {
             get {
                 object obj = ResourceManager.GetObject("MultiplePanel_Trans", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plus_104px {
+            get {
+                object obj = ResourceManager.GetObject("plus_104px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plus2_104px {
+            get {
+                object obj = ResourceManager.GetObject("plus2_104px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
