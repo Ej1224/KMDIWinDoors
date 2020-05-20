@@ -128,7 +128,7 @@ namespace KMDIWinDoorsCS
                 {
                     g.DrawRectangle(blkPen, sashRect);
                 }
-                Font drawFont = new Font("Segoe UI", 12);
+                Font drawFont = new Font("Segoe UI", 12 * zoom);
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.Alignment = StringAlignment.Center;
                 drawFormat.LineAlignment = StringAlignment.Center;
@@ -275,14 +275,14 @@ namespace KMDIWinDoorsCS
 
             if (pnl.TabStop == true)
             {
-                Font dmnsion_font = new Font("Segoe UI", 12);
+                Font dmnsion_font = new Font("Segoe UI", 12 * zoom);
 
                 Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
                 double mid = (pnl.Width) / 2;
                 TextRenderer.DrawText(g,
                                       pnl.Name,
                                       dmnsion_font,
-                                      new Point(sashPoint.X + 3, sashPoint.Y + 3),
+                                      new Point(sashPoint.X + Convert.ToInt32(3 * zoom), sashPoint.Y + Convert.ToInt32(3 * zoom)),
                                       Color.Blue);
             }
 
@@ -386,7 +386,7 @@ namespace KMDIWinDoorsCS
             Panel pnl = (Panel)sender;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            Font drawFont = new Font("Segoe UI", 12);
+            Font drawFont = new Font("Segoe UI", 12 * zoom);
             StringFormat drawFormat = new StringFormat();
             drawFormat.Alignment = StringAlignment.Near;
             drawFormat.LineAlignment = StringAlignment.Near;
@@ -995,6 +995,9 @@ namespace KMDIWinDoorsCS
                 Text += "*";
             }
 
+            int pnlid = 0;
+            List<int> lstDimensions = new List<int>();
+
             NumericUpDown pnum = (NumericUpDown)sender;
             Panel pnl = new Panel();
             var c = csfunc.GetAll(flpMain, typeof(Panel), pnum.Parent.Name);
@@ -1003,14 +1006,20 @@ namespace KMDIWinDoorsCS
                 pnl = ctrl;
             }
 
+            pnlid = pnl.TabIndex;
+            lstDimensions = dictPanelDimension[pnlid];
+
             if (pnum.Name.Contains("Width"))
             {
-                pnl.Width = Convert.ToInt32(pnum.Value);
+                lstDimensions[0] = Convert.ToInt32(pnum.Value);
+                pnl.Width = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
             }
             else if (pnum.Name.Contains("Height"))
             {
-                pnl.Height = Convert.ToInt32(pnum.Value);
+                lstDimensions[1] = Convert.ToInt32(pnum.Value);
+                pnl.Height = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
             }
+            dictPanelDimension[pnlid] = lstDimensions;
             pnl.Invalidate();
 
             trackzoom = false;
@@ -1789,14 +1798,14 @@ namespace KMDIWinDoorsCS
 
             if (pfr.AccessibleDescription == "viewmodeOn")
             {
-                Font dmnsion_font = new Font("Segoe UI", 12);
+                Font dmnsion_font = new Font("Segoe UI", 12 * zoom);
 
                 Size s = TextRenderer.MeasureText(pfr.Name, dmnsion_font);
                 double mid = (pfr.Width) / 2;
                 TextRenderer.DrawText(g,
                                       pfr.Name,
                                       dmnsion_font,
-                                      new Point((int)(mid - (s.Width / 2)),3),
+                                      new Point((int)(mid - (s.Width / 2)),1),
                                       Color.Blue);
             }
             
@@ -2298,6 +2307,10 @@ namespace KMDIWinDoorsCS
 
                     paint_pnlMain = true;
                     tsMain.Enabled = true;
+                    stsEditor.Enabled = true;
+                    btnAddZoom.Enabled = true;
+                    trkZoom.Enabled = true;
+                    btnSubtractZoom.Enabled = true;
                     flpMain.Size = new Size(defwidth, defheight);
 
                     static_wd = flpMain.Width;
@@ -2356,9 +2369,15 @@ namespace KMDIWinDoorsCS
             }
             else if (btn == btnSubtractZoom)
             {
-                if (trkZoom.Value > trkZoom.Minimum)
+                int trkval = trkZoom.Value;
+                trkval -= 10;
+                if (trkval > trkZoom.Minimum)
                 {
-                    trkZoom.Value -= 10;
+                    trkZoom.Value = trkval;
+                }
+                else
+                {
+                    trkZoom.Value = trkZoom.Minimum;
                 }
             }
         }
@@ -2396,13 +2415,14 @@ namespace KMDIWinDoorsCS
         }
 
         IDictionary<int, List<int>> dictFrameDimension = new Dictionary<int, List<int>>();
+        int framecntr = 0;
 
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
             int defwidth = static_wd,
                 defheight = static_ht,
-                defwndr = 0, //if window 52/2 = 26; elseif door 67/2 = 33
-                flp_cntr = flpMain.Controls.Count + 1;
+                defwndr = 0; //if window 52/2 = 26; elseif door 67/2 = 33
+                //flp_cntr = flpMain.Controls.Count + 1;
 
             frmDimensions frm = new frmDimensions();
             frm.numWidth.Value = defwidth;
@@ -2424,7 +2444,8 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, flp_cntr);
+                framecntr++;
+                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
 
                 frame.Padding = new Padding(Convert.ToInt32(defwndr * zoom));
                 frame.Size = new Size(Convert.ToInt32(defwidth * zoom), Convert.ToInt32(defheight * zoom));
@@ -2433,8 +2454,8 @@ namespace KMDIWinDoorsCS
                 trackzoom = false;
                 flpMain.Invalidate();
 
-                FlowLayoutPanel prop = CreateFrameProperties("Frame", 
-                                                             flpMain.Controls.Count, 
+                FlowLayoutPanel prop = CreateFrameProperties("Frame",
+                                                             framecntr, 
                                                              defwidth,
                                                              defheight,
                                                              defwndr);
@@ -2445,13 +2466,13 @@ namespace KMDIWinDoorsCS
                 lstDimensions.Add(defwidth);
                 lstDimensions.Add(defheight);
 
-                if (dictFrameDimension.ContainsKey(flp_cntr))
+                if (dictFrameDimension.ContainsKey(framecntr))
                 {
-                    dictFrameDimension[flp_cntr] =  lstDimensions;
+                    dictFrameDimension[framecntr] =  lstDimensions;
                 }
                 else
                 {
-                    dictFrameDimension.Add(flp_cntr, lstDimensions);
+                    dictFrameDimension.Add(framecntr, lstDimensions);
                 }
             }
 
