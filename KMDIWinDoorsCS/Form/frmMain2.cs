@@ -1249,6 +1249,8 @@ namespace KMDIWinDoorsCS
             bool save = false;
             Label lbl = (Label)sender;
 
+            trkZoom.Value = 100;
+
             if (Text.Contains("*") == true)
             {
                 if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
@@ -1274,6 +1276,9 @@ namespace KMDIWinDoorsCS
 
                 string WxH = lbl.AccessibleDescription.Replace(" ", "");
                 string[] dimension = WxH.Split('x');
+
+                static_wd = Convert.ToInt32(dimension[0]);
+                static_ht = Convert.ToInt32(dimension[1]);
 
                 flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
                 flpMain.Tag = "Item_" + item_id;
@@ -1366,6 +1371,7 @@ namespace KMDIWinDoorsCS
                                 FlowLayoutPanel fprop)
         {
             FlowLayoutPanel multipnl = (FlowLayoutPanel)pnlSel;
+            string[] real_dimensions = pnlSel.AccessibleDefaultActionDescription.Split('x');
             int wd = 0, ht = 0, div = 0,
                 divWD = 0, divHT = 0;
             string divtype = "";
@@ -2302,6 +2308,7 @@ namespace KMDIWinDoorsCS
 
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
+                    trkZoom.Value = 100;
                     defwidth = Convert.ToInt32(frm.numWidth.Value);
                     defheight = Convert.ToInt32(frm.numHeight.Value);
 
