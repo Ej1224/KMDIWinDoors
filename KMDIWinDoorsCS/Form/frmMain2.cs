@@ -91,6 +91,37 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void pnl_inner_MouseClick(object sender, MouseEventArgs e)
+        {
+            Panel pnlinner = (Panel)sender;
+            pnlSel = (Panel)pnlinner.Parent;
+            pnlSel_parent = flpMain;
+
+            pnlnameSel = pnlSel.Name;
+            pnltypeSel = pnlSel.GetType();
+
+            var c = csfunc.GetAll(flpMain, prev_pnltypeSel, prev_pnlnameSel);
+            foreach (var ctrl in c)
+            {
+                ctrl.AccessibleName = "Black";
+                ctrl.Invalidate();
+            }
+
+            pnlSel.AccessibleName = "Blue";
+            pnlSel.Invalidate();
+
+            prev_pnlnameSel = pnlnameSel;
+            prev_pnlSel = pnlSel;
+            prev_pnlSel_parent = pnlSel_parent;
+            prev_pnltypeSel = pnltypeSel;
+
+            autoToolStripMenuItem.Visible = false;
+            if (e.Button == MouseButtons.Right)
+            {
+                cmenuPanel.Show(new Point(MousePosition.X, MousePosition.Y));
+            }
+        }
+
         private void pnl_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -337,6 +368,7 @@ namespace KMDIWinDoorsCS
             pnl_inner.DragDrop += new DragEventHandler(pnl_inner_DragDrop);
             pnl_inner.DragOver += new DragEventHandler(pnl_inner_DragOver);
             pnl_inner.Paint += new PaintEventHandler(border_paint);
+            pnl_inner.MouseClick += new MouseEventHandler(pnl_inner_MouseClick);
 
             frame.Controls.Add(pnl_inner);
             return frame;
@@ -1373,7 +1405,9 @@ namespace KMDIWinDoorsCS
             FlowLayoutPanel multipnl = (FlowLayoutPanel)pnlSel;
             string[] real_dimensions = pnlSel.AccessibleDefaultActionDescription.Split('x');
             int wd = 0, ht = 0, div = 0,
-                divWD = 0, divHT = 0;
+                divWD = 0, divHT = 0,
+                real_Pwidth = Convert.ToInt32(real_dimensions[0]),
+                real_Pheight = Convert.ToInt32(real_dimensions[1]);
             string divtype = "";
 
             if (wndr == 26)
@@ -1387,45 +1421,111 @@ namespace KMDIWinDoorsCS
 
             if (multipnl.FlowDirection == FlowDirection.LeftToRight)
             {
-                wd = (multipnl.Width - (div * wndrCount)) / (wndrCount + 1);
-                ht = multipnl.Height;
+                wd = (real_Pwidth - (div * wndrCount)) / (wndrCount + 1);
+                //wd = (multipnl.Width - (div * wndrCount)) / (wndrCount + 1);
+                ht = real_Pheight;
+                //ht = multipnl.Height;
 
                 divWD = div;
-                divHT = multipnl.Height;
+                divHT = real_Pheight;
+                //divHT = multipnl.Height;
 
                 divtype = "Transom";
             }
             else if (multipnl.FlowDirection == FlowDirection.TopDown)
             {
-                wd = multipnl.Width;
-                ht = (multipnl.Height - (div * wndrCount)) / (wndrCount + 1);
+                wd = real_Pwidth;
+                //wd = multipnl.Width;
+                ht = (real_Pheight - (div * wndrCount)) / (wndrCount + 1);
+                //ht = (multipnl.Height - (div * wndrCount)) / (wndrCount + 1);
 
-                divWD = multipnl.Width;
+                divWD = real_Pwidth;
+                //divWD = multipnl.Width;
                 divHT = div;
 
                 divtype = "Mullion";
             }
 
             var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
-            int pnlcount = cpnl.Count();
+            //int pnlcount = cpnl.Count();
 
             for (int i = 1; i <= wndrCount + 1; i++)
             {
-                pnlcount++;
+                //pnlcount++;
+                cpnlcount++;
                 Panel pnl = new Panel();
-                pnl = CreatePanels("Panel_" + pnlcount,DockStyle.None, wd, ht, wndrtype);
+                pnl = CreatePanels("Panel_" + cpnlcount, 
+                                   DockStyle.None,
+                                   Convert.ToInt32(wd * zoom), 
+                                   Convert.ToInt32(ht * zoom), 
+                                   wndrtype);
+
                 pnl.Tag = multipnl.Tag;
+                pnl.TabIndex = cpnlcount;
+
+                List<int> lstDimensions = new List<int>();
+
+                lstDimensions.Add(wd);
+                lstDimensions.Add(ht);
+
+                if (dictPanelDimension.ContainsKey(cpnlcount))
+                {
+                    dictPanelDimension[cpnlcount] = lstDimensions;
+                }
+                else
+                {
+                    dictPanelDimension.Add(cpnlcount, lstDimensions);
+                }
+
                 multipnl.Controls.Add(pnl);
 
-                Panel Pprop = CreatePanelProperties(pnl.Name, pnlcount, wd, ht, true, wndrtype);
+                Panel Pprop = CreatePanelProperties(pnl.Name, cpnlcount, wd, ht, true, wndrtype);
                 fprop.Controls.Add(Pprop);
 
                 if (i != wndrCount + 1)
                 {
-                    pnl = new Panel();
-                    pnl = CreateDiv(divtype + "_" + i, divtype);
-                    pnl.Size = new Size(divWD, divHT);
-                    multipnl.Controls.Add(pnl);
+                    Panel divMT = new Panel();
+                    //pnl = new Panel();
+                    divMT = CreateDiv(divtype + "_" + i, divtype);
+                    divMT.Size = new Size(Convert.ToInt32(divWD * zoom), Convert.ToInt32(divHT * zoom));
+                    List<int> lstDivDimensions = new List<int>();
+
+                    lstDivDimensions.Add(divWD);
+                    lstDivDimensions.Add(divHT);
+
+                    if (divtype == "Mullion")
+                    {
+                        mulcount++;
+
+                        if (dictMullionDimension.ContainsKey(mulcount))
+                        {
+                            dictMullionDimension[mulcount] = lstDivDimensions;
+                        }
+                        else
+                        {
+                            dictMullionDimension.Add(mulcount, lstDivDimensions);
+                        }
+
+                        divMT.TabIndex = mulcount;
+
+                    }
+                    else if (divtype == "Transom")
+                    {
+                        trnscount++;
+
+                        if (dictTransomDimension.ContainsKey(trnscount))
+                        {
+                            dictTransomDimension[trnscount] = lstDivDimensions;
+                        }
+                        else
+                        {
+                            dictTransomDimension.Add(trnscount, lstDivDimensions);
+                        }
+
+                        divMT.TabIndex = trnscount;
+
+                    }
+                    multipnl.Controls.Add(divMT);
                 }
             }
         }
@@ -1562,7 +1662,7 @@ namespace KMDIWinDoorsCS
                     lstMullionDimensions.Add(Pwidth);
                     lstMullionDimensions.Add(real_Pheight);
 
-                    if (dictMullionDimension.ContainsKey(Multi.Count() + 1))
+                    if (dictMullionDimension.ContainsKey(mulcount))
                     {
                         dictMullionDimension[mulcount] = lstMullionDimensions;
                     }
@@ -1602,7 +1702,7 @@ namespace KMDIWinDoorsCS
                     lstTransomDimensions.Add(real_Pwidth);
                     lstTransomDimensions.Add(Pheight);
 
-                    if (dictTransomDimension.ContainsKey(Multi.Count() + 1))
+                    if (dictTransomDimension.ContainsKey(trnscount))
                     {
                         dictTransomDimension[trnscount] = lstTransomDimensions;
                     }
