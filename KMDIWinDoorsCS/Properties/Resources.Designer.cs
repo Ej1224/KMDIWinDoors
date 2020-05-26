@@ -123,6 +123,16 @@ namespace KMDIWinDoorsCS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MultiplePanelSliding {
+            get {
+                object obj = ResourceManager.GetObject("MultiplePanelSliding", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap plus_104px {
             get {
                 object obj = ResourceManager.GetObject("plus_104px", resourceCulture);

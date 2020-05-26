@@ -195,31 +195,31 @@
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIhSURBVEhLYxgFyMC3anM5lEk/4F+9vcWvaut/KJc+IKB2
-        W517/Y5vdLXYv3pHW2D93i9tm1//p5vFcEs3vf7fvf0DfSwOqN5SE1i/50vrxldgS2EWk4oDatZ+8anZ
-        8SygettSn4ptblDjsQNslpKLQVHUsObZ/6Q5J/56NW35HFiz/XxAzRZNqFWoIKhmez8oiNuhQUwt3LXt
-        /f9kkANKtnz2q95iB7UOFQRUbe8LrN8HTlQwjdiCkhAOqNn+I7Bl38eUedd/d219Dzanatn9/4E1Oz75
-        VuxQgVqHCiCWU5a4vCu2CIJ8F1C3Y0d4y5bPrRsg0Zc87+TfoLodp6DKMAHQZb2w+CbHYmTgX7WtHGR5
-        59Z34GD3atzy2bd6qxNUGhP4V24DW06pxSAQULtjd0H/lT8gX4MSXEDNjkVQKewAZDk1LPav3uwAinOQ
-        xaDUDoyCJ1Ap3MC3cmsDlEk28CvdwOuUt/0nyOKOLW//A+uAH1Ap2oIBsxgU1BH1+z+ALG5c+5y4oKYG
-        CKzbfqBoAgmJixrAF1ing7JT1zZIdgojlJ0oASGFKznBBUjtzt3IBUji7OP4CxBSACi7oWPH6m1/Iup3
-        fSqaeOofvMhcev8/qLzGWWSSCkAWgQzGhWGVRGDZjo/+lZttodooB9gsBhWPoNQLqxaD6nYe863eqAjV
-        Qh2AHMQw7J+74ndg7bYXoIYAsAByhSodBaOAXoCBAQBwmGftj0eAIgAAAABJRU5ErkJggg==
+        W51b/Y5vdLXYv3pHW2D93i9tm1//p5vFcEs3vf7fvf0DfSwOqN5SE1i/50vrxldgS2EWk4oDatZ+8anZ
+        8SygettSn4ptblDjsQNslpKLQVHUsObZ/8Q5x/96NW35HFiz/XxAzRZNqFWoIKhmez8oiNuhQUwt3LXt
+        /f8kkANKtnz2q95iB7UOFQRUbe8LrN8HTlQwjdiCkhAOqNn+I7Bl38fkedd/d219Dzanatn9/4E1Oz75
+        VuxQgVqHCiCWU5a4vCu2CIJ8F1C3Y0d4y5bPrRsg0Zc078TfoLodp6DKMAHQZb2w+CbHYmTgX7WtHGR5
+        59Z34GD3atzy2bd6qxNUGhP4V24DW06pxSAQULtjd0HflT8gX4MSXEDNjkVQKewAZDk1LPav3uwAinOQ
+        xaDUDoyCJ1Ap3MC3cmsDlEk28CvdwOuYu/0nyOKOLW//A+uAH1Ap2oIBsxgU1BH1+z+ALG5c+5y4oKYG
+        CKzbfqCon4TERQ3gC6zTQdmpaxskO4URyk6UgJDClZzgAqR2527kAiRh9jH8BQgpAJTd0LFD9bY/EfW7
+        PhVNOPkPXmQuvf8fVF7jLDJJBSCLQAbjwrBKIrBsx0f/ys22UG2UA2wWg4pHUOqFVYtBdTuP+VZvVIRq
+        oQ5ADmIY9s9Z/juwdtsLUEMAWAC5QpWOglFAL8DAAAC8ZGfQlLMmAQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsb_Redo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI3SURBVEhL7ZbPa9NQHMB7FDz5L3jx4N8gQ2EKrm3yBs6d
-        ZR6Vzgkuea+t/bGim3Z4n94su2zokryXwlqvdQdBGHjUU0UH3Y9UmK5rzDf7Zq0uYhfT4qEf+EKS7+v7
-        JN+X900jQ8IipmoP8HCwxFXDlqjI4+ngAPGNbOWbnOQpvDQYQFxY27JJutKUKC/g5f4D4gWxc3q5pGrX
-        4swojSfNusxWmjDRaQPEEHOvvzry9aZMdYbTnyTGxEWZme8nMrqVKNbamZXPdkHbOp4kaMy9OpLHGaeo
-        6hBV+Mj1+7o1tfT2cJ5v+04QNODmSbralFVRRN0RcSYuEGbuqaVP7sB53rCnnn84ILnqrszEvl8p/xbH
-        UlznE1JATpnvbr/YOISBeWdNbuZ1azzJhaRol8Zm9XM4rGc8sSd1HuoppjrEFGN0IqtbC2Lbfmw03IES
-        M2YwHQgQey+VrxSQU+WXicVaG+4wUdxswZNiKjAgBqmkcH8pEHW2THa17paG5Cq7UF5MBQbEMuVP8NQf
-        iS7vP9IbrjhK136MzpTPYiowzvI9xMM/c+Uu/x62uCe6Sz2Zru6EUeqe6H65phc3W4Sa65jqL+52clok
-        dCtvOxHVyGC6v0ADubVU+6WBkKQoQ9lH0m/O4LDwgZYJfVotfXTXGlrmvWcb7cmcbl2mvAXb4/fAn/47
-        8JFwnnKvl49EqGLA6cvnSUrUOp/FurvufRd7RGf5VfgjMKZoX6Q7ywfdJfYChw4Z8j8RifwEE/5oLTCy
-        8FMAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI3SURBVEhL7ZY/b9NAFMAzIjHxFVgY+AyoMBQkmsR3lShd
+        URlBChSJ2r4k5E8jaEnEByhspFMR1PadIzVhTLsgIVVihCkIKqV/HKRC0xg/97kJ1IjUOBFDftKTbL/L
+        /ex3vudERoRFTNEe4uFwiSuGLakij6fDA8Q3stVvJMlTeGk4gLiwumXTdLUlqbyAlwcPiBfFzunlkqJd
+        izOjPJk0G4SttGCi0waIIebffHXkay2i6gynP0mMiYuEme+nMrqVKNY7mZXPdkHbOp4kaMy/PpLHGVdR
+        1SUq87HrD3RrZmn9cIFv+04QNODmabrWIooooe6IOBMXKDP3lPInd+ACb9ozzz8c0FxtlzCx71fKv8Wx
+        FNf5hBQgKfPd7RcbhzAw76zJzbxuTSa5kGTt0sScfg6H9Y0n9qTOQxUx1SUmG+NTWd1aFNv2E6PpDpSY
+        MYvpQIDYe6l8pQBJVV4mSvUO3GGiuNmGJ8VUYEAMUknm/lIg6myZ7KuGWxqaq+5CeTEVGBATlT/FU38k
+        dXn/sd50xVF19cf4bOUspgLjLN8jPPwzV+7y72GL+6K31NPp2k4Ype6L3pfrXmmzTVVzDVODxd1OTouE
+        buVtJ6oYGUwPFmggt5bqvzQQmhQVKPtY+u0ZHBY+0DKhTyvlj+5aQ8u8/2yjM53Trcsqb8P2+D3wp/8O
+        fCScp9zr5yMRqhhw+vJ5mhLr3c9iw133gYs9onP8KvwRmJC1L9Kd5YPeEnuBQ0eM+J+IRH4CapJoEpVz
+        xNYAAAAASUVORK5CYII=
 </value>
   </data>
   <metadata name="stsEditor.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

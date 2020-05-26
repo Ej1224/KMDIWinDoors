@@ -134,20 +134,7 @@ namespace KMDIWinDoorsCS
                 fpnl_sashH = pnl.Height - 20;
 
             Point sashPoint = new Point(pnl.ClientRectangle.X + 8, pnl.ClientRectangle.Y + 8);
-
-            //if (pnl.TabStop == true)
-            //{
-            //    Font dmnsion_font = new Font("Segoe UI", 12);
-
-            //    Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
-            //    double mid = (pnl.Width) / 2;
-            //    TextRenderer.DrawText(g,
-            //                          pnl.Name,
-            //                          dmnsion_font,
-            //                          new Point(sashPoint.X + 3, sashPoint.Y + 3),
-            //                          Color.Blue);
-            //}
-
+            
             string windowtype = pnl.AccessibleDescription;
             Rectangle sashRect = new Rectangle(sashPoint,
                                                new Size(fpnl_sashW, fpnl_sashH));
@@ -159,7 +146,7 @@ namespace KMDIWinDoorsCS
                 {
                     g.DrawRectangle(blkPen, sashRect);
                 }
-                Font drawFont = new Font("Segoe UI", 12 * zoom);
+                Font drawFont = new Font("Segoe UI", 12);// * zoom);
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.Alignment = StringAlignment.Center;
                 drawFormat.LineAlignment = StringAlignment.Center;
@@ -306,7 +293,7 @@ namespace KMDIWinDoorsCS
 
             if (pnl.TabStop == true)
             {
-                Font dmnsion_font = new Font("Segoe UI", 12 * zoom);
+                Font dmnsion_font = new Font("Segoe UI", 12);// * zoom);
 
                 Size s = TextRenderer.MeasureText(pnl.Name, dmnsion_font);
                 double mid = (pnl.Width) / 2;
@@ -1720,6 +1707,7 @@ namespace KMDIWinDoorsCS
                         frmDimensions frm = new frmDimensions();
                         FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
                         int numdiv = Convert.ToInt32(fpnl.AccessibleDescription);
+                        string multiPnl_Tag = fpnl.Tag.ToString();
                         string[] real_dimensions = pnl.AccessibleDefaultActionDescription.Split('x');
                         int Pwidth = 0, 
                             Pheight = 0,
@@ -1735,22 +1723,25 @@ namespace KMDIWinDoorsCS
                             div = 20;
                         }
 
-                        if (fpnl.FlowDirection == FlowDirection.LeftToRight)
+                        if (pnl.Name.Contains("MultiSliding_"))
                         {
-                            Pwidth = (real_Pwidth - (div * numdiv)) / (numdiv + 1);
-                            Pheight = real_Pheight;
-                            //Pwidth = (pnl.Width - (div * numdiv)) / (numdiv + 1);
-                            //Pheight = pnl.Height;
-
+                                Pwidth = real_Pwidth / (numdiv + 1);
+                                Pheight = real_Pheight;
                         }
-                        else if (fpnl.FlowDirection == FlowDirection.TopDown)
+                        else
                         {
-                            Pwidth = real_Pwidth;
-                            Pheight = (real_Pheight - (div * numdiv)) / (numdiv + 1);
-                            //Pwidth = pnl.Width;
-                            //Pheight = (pnl.Height - (div * numdiv)) / (numdiv + 1);
-                        }
+                            if (fpnl.FlowDirection == FlowDirection.LeftToRight)
+                            {
+                                Pwidth = (real_Pwidth - (div * numdiv)) / (numdiv + 1);
+                                Pheight = real_Pheight;
 
+                            }
+                            else if (fpnl.FlowDirection == FlowDirection.TopDown)
+                            {
+                                Pwidth = real_Pwidth;
+                                Pheight = (real_Pheight - (div * numdiv)) / (numdiv + 1);
+                            }
+                        }
                         frm.numWidth.Value = Pwidth;
                         frm.numHeight.Value = Pheight;
 
@@ -1968,8 +1959,17 @@ namespace KMDIWinDoorsCS
                 }
                 else if (ctrltype.Contains("Multiple Panel"))
                 {
-                    ctrl = CreateMultiPnl("Multi_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag),0, 
-                                                    Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
+                    string ctrlTag = dgvControls.Rows[e.RowIndex].Cells[0].Tag.ToString();
+                    if (ctrlTag == "MullionSliding")
+                    {
+                        ctrl = CreateMultiPnl("MultiSliding_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag), 0,
+                                                               Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
+                    }
+                    else
+                    {
+                        ctrl = CreateMultiPnl("Multi_", Convert.ToString(dgvControls.Rows[1].Cells[0].Tag), 0,
+                                                        Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
+                    }
                 }
                 else if (ctrltype == "Mullion")
                 {
@@ -2500,10 +2500,15 @@ namespace KMDIWinDoorsCS
         private void tsmMultiP_Clicked(object sender, EventArgs e)
         {
             ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-            if (tsm == mullionToolStripMenuItem)
+            if (tsm == MullionNonSlidingToolStripMenuItem)
             {
                 dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanel_Mul;
                 dgvControls.Rows[1].Cells[0].Tag = "Mullion";
+            }
+            else if (tsm == MullionSlidingToolStripMenuItem)
+            {
+                dgvControls.Rows[1].Cells[0].Value = Properties.Resources.MultiplePanelSliding;
+                dgvControls.Rows[1].Cells[0].Tag = "MullionSliding";
             }
             else if (tsm == transomToolStripMenuItem)
             {
@@ -2582,7 +2587,6 @@ namespace KMDIWinDoorsCS
                     dictFrameDimension.Add(framecntr, lstDimensions);
                 }
             }
-
         }
 
         private void frmMain2_KeyDown(object sender, KeyEventArgs e)

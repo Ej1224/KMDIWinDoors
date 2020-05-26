@@ -147,6 +147,7 @@
     <None Include="Resources\MultiplePanel1.png" />
     <None Include="Resources\plus_104px.png" />
     <None Include="Resources\plus2_104px.png" />
+    <None Include="Resources\MultiplePanelSliding.png" />
     <Content Include="Resources\SinglePanel.png" />
     <Content Include="Resources\Transom.png" />
   </ItemGroup>

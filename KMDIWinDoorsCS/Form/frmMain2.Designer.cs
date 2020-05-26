@@ -82,6 +82,8 @@
             this.trkZoom = new System.Windows.Forms.TrackBar();
             this.btnSubtractZoom = new System.Windows.Forms.Button();
             this.btnAddZoom = new System.Windows.Forms.Button();
+            this.MullionSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MullionNonSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -300,7 +302,7 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
@@ -566,7 +568,7 @@
             this.divTypeToolStripMenuItem,
             this.divCountToolStripMenuItem});
             this.cmenuMultiP.Name = "cmenuMultiP";
-            this.cmenuMultiP.Size = new System.Drawing.Size(130, 48);
+            this.cmenuMultiP.Size = new System.Drawing.Size(153, 70);
             // 
             // divTypeToolStripMenuItem
             // 
@@ -574,27 +576,30 @@
             this.mullionToolStripMenuItem,
             this.transomToolStripMenuItem});
             this.divTypeToolStripMenuItem.Name = "divTypeToolStripMenuItem";
-            this.divTypeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.divTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.divTypeToolStripMenuItem.Text = "Div-Type";
             // 
             // mullionToolStripMenuItem
             // 
+            this.mullionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MullionSlidingToolStripMenuItem,
+            this.MullionNonSlidingToolStripMenuItem});
             this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.mullionToolStripMenuItem.Text = "Mullion";
             this.mullionToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // transomToolStripMenuItem
             // 
             this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.transomToolStripMenuItem.Text = "Transom";
             this.transomToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // divCountToolStripMenuItem
             // 
             this.divCountToolStripMenuItem.Name = "divCountToolStripMenuItem";
-            this.divCountToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.divCountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.divCountToolStripMenuItem.Text = "Div-Count";
             this.divCountToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
@@ -649,6 +654,20 @@
             this.btnAddZoom.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
+            // 
+            // MullionSlidingToolStripMenuItem
+            // 
+            this.MullionSlidingToolStripMenuItem.Name = "MullionSlidingToolStripMenuItem";
+            this.MullionSlidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MullionSlidingToolStripMenuItem.Text = "Sliding";
+            this.MullionSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
+            // 
+            // MullionNonSlidingToolStripMenuItem
+            // 
+            this.MullionNonSlidingToolStripMenuItem.Name = "MullionNonSlidingToolStripMenuItem";
+            this.MullionNonSlidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MullionNonSlidingToolStripMenuItem.Text = "Non-Sliding";
+            this.MullionNonSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // frmMain2
             // 
@@ -749,6 +768,8 @@
         private System.Windows.Forms.ToolStripMenuItem defaultValuesToolStripMenuItem;
         private System.Windows.Forms.Button btnAddZoom;
         private System.Windows.Forms.Button btnSubtractZoom;
+        private System.Windows.Forms.ToolStripMenuItem MullionSlidingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MullionNonSlidingToolStripMenuItem;
     }
 }
 
