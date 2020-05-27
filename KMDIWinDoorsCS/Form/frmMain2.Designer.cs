@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -77,13 +77,14 @@
             this.cmenuMultiP = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.divTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mullionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MullionSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MullionNonSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
             this.btnSubtractZoom = new System.Windows.Forms.Button();
             this.btnAddZoom = new System.Windows.Forms.Button();
-            this.MullionSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MullionNonSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flpMain2 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -141,14 +142,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -196,6 +197,7 @@
             // 
             this.pnlMain.AutoScroll = true;
             this.pnlMain.AutoSize = true;
+            this.pnlMain.Controls.Add(this.flpMain2);
             this.pnlMain.Controls.Add(this.flpMain);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(139, 0);
@@ -302,7 +304,7 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // c70ToolStripMenuItem
@@ -568,7 +570,7 @@
             this.divTypeToolStripMenuItem,
             this.divCountToolStripMenuItem});
             this.cmenuMultiP.Name = "cmenuMultiP";
-            this.cmenuMultiP.Size = new System.Drawing.Size(153, 70);
+            this.cmenuMultiP.Size = new System.Drawing.Size(130, 48);
             // 
             // divTypeToolStripMenuItem
             // 
@@ -576,7 +578,7 @@
             this.mullionToolStripMenuItem,
             this.transomToolStripMenuItem});
             this.divTypeToolStripMenuItem.Name = "divTypeToolStripMenuItem";
-            this.divTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.divTypeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.divTypeToolStripMenuItem.Text = "Div-Type";
             // 
             // mullionToolStripMenuItem
@@ -585,21 +587,35 @@
             this.MullionSlidingToolStripMenuItem,
             this.MullionNonSlidingToolStripMenuItem});
             this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.mullionToolStripMenuItem.Text = "Mullion";
             this.mullionToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
+            // 
+            // MullionSlidingToolStripMenuItem
+            // 
+            this.MullionSlidingToolStripMenuItem.Name = "MullionSlidingToolStripMenuItem";
+            this.MullionSlidingToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.MullionSlidingToolStripMenuItem.Text = "Sliding";
+            this.MullionSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
+            // 
+            // MullionNonSlidingToolStripMenuItem
+            // 
+            this.MullionNonSlidingToolStripMenuItem.Name = "MullionNonSlidingToolStripMenuItem";
+            this.MullionNonSlidingToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.MullionNonSlidingToolStripMenuItem.Text = "Non-Sliding";
+            this.MullionNonSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // transomToolStripMenuItem
             // 
             this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.transomToolStripMenuItem.Text = "Transom";
             this.transomToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
             // divCountToolStripMenuItem
             // 
             this.divCountToolStripMenuItem.Name = "divCountToolStripMenuItem";
-            this.divCountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.divCountToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.divCountToolStripMenuItem.Text = "Div-Count";
             this.divCountToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
@@ -655,19 +671,18 @@
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
-            // MullionSlidingToolStripMenuItem
+            // flpMain2
             // 
-            this.MullionSlidingToolStripMenuItem.Name = "MullionSlidingToolStripMenuItem";
-            this.MullionSlidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.MullionSlidingToolStripMenuItem.Text = "Sliding";
-            this.MullionSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
-            // 
-            // MullionNonSlidingToolStripMenuItem
-            // 
-            this.MullionNonSlidingToolStripMenuItem.Name = "MullionNonSlidingToolStripMenuItem";
-            this.MullionNonSlidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.MullionNonSlidingToolStripMenuItem.Text = "Non-Sliding";
-            this.MullionNonSlidingToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
+            this.flpMain2.AccessibleDescription = "";
+            this.flpMain2.AccessibleName = "";
+            this.flpMain2.BackColor = System.Drawing.SystemColors.Control;
+            this.flpMain2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.flpMain2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpMain2.Location = new System.Drawing.Point(497, 86);
+            this.flpMain2.Name = "flpMain2";
+            this.flpMain2.Size = new System.Drawing.Size(300, 325);
+            this.flpMain2.TabIndex = 2;
+            this.flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain2_Paint);
             // 
             // frmMain2
             // 
@@ -770,6 +785,7 @@
         private System.Windows.Forms.Button btnSubtractZoom;
         private System.Windows.Forms.ToolStripMenuItem MullionSlidingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MullionNonSlidingToolStripMenuItem;
+        public System.Windows.Forms.FlowLayoutPanel flpMain2;
     }
 }
 

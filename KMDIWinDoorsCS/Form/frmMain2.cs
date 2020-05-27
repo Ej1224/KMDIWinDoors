@@ -711,6 +711,7 @@ namespace KMDIWinDoorsCS
             RadioButton rd = (RadioButton)sender;
             int wndr_padd = 0;
             Panel pnl = new Panel();
+            Panel pnl2 = new Panel();
 
             if (rd.Checked == true)
             {
@@ -737,10 +738,27 @@ namespace KMDIWinDoorsCS
                     frame = ctrl;
                 }
 
+
+                Panel frame2 = new Panel();
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), rd.Tag.ToString());//Searching for Frame
+                foreach (Panel ctrl in c2)
+                {
+                    ctrl.Padding = new Padding(Convert.ToInt32(wndr_padd));
+                    ctrl.Tag = wndr_padd;
+                    ctrl.Invalidate();
+                    frame2 = ctrl;
+                }
+
                 var pnlcol = csfunc.GetAll(frame, typeof(Panel), "Panel");
                 foreach (Panel ctrl in pnlcol)
                 {
                     pnl = ctrl;
+                }
+
+                var pnlcol2 = csfunc.GetAll(frame2, typeof(Panel), "Panel");
+                foreach (Panel ctrl in pnlcol2)
+                {
+                    pnl2 = ctrl;
                 }
             }
 
@@ -767,6 +785,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
+            flpMain2.Invalidate();
         }
 
         private void num_ValueChanged(object sender, EventArgs e)
@@ -818,6 +837,33 @@ namespace KMDIWinDoorsCS
                 }
             }
 
+
+            var c2 = csfunc.GetAll(flpMain2, typeof(Panel), frameName); // Searching for Frame2
+            foreach (var ctrl in c2)
+            {
+                if (num.Name.Contains("numfWidth_"))
+                {
+                    ctrl.Width = Convert.ToInt32(num.Value);
+                }
+                else if (num.Name.Contains("numfHeight_"))
+                {
+                    ctrl.Height = Convert.ToInt32(num.Value);
+                }
+                ctrl.Invalidate();
+
+                var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
+                foreach (Panel pnl in PnlCollect)
+                {
+                    snglPnl = pnl;
+                    pnl.Invalidate();
+                }
+
+                var FlpCollect = csfunc.GetAll(ctrl, typeof(FlowLayoutPanel));
+                foreach (FlowLayoutPanel flp in FlpCollect)
+                {
+                    flp.Invalidate();
+                }
+            }
 
             var numcol = csfunc.GetAll(num.Parent, typeof(NumericUpDown)); //Searching for NumericUpDown of Single Panel
             foreach (NumericUpDown ctrl in numcol)
@@ -2002,6 +2048,9 @@ namespace KMDIWinDoorsCS
                 flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
                 flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
 
+                flpMain2.Width = Convert.ToInt32(frm.numWidth.Value);
+                flpMain2.Height = Convert.ToInt32(frm.numHeight.Value);
+
                 static_wd = flpMain.Width;
                 static_ht = flpMain.Height;
 
@@ -2018,6 +2067,7 @@ namespace KMDIWinDoorsCS
                     lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
                     flpMain.Invalidate();
+                    flpMain2.Invalidate();
                     pnlMain.Invalidate();
                 }
             }
@@ -2026,7 +2076,6 @@ namespace KMDIWinDoorsCS
         private void flpMain_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            //g.ScaleTransform(zoom, zoom);
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
             FlowLayoutPanel fpnl = (FlowLayoutPanel)sender;
@@ -2038,7 +2087,7 @@ namespace KMDIWinDoorsCS
                                                                    fpnl.ClientRectangle.Width - w,
                                                                    fpnl.ClientRectangle.Height - w));
             //THIS CODE IS TO SAVE IMAGE from PnlMain
-            try
+            /*try
             {
                 if (trackzoom == false)
                 {
@@ -2059,7 +2108,7 @@ namespace KMDIWinDoorsCS
             catch (Exception)
             {
                 //MessageBox.Show(ex.Message);
-            }
+            }*/
         }
 
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -2419,12 +2468,14 @@ namespace KMDIWinDoorsCS
                     trkZoom.Enabled = true;
                     btnSubtractZoom.Enabled = true;
                     flpMain.Size = new Size(defwidth, defheight);
+                    flpMain2.Size = new Size(defwidth, defheight);
 
                     static_wd = flpMain.Width;
                     static_ht = flpMain.Height;
 
                     flpMain.Visible = true;
                     flpMain.Controls.Clear();
+                    flpMain2.Controls.Clear();
                     pnlMain.Invalidate();
 
                     Panel pnl = new Panel();
@@ -2433,6 +2484,7 @@ namespace KMDIWinDoorsCS
                     pnl.BringToFront();
 
                     flpMain.Tag = "Item_" + pnl_cntr;
+                    flpMain2.Tag = "Item_" + pnl_cntr;
 
                     pnlPropertiesBody.Controls.Clear();
 
@@ -2460,6 +2512,31 @@ namespace KMDIWinDoorsCS
             else
             {
                 saveToolStripButton.Enabled = false;
+            }
+        }
+
+        private void flpMain2_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                //if (trackzoom == false)
+                //{
+                Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
+                flpMain2.DrawToBitmap(bm, new Rectangle(0, 0,
+                                                        flpMain2.Size.Width, flpMain2.Size.Height));
+                if (flpMain2.Tag != null)
+                {
+                    var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
+                    foreach (PictureBox ctrl in pbxcoll)
+                    {
+                        ctrl.Image = bm;
+                    }
+                }
+                //}
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(ex.Message);
             }
         }
 
@@ -2557,8 +2634,11 @@ namespace KMDIWinDoorsCS
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
                 framecntr++;
-                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
+                Panel frame2 = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
+                flpMain2.Controls.Add(frame2);
+                flpMain2.Invalidate();
 
+                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
                 frame.Padding = new Padding(Convert.ToInt32(defwndr * zoom));
                 frame.Size = new Size(Convert.ToInt32(defwidth * zoom), Convert.ToInt32(defheight * zoom));
 
