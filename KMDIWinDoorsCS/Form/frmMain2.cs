@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace KMDIWinDoorsCS
 {
@@ -1217,6 +1210,13 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
 
+            var pnlcol2 = csfunc.GetAll(flpMain2, typeof(Panel), cbx.Parent.Name);
+            foreach (Panel ctrl in pnlcol2)
+            {
+                ctrl.AccessibleDescription = accdesc;
+                ctrl.Invalidate();
+            }
+
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
@@ -1224,6 +1224,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
+            flpMain2.Invalidate();
         }
 
         private Panel CreateNewItem(string name,
@@ -1891,6 +1892,21 @@ namespace KMDIWinDoorsCS
                             {
                                 dictPanelDimension.Add(cpnlcount, lstDimensions);
                             }
+
+                            Control ctrl2 = new Control();
+                            ctrl2 = CreatePanels("Panel_");
+                            ctrl2.Name += cpnlcount;
+                            ctrl2.Width = Convert.ToInt32(orig_wd * zoom);
+                            ctrl2.Height = Convert.ToInt32(orig_ht * zoom);
+                            ctrl2.TabIndex = cpnlcount;
+                            ctrl2.Tag = pnl.Tag;
+                            ctrl2.Dock = DockStyle.Fill;
+
+                            var col = csfunc.GetAll(flpMain2, pnl.GetType(), pnl.Name);
+                            foreach (var ctrl in col)
+                            {
+                                ctrl.Controls.Add(ctrl2);
+                            }
                         }
                         else if (c.Name.Contains("Multi"))
                         {
@@ -1917,12 +1933,12 @@ namespace KMDIWinDoorsCS
 
                         trackzoom = false;
                         flpMain.Invalidate();
+                        
                     }
                 }
-                
             }
         }
-
+        
         private void pnl_inner_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
