@@ -1037,6 +1037,13 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
 
+            var pnlcol2 = csfunc.GetAll(flpMain2, typeof(Panel), bnum.Parent.Name);
+            foreach (Panel ctrl in pnlcol2)
+            {
+                ctrl.AccessibleDescription = accdesc;
+                ctrl.Invalidate();
+            }
+
             FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
             Label lbl = new Label();
             lbl = itemsLblSearch("lbldesc_");
@@ -1044,6 +1051,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
+            flpMain2.Invalidate();
         }
 
         private void Pnum_ValueChanged(object sender, EventArgs e)
@@ -1137,8 +1145,16 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
 
+            var pnlcol2 = csfunc.GetAll(flpMain2, typeof(Panel), chk.Parent.Name);
+            foreach (Panel ctrl in pnlcol2)
+            {
+                ctrl.AccessibleDescription = cbx.Text + chk.Text;
+                ctrl.Invalidate();
+            }
+
             trackzoom = false;
             flpMain.Invalidate();
+            flpMain2.Invalidate();
         }
 
         private void cbx_SelectedIndexChanged(object sender, EventArgs e)
@@ -2718,6 +2734,13 @@ namespace KMDIWinDoorsCS
                 {
                     pnlPropertiesBody.Controls.Remove(ctrl);
                 }
+
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnlSel.Name);
+                foreach (var ctrl in c2)
+                {
+                    flpMain2.Controls.Remove(ctrl);
+                }
+
             }
             else if (pnlSel.Name.Contains("Panel"))
             {
@@ -2736,6 +2759,13 @@ namespace KMDIWinDoorsCS
                 }
 
                 fprop.Controls.Remove(pprop);
+
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnlSel.Name);
+                foreach (var ctrl in c2)
+                {
+                    ctrl.Parent.Controls.Remove(ctrl);
+                }
+
             }
             else if (pnlSel.Name.Contains("Multi"))
             {
@@ -2758,7 +2788,15 @@ namespace KMDIWinDoorsCS
 
                     fprop.Controls.Remove(pprop);
                 }
+
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnlSel.Name);
+                foreach (var ctrl in c2)
+                {
+                    ctrl.Parent.Controls.Remove(ctrl);
+                }
+
             }
+
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
 
