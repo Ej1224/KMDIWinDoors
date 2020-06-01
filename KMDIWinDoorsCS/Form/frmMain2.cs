@@ -1837,9 +1837,23 @@ namespace KMDIWinDoorsCS
                                 {
                                     dictPanelDimension.Add(cpnlcount, lstDimensions);
                                 }
+
+                                CreateObjectClone("Panel",
+                                                  "Panel_",
+                                                  cpnlcount,
+                                                  Pwidth,
+                                                  Pheight,
+                                                  pnl.Tag,
+                                                  pnl.GetType(),
+                                                  pnl.Name,
+                                                  DockStyle.None);
+
+
                             }
                             else if (c.Name.Contains("Multi"))
                             {
+                                string multiName = c.Name;
+
                                 c.Name += (Multi.Count() + 1);
                                 c.AccessibleDefaultActionDescription = Pwidth + "x" + Pheight;
                                 c.TabIndex = Multi.Count() + 1;
@@ -1855,6 +1869,16 @@ namespace KMDIWinDoorsCS
                                 {
                                     dictMultiPanelDimension.Add(Multi.Count() + 1, lstMultiPDimensions);
                                 }
+
+                                CreateObjectClone("MultiPanel",
+                                                  multiName,
+                                                  Multi.Count() + 1,
+                                                  Pwidth,
+                                                  Pheight,
+                                                  pnl.Tag,
+                                                  pnl.GetType(),
+                                                  pnl.Name,
+                                                  DockStyle.None);
                             }
                             pnl.Controls.Add(c);
                         }
@@ -1909,23 +1933,21 @@ namespace KMDIWinDoorsCS
                                 dictPanelDimension.Add(cpnlcount, lstDimensions);
                             }
 
-                            Control ctrl2 = new Control();
-                            ctrl2 = CreatePanels("Panel_");
-                            ctrl2.Name += cpnlcount;
-                            ctrl2.Width = Convert.ToInt32(orig_wd * zoom);
-                            ctrl2.Height = Convert.ToInt32(orig_ht * zoom);
-                            ctrl2.TabIndex = cpnlcount;
-                            ctrl2.Tag = pnl.Tag;
-                            ctrl2.Dock = DockStyle.Fill;
+                            CreateObjectClone("Panel",
+                                              "Panel_",
+                                              cpnlcount,
+                                              orig_wd,
+                                              orig_wd,
+                                              pnl.Tag,
+                                              pnl.GetType(),
+                                              pnl.Name,
+                                              DockStyle.Fill);
 
-                            var col = csfunc.GetAll(flpMain2, pnl.GetType(), pnl.Name);
-                            foreach (var ctrl in col)
-                            {
-                                ctrl.Controls.Add(ctrl2);
-                            }
                         }
                         else if (c.Name.Contains("Multi"))
                         {
+                            string multiName = c.Name;
+
                             c.Name += (Multi.Count() + 1);
                             c.AccessibleDefaultActionDescription = orig_wd + "x" + orig_ht;
                             c.TabIndex = Multi.Count() + 1;
@@ -1941,6 +1963,16 @@ namespace KMDIWinDoorsCS
                             {
                                 dictMultiPanelDimension.Add(Multi.Count() + 1, lstMultiPDimensions);
                             }
+
+                            CreateObjectClone("MultiPanel",
+                                              multiName,
+                                              Multi.Count() + 1,
+                                              orig_wd,
+                                              orig_wd,
+                                              pnl.Tag,
+                                              pnl.GetType(),
+                                              pnl.Name,
+                                              DockStyle.Fill);
                         }
 
                         c.Tag = pnl.Tag;
@@ -1955,6 +1987,42 @@ namespace KMDIWinDoorsCS
             }
         }
         
+        private void CreateObjectClone(string objToClone,
+                                       string name,
+                                       int count,
+                                       int pwd,
+                                       int pht,
+                                       object objTag, 
+                                       Type pnlgettype,
+                                       string pnlName,
+                                       DockStyle docking)                                            
+        {
+            Control ctrl2 = new Control();
+            if (objToClone == "Panel")
+            {
+                ctrl2 = CreatePanels(name);
+            }
+            else if (objToClone == "MultiPanel")
+            {
+                ctrl2 = CreateMultiPnl(name, Convert.ToString(dgvControls.Rows[1].Cells[0].Tag), 0,
+                                                  Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
+                ctrl2.AccessibleDefaultActionDescription = pwd + "x" + pht;
+            }
+            ctrl2.Name += count;
+            ctrl2.Dock = docking;
+            ctrl2.TabIndex = count;
+            ctrl2.Tag = Tag;
+            ctrl2.Size = new Size(pwd, pht);
+
+            var col = csfunc.GetAll(flpMain2, pnlgettype, pnlName);
+            foreach (var ctrl in col)
+            {
+                ctrl.Controls.Add(ctrl2);
+            }
+
+            flpMain2.Invalidate();
+        }
+
         private void pnl_inner_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
@@ -2024,6 +2092,7 @@ namespace KMDIWinDoorsCS
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
         }
+
 
         private void dgvControls_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -2789,12 +2858,11 @@ namespace KMDIWinDoorsCS
                     fprop.Controls.Remove(pprop);
                 }
 
-                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnlSel.Name);
+                var c2 = csfunc.GetAll(flpMain2, typeof(FlowLayoutPanel), pnlSel.Name);
                 foreach (var ctrl in c2)
                 {
                     ctrl.Parent.Controls.Remove(ctrl);
                 }
-
             }
 
             pnlSel_parent.Controls.Remove(pnlSel);
@@ -2802,6 +2870,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
+            flpMain2.Invalidate();
         }
 
     }
