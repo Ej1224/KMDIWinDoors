@@ -433,10 +433,37 @@ namespace KMDIWinDoorsCS
             div.Padding = new Padding(0);
             div.Tag = "Fixed";
             div.Cursor = Cursors.Hand;
-            div.Paint += new PaintEventHandler(border_paint);
+            div.Paint += new PaintEventHandler(div_paint);
             div.MouseClick += new MouseEventHandler(pnl_MouseClick);
 
             return div;
+        }
+
+        private void div_paint(object sender, PaintEventArgs e)
+        {
+            Panel pnl = (Panel)sender;
+            Panel frame = (Panel)pnl.Parent;
+            Graphics g = e.Graphics;
+
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            string accname_col = pnl.AccessibleName;
+            Color col = Color.Black;
+            if (accname_col == "Black")
+            {
+                col = Color.Black;
+            }
+            else if (accname_col == "Blue")
+            {
+                col = Color.Blue;
+            }
+
+            int w = 1;
+            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+            g.DrawRectangle(new Pen(col, w), new Rectangle(0,
+                                                                   0,
+                                                                   pnl.ClientRectangle.Width - w,
+                                                                   pnl.ClientRectangle.Height - w));
         }
 
         private void border_paint(object sender, PaintEventArgs e)
@@ -1072,6 +1099,13 @@ namespace KMDIWinDoorsCS
                 pnl = ctrl;
             }
 
+            Panel pnl2 = new Panel();
+            var col2 = csfunc.GetAll(flpMain2, typeof(Panel), pnum.Parent.Name);
+            foreach (Panel ctrl in col2)
+            {
+                pnl2 = ctrl;
+            }
+
             pnlid = pnl.TabIndex;
             lstDimensions = dictPanelDimension[pnlid];
 
@@ -1079,17 +1113,22 @@ namespace KMDIWinDoorsCS
             {
                 lstDimensions[0] = Convert.ToInt32(pnum.Value);
                 pnl.Width = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
+                pnl2.Width = Convert.ToInt32(pnum.Value);
             }
             else if (pnum.Name.Contains("Height"))
             {
                 lstDimensions[1] = Convert.ToInt32(pnum.Value);
                 pnl.Height = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
+                pnl2.Height = Convert.ToInt32(pnum.Value);
             }
             dictPanelDimension[pnlid] = lstDimensions;
             pnl.Invalidate();
 
             trackzoom = false;
             flpMain.Invalidate();
+
+            pnl2.Invalidate();
+            flpMain2.Invalidate();
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -1643,6 +1682,8 @@ namespace KMDIWinDoorsCS
             {
                 tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
             }
+            //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
+            //flpMain2.Invalidate();
 
             pnlMain.Invalidate();
             flpMain.Invalidate();
@@ -1722,6 +1763,16 @@ namespace KMDIWinDoorsCS
                     }
 
                     pnl.Controls.Add(c);
+
+                    CreateObjectClone("Mullion",
+                                      "Mullion_",
+                                      mulcount,
+                                      Pwidth,
+                                      real_Pheight,
+                                      pnl.Tag,
+                                      pnl.GetType(),
+                                      pnl.Name,
+                                      DockStyle.None);
                 }
                 else if (c.Name.Contains("Transom"))
                 {
@@ -1762,6 +1813,16 @@ namespace KMDIWinDoorsCS
                     }
 
                     pnl.Controls.Add(c);
+
+                    CreateObjectClone("Transom",
+                                      "Transom_",
+                                      trnscount,
+                                      real_Pwidth,
+                                      Pheight,
+                                      pnl.Tag,
+                                      pnl.GetType(),
+                                      pnl.Name,
+                                      DockStyle.None);
                 }
                 else
                 {
@@ -1847,7 +1908,6 @@ namespace KMDIWinDoorsCS
                                                   pnl.GetType(),
                                                   pnl.Name,
                                                   DockStyle.None);
-
 
                             }
                             else if (c.Name.Contains("Multi"))
@@ -2001,17 +2061,23 @@ namespace KMDIWinDoorsCS
             if (objToClone == "Panel")
             {
                 ctrl2 = CreatePanels(name);
+                ctrl2.Tag = Tag;
             }
             else if (objToClone == "MultiPanel")
             {
                 ctrl2 = CreateMultiPnl(name, Convert.ToString(dgvControls.Rows[1].Cells[0].Tag), 0,
-                                                  Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
+                                             Convert.ToString(dgvControls.Rows[1].Cells[1].Tag));
                 ctrl2.AccessibleDefaultActionDescription = pwd + "x" + pht;
+                //ctrl2.Tag = Tag;
+            }
+            else if (objToClone == "Mullion" || objToClone == "Transom")
+            {
+                ctrl2 = CreateDiv(name, objToClone);
+                ctrl2.Tag = "Fixed";
             }
             ctrl2.Name += count;
             ctrl2.Dock = docking;
             ctrl2.TabIndex = count;
-            ctrl2.Tag = Tag;
             ctrl2.Size = new Size(pwd, pht);
 
             var col = csfunc.GetAll(flpMain2, pnlgettype, pnlName);
@@ -2092,7 +2158,6 @@ namespace KMDIWinDoorsCS
                                                                    pfr.ClientRectangle.Width - w,
                                                                    pfr.ClientRectangle.Height - w));
         }
-
 
         private void dgvControls_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -2444,77 +2509,7 @@ namespace KMDIWinDoorsCS
                 //arrow for HEIGHT
             }
         }
-
-
-        //private void c70ToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    int defwidth = 400,
-        //        defheight = 400,
-        //        pnl_cntr = pnlItems.Controls.Count + 1;
-
-        //    frmDimensions frm = new frmDimensions();
-        //    frm.numWidth.Value = defwidth;
-        //    frm.numHeight.Value = defwidth;
-            
-        //    if (frm.ShowDialog() == DialogResult.OK)
-        //    {
-        //        defwidth = Convert.ToInt32(frm.numWidth.Value);
-        //        defheight = Convert.ToInt32(frm.numHeight.Value);
-
-        //        paint_pnlMain = true;
-        //        tsMain.Enabled = true;
-        //        flpMain.Size = new Size(defwidth, defheight);
-        //        flpMain.Visible = true;
-        //        flpMain.Controls.Clear();
-        //        pnlMain.Invalidate();
-
-        //        Panel pnl = new Panel();
-        //        pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "C70 Profile");
-        //        pnlItems.Controls.Add(pnl);
-        //        pnl.BringToFront();
-
-        //        flpMain.Tag = "Item_" + pnl_cntr;
-
-        //        pnlPropertiesBody.Controls.Clear();
-
-        //        Text = " >> Item " + pnl_cntr + "*";
-        //    }
-        //}
-
-        //private void premiLineToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    int defwidth = 400,
-        //        defheight = 400,
-        //        pnl_cntr = pnlItems.Controls.Count + 1;
-
-        //    frmDimensions frm = new frmDimensions();
-        //    frm.numWidth.Value = defwidth;
-        //    frm.numHeight.Value = defwidth;
-
-        //    if (frm.ShowDialog() == DialogResult.OK)
-        //    {
-        //        defwidth = Convert.ToInt32(frm.numWidth.Value);
-        //        defheight = Convert.ToInt32(frm.numHeight.Value);
-
-        //        flpMain.Tag = "Item_" + pnl_cntr;
-
-        //        paint_pnlMain = true;
-        //        tsMain.Enabled = true;
-        //        flpMain.Size = new Size(defwidth, defheight);
-        //        flpMain.Visible = true;
-        //        flpMain.Controls.Clear();
-        //        pnlMain.Invalidate();
-
-        //        Panel pnl = new Panel();
-        //        pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, "PremiLine Profile");
-        //        pnlItems.Controls.Add(pnl);
-        //        pnl.BringToFront();
-
-        //        pnlPropertiesBody.Controls.Clear();
-        //    }
-
-        //}
-
+        
         private void ProfileTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
@@ -2859,6 +2854,14 @@ namespace KMDIWinDoorsCS
                 }
 
                 var c2 = csfunc.GetAll(flpMain2, typeof(FlowLayoutPanel), pnlSel.Name);
+                foreach (var ctrl in c2)
+                {
+                    ctrl.Parent.Controls.Remove(ctrl);
+                }
+            }
+            else
+            {
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnlSel.Name);
                 foreach (var ctrl in c2)
                 {
                     ctrl.Parent.Controls.Remove(ctrl);
