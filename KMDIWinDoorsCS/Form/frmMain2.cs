@@ -1369,6 +1369,10 @@ namespace KMDIWinDoorsCS
         {
             bool save = false;
             Label lbl = (Label)sender;
+            int loc_framecntr = 0,
+                loc_cpnlcount = 0,
+                loc_mulcount = 0,
+                loc_trnscount = 0;
 
             trkZoom.Value = 100;
 
@@ -1378,6 +1382,38 @@ namespace KMDIWinDoorsCS
                 {
                     save = true;
                     UppdateDictionaries();
+
+                    if (itemselected != null)
+                    {
+                        if (itemselected.AccessibleDefaultActionDescription == "")
+                        {
+
+                        }
+                        else if (itemselected.AccessibleDefaultActionDescription != "")
+                        {
+
+                        }
+                    }
+                    
+
+                    if (lbl.AccessibleDefaultActionDescription == "") //Walang laman means lalagyan ng laman
+                    {
+                        string counts = framecntr.ToString() + "," +
+                                        cpnlcount.ToString() + "," +
+                                        mulcount.ToString() + "," +
+                                        trnscount.ToString() + ",";
+                        lbl.AccessibleDefaultActionDescription = counts;
+                    }
+                    else if (lbl.AccessibleDefaultActionDescription != "") //May laman means retrieve yung laman then transfer sa loc_variable
+                    {
+                        string count_vals = lbl.AccessibleDefaultActionDescription;
+                        string[] counts = count_vals.Split(',');
+
+                        loc_framecntr = Convert.ToInt32(counts[0]);
+                        loc_cpnlcount = Convert.ToInt32(counts[1]);
+                        loc_mulcount = Convert.ToInt32(counts[2]);
+                        loc_trnscount = Convert.ToInt32(counts[3]);
+                    }
                     Text = ">> " + lbl.Text;
                 }
             }
@@ -1394,7 +1430,7 @@ namespace KMDIWinDoorsCS
                 //int indxOf_lblname = lblname.IndexOf("m");
                 string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
                 int item_id = Convert.ToInt32(getnum_lblname);
-
+               
                 string WxH = lbl.AccessibleDescription.Replace(" ", "");
                 string[] dimension = WxH.Split('x');
 
@@ -2528,17 +2564,42 @@ namespace KMDIWinDoorsCS
 
             int defwidth = 400,
                 defheight = 400,
-                pnl_cntr = pnlItems.Controls.Count + 1;
+                pnl_cntr = pnlItems.Controls.Count + 1,
+                loc_framecntr = 0,
+                loc_cpnlcount = 0,
+                loc_mulcount = 0,
+                loc_trnscount = 0;
 
             frmDimensions frm = new frmDimensions();
             frm.numWidth.Value = defwidth;
-            frm.numHeight.Value = defwidth;
+            frm.numHeight.Value = defheight;
 
             if (Text.Contains("*") == true)
             {
                 if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     save = true;
+                    if (itemselected != null)
+                    {
+                        if (itemselected.AccessibleDefaultActionDescription != null)
+                        {
+                            string count_vals = itemselected.AccessibleDefaultActionDescription;
+                            string[] counts = count_vals.Split(',');
+
+                            loc_framecntr = Convert.ToInt32(counts[0]);
+                            loc_cpnlcount = Convert.ToInt32(counts[1]);
+                            loc_mulcount = Convert.ToInt32(counts[2]);
+                            loc_trnscount = Convert.ToInt32(counts[3]);
+                        }
+                        else if (itemselected.AccessibleDefaultActionDescription == null)
+                        {
+                            string counts = framecntr.ToString() + "," +
+                                            cpnlcount.ToString() + "," +
+                                            mulcount.ToString() + "," +
+                                            trnscount.ToString() + ",";
+                            itemselected.AccessibleDefaultActionDescription = counts;
+                        }
+                    }
                 }
             }
             else
@@ -2578,6 +2639,8 @@ namespace KMDIWinDoorsCS
                     pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype);
                     pnlItems.Controls.Add(pnl);
                     pnl.BringToFront();
+                    pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
+                    pnlItems.PerformLayout();
 
                     flpMain.Tag = "Item_" + pnl_cntr;
                     flpMain2.Tag = "Item_" + pnl_cntr;
@@ -2585,6 +2648,11 @@ namespace KMDIWinDoorsCS
                     pnlPropertiesBody.Controls.Clear();
 
                     Text = " >> Item " + pnl_cntr + "*";
+
+                    framecntr = 0;
+                    cpnlcount = 0;
+                    mulcount = 0;
+                    trnscount = 0;
                 }
             }
         }
@@ -2635,7 +2703,7 @@ namespace KMDIWinDoorsCS
                 //MessageBox.Show(ex.Message);
             }
         }
-
+        
         private void btnZoom_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;

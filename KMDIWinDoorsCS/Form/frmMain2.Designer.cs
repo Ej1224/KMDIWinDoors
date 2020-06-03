@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -38,12 +38,12 @@
             this.DescCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.flpMain2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlProperties = new System.Windows.Forms.Panel();
             this.chkView = new System.Windows.Forms.CheckBox();
             this.pnlPropertiesBody = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.flpMain2 = new System.Windows.Forms.FlowLayoutPanel();
             this.mnsMainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -142,14 +142,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -205,19 +205,6 @@
             this.pnlMain.TabIndex = 3;
             this.pnlMain.SizeChanged += new System.EventHandler(this.Editors_SizeChanged);
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
-            // 
-            // flpMain2
-            // 
-            this.flpMain2.AccessibleDescription = "";
-            this.flpMain2.AccessibleName = "";
-            this.flpMain2.BackColor = System.Drawing.SystemColors.Control;
-            this.flpMain2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.flpMain2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain2.Location = new System.Drawing.Point(497, 86);
-            this.flpMain2.Name = "flpMain2";
-            this.flpMain2.Size = new System.Drawing.Size(300, 325);
-            this.flpMain2.TabIndex = 2;
-            this.flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain2_Paint);
             // 
             // flpMain
             // 
@@ -288,6 +275,19 @@
             this.label2.Size = new System.Drawing.Size(137, 29);
             this.label2.TabIndex = 5;
             this.label2.Text = "Properties";
+            // 
+            // flpMain2
+            // 
+            this.flpMain2.AccessibleDescription = "";
+            this.flpMain2.AccessibleName = "";
+            this.flpMain2.BackColor = System.Drawing.SystemColors.Control;
+            this.flpMain2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.flpMain2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpMain2.Location = new System.Drawing.Point(497, 86);
+            this.flpMain2.Name = "flpMain2";
+            this.flpMain2.Size = new System.Drawing.Size(300, 325);
+            this.flpMain2.TabIndex = 2;
+            this.flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain2_Paint);
             // 
             // mnsMainMenu
             // 
