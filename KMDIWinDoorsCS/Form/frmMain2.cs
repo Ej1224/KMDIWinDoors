@@ -1369,10 +1369,10 @@ namespace KMDIWinDoorsCS
         {
             bool save = false;
             Label lbl = (Label)sender;
-            int loc_framecntr = 0,
-                loc_cpnlcount = 0,
-                loc_mulcount = 0,
-                loc_trnscount = 0;
+            //int loc_framecntr = 0,
+            //    loc_cpnlcount = 0,
+            //    loc_mulcount = 0,
+            //    loc_trnscount = 0;
 
             trkZoom.Value = 100;
 
@@ -1385,34 +1385,44 @@ namespace KMDIWinDoorsCS
 
                     if (itemselected != null)
                     {
-                        if (itemselected.AccessibleDefaultActionDescription == "")
-                        {
+                        //if (itemselected.AccessibleDefaultActionDescription != null)
+                        //{
+                            //string count_vals = itemselected.AccessibleDefaultActionDescription;
+                            //string[] counts = count_vals.Split(',');
 
-                        }
-                        else if (itemselected.AccessibleDefaultActionDescription != "")
-                        {
-
-                        }
+                            //loc_framecntr = Convert.ToInt32(counts[0]);
+                            //loc_cpnlcount = Convert.ToInt32(counts[1]);
+                            //loc_mulcount = Convert.ToInt32(counts[2]);
+                            //loc_trnscount = Convert.ToInt32(counts[3]);
+                        //}
+                        //else if (itemselected.AccessibleDefaultActionDescription == null)
+                        //{
+                            string counts = framecntr.ToString() + "," +
+                                            cpnlcount.ToString() + "," +
+                                            mulcount.ToString() + "," +
+                                            trnscount.ToString();
+                            itemselected.AccessibleDefaultActionDescription = counts;
+                        //}
                     }
-                    
 
-                    if (lbl.AccessibleDefaultActionDescription == "") //Walang laman means lalagyan ng laman
+
+                    if (lbl.AccessibleDefaultActionDescription == null) //Walang laman means lalagyan ng laman
                     {
                         string counts = framecntr.ToString() + "," +
                                         cpnlcount.ToString() + "," +
                                         mulcount.ToString() + "," +
-                                        trnscount.ToString() + ",";
+                                        trnscount.ToString();
                         lbl.AccessibleDefaultActionDescription = counts;
                     }
-                    else if (lbl.AccessibleDefaultActionDescription != "") //May laman means retrieve yung laman then transfer sa loc_variable
+                    else if (lbl.AccessibleDefaultActionDescription != null) //May laman means retrieve yung laman then transfer sa loc_variable
                     {
                         string count_vals = lbl.AccessibleDefaultActionDescription;
                         string[] counts = count_vals.Split(',');
 
-                        loc_framecntr = Convert.ToInt32(counts[0]);
-                        loc_cpnlcount = Convert.ToInt32(counts[1]);
-                        loc_mulcount = Convert.ToInt32(counts[2]);
-                        loc_trnscount = Convert.ToInt32(counts[3]);
+                        framecntr = Convert.ToInt32(counts[0]);
+                        cpnlcount = Convert.ToInt32(counts[1]);
+                        mulcount = Convert.ToInt32(counts[2]);
+                        trnscount = Convert.ToInt32(counts[3]);
                     }
                     Text = ">> " + lbl.Text;
                 }
@@ -1440,9 +1450,19 @@ namespace KMDIWinDoorsCS
                 flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
                 flpMain.Tag = "Item_" + item_id;
                 flpMain.Controls.Clear();
+
+                flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                flpMain2.Tag = "Item_" + item_id;
+                flpMain2.Controls.Clear();
+
                 foreach (Panel item in itemslist[item_id])
                 {
                     flpMain.Controls.Add(item);
+                }
+
+                foreach (Panel item2 in itemslist2[item_id])
+                {
+                    flpMain2.Controls.Add(item2);
                 }
                 //flpMain.Controls.Add(itemslist[item_id]);
 
@@ -1496,6 +1516,13 @@ namespace KMDIWinDoorsCS
                     }
                     itemslist[item_id] = pnlist;
 
+                    List<Panel> pnlist2 = new List<Panel>();
+                    foreach (Panel item2 in flpMain2.Controls)
+                    {
+                        pnlist2.Add(item2);
+                    }
+                    itemslist2[item_id] = pnlist2;
+
                     List<Panel> itemlist = new List<Panel>();
                     foreach (Panel item in pnlPropertiesBody.Controls)
                     {
@@ -1511,6 +1538,13 @@ namespace KMDIWinDoorsCS
                         pnlist.Add(item);
                     }
                     itemslist.Add(item_id, pnlist);
+
+                    List<Panel> pnlist2 = new List<Panel>();
+                    foreach (Panel item2 in flpMain2.Controls)
+                    {
+                        pnlist2.Add(item2);
+                    }
+                    itemslist2.Add(item_id, pnlist2);
 
                     List<Panel> itemlist = new List<Panel>();
                     foreach (Panel item in pnlPropertiesBody.Controls)
@@ -2596,7 +2630,7 @@ namespace KMDIWinDoorsCS
                             string counts = framecntr.ToString() + "," +
                                             cpnlcount.ToString() + "," +
                                             mulcount.ToString() + "," +
-                                            trnscount.ToString() + ",";
+                                            trnscount.ToString();
                             itemselected.AccessibleDefaultActionDescription = counts;
                         }
                     }
@@ -2658,6 +2692,7 @@ namespace KMDIWinDoorsCS
         }
 
         IDictionary<int, List<Panel>> itemslist = new Dictionary<int, List<Panel>>();
+        IDictionary<int, List<Panel>> itemslist2 = new Dictionary<int, List<Panel>>();
         IDictionary<int, List<Panel>> propertieslist = new Dictionary<int, List<Panel>>();
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
