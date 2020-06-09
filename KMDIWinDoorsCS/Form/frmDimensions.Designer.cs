@@ -43,7 +43,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 23);
+            this.label1.Size = new System.Drawing.Size(82, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "Width (mm)";
             // 
@@ -57,7 +57,7 @@
             0,
             0});
             this.numWidth.Name = "numWidth";
-            this.numWidth.Size = new System.Drawing.Size(81, 30);
+            this.numWidth.Size = new System.Drawing.Size(81, 25);
             this.numWidth.TabIndex = 1;
             this.numWidth.ThousandsSeparator = true;
             // 
@@ -71,7 +71,7 @@
             0,
             0});
             this.numHeight.Name = "numHeight";
-            this.numHeight.Size = new System.Drawing.Size(81, 30);
+            this.numHeight.Size = new System.Drawing.Size(81, 25);
             this.numHeight.TabIndex = 3;
             this.numHeight.ThousandsSeparator = true;
             // 
@@ -80,7 +80,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(7, 56);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 23);
+            this.label2.Size = new System.Drawing.Size(86, 19);
             this.label2.TabIndex = 2;
             this.label2.Text = "Height (mm)";
             // 
@@ -107,7 +107,7 @@
             // frmDimensions
             // 
             this.AcceptButton = this.button1;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(184, 123);

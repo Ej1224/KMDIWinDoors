@@ -79,6 +79,11 @@ namespace KMDIWinDoorsCS
                 autoSlidingToolStripMenuItem.Visible = true;
                 autoToolStripMenuItem.Visible = false;
             }
+            else
+            {
+                autoSlidingToolStripMenuItem.Visible = false;
+                autoToolStripMenuItem.Visible = false;
+            }
 
             if (e.Button == MouseButtons.Right)
             {
@@ -2748,7 +2753,9 @@ namespace KMDIWinDoorsCS
 
         private void autoSlidingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Hello sliding");
+            frmAutoCreateSliding frm = new frmAutoCreateSliding();
+            frm.txtPnlNo.Text =  (Convert.ToInt32(pnlSel.AccessibleDescription) + 1).ToString();
+            frm.ShowDialog();
         }
 
         private void btnZoom_Click(object sender, EventArgs e)
