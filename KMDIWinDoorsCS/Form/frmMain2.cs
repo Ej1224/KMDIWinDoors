@@ -1589,36 +1589,28 @@ namespace KMDIWinDoorsCS
             if (multipnl.FlowDirection == FlowDirection.LeftToRight)
             {
                 wd = (real_Pwidth - (div * wndrCount)) / (wndrCount + 1);
-                //wd = (multipnl.Width - (div * wndrCount)) / (wndrCount + 1);
                 ht = real_Pheight;
-                //ht = multipnl.Height;
 
                 divWD = div;
                 divHT = real_Pheight;
-                //divHT = multipnl.Height;
 
                 divtype = "Transom";
             }
             else if (multipnl.FlowDirection == FlowDirection.TopDown)
             {
                 wd = real_Pwidth;
-                //wd = multipnl.Width;
                 ht = (real_Pheight - (div * wndrCount)) / (wndrCount + 1);
-                //ht = (multipnl.Height - (div * wndrCount)) / (wndrCount + 1);
 
                 divWD = real_Pwidth;
-                //divWD = multipnl.Width;
                 divHT = div;
 
                 divtype = "Mullion";
             }
 
             var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
-            //int pnlcount = cpnl.Count();
 
             for (int i = 1; i <= wndrCount + 1; i++)
             {
-                //pnlcount++;
                 cpnlcount++;
                 Panel pnl = new Panel();
                 pnl = CreatePanels("Panel_" + cpnlcount, 
@@ -2755,7 +2747,11 @@ namespace KMDIWinDoorsCS
         {
             frmAutoCreateSliding frm = new frmAutoCreateSliding();
             frm.txtPnlNo.Text =  (Convert.ToInt32(pnlSel.AccessibleDescription) + 1).ToString();
-            frm.ShowDialog();
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                //AutoCreate();
+            }
         }
 
         private void btnZoom_Click(object sender, EventArgs e)

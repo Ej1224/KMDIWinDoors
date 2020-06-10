@@ -73,6 +73,7 @@
             // 
             // numFixed
             // 
+            this.numFixed.Enabled = false;
             this.numFixed.Location = new System.Drawing.Point(148, 79);
             this.numFixed.Name = "numFixed";
             this.numFixed.Size = new System.Drawing.Size(36, 25);
@@ -80,6 +81,7 @@
             // 
             // numSliding
             // 
+            this.numSliding.Enabled = false;
             this.numSliding.Location = new System.Drawing.Point(148, 110);
             this.numSliding.Name = "numSliding";
             this.numSliding.Size = new System.Drawing.Size(36, 25);
@@ -97,32 +99,36 @@
             // txtPattern
             // 
             this.txtPattern.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtPattern.Location = new System.Drawing.Point(91, 22);
+            this.txtPattern.Location = new System.Drawing.Point(91, 20);
             this.txtPattern.Name = "txtPattern";
-            this.txtPattern.Size = new System.Drawing.Size(97, 25);
+            this.txtPattern.Size = new System.Drawing.Size(93, 25);
             this.txtPattern.TabIndex = 1;
+            this.txtPattern.TextChanged += new System.EventHandler(this.txtPattern_TextChanged);
+            this.txtPattern.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPattern_KeyPress);
             // 
             // btnF
             // 
             this.btnF.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnF.Location = new System.Drawing.Point(20, 20);
+            this.btnF.Location = new System.Drawing.Point(20, 18);
             this.btnF.Name = "btnF";
             this.btnF.Size = new System.Drawing.Size(31, 28);
             this.btnF.TabIndex = 7;
             this.btnF.Text = "F";
             this.btnF.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnF.UseVisualStyleBackColor = true;
+            this.btnF.Click += new System.EventHandler(this.btnFS_Click);
             // 
             // btnS
             // 
             this.btnS.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnS.Location = new System.Drawing.Point(54, 20);
+            this.btnS.Location = new System.Drawing.Point(54, 18);
             this.btnS.Name = "btnS";
             this.btnS.Size = new System.Drawing.Size(31, 28);
             this.btnS.TabIndex = 8;
             this.btnS.Text = "S";
             this.btnS.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnS.UseVisualStyleBackColor = true;
+            this.btnS.Click += new System.EventHandler(this.btnFS_Click);
             // 
             // btnOk
             // 
@@ -133,7 +139,6 @@
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
@@ -186,11 +191,11 @@
         private System.Windows.Forms.NumericUpDown numFixed;
         private System.Windows.Forms.NumericUpDown numSliding;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtPattern;
         private System.Windows.Forms.Button btnF;
         private System.Windows.Forms.Button btnS;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.TextBox txtPnlNo;
+        public System.Windows.Forms.TextBox txtPattern;
     }
 }
