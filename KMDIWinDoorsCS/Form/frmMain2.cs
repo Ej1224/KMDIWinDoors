@@ -1575,7 +1575,8 @@ namespace KMDIWinDoorsCS
                 divWD = 0, divHT = 0,
                 real_Pwidth = Convert.ToInt32(real_dimensions[0]),
                 real_Pheight = Convert.ToInt32(real_dimensions[1]);
-            string divtype = "";
+            string divtype = "",
+                   copy_wndrtype = wndrtype;
 
             if (wndr == 26)
             {
@@ -1586,38 +1587,85 @@ namespace KMDIWinDoorsCS
                 div = 20;
             }
 
-            if (multipnl.FlowDirection == FlowDirection.LeftToRight)
+            if (multipnl.Name.Contains("Sliding"))
             {
-                wd = (real_Pwidth - (div * wndrCount)) / (wndrCount + 1);
-                ht = real_Pheight;
+                wndrCount = wndrtype.Length;
 
-                divWD = div;
-                divHT = real_Pheight;
+                if (multipnl.FlowDirection == FlowDirection.LeftToRight)
+                {
+                    wd = real_Pwidth / wndrCount;
+                    ht = real_Pheight;
 
-                divtype = "Transom";
+                }
+                else if (multipnl.FlowDirection == FlowDirection.TopDown)
+                {
+                    wd = real_Pwidth;
+                    ht = real_Pheight / wndrCount;
+
+                }
             }
-            else if (multipnl.FlowDirection == FlowDirection.TopDown)
+            else
             {
-                wd = real_Pwidth;
-                ht = (real_Pheight - (div * wndrCount)) / (wndrCount + 1);
+                if (multipnl.FlowDirection == FlowDirection.LeftToRight)
+                {
+                    wd = (real_Pwidth - (div * (wndrCount - 1))) / wndrCount;
+                    ht = real_Pheight;
 
-                divWD = real_Pwidth;
-                divHT = div;
+                    divWD = div;
+                    divHT = real_Pheight;
 
-                divtype = "Mullion";
+                    divtype = "Transom";
+                }
+                else if (multipnl.FlowDirection == FlowDirection.TopDown)
+                {
+                    wd = real_Pwidth;
+                    ht = (real_Pheight - (div * (wndrCount - 1))) / wndrCount;
+
+                    divWD = real_Pwidth;
+                    divHT = div;
+
+                    divtype = "Mullion";
+                }
             }
+
 
             var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
 
-            for (int i = 1; i <= wndrCount + 1; i++)
+            for (int i = 0; i < wndrCount; i++)
             {
                 cpnlcount++;
                 Panel pnl = new Panel();
-                pnl = CreatePanels("Panel_" + cpnlcount, 
-                                   DockStyle.None,
-                                   Convert.ToInt32(wd * zoom), 
-                                   Convert.ToInt32(ht * zoom), 
-                                   wndrtype);
+                
+                if (multipnl.Name.Contains("Sliding"))
+                {
+                    string pattern_char = copy_wndrtype.Substring(i, 1),
+                           windoortype = "";
+
+                    if (pattern_char == "F")
+                    {
+                        windoortype = "Fixed";
+                    }
+                    else if (pattern_char == "S")
+                    {
+                        windoortype = "Sliding";
+                    }
+
+                    pnl = CreatePanels("Panel_" + cpnlcount,
+                                        DockStyle.None,
+                                        Convert.ToInt32(wd * zoom),
+                                        Convert.ToInt32(ht * zoom),
+                                        windoortype);
+
+                    wndrtype = windoortype;
+                }
+                else
+                {
+                    pnl = CreatePanels("Panel_" + cpnlcount,
+                                        DockStyle.None,
+                                        Convert.ToInt32(wd * zoom),
+                                        Convert.ToInt32(ht * zoom),
+                                        wndrtype);
+                }
 
                 pnl.Tag = multipnl.Tag;
                 pnl.TabIndex = cpnlcount;
@@ -1636,12 +1684,22 @@ namespace KMDIWinDoorsCS
                     dictPanelDimension.Add(cpnlcount, lstDimensions);
                 }
 
+                CreateObjectClone("Panel",
+                                  "Panel_",
+                                  cpnlcount,
+                                  wd,
+                                  ht,
+                                  multipnl.Tag,
+                                  multipnl.GetType(),
+                                  multipnl.Name,
+                                  DockStyle.None);
+
                 multipnl.Controls.Add(pnl);
 
                 Panel Pprop = CreatePanelProperties(pnl.Name, cpnlcount, wd, ht, true, wndrtype);
                 fprop.Controls.Add(Pprop);
 
-                if (i != wndrCount + 1)
+                if (i != wndrCount - 1 && !multipnl.Name.Contains("Sliding"))
                 {
                     Panel divMT = new Panel();
                     //pnl = new Panel();
@@ -1684,6 +1742,17 @@ namespace KMDIWinDoorsCS
                         divMT.TabIndex = trnscount;
 
                     }
+
+                    CreateObjectClone(divtype,
+                                      divtype + "_",
+                                      divMT.TabIndex,
+                                      divWD,
+                                      divHT,
+                                      multipnl.Tag,
+                                      multipnl.GetType(),
+                                      multipnl.Name,
+                                      DockStyle.None);
+
                     multipnl.Controls.Add(divMT);
                 }
             }
@@ -1708,7 +1777,7 @@ namespace KMDIWinDoorsCS
                 fprop = ctrl;
             }
 
-            AutoCreate(tsmSel.Text, numdiv, wndr, fprop);
+            AutoCreate(tsmSel.Text, numdiv + 1, wndr, fprop);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -2748,9 +2817,16 @@ namespace KMDIWinDoorsCS
             frmAutoCreateSliding frm = new frmAutoCreateSliding();
             frm.txtPnlNo.Text =  (Convert.ToInt32(pnlSel.AccessibleDescription) + 1).ToString();
 
+            FlowLayoutPanel fprop = new FlowLayoutPanel();
+            var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), pnlSel.Tag.ToString()); //pnl.Tag = FrameName
+            foreach (FlowLayoutPanel ctrl in fpropcol)
+            {
+                fprop = ctrl;
+            }
+
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                //AutoCreate();
+                AutoCreate(frm.txtPattern.Text, 0, 0, fprop);
             }
         }
 
@@ -2898,13 +2974,28 @@ namespace KMDIWinDoorsCS
                 pnlnameSel = null;
                 pnlSel_parent = null;
             }
-            //else if (e.Control && e.KeyCode == Keys.S)
-            //{
-            //    UppdateDictionaries();
-            //    Text = Text.Replace("*", "");
-            //    MessageBox.Show("Saved");
-                //saveToolStripButton.PerformClick();
-            //}
+            else if (e.Control && e.KeyCode == Keys.W)
+            {
+                if (tsBtnNwin.Enabled == true)
+                {
+                    tsBtnNwin.PerformClick();
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.D)
+            {
+                if (tsBtnNdoor.Enabled == true)
+                {
+                    tsBtnNdoor.PerformClick();
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.S)
+            {
+                
+                if (saveToolStripButton.Enabled == true)
+                {
+                    saveToolStripButton.PerformClick();
+                }
+            }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)

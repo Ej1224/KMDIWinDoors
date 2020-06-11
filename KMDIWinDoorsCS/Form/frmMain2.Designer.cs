@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -143,14 +143,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -310,7 +310,7 @@
             this.newToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
             // 
@@ -318,21 +318,21 @@
             this.c70ToolStripMenuItem,
             this.premiLineToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
-            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "&New";
             // 
             // c70ToolStripMenuItem
             // 
             this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.c70ToolStripMenuItem.Text = "C70";
+            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.c70ToolStripMenuItem.Text = "&C70";
             this.c70ToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
             // 
             // premiLineToolStripMenuItem
             // 
             this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.premiLineToolStripMenuItem.Text = "PremiLine";
+            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.premiLineToolStripMenuItem.Text = "Pr&emiLine";
             this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
             // 
             // costingToolStripMenuItem
@@ -341,7 +341,7 @@
             this.defaultValuesToolStripMenuItem});
             this.costingToolStripMenuItem.Name = "costingToolStripMenuItem";
             this.costingToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.costingToolStripMenuItem.Text = "Costing";
+            this.costingToolStripMenuItem.Text = "Cos&ting";
             // 
             // defaultValuesToolStripMenuItem
             // 
@@ -407,42 +407,42 @@
             // fixedToolStripMenuItem
             // 
             this.fixedToolStripMenuItem.Name = "fixedToolStripMenuItem";
-            this.fixedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fixedToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.fixedToolStripMenuItem.Text = "Fixed";
             this.fixedToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // awningToolStripMenuItem
             // 
             this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
-            this.awningToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.awningToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.awningToolStripMenuItem.Text = "Awning";
             this.awningToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // casementToolStripMenuItem
             // 
             this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
-            this.casementToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.casementToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.casementToolStripMenuItem.Text = "Casement";
             this.casementToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // slidingToolStripMenuItem
             // 
             this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
-            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.slidingToolStripMenuItem.Text = "Sliding";
             this.slidingToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // tiltTurnToolStripMenuItem
             // 
             this.tiltTurnToolStripMenuItem.Name = "tiltTurnToolStripMenuItem";
-            this.tiltTurnToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tiltTurnToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.tiltTurnToolStripMenuItem.Text = "Tilt&Turn";
             this.tiltTurnToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // louverToolStripMenuItem
             // 
             this.louverToolStripMenuItem.Name = "louverToolStripMenuItem";
-            this.louverToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.louverToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.louverToolStripMenuItem.Text = "Louver";
             this.louverToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
@@ -706,9 +706,9 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.stsEditor);
             this.Controls.Add(this.pnlRight);
-            this.Controls.Add(this.flpMain2);
             this.Controls.Add(this.tsMain);
             this.Controls.Add(this.mnsMainMenu);
+            this.Controls.Add(this.flpMain2);
             this.KeyPreview = true;
             this.MainMenuStrip = this.mnsMainMenu;
             this.Name = "frmMain2";
