@@ -1287,6 +1287,8 @@ namespace KMDIWinDoorsCS
             trackzoom = false;
             flpMain.Invalidate();
             flpMain2.Invalidate();
+
+            SelectNextControl(cbx, true,false,true,true);
         }
 
         private Panel CreateNewItem(string name,
@@ -2828,6 +2830,11 @@ namespace KMDIWinDoorsCS
             {
                 AutoCreate(frm.txtPattern.Text, 0, 0, fprop);
             }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Hello Save as");
         }
 
         private void btnZoom_Click(object sender, EventArgs e)
