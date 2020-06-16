@@ -2658,11 +2658,11 @@ namespace KMDIWinDoorsCS
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
             string profiletype = "";
 
-            if (menu == c70ToolStripMenuItem)
+            if (menu == C70ToolStripMenuItem)
             {
                 profiletype = "C70 Profile";
             }
-            else if (menu == premiLineToolStripMenuItem)
+            else if (menu == PremiLineToolStripMenuItem)
             {
                 profiletype = "PremiLine Profile";
             }
@@ -2686,27 +2686,6 @@ namespace KMDIWinDoorsCS
                 if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     save = true;
-                    //if (itemselected != null)
-                    //{
-                    //    if (itemselected.AccessibleDefaultActionDescription != null)
-                    //    {
-                    //        string count_vals = itemselected.AccessibleDefaultActionDescription;
-                    //        string[] counts = count_vals.Split(',');
-
-                    //        loc_framecntr = Convert.ToInt32(counts[0]);
-                    //        loc_cpnlcount = Convert.ToInt32(counts[1]);
-                    //        loc_mulcount = Convert.ToInt32(counts[2]);
-                    //        loc_trnscount = Convert.ToInt32(counts[3]);
-                    //    }
-                    //    else if (itemselected.AccessibleDefaultActionDescription == null)
-                    //    {
-                    //        string counts = framecntr.ToString() + "," +
-                    //                        cpnlcount.ToString() + "," +
-                    //                        mulcount.ToString() + "," +
-                    //                        trnscount.ToString();
-                    //        itemselected.AccessibleDefaultActionDescription = counts;
-                    //    }
-                    //}
                 }
             }
             else
@@ -2756,7 +2735,7 @@ namespace KMDIWinDoorsCS
 
                     pnlPropertiesBody.Controls.Clear();
 
-                    Text = " >> Item " + pnl_cntr + "*";
+                    Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
 
                     //framecntr = 0;
                     //cpnlcount = 0;
@@ -2786,6 +2765,24 @@ namespace KMDIWinDoorsCS
             else
             {
                 saveToolStripButton.Enabled = false;
+            }
+
+            if (Text != "")
+            {
+                ItemToolStripMenuItem.Enabled = true;
+            }
+            else if (Text == "")
+            {
+                ItemToolStripMenuItem.Enabled = false;
+            }
+
+            if (Text.Contains(">>"))
+            {
+                saveAsToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                saveAsToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -2835,6 +2832,17 @@ namespace KMDIWinDoorsCS
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Hello Save as");
+        }
+
+        string quotation_ref_no;
+        private void QuotationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string input = Interaction.InputBox("Quotation Reference No.", "Windoor Maker", "");
+            if (input != "" && input != "0")
+            {
+                quotation_ref_no = input.ToUpper();
+                Text = quotation_ref_no;
+            }
         }
 
         private void btnZoom_Click(object sender, EventArgs e)

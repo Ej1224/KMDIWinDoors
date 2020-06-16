@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -47,8 +47,11 @@
             this.mnsMainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.c70ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.premiLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.C70ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PremiLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.costingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlRight = new System.Windows.Forms.Panel();
@@ -86,7 +89,6 @@
             this.trkZoom = new System.Windows.Forms.TrackBar();
             this.btnSubtractZoom = new System.Windows.Forms.Button();
             this.btnAddZoom = new System.Windows.Forms.Button();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -144,14 +146,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -317,25 +319,50 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.c70ToolStripMenuItem,
-            this.premiLineToolStripMenuItem});
+            this.QuotationToolStripMenuItem,
+            this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Text = "Ne&w";
             // 
-            // c70ToolStripMenuItem
+            // QuotationToolStripMenuItem
             // 
-            this.c70ToolStripMenuItem.Name = "c70ToolStripMenuItem";
-            this.c70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.c70ToolStripMenuItem.Text = "&C70";
-            this.c70ToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
+            this.QuotationToolStripMenuItem.Name = "QuotationToolStripMenuItem";
+            this.QuotationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.QuotationToolStripMenuItem.Text = "&Quotation";
+            this.QuotationToolStripMenuItem.Click += new System.EventHandler(this.QuotationToolStripMenuItem_Click);
             // 
-            // premiLineToolStripMenuItem
+            // ItemToolStripMenuItem
             // 
-            this.premiLineToolStripMenuItem.Name = "premiLineToolStripMenuItem";
-            this.premiLineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.premiLineToolStripMenuItem.Text = "Pr&emiLine";
-            this.premiLineToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
+            this.ItemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.C70ToolStripMenuItem,
+            this.PremiLineToolStripMenuItem});
+            this.ItemToolStripMenuItem.Enabled = false;
+            this.ItemToolStripMenuItem.Name = "ItemToolStripMenuItem";
+            this.ItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ItemToolStripMenuItem.Text = "I&tem";
+            // 
+            // C70ToolStripMenuItem
+            // 
+            this.C70ToolStripMenuItem.Name = "C70ToolStripMenuItem";
+            this.C70ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.C70ToolStripMenuItem.Text = "&C70";
+            this.C70ToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
+            // 
+            // PremiLineToolStripMenuItem
+            // 
+            this.PremiLineToolStripMenuItem.Name = "PremiLineToolStripMenuItem";
+            this.PremiLineToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.PremiLineToolStripMenuItem.Text = "P&remiLine";
+            this.PremiLineToolStripMenuItem.Click += new System.EventHandler(this.ProfileTypeToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Enabled = false;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "&Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // costingToolStripMenuItem
             // 
@@ -348,7 +375,7 @@
             // defaultValuesToolStripMenuItem
             // 
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // pnlRight
@@ -613,7 +640,7 @@
             this.MullionSlidingToolStripMenuItem,
             this.MullionNonSlidingToolStripMenuItem});
             this.mullionToolStripMenuItem.Name = "mullionToolStripMenuItem";
-            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mullionToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.mullionToolStripMenuItem.Text = "Mullion";
             this.mullionToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
@@ -634,7 +661,7 @@
             // transomToolStripMenuItem
             // 
             this.transomToolStripMenuItem.Name = "transomToolStripMenuItem";
-            this.transomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.transomToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.transomToolStripMenuItem.Text = "Transom";
             this.transomToolStripMenuItem.Click += new System.EventHandler(this.tsmMultiP_Clicked);
             // 
@@ -697,13 +724,6 @@
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveAsToolStripMenuItem.Text = "&Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
-            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -757,7 +777,6 @@
         private System.Windows.Forms.MenuStrip mnsMainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem c70ToolStripMenuItem;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlItems;
         internal System.Windows.Forms.Label label6;
@@ -790,7 +809,6 @@
         private System.Windows.Forms.CheckBox chkView;
         private System.Windows.Forms.TrackBar trkZoom;
         private System.Windows.Forms.ToolStripStatusLabel lblZoom;
-        private System.Windows.Forms.ToolStripMenuItem premiLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem awningToolStripMenuItem;
@@ -809,6 +827,10 @@
         public System.Windows.Forms.FlowLayoutPanel flpMain2;
         private System.Windows.Forms.ToolStripMenuItem autoSlidingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QuotationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ItemToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem C70ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PremiLineToolStripMenuItem;
     }
 }
 
