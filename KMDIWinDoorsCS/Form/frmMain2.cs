@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace KMDIWinDoorsCS
 {
@@ -2829,9 +2830,42 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private string Saving_dotwndr()
+        {
+            string wndr_content = "";
+
+            return wndr_content;
+        }
+
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Hello Save as");
+            string kmdi_content = "Hello World\n";
+
+            for (int i = 1; i < 3; i++)
+            {
+                 kmdi_content += "line " + i + " ?\n";
+            }
+
+            MessageBox.Show(kmdi_content.Length.ToString());
+
+            saveFileDialog1.FileName = "4K1658";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+               File.WriteAllText(saveFileDialog1.FileName, Saving_dotwndr());
+            }
+        }
+
+        private void Opening_dotwndr()
+        {
+
+        }
+
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+            }
         }
 
         string quotation_ref_no;
