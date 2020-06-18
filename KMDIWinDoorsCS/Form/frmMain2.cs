@@ -1392,49 +1392,6 @@ namespace KMDIWinDoorsCS
                 {
                     save = true;
                     UppdateDictionaries();
-
-                    if (itemselected != null)
-                    {
-                        //if (itemselected.AccessibleDefaultActionDescription != null)
-                        //{
-                            //string count_vals = itemselected.AccessibleDefaultActionDescription;
-                            //string[] counts = count_vals.Split(',');
-
-                            //loc_framecntr = Convert.ToInt32(counts[0]);
-                            //loc_cpnlcount = Convert.ToInt32(counts[1]);
-                            //loc_mulcount = Convert.ToInt32(counts[2]);
-                            //loc_trnscount = Convert.ToInt32(counts[3]);
-                        //}
-                        //else if (itemselected.AccessibleDefaultActionDescription == null)
-                        //{
-                            //string counts = framecntr.ToString() + "," +
-                            //                cpnlcount.ToString() + "," +
-                            //                mulcount.ToString() + "," +
-                            //                trnscount.ToString();
-                            //itemselected.AccessibleDefaultActionDescription = counts;
-                        //}
-                    }
-
-
-                    //if (lbl.AccessibleDefaultActionDescription == null) //Walang laman means lalagyan ng laman
-                    //{
-                    //    string counts = framecntr.ToString() + "," +
-                    //                    cpnlcount.ToString() + "," +
-                    //                    mulcount.ToString() + "," +
-                    //                    trnscount.ToString();
-                    //    lbl.AccessibleDefaultActionDescription = counts;
-                    //}
-                    //else if (lbl.AccessibleDefaultActionDescription != null) //May laman means retrieve yung laman then transfer sa loc_variable
-                    //{
-                    //    string count_vals = lbl.AccessibleDefaultActionDescription;
-                    //    string[] counts = count_vals.Split(',');
-
-                    //    framecntr = Convert.ToInt32(counts[0]);
-                    //    cpnlcount = Convert.ToInt32(counts[1]);
-                    //    mulcount = Convert.ToInt32(counts[2]);
-                    //    trnscount = Convert.ToInt32(counts[3]);
-                    //}
-
                     Text = ">> " + lbl.Text;
                 }
             }
@@ -1793,6 +1750,8 @@ namespace KMDIWinDoorsCS
             dgvControls.Rows[1].Cells[1].Tag = 1;
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
+
+            openToolStripButton.Enabled = true;
 
             flpMain.Size = new Size(0, 0);
             pnlProperties.Size = new Size(185, 629);
@@ -2830,41 +2789,67 @@ namespace KMDIWinDoorsCS
             }
         }
 
-        private string Saving_dotwndr()
+        private List<string> Saving_dotwndr()
         {
-            string wndr_content = "";
+            List<string> wndr_content = new List<string>();
+
+            wndr_content.Add("(" + quotation_ref_no + ")");
+
+            foreach (KeyValuePair<int, List<Panel>> items in itemslist)
+            {
+                foreach (Panel frame in items.Value)
+                {
+                    wndr_content.Add("{");
+                    wndr_content.Add("FrameName: " + frame.Name); //Frames
+                    wndr_content.Add("Width: " + frame.Width);
+                    wndr_content.Add("Height: " + frame.Height);
+                    wndr_content.Add("Wndr: " + frame.Tag);
+                    var c = csfunc.GetAll(frame, typeof(Panel), "Panel_");
+                    foreach (Panel ctrl in c)
+                    {
+                        wndr_content.Add("\t[");
+                        wndr_content.Add("\tPanelName: " + ctrl.Name);//Panels
+                        wndr_content.Add("\tPWidth: " + ctrl.Width);
+                        wndr_content.Add("\tPHeight: " + ctrl.Height);
+                        wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
+                        wndr_content.Add("\tWndrType: " + ctrl.AccessibleDescription);
+                        wndr_content.Add("\tParent: " + ctrl.Parent.Name);
+                        wndr_content.Add("\t]");
+                    }
+                    wndr_content.Add("}");
+                }
+            }
 
             return wndr_content;
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string kmdi_content = "Hello World\n";
-
-            for (int i = 1; i < 3; i++)
-            {
-                 kmdi_content += "line " + i + " ?\n";
-            }
-
-            MessageBox.Show(kmdi_content.Length.ToString());
-
-            saveFileDialog1.FileName = "4K1658";
+            saveFileDialog1.FileName = quotation_ref_no;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-               File.WriteAllText(saveFileDialog1.FileName, Saving_dotwndr());
+                File.WriteAllLines(saveFileDialog1.FileName, Saving_dotwndr());
             }
         }
 
         private void Opening_dotwndr()
         {
+            // Read a text file line by line.  
+            string[] lines = File.ReadAllLines(openFileDialog1.FileName);
 
+            foreach (string line in lines)
+            {
+                Console.WriteLine(line);
+            }
+
+            Console.WriteLine(lines.Length);
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-
+                Opening_dotwndr();
             }
         }
 
