@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.ComponentModel;
 
 namespace KMDIWinDoorsCS
 {
@@ -1740,6 +1741,8 @@ namespace KMDIWinDoorsCS
             AutoCreate(tsmSel.Text, numdiv + 1, wndr, fprop);
         }
 
+        BackgroundWorker bgw = new BackgroundWorker();
+
         private void Form1_Load(object sender, EventArgs e)
         {
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -1751,10 +1754,89 @@ namespace KMDIWinDoorsCS
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
 
-            openToolStripButton.Enabled = true;
-
             flpMain.Size = new Size(0, 0);
             pnlProperties.Size = new Size(185, 629);
+
+            bgw.WorkerReportsProgress = true;
+            bgw.WorkerSupportsCancellation = true;
+            bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
+            bgw.ProgressChanged += Bgw_ProgressChanged;
+            bgw.DoWork += Bgw_DoWork;
+        }
+
+        private void Bgw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                switch (e.Argument.ToString())
+                {
+                    case "Open_WndrFiles":
+                        string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            bgw.ReportProgress(i,e.Argument.ToString());
+                            System.Threading.Thread.Sleep(100);
+                        }
+                        e.Result = e.Argument.ToString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                switch (e.UserState.ToString())
+                {
+                    case "Open_WndrFiles":
+                        tsLoading.Value = e.ProgressPercentage;
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                if (e.Error != null || e.Cancelled == true)
+                {
+
+                }
+                else
+                {
+                    switch (e.Result.ToString())
+                    {
+                        case "Open_WndrFiles":
+                            MessageBox.Show("Finished");
+                            tsLoading.Visible = false;
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Editors_SizeChanged(object sender, EventArgs e)
@@ -2739,10 +2821,14 @@ namespace KMDIWinDoorsCS
             if (Text.Contains(">>"))
             {
                 saveAsToolStripMenuItem.Enabled = true;
+                tsBtnNdoor.Enabled = true;
+                tsBtnNwin.Enabled = true;
             }
             else
             {
                 saveAsToolStripMenuItem.Enabled = false;
+                tsBtnNdoor.Enabled = false;
+                tsBtnNwin.Enabled = false;
             }
         }
 
@@ -2793,31 +2879,36 @@ namespace KMDIWinDoorsCS
         {
             List<string> wndr_content = new List<string>();
 
-            wndr_content.Add("(" + quotation_ref_no + ")");
+            wndr_content.Add("#" + quotation_ref_no + "#");
 
             foreach (KeyValuePair<int, List<Panel>> items in itemslist)
             {
+                wndr_content.Add("(");
+                wndr_content.Add("Item " + items.Key);
+                wndr_content.Add("FWidth: " + flpMain2.Width);
+                wndr_content.Add("FHeight: " + flpMain2.Height);
                 foreach (Panel frame in items.Value)
                 {
-                    wndr_content.Add("{");
-                    wndr_content.Add("FrameName: " + frame.Name); //Frames
-                    wndr_content.Add("Width: " + frame.Width);
-                    wndr_content.Add("Height: " + frame.Height);
-                    wndr_content.Add("Wndr: " + frame.Tag);
+                    wndr_content.Add("\t{");
+                    wndr_content.Add("\tFrameName: " + frame.Name); //Frames
+                    wndr_content.Add("\tWidth: " + frame.Width);
+                    wndr_content.Add("\tHeight: " + frame.Height);
+                    wndr_content.Add("\tWndr: " + frame.Tag);
                     var c = csfunc.GetAll(frame, typeof(Panel), "Panel_");
                     foreach (Panel ctrl in c)
                     {
-                        wndr_content.Add("\t[");
-                        wndr_content.Add("\tPanelName: " + ctrl.Name);//Panels
-                        wndr_content.Add("\tPWidth: " + ctrl.Width);
-                        wndr_content.Add("\tPHeight: " + ctrl.Height);
-                        wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
-                        wndr_content.Add("\tWndrType: " + ctrl.AccessibleDescription);
-                        wndr_content.Add("\tParent: " + ctrl.Parent.Name);
-                        wndr_content.Add("\t]");
+                        wndr_content.Add("\t\t[");
+                        wndr_content.Add("\t\tPanelName: " + ctrl.Name);//Panels
+                        wndr_content.Add("\t\tDockStyle: " + ctrl.Dock.ToString());
+                        wndr_content.Add("\t\tPWidth: " + ctrl.Width);
+                        wndr_content.Add("\t\tPHeight: " + ctrl.Height);
+                        wndr_content.Add("\t\tWndrType: " + ctrl.AccessibleDescription);
+                        wndr_content.Add("\t\tParent: " + ctrl.Parent.Name);
+                        wndr_content.Add("\t\t]");
                     }
-                    wndr_content.Add("}");
+                    wndr_content.Add("\t}");
                 }
+                wndr_content.Add(")");
             }
 
             return wndr_content;
@@ -2834,22 +2925,58 @@ namespace KMDIWinDoorsCS
 
         private void Opening_dotwndr()
         {
-            // Read a text file line by line.  
-            string[] lines = File.ReadAllLines(openFileDialog1.FileName);
-
-            foreach (string line in lines)
+            try
             {
-                Console.WriteLine(line);
-            }
+                // Read a text file line by line.  
+                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
 
-            Console.WriteLine(lines.Length);
+                if (lines[0].Contains("#"))
+                    quotation_ref_no = Text = lines[0].Replace("#", "");
+                else
+                    throw new Exception("Modified file occured");
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i] == "(") //
+                    {
+                        string frameName = "";
+                        frameName = lines[i + 1].Replace("FrameName: ","");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,"Error Occured",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Opening_dotwndr();
+                dictPanelDimension.Clear();
+                dictMultiPanelDimension.Clear();
+                dictMullionDimension.Clear();
+                dictTransomDimension.Clear();
+                itemslist.Clear();
+                itemslist2.Clear();
+                propertieslist.Clear();
+
+                flpMain.Controls.Clear();
+                flpMain2.Controls.Clear();
+                pnlPropertiesBody.Controls.Clear();
+                pnlItems.Controls.Clear();
+
+                cpnlcount = mulcount = trnscount = framecntr = 0;
+
+                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+                        tsLoading.Maximum = lines.Length;
+
+                tsLoading.Visible = true;
+                bgw.RunWorkerAsync("Open_WndrFiles");
+
+                //Opening_dotwndr();
             }
         }
 
@@ -3028,6 +3155,13 @@ namespace KMDIWinDoorsCS
                 if (saveToolStripButton.Enabled == true)
                 {
                     saveToolStripButton.PerformClick();
+                }
+            }
+            else if (e.Alt && e.Shift && e.KeyCode == Keys.S)
+            {
+                if (saveAsToolStripMenuItem.Enabled == true)
+                {
+                    saveAsToolStripMenuItem.PerformClick();
                 }
             }
         }

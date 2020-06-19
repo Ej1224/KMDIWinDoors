@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -76,6 +76,7 @@
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
+            this.tsLoading = new System.Windows.Forms.ToolStripProgressBar();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -148,14 +149,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -360,6 +361,7 @@
             // 
             // saveAsToolStripMenuItem
             // 
+            this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
@@ -498,12 +500,13 @@
             this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsBtnNwin,
             this.tsBtnNdoor,
-            this.newToolStripButton,
             this.openToolStripButton,
+            this.newToolStripButton,
             this.saveToolStripButton,
             this.printToolStripButton,
             this.tsb_Undo,
-            this.tsb_Redo});
+            this.tsb_Redo,
+            this.tsLoading});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
             this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -514,6 +517,7 @@
             // tsBtnNwin
             // 
             this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNwin.Enabled = false;
             this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
             this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnNwin.Name = "tsBtnNwin";
@@ -524,6 +528,7 @@
             // tsBtnNdoor
             // 
             this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNdoor.Enabled = false;
             this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
             this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
@@ -540,6 +545,7 @@
             this.newToolStripButton.Name = "newToolStripButton";
             this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Visible = false;
             // 
             // openToolStripButton
             // 
@@ -570,6 +576,7 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Visible = false;
             // 
             // tsb_Undo
             // 
@@ -579,6 +586,7 @@
             this.tsb_Undo.Name = "tsb_Undo";
             this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
             this.tsb_Undo.Text = "Undo";
+            this.tsb_Undo.Visible = false;
             // 
             // tsb_Redo
             // 
@@ -588,6 +596,14 @@
             this.tsb_Redo.Name = "tsb_Redo";
             this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
             this.tsb_Redo.Text = "Redo";
+            this.tsb_Redo.Visible = false;
+            // 
+            // tsLoading
+            // 
+            this.tsLoading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsLoading.Name = "tsLoading";
+            this.tsLoading.Size = new System.Drawing.Size(100, 24);
+            this.tsLoading.Visible = false;
             // 
             // stsEditor
             // 
@@ -679,7 +695,7 @@
             this.trkZoom.AutoSize = false;
             this.trkZoom.Enabled = false;
             this.trkZoom.LargeChange = 25;
-            this.trkZoom.Location = new System.Drawing.Point(138, 554);
+            this.trkZoom.Location = new System.Drawing.Point(120, 554);
             this.trkZoom.Margin = new System.Windows.Forms.Padding(2);
             this.trkZoom.Maximum = 300;
             this.trkZoom.Minimum = 10;
@@ -699,7 +715,7 @@
             this.btnSubtractZoom.FlatAppearance.BorderSize = 0;
             this.btnSubtractZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubtractZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSubtractZoom.Location = new System.Drawing.Point(115, 553);
+            this.btnSubtractZoom.Location = new System.Drawing.Point(97, 553);
             this.btnSubtractZoom.Name = "btnSubtractZoom";
             this.btnSubtractZoom.Size = new System.Drawing.Size(25, 23);
             this.btnSubtractZoom.TabIndex = 6;
@@ -716,7 +732,7 @@
             this.btnAddZoom.FlatAppearance.BorderSize = 0;
             this.btnAddZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddZoom.Location = new System.Drawing.Point(278, 553);
+            this.btnAddZoom.Location = new System.Drawing.Point(260, 553);
             this.btnAddZoom.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddZoom.Name = "btnAddZoom";
             this.btnAddZoom.Size = new System.Drawing.Size(25, 23);
@@ -842,6 +858,7 @@
         private System.Windows.Forms.ToolStripMenuItem PremiLineToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripProgressBar tsLoading;
     }
 }
 
