@@ -1764,6 +1764,33 @@ namespace KMDIWinDoorsCS
             bgw.DoWork += Bgw_DoWork;
         }
 
+        private void ToggleMode(bool visibility, bool enabled)
+        {
+            tsLbl_Loading.Visible = visibility;
+            tsprogress_Loading.Visible = visibility;
+
+            mnsMainMenu.Enabled = enabled;
+            splitContainer1.Enabled = enabled;
+            pnlRight.Enabled = enabled;
+            stsEditor.Enabled = enabled;
+            tsMain.Enabled = enabled;
+        }
+
+        private void StartWorker(string todo)
+        {
+            if (bgw.IsBusy != true)
+            {
+                bgw.RunWorkerAsync(todo);
+                tsLbl_Loading.Text = "Initializing";
+                ToggleMode(true,false);
+            }
+            else
+            {
+                MessageBox.Show(this,"Please Wait!", "Loading",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            }
+        }
+
+        string[] file_lines;
         private void Bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -1771,15 +1798,21 @@ namespace KMDIWinDoorsCS
                 switch (e.Argument.ToString())
                 {
                     case "Open_WndrFiles":
-                        string[] lines = File.ReadAllLines(openFileDialog1.FileName);
-
-                        for (int i = 0; i < lines.Length; i++)
+                        for (int i = 0; i < file_lines.Length; i++)
                         {
-                            bgw.ReportProgress(i,e.Argument.ToString());
-                            System.Threading.Thread.Sleep(100);
+                            //System.Threading.Thread.Sleep(100);
+                            if (bgw.CancellationPending == true)
+                            {
+                                e.Cancel = true;
+                            }
+                            else
+                            {
+                                bgw.ReportProgress(i, e.Argument.ToString());
+                            }
                         }
                         e.Result = e.Argument.ToString();
                         break;
+
                     default:
                         break;
                 }
@@ -1797,7 +1830,16 @@ namespace KMDIWinDoorsCS
                 switch (e.UserState.ToString())
                 {
                     case "Open_WndrFiles":
-                        tsLoading.Value = e.ProgressPercentage;
+                        Opening_dotwndr(e.ProgressPercentage);
+                        tsprogress_Loading.Value = e.ProgressPercentage;
+                        if (tsLbl_Loading.Text != "Initializing...")
+                        {
+                            tsLbl_Loading.Text += ".";
+                        }
+                        else
+                        {
+                            tsLbl_Loading.Text = "Initializing";
+                        }
 
                         break;
                     default:
@@ -1806,7 +1848,8 @@ namespace KMDIWinDoorsCS
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                bgw.CancelAsync();
             }
         }
 
@@ -1816,15 +1859,18 @@ namespace KMDIWinDoorsCS
             {
                 if (e.Error != null || e.Cancelled == true)
                 {
-
+                    tsLbl_Loading.Text = "Error";
+                    ToggleMode(false, true);
+                    tsLbl_Loading.Visible = true;
                 }
                 else
                 {
                     switch (e.Result.ToString())
                     {
                         case "Open_WndrFiles":
-                            MessageBox.Show("Finished");
-                            tsLoading.Visible = false;
+                            tsLbl_Loading.Text = "Finished";
+                            ToggleMode(false,true);
+                            tsLbl_Loading.Visible = true;
 
                             break;
                         default:
@@ -1836,6 +1882,38 @@ namespace KMDIWinDoorsCS
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        bool inside_item;
+        private void Opening_dotwndr(int row)
+        {
+            string row_str = file_lines[row];
+
+            if (row == 0)
+            {
+                quotation_ref_no = Text = file_lines[0];
+            }
+
+            if (row_str == "(")
+            {
+                inside_item = flpMain.Visible = true;
+            }
+
+            if (inside_item == true)
+            {
+                if (row_str.Contains("Item"))
+                {
+                    Text += " >> " + row_str;
+                }
+                else if (row_str.Contains("FWidth"))
+                {
+                    flpMain.Width = flpMain2.Width = Convert.ToInt32(row_str.Remove(0,8)); // Eliminate FWidth: (/w whitespace)
+                }
+                else if (row_str.Contains("FHeight"))
+                {
+                    flpMain.Height = flpMain2.Width = Convert.ToInt32(row_str.Remove(0, 9)); // Eliminate FHeight: (/w whitespace)
+                }
             }
         }
 
@@ -2923,34 +3001,6 @@ namespace KMDIWinDoorsCS
             }
         }
 
-        private void Opening_dotwndr()
-        {
-            try
-            {
-                // Read a text file line by line.  
-                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
-
-                if (lines[0].Contains("#"))
-                    quotation_ref_no = Text = lines[0].Replace("#", "");
-                else
-                    throw new Exception("Modified file occured");
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    if (lines[i] == "(") //
-                    {
-                        string frameName = "";
-                        frameName = lines[i + 1].Replace("FrameName: ","");
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message,"Error Occured",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }
-        }
-
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -2970,13 +3020,10 @@ namespace KMDIWinDoorsCS
 
                 cpnlcount = mulcount = trnscount = framecntr = 0;
 
-                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
-                        tsLoading.Maximum = lines.Length;
+               file_lines = File.ReadAllLines(openFileDialog1.FileName);
+               tsprogress_Loading.Maximum = file_lines.Length;
 
-                tsLoading.Visible = true;
-                bgw.RunWorkerAsync("Open_WndrFiles");
-
-                //Opening_dotwndr();
+               StartWorker("Open_WndrFiles");
             }
         }
 

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -70,13 +70,13 @@
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
             this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
-            this.tsLoading = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsprogress_Loading = new System.Windows.Forms.ToolStripProgressBar();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -92,6 +92,7 @@
             this.btnAddZoom = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -149,14 +150,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -506,7 +507,8 @@
             this.printToolStripButton,
             this.tsb_Undo,
             this.tsb_Redo,
-            this.tsLoading});
+            this.tsprogress_Loading,
+            this.tsLbl_Loading});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
             this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -537,16 +539,6 @@
             this.tsBtnNdoor.Text = "New Door";
             this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
             // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.newToolStripButton.Text = "&New";
-            this.newToolStripButton.Visible = false;
-            // 
             // openToolStripButton
             // 
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -556,6 +548,16 @@
             this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.openToolStripButton.Text = "&Open";
             this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Visible = false;
             // 
             // saveToolStripButton
             // 
@@ -598,12 +600,12 @@
             this.tsb_Redo.Text = "Redo";
             this.tsb_Redo.Visible = false;
             // 
-            // tsLoading
+            // tsprogress_Loading
             // 
-            this.tsLoading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsLoading.Name = "tsLoading";
-            this.tsLoading.Size = new System.Drawing.Size(100, 24);
-            this.tsLoading.Visible = false;
+            this.tsprogress_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsprogress_Loading.Name = "tsprogress_Loading";
+            this.tsprogress_Loading.Size = new System.Drawing.Size(100, 24);
+            this.tsprogress_Loading.Visible = false;
             // 
             // stsEditor
             // 
@@ -749,6 +751,14 @@
             // 
             this.openFileDialog1.Filter = "WNDR files (*.wndr)|*.wndr";
             // 
+            // tsLbl_Loading
+            // 
+            this.tsLbl_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsLbl_Loading.Name = "tsLbl_Loading";
+            this.tsLbl_Loading.Size = new System.Drawing.Size(61, 24);
+            this.tsLbl_Loading.Text = "Initializing";
+            this.tsLbl_Loading.Visible = false;
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -858,7 +868,8 @@
         private System.Windows.Forms.ToolStripMenuItem PremiLineToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ToolStripProgressBar tsLoading;
+        private System.Windows.Forms.ToolStripProgressBar tsprogress_Loading;
+        private System.Windows.Forms.ToolStripLabel tsLbl_Loading;
     }
 }
 
