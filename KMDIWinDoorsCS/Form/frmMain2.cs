@@ -936,7 +936,10 @@ namespace KMDIWinDoorsCS
                                             int Pwidth,
                                             int Pheight,
                                             bool num_bool,
-                                            string pnlwndrtype = "")
+                                            string pnlwndrtype = "",
+                                            int louv_blade_num = 2,
+                                            bool bool_orientation = false,
+                                            string chktext = "")
         {
             Panel Pprop;
             Label lbl;
@@ -965,34 +968,6 @@ namespace KMDIWinDoorsCS
             lbl.Location = new Point(7, 36);
             Pprop.Controls.Add(lbl);
 
-            chk = new CheckBox();
-            chk.Name = "chkWdrOrientation_" + count;
-            chk.Appearance = Appearance.Button;
-            chk.BackColor = SystemColors.ControlDark;
-            chk.FlatAppearance.BorderSize = 0;
-            chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
-            chk.FlatStyle = FlatStyle.Flat;
-            chk.Font = new Font("Segoe UI", 8.25f);
-            chk.Size = new Size(50, 21);
-            chk.TextAlign = ContentAlignment.MiddleCenter;
-            chk.Location = new Point(90, 50);
-            chk.Visible = true;
-            chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
-            Pprop.Controls.Add(chk);
-
-            num = new NumericUpDown();
-            num.Name = "numBladeCount_" + count;
-            num.BackColor = SystemColors.ControlDark;
-            num.Font = new Font("Segoe UI", 8.25f);
-            num.Size = new Size(50, 21);
-            num.Maximum = decimal.MaxValue;
-            num.Value = 1;
-            num.Location = new Point(90, 50);
-            num.Visible = false;
-            num.Minimum = 2;
-            num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
-            Pprop.Controls.Add(num);
-
             cbx = new ComboBox();
             cbx.Name = "cbxWindowType_" + count;
             cbx.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1009,6 +984,37 @@ namespace KMDIWinDoorsCS
             cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
             Pprop.Controls.Add(cbx);
             cbx.Text = pnlwndrtype;
+
+            chk = new CheckBox();
+            chk.Name = "chkWdrOrientation_" + count;
+            chk.Appearance = Appearance.Button;
+            chk.BackColor = SystemColors.ControlDark;
+            chk.FlatAppearance.BorderSize = 0;
+            chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
+            chk.FlatStyle = FlatStyle.Flat;
+            chk.Font = new Font("Segoe UI", 8.25f);
+            chk.Size = new Size(50, 21);
+            chk.TextAlign = ContentAlignment.MiddleCenter;
+            chk.Location = new Point(90, 50);
+            chk.Visible = true;
+            chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
+            Pprop.Controls.Add(chk);
+            chk.Checked = bool_orientation;
+            chk.Text = chktext;
+
+            num = new NumericUpDown();
+            num.Name = "numBladeCount_" + count;
+            num.BackColor = SystemColors.ControlDark;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(50, 21);
+            num.Maximum = decimal.MaxValue;
+            num.Value = 1;
+            num.Location = new Point(90, 50);
+            num.Visible = false;
+            num.Minimum = 2;
+            num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
+            Pprop.Controls.Add(num);
+            num.Value = louv_blade_num;
 
             lbl = new Label();
             lbl.Text = "Width";
@@ -1800,7 +1806,6 @@ namespace KMDIWinDoorsCS
                     case "Open_WndrFiles":
                         for (int i = 0; i < file_lines.Length; i++)
                         {
-                            //System.Threading.Thread.Sleep(100);
                             if (bgw.CancellationPending == true)
                             {
                                 e.Cancel = true;
@@ -1849,7 +1854,7 @@ namespace KMDIWinDoorsCS
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                bgw.CancelAsync();
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
             }
         }
 
@@ -1885,7 +1890,13 @@ namespace KMDIWinDoorsCS
             }
         }
 
-        bool inside_item;
+        bool inside_item, inside_frame, inside_panel;
+        int fpwidth, fpheight, //for Profile
+            frwidth, frheight, frwndr,
+            pnlwidth, pnlheight; //for Frame
+        string framename, fptype = "", pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "";
+        DockStyle dok;
+
         private void Opening_dotwndr(int row)
         {
             string row_str = file_lines[row];
@@ -1899,21 +1910,211 @@ namespace KMDIWinDoorsCS
             {
                 inside_item = flpMain.Visible = true;
             }
-
-            if (inside_item == true)
+            else if (row_str == "\t{")
             {
-                if (row_str.Contains("Item"))
-                {
-                    Text += " >> " + row_str;
-                }
-                else if (row_str.Contains("FWidth"))
-                {
-                    flpMain.Width = flpMain2.Width = Convert.ToInt32(row_str.Remove(0,8)); // Eliminate FWidth: (/w whitespace)
-                }
-                else if (row_str.Contains("FHeight"))
-                {
-                    flpMain.Height = flpMain2.Width = Convert.ToInt32(row_str.Remove(0, 9)); // Eliminate FHeight: (/w whitespace)
-                }
+                inside_frame = true;
+            }
+            else if (row_str == "\t\t[")
+            {
+                inside_panel = true;
+            }
+
+            switch (inside_item)
+            {
+                case true:
+                    if (row_str.Contains("Item"))
+                    {
+                        Text += " >> " + row_str;
+                    }
+                    else if (row_str.Contains("FWidth"))
+                    {
+                        fpwidth = Convert.ToInt32(row_str.Remove(0, 8));
+                    }
+                    else if (row_str.Contains("FHeight"))
+                    {
+                        fpheight = Convert.ToInt32(row_str.Remove(0, 9));
+                    }
+                    else if (row_str.Contains("FProfile"))
+                    {
+                        fptype = row_str.Remove(0,10);
+                    }
+
+                    if (fpwidth != 0 && fpheight != 0 && fptype != "")
+                    {
+                        AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype);
+                        inside_item = false;
+                    }
+
+                    break;
+                case false:
+                    switch (inside_frame)
+                    {
+                        case true:
+                            if (row_str.Contains("FrameName"))
+                            {
+                                framename = row_str.Trim().Remove(0,11);
+                            }
+                            if (row_str.Contains("FrWidth"))
+                            {
+                                frwidth = Convert.ToInt32(row_str.Trim().Remove(0, 9));
+                            }
+                            else if (row_str.Contains("FrHeight"))
+                            {
+                                frheight = Convert.ToInt32(row_str.Trim().Remove(0, 10));
+                            }
+                            else if (row_str.Contains("FrWndr"))
+                            {
+                                frwndr = Convert.ToInt32(row_str.Trim().Remove(0, 8));
+                            }
+
+                            if (frwidth != 0 && frheight != 0 && frwndr != 0)
+                            {
+                                AddFrame(frwidth, frheight, frwndr);
+                                inside_frame = false;
+                            }
+                            break;
+                        case false:
+                            switch (inside_panel)
+                            {
+                                case true:
+                                    if (row_str.Contains("DockStyle"))
+                                    {
+                                        switch (row_str.Trim().Remove(0, 11))
+                                        {
+                                            case "Fill":
+                                                dok = DockStyle.Fill;
+                                                break;
+                                            case "None":
+                                                dok = DockStyle.None;
+                                                break;
+                                        }
+                                    }
+                                    else if (row_str.Contains("PWidth"))
+                                    {
+                                        pnlwidth = Convert.ToInt32(row_str.Trim().Remove(0,8));
+                                    }
+                                    else if (row_str.Contains("PHeight"))
+                                    {
+                                        pnlheight = Convert.ToInt32(row_str.Trim().Remove(0, 9));
+                                    }
+                                    else if (row_str.Contains("WndrType"))
+                                    {
+                                        pnlwndrtype = row_str.Trim().Remove(0,10);
+                                    }
+                                    else if (row_str.Contains("Orientation"))
+                                    {
+                                        pnl_Orientation = row_str.Trim().Remove(0,13);
+                                    }
+                                    else if (row_str.Contains("ChkText"))
+                                    {
+                                        pnl_OrientationText = row_str.Trim().Remove(0, 9);
+                                    }
+                                    else if (row_str.Contains("Parent"))
+                                    {
+                                        pnl_Parent = row_str.Trim().Remove(0, 8);
+                                    }
+
+                                    if (pnlwidth != 0 && 
+                                        pnlheight != 0 && 
+                                        pnlwndrtype != "" && 
+                                        pnl_Orientation != "" &&
+                                        pnl_OrientationText != "" &&
+                                        pnl_Parent != "")
+                                    {
+                                        string selected_wndr = "";
+                                        bool orient = false;
+                                        int blade_num = 2;
+
+                                        if (pnlwndrtype.Contains("Fixed"))
+                                        {
+                                            selected_wndr = "Fixed";
+                                        }
+                                        else if (pnlwndrtype.Contains("Awning"))
+                                        {
+                                            selected_wndr = "Awning";
+                                        }
+                                        else if (pnlwndrtype.Contains("Casement"))
+                                        {
+                                            selected_wndr = "Casement";
+                                        }
+                                        else if (pnlwndrtype.Contains("Sliding"))
+                                        {
+                                            selected_wndr = "Sliding";
+                                        }
+                                        else if (pnlwndrtype.Contains("Tilt&Turn"))
+                                        {
+                                            selected_wndr = "Tilt&Turn";
+                                        }
+                                        else if (pnlwndrtype.Contains("Louver"))
+                                        {
+                                            selected_wndr = "Louver";
+                                        }
+                                        else if (pnlwndrtype.Contains("Concrete"))
+                                        {
+                                            selected_wndr = "Concrete";
+                                        }
+
+                                        if (pnlwndrtype.Contains("Louver") == false)
+                                        {
+                                            orient = Convert.ToBoolean(pnl_Orientation);
+                                        }
+                                        else
+                                        {
+                                            blade_num = Convert.ToInt32(pnl_Orientation);
+                                        }
+                                        cpnlcount++;
+
+                                        Panel pnl = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
+                                        pnl.Name += cpnlcount;
+                                        pnl.Width = Convert.ToInt32(pnlwidth * zoom);
+                                        pnl.Height = Convert.ToInt32(pnlheight * zoom);
+                                        pnl.TabIndex = cpnlcount;
+
+                                        Panel pnl2 = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
+                                        pnl2.Name += cpnlcount;
+
+                                        FlowLayoutPanel fprop = new FlowLayoutPanel();
+                                        Panel Pprop = CreatePanelProperties(pnl.Name,
+                                                                            cpnlcount,
+                                                                            pnlwidth,
+                                                                            pnlheight,
+                                                                            false,
+                                                                            selected_wndr,
+                                                                            blade_num,
+                                                                            orient,
+                                                                            pnl_OrientationText);
+
+                                        var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), framename);
+                                        foreach (FlowLayoutPanel ctrl in fpropcol)
+                                        {
+                                            fprop = ctrl;
+                                        }
+                                        fprop.Controls.Add(Pprop);
+
+                                        if (pnl_Parent == "pnl_inner1")
+                                        {
+                                            var c = csfunc.GetAll(flpMain, typeof(Panel), "pnl_inner1");
+                                            foreach (Panel ctrl in c)
+                                            {
+                                                pnl.Tag = ctrl.Tag;
+                                                ctrl.Controls.Add(pnl);
+                                            }
+
+                                            var c2 = csfunc.GetAll(flpMain2, typeof(Panel), "pnl_inner1");
+                                            foreach (Panel ctrl2 in c2)
+                                            {
+                                                ctrl2.Controls.Add(pnl2);
+                                            }
+                                        }
+
+                                        flpMain.Invalidate();
+                                        inside_panel = false;
+                                    }
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -2773,6 +2974,47 @@ namespace KMDIWinDoorsCS
             }
         }
         
+        private void AddProfile(int Fwidth,
+                                int Fheight,
+                                int pnl_cntr,
+                                string profiletype)
+        {
+            trackzoom = false;
+            trkZoom.Value = 100;
+
+            paint_pnlMain = true;
+            tsMain.Enabled = true;
+            stsEditor.Enabled = true;
+            btnAddZoom.Enabled = true;
+            trkZoom.Enabled = true;
+            btnSubtractZoom.Enabled = true;
+
+            flpMain.AccessibleDescription = profiletype;
+            flpMain.Size = new Size(Fwidth, Fheight);
+            flpMain2.Size = new Size(Fwidth, Fheight);
+
+            static_wd = flpMain.Width;
+            static_ht = flpMain.Height;
+
+            flpMain.Visible = true;
+            flpMain.Controls.Clear();
+            flpMain2.Controls.Clear();
+            pnlMain.Invalidate();
+
+            Panel pnl = new Panel();
+            pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype);
+            pnlItems.Controls.Add(pnl);
+            pnl.BringToFront();
+            pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
+            pnlItems.PerformLayout();
+
+            flpMain.Tag = "Item_" + pnl_cntr;
+            flpMain2.Tag = "Item_" + pnl_cntr;
+
+            pnlPropertiesBody.Controls.Clear();
+
+        }
+
         private void ProfileTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
@@ -2820,47 +3062,11 @@ namespace KMDIWinDoorsCS
 
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    trackzoom = false;
-
-                    trkZoom.Value = 100;
                     defwidth = Convert.ToInt32(frm.numWidth.Value);
                     defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                    paint_pnlMain = true;
-                    tsMain.Enabled = true;
-                    stsEditor.Enabled = true;
-                    btnAddZoom.Enabled = true;
-                    trkZoom.Enabled = true;
-                    btnSubtractZoom.Enabled = true;
-                    flpMain.Size = new Size(defwidth, defheight);
-                    flpMain2.Size = new Size(defwidth, defheight);
-
-                    static_wd = flpMain.Width;
-                    static_ht = flpMain.Height;
-
-                    flpMain.Visible = true;
-                    flpMain.Controls.Clear();
-                    flpMain2.Controls.Clear();
-                    pnlMain.Invalidate();
-
-                    Panel pnl = new Panel();
-                    pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype);
-                    pnlItems.Controls.Add(pnl);
-                    pnl.BringToFront();
-                    pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
-                    pnlItems.PerformLayout();
-
-                    flpMain.Tag = "Item_" + pnl_cntr;
-                    flpMain2.Tag = "Item_" + pnl_cntr;
-
-                    pnlPropertiesBody.Controls.Clear();
-
+                    AddProfile(defwidth, defheight, pnl_cntr, profiletype);
                     Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
-
-                    //framecntr = 0;
-                    //cpnlcount = 0;
-                    //mulcount = 0;
-                    //trnscount = 0;
                 }
             }
         }
@@ -2957,7 +3163,7 @@ namespace KMDIWinDoorsCS
         {
             List<string> wndr_content = new List<string>();
 
-            wndr_content.Add("#" + quotation_ref_no + "#");
+            wndr_content.Add(quotation_ref_no);
 
             foreach (KeyValuePair<int, List<Panel>> items in itemslist)
             {
@@ -2965,26 +3171,53 @@ namespace KMDIWinDoorsCS
                 wndr_content.Add("Item " + items.Key);
                 wndr_content.Add("FWidth: " + flpMain2.Width);
                 wndr_content.Add("FHeight: " + flpMain2.Height);
+                wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
                 foreach (Panel frame in items.Value)
                 {
                     wndr_content.Add("\t{");
                     wndr_content.Add("\tFrameName: " + frame.Name); //Frames
-                    wndr_content.Add("\tWidth: " + frame.Width);
-                    wndr_content.Add("\tHeight: " + frame.Height);
-                    wndr_content.Add("\tWndr: " + frame.Tag);
+                    wndr_content.Add("\tFrWidth: " + frame.Width);
+                    wndr_content.Add("\tFrHeight: " + frame.Height);
+                    wndr_content.Add("\tFrWndr: " + frame.Tag);
+
                     var c = csfunc.GetAll(frame, typeof(Panel), "Panel_");
                     foreach (Panel ctrl in c)
                     {
+                        string pnl_id = ctrl.Name.Replace("Panel_",""),
+                               Orientation = "",
+                               Orientation_text = "";
+
+                        var chk_col = csfunc.GetAll(pnlPropertiesBody, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
+                        foreach (CheckBox chk in chk_col)
+                        {
+                            if (chk.Visible == true)
+                            {
+                                Orientation = chk.Checked.ToString();
+                                Orientation_text = chk.Text;
+                            }
+                        }
+
+                        var num_col = csfunc.GetAll(pnlPropertiesBody, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
+                        foreach (NumericUpDown num in num_col)
+                        {
+                            if (num.Visible == true)
+                            {
+                                Orientation = num.Value.ToString();
+                            }
+                        }
+
                         wndr_content.Add("\t\t[");
                         wndr_content.Add("\t\tPanelName: " + ctrl.Name);//Panels
                         wndr_content.Add("\t\tDockStyle: " + ctrl.Dock.ToString());
                         wndr_content.Add("\t\tPWidth: " + ctrl.Width);
                         wndr_content.Add("\t\tPHeight: " + ctrl.Height);
                         wndr_content.Add("\t\tWndrType: " + ctrl.AccessibleDescription);
+                        wndr_content.Add("\t\tOrientation: " + Orientation);
+                        wndr_content.Add("\t\tChkText: " + Orientation_text);
                         wndr_content.Add("\t\tParent: " + ctrl.Parent.Name);
                         wndr_content.Add("\t\t]");
                     }
-                    wndr_content.Add("\t}");
+                        wndr_content.Add("\t}");
                 }
                 wndr_content.Add(")");
             }
@@ -3005,6 +3238,7 @@ namespace KMDIWinDoorsCS
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                dictFrameDimension.Clear();
                 dictPanelDimension.Clear();
                 dictMultiPanelDimension.Clear();
                 dictMullionDimension.Clear();
@@ -3104,6 +3338,45 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<int>> dictFrameDimension = new Dictionary<int, List<int>>();
         int framecntr = 0;
 
+        private void AddFrame(int fwidth,
+                              int fheight,
+                              int fwndr)
+        {
+            framecntr++;
+            Panel frame2 = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
+            flpMain2.Controls.Add(frame2);
+            flpMain2.Invalidate();
+
+            Panel frame = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
+            frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));
+            frame.Size = new Size(Convert.ToInt32(fwidth * zoom), Convert.ToInt32(fheight * zoom));
+
+            flpMain.Controls.Add(frame);
+            trackzoom = false;
+            flpMain.Invalidate();
+
+            FlowLayoutPanel prop = CreateFrameProperties("Frame",
+                                                         framecntr,
+                                                         fwidth,
+                                                         fheight,
+                                                         fwndr);
+            pnlPropertiesBody.Controls.Add(prop);
+            prop.BringToFront();
+
+            List<int> lstDimensions = new List<int>();
+            lstDimensions.Add(fwidth);
+            lstDimensions.Add(fheight);
+
+            if (dictFrameDimension.ContainsKey(framecntr))
+            {
+                dictFrameDimension[framecntr] = lstDimensions;
+            }
+            else
+            {
+                dictFrameDimension.Add(framecntr, lstDimensions);
+            }
+        }
+
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
             int defwidth = static_wd,
@@ -3131,39 +3404,7 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                framecntr++;
-                Panel frame2 = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
-                flpMain2.Controls.Add(frame2);
-                flpMain2.Invalidate();
-
-                Panel frame = CreateFrame("Frame", defwidth, defheight, defwndr, framecntr);
-                frame.Padding = new Padding(Convert.ToInt32(defwndr * zoom));
-                frame.Size = new Size(Convert.ToInt32(defwidth * zoom), Convert.ToInt32(defheight * zoom));
-
-                flpMain.Controls.Add(frame);
-                trackzoom = false;
-                flpMain.Invalidate();
-
-                FlowLayoutPanel prop = CreateFrameProperties("Frame",
-                                                             framecntr, 
-                                                             defwidth,
-                                                             defheight,
-                                                             defwndr);
-                pnlPropertiesBody.Controls.Add(prop);
-                prop.BringToFront();
-
-                List<int> lstDimensions = new List<int>();
-                lstDimensions.Add(defwidth);
-                lstDimensions.Add(defheight);
-
-                if (dictFrameDimension.ContainsKey(framecntr))
-                {
-                    dictFrameDimension[framecntr] =  lstDimensions;
-                }
-                else
-                {
-                    dictFrameDimension.Add(framecntr, lstDimensions);
-                }
+                AddFrame(defwidth, defheight, defwndr);
             }
         }
 
