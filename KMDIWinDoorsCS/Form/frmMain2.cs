@@ -1897,6 +1897,100 @@ namespace KMDIWinDoorsCS
         string framename, fptype = "", pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "";
         DockStyle dok;
 
+        private void AddPanel()
+        {
+            string selected_wndr = "";
+            bool orient = false;
+            int blade_num = 2;
+
+            if (pnlwndrtype.Contains("Fixed"))
+            {
+                selected_wndr = "Fixed";
+            }
+            else if (pnlwndrtype.Contains("Awning"))
+            {
+                selected_wndr = "Awning";
+            }
+            else if (pnlwndrtype.Contains("Casement"))
+            {
+                selected_wndr = "Casement";
+            }
+            else if (pnlwndrtype.Contains("Sliding"))
+            {
+                selected_wndr = "Sliding";
+            }
+            else if (pnlwndrtype.Contains("Tilt&Turn"))
+            {
+                selected_wndr = "Tilt&Turn";
+            }
+            else if (pnlwndrtype.Contains("Louver"))
+            {
+                selected_wndr = "Louver";
+            }
+            else if (pnlwndrtype.Contains("Concrete"))
+            {
+                selected_wndr = "Concrete";
+            }
+
+            if (pnlwndrtype.Contains("Louver") == false)
+            {
+                orient = Convert.ToBoolean(pnl_Orientation);
+            }
+            else
+            {
+                blade_num = Convert.ToInt32(pnl_Orientation);
+            }
+            cpnlcount++;
+
+            Panel pnl = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
+            pnl.Name += cpnlcount;
+            pnl.Width = Convert.ToInt32(pnlwidth * zoom);
+            pnl.Height = Convert.ToInt32(pnlheight * zoom);
+            pnl.TabIndex = cpnlcount;
+
+            List<int> lstDimensions = new List<int>();
+            lstDimensions.Add(pnlwidth);
+            lstDimensions.Add(pnlheight);
+            dictPanelDimension[cpnlcount] = lstDimensions;
+
+            Panel pnl2 = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
+            pnl2.Name += cpnlcount;
+
+            FlowLayoutPanel fprop = new FlowLayoutPanel();
+            Panel Pprop = CreatePanelProperties(pnl.Name,
+                                                cpnlcount,
+                                                pnlwidth,
+                                                pnlheight,
+                                                false,
+                                                selected_wndr,
+                                                blade_num,
+                                                orient,
+                                                pnl_OrientationText);
+
+            var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), framename);
+            foreach (FlowLayoutPanel ctrl in fpropcol)
+            {
+                fprop = ctrl;
+            }
+            fprop.Controls.Add(Pprop);
+
+            if (pnl_Parent == "pnl_inner1")
+            {
+                var c = csfunc.GetAll(flpMain, typeof(Panel), "pnl_inner1");
+                foreach (Panel ctrl in c)
+                {
+                    pnl.Tag = ctrl.Tag;
+                    ctrl.Controls.Add(pnl);
+                }
+
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), "pnl_inner1");
+                foreach (Panel ctrl2 in c2)
+                {
+                    ctrl2.Controls.Add(pnl2);
+                }
+            }
+        }
+
         private void Opening_dotwndr(int row)
         {
             string row_str = file_lines[row];
@@ -2021,93 +2115,7 @@ namespace KMDIWinDoorsCS
                                         pnl_OrientationText != "" &&
                                         pnl_Parent != "")
                                     {
-                                        string selected_wndr = "";
-                                        bool orient = false;
-                                        int blade_num = 2;
-
-                                        if (pnlwndrtype.Contains("Fixed"))
-                                        {
-                                            selected_wndr = "Fixed";
-                                        }
-                                        else if (pnlwndrtype.Contains("Awning"))
-                                        {
-                                            selected_wndr = "Awning";
-                                        }
-                                        else if (pnlwndrtype.Contains("Casement"))
-                                        {
-                                            selected_wndr = "Casement";
-                                        }
-                                        else if (pnlwndrtype.Contains("Sliding"))
-                                        {
-                                            selected_wndr = "Sliding";
-                                        }
-                                        else if (pnlwndrtype.Contains("Tilt&Turn"))
-                                        {
-                                            selected_wndr = "Tilt&Turn";
-                                        }
-                                        else if (pnlwndrtype.Contains("Louver"))
-                                        {
-                                            selected_wndr = "Louver";
-                                        }
-                                        else if (pnlwndrtype.Contains("Concrete"))
-                                        {
-                                            selected_wndr = "Concrete";
-                                        }
-
-                                        if (pnlwndrtype.Contains("Louver") == false)
-                                        {
-                                            orient = Convert.ToBoolean(pnl_Orientation);
-                                        }
-                                        else
-                                        {
-                                            blade_num = Convert.ToInt32(pnl_Orientation);
-                                        }
-                                        cpnlcount++;
-
-                                        Panel pnl = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
-                                        pnl.Name += cpnlcount;
-                                        pnl.Width = Convert.ToInt32(pnlwidth * zoom);
-                                        pnl.Height = Convert.ToInt32(pnlheight * zoom);
-                                        pnl.TabIndex = cpnlcount;
-
-                                        Panel pnl2 = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
-                                        pnl2.Name += cpnlcount;
-
-                                        FlowLayoutPanel fprop = new FlowLayoutPanel();
-                                        Panel Pprop = CreatePanelProperties(pnl.Name,
-                                                                            cpnlcount,
-                                                                            pnlwidth,
-                                                                            pnlheight,
-                                                                            false,
-                                                                            selected_wndr,
-                                                                            blade_num,
-                                                                            orient,
-                                                                            pnl_OrientationText);
-
-                                        var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), framename);
-                                        foreach (FlowLayoutPanel ctrl in fpropcol)
-                                        {
-                                            fprop = ctrl;
-                                        }
-                                        fprop.Controls.Add(Pprop);
-
-                                        if (pnl_Parent == "pnl_inner1")
-                                        {
-                                            var c = csfunc.GetAll(flpMain, typeof(Panel), "pnl_inner1");
-                                            foreach (Panel ctrl in c)
-                                            {
-                                                pnl.Tag = ctrl.Tag;
-                                                ctrl.Controls.Add(pnl);
-                                            }
-
-                                            var c2 = csfunc.GetAll(flpMain2, typeof(Panel), "pnl_inner1");
-                                            foreach (Panel ctrl2 in c2)
-                                            {
-                                                ctrl2.Controls.Add(pnl2);
-                                            }
-                                        }
-
-                                        flpMain.Invalidate();
+                                        AddPanel();
                                         inside_panel = false;
                                     }
                                     break;
@@ -2156,6 +2164,7 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<int>> dictMullionDimension = new Dictionary<int, List<int>>();
         IDictionary<int, List<int>> dictTransomDimension = new Dictionary<int, List<int>>();
 
+        List<string> lstDragOrder = new List<string>();
         int cpnlcount = 0,
             mulcount = 0,
             trnscount = 0;// cpnl.Count() + 1;
@@ -2507,6 +2516,7 @@ namespace KMDIWinDoorsCS
                     }
                 }
             }
+            lstDragOrder.Add(c.Name);
             pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
             pnlPropertiesBody.PerformLayout();
         }
