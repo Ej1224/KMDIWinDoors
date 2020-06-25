@@ -938,8 +938,8 @@ namespace KMDIWinDoorsCS
                                             bool num_bool,
                                             string pnlwndrtype = "",
                                             int louv_blade_num = 2,
-                                            bool bool_orientation = false,
-                                            string chktext = "")
+                                            bool bool_orientation = false)//,
+                                            //string chktext = "")
         {
             Panel Pprop;
             Label lbl;
@@ -968,6 +968,37 @@ namespace KMDIWinDoorsCS
             lbl.Location = new Point(7, 36);
             Pprop.Controls.Add(lbl);
 
+            chk = new CheckBox();
+            chk.Name = "chkWdrOrientation_" + count;
+            chk.Appearance = Appearance.Button;
+            chk.BackColor = SystemColors.ControlDark;
+            chk.FlatAppearance.BorderSize = 0;
+            chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
+            chk.FlatStyle = FlatStyle.Flat;
+            chk.Font = new Font("Segoe UI", 8.25f);
+            chk.Size = new Size(50, 21);
+            chk.TextAlign = ContentAlignment.MiddleCenter;
+            chk.Location = new Point(90, 50);
+            chk.Visible = true;
+            chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
+            Pprop.Controls.Add(chk);
+            chk.Checked = bool_orientation;
+            //chk.Text = chktext;
+
+            num = new NumericUpDown();
+            num.Name = "numBladeCount_" + count;
+            num.BackColor = SystemColors.ControlDark;
+            num.Font = new Font("Segoe UI", 8.25f);
+            num.Size = new Size(50, 21);
+            num.Maximum = decimal.MaxValue;
+            num.Value = 1;
+            num.Location = new Point(90, 50);
+            num.Visible = false;
+            num.Minimum = 2;
+            num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
+            Pprop.Controls.Add(num);
+            num.Value = louv_blade_num;
+
             cbx = new ComboBox();
             cbx.Name = "cbxWindowType_" + count;
             cbx.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -984,37 +1015,6 @@ namespace KMDIWinDoorsCS
             cbx.SelectedIndexChanged += new EventHandler(cbx_SelectedIndexChanged);
             Pprop.Controls.Add(cbx);
             cbx.Text = pnlwndrtype;
-
-            chk = new CheckBox();
-            chk.Name = "chkWdrOrientation_" + count;
-            chk.Appearance = Appearance.Button;
-            chk.BackColor = SystemColors.ControlDark;
-            chk.FlatAppearance.BorderSize = 0;
-            chk.FlatAppearance.CheckedBackColor = Color.SteelBlue;
-            chk.FlatStyle = FlatStyle.Flat;
-            chk.Font = new Font("Segoe UI", 8.25f);
-            chk.Size = new Size(50, 21);
-            chk.TextAlign = ContentAlignment.MiddleCenter;
-            chk.Location = new Point(90, 50);
-            chk.Visible = true;
-            chk.CheckedChanged += new EventHandler(chk_CheckedChanged);
-            Pprop.Controls.Add(chk);
-            chk.Checked = bool_orientation;
-            chk.Text = chktext;
-
-            num = new NumericUpDown();
-            num.Name = "numBladeCount_" + count;
-            num.BackColor = SystemColors.ControlDark;
-            num.Font = new Font("Segoe UI", 8.25f);
-            num.Size = new Size(50, 21);
-            num.Maximum = decimal.MaxValue;
-            num.Value = 1;
-            num.Location = new Point(90, 50);
-            num.Visible = false;
-            num.Minimum = 2;
-            num.ValueChanged += new EventHandler(BladeNum_ValueChanged);
-            Pprop.Controls.Add(num);
-            num.Value = louv_blade_num;
 
             lbl = new Label();
             lbl.Text = "Width";
@@ -1666,6 +1666,8 @@ namespace KMDIWinDoorsCS
                 Panel Pprop = CreatePanelProperties(pnl.Name, cpnlcount, wd, ht, true, wndrtype);
                 fprop.Controls.Add(Pprop);
 
+                lstDragOrder.Add(pnl.Name);
+
                 if (i != wndrCount - 1 && !multipnl.Name.Contains("Sliding"))
                 {
                     Panel divMT = new Panel();
@@ -1894,7 +1896,7 @@ namespace KMDIWinDoorsCS
         int fpwidth, fpheight, //for Profile
             frwidth, frheight, frwndr,
             pnlwidth, pnlheight; //for Frame
-        string framename, fptype = "", pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "";
+        string framename, fptype = "", pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "";//, pnl_OrientationText = "";
         DockStyle dok;
 
         private void AddPanel()
@@ -1964,8 +1966,8 @@ namespace KMDIWinDoorsCS
                                                 false,
                                                 selected_wndr,
                                                 blade_num,
-                                                orient,
-                                                pnl_OrientationText);
+                                                orient);//,
+                                                //pnl_OrientationText);
 
             var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), framename);
             foreach (FlowLayoutPanel ctrl in fpropcol)
@@ -2099,10 +2101,10 @@ namespace KMDIWinDoorsCS
                                     {
                                         pnl_Orientation = row_str.Trim().Remove(0,13);
                                     }
-                                    else if (row_str.Contains("ChkText"))
-                                    {
-                                        pnl_OrientationText = row_str.Trim().Remove(0, 9);
-                                    }
+                                    //else if (row_str.Contains("ChkText"))
+                                    //{
+                                    //    pnl_OrientationText = row_str.Trim().Remove(0, 9);
+                                    //}
                                     else if (row_str.Contains("Parent"))
                                     {
                                         pnl_Parent = row_str.Trim().Remove(0, 8);
@@ -2112,7 +2114,7 @@ namespace KMDIWinDoorsCS
                                         pnlheight != 0 && 
                                         pnlwndrtype != "" && 
                                         pnl_Orientation != "" &&
-                                        pnl_OrientationText != "" &&
+                                        //pnl_OrientationText != "" &&
                                         pnl_Parent != "")
                                     {
                                         AddPanel();
@@ -3077,6 +3079,7 @@ namespace KMDIWinDoorsCS
 
                     AddProfile(defwidth, defheight, pnl_cntr, profiletype);
                     Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
+                    lstDragOrder.Add(" >> Item " + pnl_cntr);
                 }
             }
         }
@@ -3175,6 +3178,31 @@ namespace KMDIWinDoorsCS
 
             wndr_content.Add(quotation_ref_no);
 
+            //int item_id = 0;
+            ////bool item_id_changed = false;
+            //for (int i = 0; i < lstDragOrder.Count; i++)
+            //{
+            //    if (lstDragOrder.Contains(">>"))
+            //    {
+            //        item_id++;
+            //        wndr_content.Add("(");
+            //        wndr_content.Add("Item " + item_id);
+            //        wndr_content.Add("FWidth: " + flpMain2.Width);
+            //        wndr_content.Add("FHeight: " + flpMain2.Height);
+            //        wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
+            //    }
+            //    foreach (Panel frame in itemslist[i])
+            //    {
+            //        wndr_content.Add("\t{");
+            //        wndr_content.Add("\tFrameName: " + frame.Name); //Frames
+            //        wndr_content.Add("\tFrWidth: " + frame.Width);
+            //        wndr_content.Add("\tFrHeight: " + frame.Height);
+            //        wndr_content.Add("\tFrWndr: " + frame.Tag);
+
+            //    }
+            //}
+
+
             foreach (KeyValuePair<int, List<Panel>> items in itemslist)
             {
                 wndr_content.Add("(");
@@ -3182,6 +3210,7 @@ namespace KMDIWinDoorsCS
                 wndr_content.Add("FWidth: " + flpMain2.Width);
                 wndr_content.Add("FHeight: " + flpMain2.Height);
                 wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
+
                 foreach (Panel frame in items.Value)
                 {
                     wndr_content.Add("\t{");
@@ -3240,6 +3269,7 @@ namespace KMDIWinDoorsCS
             saveFileDialog1.FileName = quotation_ref_no;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                //File.WriteAllLines(saveFileDialog1.FileName, lstDragOrder);
                 File.WriteAllLines(saveFileDialog1.FileName, Saving_dotwndr());
             }
         }
@@ -3356,6 +3386,7 @@ namespace KMDIWinDoorsCS
             Panel frame2 = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
             flpMain2.Controls.Add(frame2);
             flpMain2.Invalidate();
+            lstDragOrder.Add(frame2.Name);
 
             Panel frame = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
             frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));
@@ -3480,6 +3511,23 @@ namespace KMDIWinDoorsCS
                     flpMain2.Controls.Remove(ctrl);
                 }
 
+                var c3 = csfunc.GetAll(pnlSel, typeof(Panel)); //Gets all the Panels inside Frame
+                foreach (var pnl in c3)
+                {
+                    if (lstDragOrder.Contains(pnl.Name)) //Searching for matches 
+                    {
+                        lstDragOrder.Remove(pnl.Name); //Removes into lstDragOrder
+                    }
+                }
+                
+                var c4 = csfunc.GetAll(pnlSel, typeof(FlowLayoutPanel)); //Gets all the MultiPanels inside Frame
+                foreach (var flp in c4)
+                {
+                    if (lstDragOrder.Contains(flp.Name))
+                    {
+                        lstDragOrder.Remove(flp.Name);
+                    }
+                }
             }
             else if (pnlSel.Name.Contains("Panel"))
             {
@@ -3511,6 +3559,8 @@ namespace KMDIWinDoorsCS
                 var pnlcol1 = csfunc.GetAll(pnlSel, typeof(Panel), "Panel");
                 foreach (Panel ctrl1 in pnlcol1)
                 {
+                    lstDragOrder.Remove(ctrl1.Name);
+
                     FlowLayoutPanel fprop = new FlowLayoutPanel();
                     var flpcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), ctrl1.Tag.ToString());
                     foreach (FlowLayoutPanel ctrl2 in flpcol)
@@ -3542,6 +3592,7 @@ namespace KMDIWinDoorsCS
                     ctrl.Parent.Controls.Remove(ctrl);
                 }
             }
+            lstDragOrder.Remove(pnlSel.Name);
 
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
