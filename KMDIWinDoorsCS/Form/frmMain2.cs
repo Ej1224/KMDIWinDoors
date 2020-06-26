@@ -1313,6 +1313,8 @@ namespace KMDIWinDoorsCS
             itmpnl.BorderStyle = BorderStyle.FixedSingle;
             itmpnl.Dock = DockStyle.Top;
             itmpnl.Height = 373;
+            itmpnl.AccessibleDefaultActionDescription = dimension;
+            itmpnl.AccessibleDescription = description;
 
             lbl = new Label();
             lbl.Name = "lbl_item" + count;
@@ -1976,21 +1978,22 @@ namespace KMDIWinDoorsCS
             }
             fprop.Controls.Add(Pprop);
 
-            if (pnl_Parent == "pnl_inner1")
-            {
-                var c = csfunc.GetAll(flpMain, typeof(Panel), "pnl_inner1");
+            //if (pnl_Parent == "pnl_inner1")
+            //{
+                var c = csfunc.GetAll(flpMain, typeof(Panel), pnl_Parent);
                 foreach (Panel ctrl in c)
                 {
                     pnl.Tag = ctrl.Tag;
                     ctrl.Controls.Add(pnl);
                 }
 
-                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), "pnl_inner1");
+                var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnl_Parent);
                 foreach (Panel ctrl2 in c2)
                 {
                     ctrl2.Controls.Add(pnl2);
                 }
-            }
+            //}
+            lstDragOrder.Add(pnl.Name);
         }
 
         private void Opening_dotwndr(int row)
@@ -2008,19 +2011,27 @@ namespace KMDIWinDoorsCS
             }
             else if (row_str == "\t{")
             {
-                inside_frame = true;
+                string nxtline = file_lines[row + 1];
+                if (nxtline.Contains("FrameName"))
+                {
+                    inside_frame = true;
+                }
+                else if (nxtline.Contains("PanelName"))
+                {
+                    inside_panel = true;
+                }
             }
-            else if (row_str == "\t\t[")
-            {
-                inside_panel = true;
-            }
+            //else if (row_str == "\t\t[")
+            //{
+            //    inside_panel = true;
+            //}
 
             switch (inside_item)
             {
                 case true:
                     if (row_str.Contains("Item"))
                     {
-                        Text += " >> " + row_str;
+                        Text += " >> " + row_str.Replace("_"," ");
                     }
                     else if (row_str.Contains("FWidth"))
                     {
@@ -3023,6 +3034,7 @@ namespace KMDIWinDoorsCS
             flpMain.Tag = "Item_" + pnl_cntr;
             flpMain2.Tag = "Item_" + pnl_cntr;
 
+            lstDragOrder.Add(" >> Item_" + pnl_cntr);
             pnlPropertiesBody.Controls.Clear();
 
         }
@@ -3079,7 +3091,6 @@ namespace KMDIWinDoorsCS
 
                     AddProfile(defwidth, defheight, pnl_cntr, profiletype);
                     Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
-                    lstDragOrder.Add(" >> Item " + pnl_cntr);
                 }
             }
         }
@@ -3092,6 +3103,10 @@ namespace KMDIWinDoorsCS
         {
             UppdateDictionaries();
             Text = Text.Replace("*", "");
+            for (int i = 0; i < lstDragOrder.Count; i++)
+            {
+                Console.WriteLine(lstDragOrder[i]);
+            }
             MessageBox.Show("Saved");
         }
         
@@ -3177,21 +3192,115 @@ namespace KMDIWinDoorsCS
             List<string> wndr_content = new List<string>();
 
             wndr_content.Add(quotation_ref_no);
+            bool inside_item = false;
 
-            //int item_id = 0;
-            ////bool item_id_changed = false;
-            //for (int i = 0; i < lstDragOrder.Count; i++)
+            for (int i = 0; i < lstDragOrder.Count; i++)
+            {
+                if (inside_item)
+                {
+                    if (lstDragOrder[i].Contains("Frame"))
+                    {
+                        foreach (KeyValuePair<int, List<Panel>> items in itemslist)
+                        {
+                            foreach (Panel frame in items.Value)
+                            {
+                                if (frame.Name == (lstDragOrder[i]))
+                                {
+                                    wndr_content.Add("\t{");
+                                    wndr_content.Add("\tFrameName: " + frame.Name); //Frames
+                                    wndr_content.Add("\tFrWidth: " + frame.Width);
+                                    wndr_content.Add("\tFrHeight: " + frame.Height);
+                                    wndr_content.Add("\tFrWndr: " + frame.Tag);
+                                    wndr_content.Add("\t}");
+                                }
+                            }
+                        }
+                    }
+                    else if (lstDragOrder[i].Contains("Panel"))
+                    {
+                        foreach (KeyValuePair<int, List<Panel>> items in itemslist)
+                        {
+                            foreach (Panel frame in items.Value)
+                            {
+                                var c = csfunc.GetAll(frame, typeof(Panel), lstDragOrder[i]);
+                                foreach (Panel ctrl in c)
+                                {
+                                    if (lstDragOrder[i] == ctrl.Name)
+                                    {
+                                        string pnl_id = ctrl.Name.Replace("Panel_", ""), 
+                                               Orientation = "";
+
+                                        var chk_col = csfunc.GetAll(pnlPropertiesBody, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
+                                        foreach (CheckBox chk in chk_col)
+                                        {
+                                            if (chk.Visible == true)
+                                            {
+                                                Orientation = chk.Checked.ToString();
+                                            }
+                                        }
+
+                                        var num_col = csfunc.GetAll(pnlPropertiesBody, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
+                                        foreach (NumericUpDown num in num_col)
+                                        {
+                                            if (num.Visible == true)
+                                            {
+                                                Orientation = num.Value.ToString();
+                                            }
+                                        }
+
+                                        wndr_content.Add("\t{");
+                                        wndr_content.Add("\tPanelName: " + ctrl.Name);//Panels
+                                        wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
+                                        wndr_content.Add("\tPWidth: " + ctrl.Width);
+                                        wndr_content.Add("\tPHeight: " + ctrl.Height);
+                                        wndr_content.Add("\tWndrType: " + ctrl.AccessibleDescription);
+                                        wndr_content.Add("\tOrientation: " + Orientation);
+                                        wndr_content.Add("\tParent: " + ctrl.Parent.Name);
+                                        wndr_content.Add("\t}");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (lstDragOrder[i].Contains(">>"))
+                {
+                    inside_item = true;
+                    string itemname = lstDragOrder[i].Replace(" >> ", "");
+                    var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
+                    foreach (Panel ctrl in c)
+                    {
+                        if (itemname == ctrl.Name)
+                        {
+                            wndr_content.Add("(");
+                            wndr_content.Add(ctrl.Name);
+
+                            string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
+                            string[] dimension = WxH.Split('x');
+
+                            wndr_content.Add("FWidth: " + dimension[0]);
+                            wndr_content.Add("FHeight: " + dimension[1]);
+                            wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
+                        }
+                    }
+                }
+                else if (i == lstDragOrder.Count - 1)
+                {
+                    inside_item = false;
+                    wndr_content.Add(")");
+                }
+            }
+
+            //foreach (KeyValuePair<int, List<Panel>> items in itemslist)
             //{
-            //    if (lstDragOrder.Contains(">>"))
-            //    {
-            //        item_id++;
-            //        wndr_content.Add("(");
-            //        wndr_content.Add("Item " + item_id);
-            //        wndr_content.Add("FWidth: " + flpMain2.Width);
-            //        wndr_content.Add("FHeight: " + flpMain2.Height);
-            //        wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
-            //    }
-            //    foreach (Panel frame in itemslist[i])
+            //    wndr_content.Add("(");
+            //    wndr_content.Add("Item " + items.Key);
+            //    wndr_content.Add("FWidth: " + flpMain2.Width);
+            //    wndr_content.Add("FHeight: " + flpMain2.Height);
+            //    wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
+
+            //    foreach (Panel frame in items.Value)
             //    {
             //        wndr_content.Add("\t{");
             //        wndr_content.Add("\tFrameName: " + frame.Name); //Frames
@@ -3199,67 +3308,47 @@ namespace KMDIWinDoorsCS
             //        wndr_content.Add("\tFrHeight: " + frame.Height);
             //        wndr_content.Add("\tFrWndr: " + frame.Tag);
 
+            //        var c = csfunc.GetAll(frame, typeof(Panel), "Panel_");
+            //        foreach (Panel ctrl in c)
+            //        {
+            //            string pnl_id = ctrl.Name.Replace("Panel_", ""),
+            //                   Orientation = "",
+            //                   Orientation_text = "";
+
+            //            var chk_col = csfunc.GetAll(pnlPropertiesBody, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
+            //            foreach (CheckBox chk in chk_col)
+            //            {
+            //                if (chk.Visible == true)
+            //                {
+            //                    Orientation = chk.Checked.ToString();
+            //                    Orientation_text = chk.Text;
+            //                }
+            //            }
+
+            //            var num_col = csfunc.GetAll(pnlPropertiesBody, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
+            //            foreach (NumericUpDown num in num_col)
+            //            {
+            //                if (num.Visible == true)
+            //                {
+            //                    Orientation = num.Value.ToString();
+            //                }
+            //            }
+
+            //            wndr_content.Add("\t\t[");
+            //            wndr_content.Add("\t\tPanelName: " + ctrl.Name);//Panels
+            //            wndr_content.Add("\t\tDockStyle: " + ctrl.Dock.ToString());
+            //            wndr_content.Add("\t\tPWidth: " + ctrl.Width);
+            //            wndr_content.Add("\t\tPHeight: " + ctrl.Height);
+            //            wndr_content.Add("\t\tWndrType: " + ctrl.AccessibleDescription);
+            //            wndr_content.Add("\t\tOrientation: " + Orientation);
+            //            wndr_content.Add("\t\tChkText: " + Orientation_text);
+            //            wndr_content.Add("\t\tParent: " + ctrl.Parent.Name);
+            //            wndr_content.Add("\t\t]");
+            //        }
+            //        wndr_content.Add("\t}");
             //    }
+            //    wndr_content.Add(")");
             //}
-
-
-            foreach (KeyValuePair<int, List<Panel>> items in itemslist)
-            {
-                wndr_content.Add("(");
-                wndr_content.Add("Item " + items.Key);
-                wndr_content.Add("FWidth: " + flpMain2.Width);
-                wndr_content.Add("FHeight: " + flpMain2.Height);
-                wndr_content.Add("FProfile: " + flpMain.AccessibleDescription);
-
-                foreach (Panel frame in items.Value)
-                {
-                    wndr_content.Add("\t{");
-                    wndr_content.Add("\tFrameName: " + frame.Name); //Frames
-                    wndr_content.Add("\tFrWidth: " + frame.Width);
-                    wndr_content.Add("\tFrHeight: " + frame.Height);
-                    wndr_content.Add("\tFrWndr: " + frame.Tag);
-
-                    var c = csfunc.GetAll(frame, typeof(Panel), "Panel_");
-                    foreach (Panel ctrl in c)
-                    {
-                        string pnl_id = ctrl.Name.Replace("Panel_",""),
-                               Orientation = "",
-                               Orientation_text = "";
-
-                        var chk_col = csfunc.GetAll(pnlPropertiesBody, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
-                        foreach (CheckBox chk in chk_col)
-                        {
-                            if (chk.Visible == true)
-                            {
-                                Orientation = chk.Checked.ToString();
-                                Orientation_text = chk.Text;
-                            }
-                        }
-
-                        var num_col = csfunc.GetAll(pnlPropertiesBody, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
-                        foreach (NumericUpDown num in num_col)
-                        {
-                            if (num.Visible == true)
-                            {
-                                Orientation = num.Value.ToString();
-                            }
-                        }
-
-                        wndr_content.Add("\t\t[");
-                        wndr_content.Add("\t\tPanelName: " + ctrl.Name);//Panels
-                        wndr_content.Add("\t\tDockStyle: " + ctrl.Dock.ToString());
-                        wndr_content.Add("\t\tPWidth: " + ctrl.Width);
-                        wndr_content.Add("\t\tPHeight: " + ctrl.Height);
-                        wndr_content.Add("\t\tWndrType: " + ctrl.AccessibleDescription);
-                        wndr_content.Add("\t\tOrientation: " + Orientation);
-                        wndr_content.Add("\t\tChkText: " + Orientation_text);
-                        wndr_content.Add("\t\tParent: " + ctrl.Parent.Name);
-                        wndr_content.Add("\t\t]");
-                    }
-                        wndr_content.Add("\t}");
-                }
-                wndr_content.Add(")");
-            }
 
             return wndr_content;
         }
@@ -3269,8 +3358,8 @@ namespace KMDIWinDoorsCS
             saveFileDialog1.FileName = quotation_ref_no;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //File.WriteAllLines(saveFileDialog1.FileName, lstDragOrder);
                 File.WriteAllLines(saveFileDialog1.FileName, Saving_dotwndr());
+                //File.AppendAllLines(saveFileDialog1.FileName, lstDragOrder);
             }
         }
 
@@ -3294,10 +3383,11 @@ namespace KMDIWinDoorsCS
 
                 cpnlcount = mulcount = trnscount = framecntr = 0;
 
-               file_lines = File.ReadAllLines(openFileDialog1.FileName);
-               tsprogress_Loading.Maximum = file_lines.Length;
+                file_lines = File.ReadAllLines(openFileDialog1.FileName);
+                tsprogress_Loading.Maximum = file_lines.Length;
 
-               StartWorker("Open_WndrFiles");
+                lstDragOrder.Clear();
+                StartWorker("Open_WndrFiles");
             }
         }
 
