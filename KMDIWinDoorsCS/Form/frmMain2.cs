@@ -379,7 +379,7 @@ namespace KMDIWinDoorsCS
             multi.AllowDrop = true;
             multi.AccessibleDescription = numDiv;
             multi.BackColor = SystemColors.ActiveCaption;
-            multi.Dock = DockStyle.Fill;
+            multi.Dock = dok;
             multi.Padding = new Padding(0);
             multi.Margin = new Padding(0);
             multi.Tag = wndr;
@@ -432,8 +432,7 @@ namespace KMDIWinDoorsCS
                                                                    pnl.ClientRectangle.Height - w));
         }
 
-        private Panel CreateDiv(string name,
-                                string divtype)
+        private Panel CreateDiv(string name)
         {
             Panel div = new Panel();
             div.Name = name;
@@ -1686,7 +1685,7 @@ namespace KMDIWinDoorsCS
                 {
                     Panel divMT = new Panel();
                     //pnl = new Panel();
-                    divMT = CreateDiv(divtype + "_" + i, divtype);
+                    divMT = CreateDiv(divtype + "_" + i);
                     divMT.Size = new Size(Convert.ToInt32(divWD * zoom), Convert.ToInt32(divHT * zoom));
                     List<int> lstDivDimensions = new List<int>();
 
@@ -1911,10 +1910,12 @@ namespace KMDIWinDoorsCS
         int fpwidth, fpheight, //for Profile
             frwidth, frheight, frwndr,
             pnlwidth, pnlheight, //for Frame
-            multiwidth, multiheight, multidivnum; //for Multipanel 
+            multi_Tabindex, //for Multipanel 
+            divd_width, divd_height, divd_TabIndex; //for Divider
         string framename = "", fptype = "", 
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
-               multi_type = "", multi_Parent = "", multi_frameGroup = "";
+               multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
+               divd_name = "", divd_Parent = "";
         DockStyle dok, multidok;
 
         private void AddPanel()
@@ -2012,20 +2013,104 @@ namespace KMDIWinDoorsCS
             }
             fprop.Controls.Add(Pprop);
 
-            var c = csfunc.GetAll(flpMain, typeof(Panel), pnl_Parent);
+            var c = csfunc.GetAll(flpMain, pnl_Parent);
             foreach (Panel ctrl in c)
             {
                 pnl.Tag = ctrl.Tag;
                 ctrl.Controls.Add(pnl);
             }
 
-            var c2 = csfunc.GetAll(flpMain2, typeof(Panel), pnl_Parent);
+            var c2 = csfunc.GetAll(flpMain2, pnl_Parent);
             foreach (Panel ctrl2 in c2)
             {
                 ctrl2.Controls.Add(pnl2);
             }
 
             lstDragOrder.Add(pnl.Name);
+        }
+
+        private void AddMultiPanel()
+        {
+            List<int> lstMultiPDimensions = new List<int>();
+
+            string[] real_dimensions = multi_Size.Split('x');
+            int real_Pwidth = Convert.ToInt32(real_dimensions[0]),
+                real_Pheight = Convert.ToInt32(real_dimensions[1]);
+
+            FlowLayoutPanel multi = CreateMultiPnl(multi_Name, multi_type, 0, multidivnum);
+            multi.AccessibleDefaultActionDescription = multi_Size;
+            multi.Dock = multidok;
+            multi.Size = new Size(real_Pwidth, real_Pheight);
+            multi.TabIndex = multi_Tabindex;
+
+            FlowLayoutPanel multi2 = CreateMultiPnl(multi_Name, multi_type, 0, multidivnum);
+            multi2.AccessibleDefaultActionDescription = multi_Size;
+            multi2.Dock = multidok;
+            multi2.Size = new Size(real_Pwidth, real_Pheight);
+            multi2.TabIndex = multi_Tabindex;
+
+            lstMultiPDimensions.Add(real_Pwidth);
+            lstMultiPDimensions.Add(real_Pheight);
+
+            var c = csfunc.GetAll(flpMain, multi_Parent);
+            foreach (Panel ctrl in c)
+            {
+                multi.Tag = ctrl.Tag;
+                ctrl.Controls.Add(multi);
+            }
+
+            var c2 = csfunc.GetAll(flpMain2, multi_Parent);
+            foreach (Panel ctrl2 in c2)
+            {
+                ctrl2.Controls.Add(multi2);
+            }
+
+            if (dictMultiPanelDimension.ContainsKey(multi_Tabindex))
+            {
+                dictMultiPanelDimension[multi_Tabindex] = lstMultiPDimensions;
+            }
+            else
+            {
+                dictMultiPanelDimension.Add(multi_Tabindex, lstMultiPDimensions);
+            }
+
+            lstDragOrder.Add(multi.Name);
+
+        }
+
+        private void AddDivider()
+        {
+            Panel div = CreateDiv(divd_name);
+            div.Size = new Size(divd_width, divd_height);
+            div.TabIndex = divd_TabIndex;
+
+            Panel div2 = CreateDiv(divd_name);
+            div2.Size = new Size(divd_width, divd_height);
+            div2.TabIndex = divd_TabIndex;
+
+            if (divd_name.Contains("Transom"))
+            {
+                trnscount++;
+            }
+            else if (divd_name.Contains("Mullion"))
+            {
+                mulcount++;
+            }
+
+
+            var c = csfunc.GetAll(flpMain, divd_Parent);
+            foreach (Panel ctrl in c)
+            {
+                div.Tag = ctrl.Tag;
+                ctrl.Controls.Add(div);
+            }
+
+            var c2 = csfunc.GetAll(flpMain2, divd_Parent);
+            foreach (Panel ctrl2 in c2)
+            {
+                ctrl2.Controls.Add(div2);
+            }
+
         }
 
         private void Opening_dotwndr(int row)
@@ -2049,7 +2134,7 @@ namespace KMDIWinDoorsCS
             {
                 inside_panel = true;
             }
-            else if (row_str.Contains("MutiName"))
+            else if (row_str.Contains("MultiName"))
             {
                 inside_multi = true;
             }
@@ -2057,16 +2142,20 @@ namespace KMDIWinDoorsCS
             {
                 inside_divider = true;
             }
+            else if (row_str.Contains("DivdName"))
+            {
+                inside_divider = true;
+            }
             else if (row_str == "\t}")
             {
-                if (inside_frame == true)
+                if (inside_frame)
                 {
                     frwidth = 0;
                     frheight = 0;
                     frwndr = 0;
                     inside_frame = false;
                 }
-                else if (inside_panel == true)
+                else if (inside_panel)
                 {
                     pnlwidth = 0;
                     pnlheight = 0;
@@ -2078,7 +2167,18 @@ namespace KMDIWinDoorsCS
                 }
                 else if (inside_multi)
                 {
+                    multi_Name = "";
+                    multi_Size = "";
+                    multidivnum = "";
+                    multi_Tabindex = 0;
+                    multi_type = "";
+                    multi_Parent = "";
                     inside_multi = false;
+                }
+                else if (inside_divider)
+                {
+
+                    inside_divider = false;
                 }
             }
             else if (row_str == ")")
@@ -2206,13 +2306,17 @@ namespace KMDIWinDoorsCS
                                     break;
                             }
                         }
-                        else if (row_str.Contains("DivWidth"))
+                        else if (row_str.Contains("MultiName"))
                         {
-                            multiwidth = Convert.ToInt32(row_str.Trim().Remove(0, 10));
+                            multi_Name = row_str.Trim().Remove(0, 11);
                         }
-                        else if (row_str.Contains("DivHeight"))
+                        else if (row_str.Contains("DivSize"))
                         {
-                            multiheight = Convert.ToInt32(row_str.Trim().Remove(0, 11));
+                            multi_Size = row_str.Trim().Remove(0, 9);
+                        }
+                        else if (row_str.Contains("DivTabIndex"))
+                        {
+                            multi_Tabindex = Convert.ToInt32(row_str.Trim().Remove(0, 13));
                         }
                         else if (row_str.Contains("DivType"))
                         {
@@ -2220,25 +2324,54 @@ namespace KMDIWinDoorsCS
                         }
                         else if (row_str.Contains("DivNum"))
                         {
-                            multidivnum = Convert.ToInt32(row_str.Trim().Remove(0, 8));
+                            multidivnum = row_str.Trim().Remove(0, 8);
                         }
                         else if (row_str.Contains("Parent"))
                         {
                             multi_Parent = row_str.Trim().Remove(0, 8);
                         }
-                        else if (row_str.Contains("FrameGroup"))
-                        {
-                            multi_frameGroup = row_str.Trim().Remove(0, 12);
-                        }
 
-                        if (multiwidth != 0 &&
-                            multiheight != 0 &&
-                            multidivnum != 0 &&
+                        if (multi_Name != "" && 
+                            multi_Size != "" &&
+                            multidivnum != "" &&
+                            multi_Tabindex != 0 &&
                             multi_type != "" &&
-                            multi_Parent != "" &&
-                            multi_frameGroup != "")
+                            multi_Parent != "")
                         {
                             AddMultiPanel();
+                        }
+                    }
+
+                    else if (inside_divider)
+                    {
+                        if (row_str.Contains("DivdName"))
+                        {
+                            divd_name = row_str.Trim().Remove(0, 10);
+                        }
+                        else if (row_str.Contains("DivdWidth"))
+                        {
+                            divd_width = Convert.ToInt32(row_str.Trim().Remove(0, 11));
+                        }
+                        else if (row_str.Contains("DivdHeight"))
+                        {
+                            divd_height = Convert.ToInt32(row_str.Trim().Remove(0, 12));
+                        }
+                        else if (row_str.Contains("DivdTabIndex"))
+                        {
+                            divd_TabIndex = Convert.ToInt32(row_str.Trim().Remove(0, 14));
+                        }
+                        else if (row_str.Contains("Parent"))
+                        {
+                            divd_Parent = row_str.Trim().Remove(0, 8);
+                        }
+
+                        if (divd_name != "" &&
+                            divd_width != 0 &&
+                            divd_height != 0 &&
+                            divd_TabIndex != 0 &&
+                            divd_Parent != "")
+                        {
+                            AddDivider();
                         }
                     }
                     break;
@@ -2667,7 +2800,7 @@ namespace KMDIWinDoorsCS
             }
             else if (objToClone == "Mullion" || objToClone == "Transom")
             {
-                ctrl2 = CreateDiv(name, objToClone);
+                ctrl2 = CreateDiv(name);
                 ctrl2.Tag = "Fixed";
             }
             ctrl2.Dock = docking;
@@ -2779,11 +2912,11 @@ namespace KMDIWinDoorsCS
                 }
                 else if (ctrltype == "Mullion")
                 {
-                    ctrl = CreateDiv("Mullion_",ctrltype);
+                    ctrl = CreateDiv("Mullion_");
                 }
                 else if (ctrltype == "Transom")
                 {
-                    ctrl = CreateDiv("Transom_", ctrltype);
+                    ctrl = CreateDiv("Transom_");
                 }
                 dgvControls.DoDragDrop(ctrl, DragDropEffects.Move);
             }
@@ -3395,14 +3528,15 @@ namespace KMDIWinDoorsCS
                                         }
 
                                         wndr_content.Add("\t{");
-                                        wndr_content.Add("\tMutiName: " + ctrl.Name); //Multipanel
+                                        wndr_content.Add("\tMultiName: " + ctrl.Name); //Multipanel
                                         wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
-                                        wndr_content.Add("\tDivWidth: " + ctrl.Width);
-                                        wndr_content.Add("\tDivHeight: " + ctrl.Height);
+                                        wndr_content.Add("\tDivSize: " + ctrl.AccessibleDefaultActionDescription);
                                         wndr_content.Add("\tDivType: " + div);
+                                        wndr_content.Add("\tDivTabIndex: " + ctrl.TabIndex);
+                                        wndr_content.Add("\tDivTag: " + ctrl.Tag);
                                         wndr_content.Add("\tDivNum: " + ctrl.AccessibleDescription);
                                         wndr_content.Add("\tParent: " + ctrl.Parent.Name);
-                                        wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
+                                        //wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
                                         wndr_content.Add("\t}");
                                     }
                                 }
@@ -3422,11 +3556,12 @@ namespace KMDIWinDoorsCS
                                     {
                                         wndr_content.Add("\t{");
                                         wndr_content.Add("\tDivdName: " + ctrl.Name); //Transom & Mullion
-                                        wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
+                                        //wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
                                         wndr_content.Add("\tDivdWidth: " + ctrl.Width);
                                         wndr_content.Add("\tDivdHeight: " + ctrl.Height);
+                                        wndr_content.Add("\tDivdTabIndex: " + ctrl.TabIndex);
                                         wndr_content.Add("\tParent: " + ctrl.Parent.Name);
-                                        wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
+                                        //wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
                                         wndr_content.Add("\t}");
                                     }
                                 }
