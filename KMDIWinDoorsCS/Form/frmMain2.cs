@@ -1412,7 +1412,7 @@ namespace KMDIWinDoorsCS
                 {
                     save = true;
                     UppdateDictionaries();
-                    Text = ">> " + lbl.Text;
+                    Text = quotation_ref_no + " >> " + lbl.Text;
                 }
             }
             else
@@ -1465,7 +1465,7 @@ namespace KMDIWinDoorsCS
                 itemselected = lbl;
 
                 UppdateDictionaries();
-                Text = ">> " + lbl.Text; // + "*";
+                Text = quotation_ref_no + " >> " + lbl.Text;
 
                 Label lbl2 = new Label();
                 lbl2 = itemsLblSearch("lbldesc_");
@@ -1852,6 +1852,7 @@ namespace KMDIWinDoorsCS
                 {
                     case "Open_WndrFiles":
                         Opening_dotwndr(e.ProgressPercentage);
+
                         tsprogress_Loading.Value = e.ProgressPercentage;
                         if (tsLbl_Loading.Text != "Initializing...")
                         {
@@ -2124,6 +2125,9 @@ namespace KMDIWinDoorsCS
 
             if (row_str == "(")
             {
+                flpMain.Controls.Clear();
+                flpMain2.Controls.Clear();
+                pnlPropertiesBody.Controls.Clear();
                 inside_item = flpMain.Visible = true;
             }
             else if (row_str.Contains("FrameName"))
@@ -2183,6 +2187,9 @@ namespace KMDIWinDoorsCS
             }
             else if (row_str == ")")
             {
+                Panel_Painter();
+
+                UppdateDictionaries();
                 fpwidth = 0;
                 fpheight = 0;
                 fptype = "";
@@ -2193,7 +2200,7 @@ namespace KMDIWinDoorsCS
                 case true:
                     if (row_str.Contains("Item"))
                     {
-                        Text += " >> " + row_str.Replace("_"," ");
+                        Text = quotation_ref_no + " >> " + row_str.Replace("_"," ");
                     }
                     else if (row_str.Contains("FWidth"))
                     {
@@ -3343,9 +3350,9 @@ namespace KMDIWinDoorsCS
         {
             UppdateDictionaries();
             Text = Text.Replace("*", "");
-            for (int i = 0; i < lstDragOrder.Count; i++)
+            if (wndrfile != "")
             {
-                Console.WriteLine(lstDragOrder[i]);
+                File.WriteAllLines(wndrfile, Saving_dotwndr());
             }
             MessageBox.Show("Saved");
         }
@@ -3384,24 +3391,26 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void Panel_Painter()
+        {
+            Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
+            flpMain2.DrawToBitmap(bm, new Rectangle(0, 0,
+                                                    flpMain2.Size.Width, flpMain2.Size.Height));
+            if (flpMain2.Tag != null)
+            {
+                var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
+                foreach (PictureBox ctrl in pbxcoll)
+                {
+                    ctrl.Image = bm;
+                }
+            }
+        }
+
         private void flpMain2_Paint(object sender, PaintEventArgs e)
         {
             try
             {
-                //if (trackzoom == false)
-                //{
-                Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
-                flpMain2.DrawToBitmap(bm, new Rectangle(0, 0,
-                                                        flpMain2.Size.Width, flpMain2.Size.Height));
-                if (flpMain2.Tag != null)
-                {
-                    var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
-                    foreach (PictureBox ctrl in pbxcoll)
-                    {
-                        ctrl.Image = bm;
-                    }
-                }
-                //}
+                Panel_Painter();
             }
             catch (Exception)
             {
@@ -3436,27 +3445,34 @@ namespace KMDIWinDoorsCS
 
             for (int i = 0; i < lstDragOrder.Count; i++)
             {
+                string curr_item = lstDragOrder[i];
                 if (inside_item)
                 {
-                    if (lstDragOrder[i].Contains("Frame"))
+                    if (curr_item.Contains("Frame"))
                     {
+                        string frame_tag = "";
                         foreach (KeyValuePair<int, List<Panel>> items in itemslist)
                         {
                             foreach (Panel frame in items.Value)
                             {
-                                if (frame.Name == (lstDragOrder[i]))
+                                if (frame.Name == lstDragOrder[i])
                                 {
-                                    wndr_content.Add("\t{");
-                                    wndr_content.Add("\tFrameName: " + frame.Name); //Frames
-                                    wndr_content.Add("\tFrWidth: " + frame.Width);
-                                    wndr_content.Add("\tFrHeight: " + frame.Height);
-                                    wndr_content.Add("\tFrWndr: " + frame.Tag);
-                                    wndr_content.Add("\t}");
+                                    frame_tag = frame.Tag.ToString();
                                 }
                             }
                         }
+
+                        int frame_id = Convert.ToInt32(curr_item.Replace("Frame_", ""));
+
+                        wndr_content.Add("\t{");
+                        wndr_content.Add("\tFrameName: " + curr_item); //Frames
+                        wndr_content.Add("\tFrWidth: " + dictFrameDimension[frame_id][0]);
+                        wndr_content.Add("\tFrHeight: " + dictFrameDimension[frame_id][1]);
+                        wndr_content.Add("\tFrWndr: " + frame_tag);
+                        wndr_content.Add("\t}");
+
                     }
-                    else if (lstDragOrder[i].Contains("Panel"))
+                    else if (curr_item.Contains("Panel"))
                     {
                         foreach (KeyValuePair<int, List<Panel>> items in itemslist)
                         {
@@ -3471,30 +3487,36 @@ namespace KMDIWinDoorsCS
                                                Orientation = "",
                                                chktxt = "Louver";
 
-                                        var chk_col = csfunc.GetAll(pnlPropertiesBody, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
-                                        foreach (CheckBox chk in chk_col)
+                                        foreach (KeyValuePair<int, List<Panel>> prop in propertieslist)
                                         {
-                                            if (chk.Visible == true)
+                                            foreach (Panel property in prop.Value)
                                             {
-                                                Orientation = chk.Checked.ToString();
-                                                chktxt = chk.Text;
-                                            }
-                                        }
+                                                var chk_col = csfunc.GetAll(property, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
+                                                foreach (CheckBox chk in chk_col)
+                                                {
+                                                    if (chk.Visible == true)
+                                                    {
+                                                        Orientation = chk.Checked.ToString();
+                                                        chktxt = chk.Text;
+                                                    }
+                                                }
 
-                                        var num_col = csfunc.GetAll(pnlPropertiesBody, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
-                                        foreach (NumericUpDown num in num_col)
-                                        {
-                                            if (num.Visible == true)
-                                            {
-                                                Orientation = num.Value.ToString();
+                                                var num_col = csfunc.GetAll(property, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
+                                                foreach (NumericUpDown num in num_col)
+                                                {
+                                                    if (num.Visible == true)
+                                                    {
+                                                        Orientation = num.Value.ToString();
+                                                    }
+                                                }
                                             }
                                         }
 
                                         wndr_content.Add("\t{");
                                         wndr_content.Add("\tPanelName: " + ctrl.Name);//Panels
                                         wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
-                                        wndr_content.Add("\tPWidth: " + ctrl.Width);
-                                        wndr_content.Add("\tPHeight: " + ctrl.Height);
+                                        wndr_content.Add("\tPWidth: " + dictPanelDimension[ Convert.ToInt32(pnl_id)][0]);
+                                        wndr_content.Add("\tPHeight: " + dictPanelDimension[Convert.ToInt32(pnl_id)][1]);
                                         wndr_content.Add("\tWndrType: " + ctrl.AccessibleDescription);
                                         wndr_content.Add("\tOrientation: " + Orientation);
                                         wndr_content.Add("\tChkText: " + chktxt);
@@ -3506,7 +3528,7 @@ namespace KMDIWinDoorsCS
                             }
                         }
                     }
-                    else if (lstDragOrder[i].Contains("Multi"))
+                    else if (curr_item.Contains("Multi"))
                     {
                         foreach (KeyValuePair<int, List<Panel>> items in itemslist)
                         {
@@ -3526,6 +3548,10 @@ namespace KMDIWinDoorsCS
                                         {
                                             div = "Transom";
                                         }
+                                        
+                                        //int 
+
+                                        //dictMultiPanelDimension[]
 
                                         wndr_content.Add("\t{");
                                         wndr_content.Add("\tMultiName: " + ctrl.Name); //Multipanel
@@ -3543,7 +3569,7 @@ namespace KMDIWinDoorsCS
                             }
                         }
                     }
-                    else if (lstDragOrder[i].Contains("Transom") || lstDragOrder[i].Contains("Mullion"))
+                    else if (curr_item.Contains("Transom") || curr_item.Contains("Mullion"))
                     {
                         foreach (KeyValuePair<int, List<Panel>> items in itemslist)
                         {
@@ -3556,12 +3582,10 @@ namespace KMDIWinDoorsCS
                                     {
                                         wndr_content.Add("\t{");
                                         wndr_content.Add("\tDivdName: " + ctrl.Name); //Transom & Mullion
-                                        //wndr_content.Add("\tDockStyle: " + ctrl.Dock.ToString());
                                         wndr_content.Add("\tDivdWidth: " + ctrl.Width);
                                         wndr_content.Add("\tDivdHeight: " + ctrl.Height);
                                         wndr_content.Add("\tDivdTabIndex: " + ctrl.TabIndex);
                                         wndr_content.Add("\tParent: " + ctrl.Parent.Name);
-                                        //wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
                                         wndr_content.Add("\t}");
                                     }
                                 }
@@ -3570,9 +3594,18 @@ namespace KMDIWinDoorsCS
                     }
                 }
 
-                if (lstDragOrder[i].Contains(">>"))
+                if (curr_item.Contains(">>"))
                 {
-                    inside_item = true;
+                    if (inside_item)
+                    {
+                        wndr_content.Add(")");
+
+                    }
+                    else
+                    {
+                        inside_item = true;
+                    }
+
                     string itemname = lstDragOrder[i].Replace(" >> ", "");
                     var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
                     foreach (Panel ctrl in c)
@@ -3593,21 +3626,22 @@ namespace KMDIWinDoorsCS
                 }
                 else if (i == lstDragOrder.Count - 1)
                 {
-                    inside_item = false;
                     wndr_content.Add(")");
+                    inside_item = false;
                 }
             }
 
             return wndr_content;
         }
 
+        string wndrfile = "";
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.FileName = quotation_ref_no;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                wndrfile = saveFileDialog1.FileName;
                 File.WriteAllLines(saveFileDialog1.FileName, Saving_dotwndr());
-                //File.AppendAllLines(saveFileDialog1.FileName, lstDragOrder);
             }
         }
 
@@ -3630,6 +3664,8 @@ namespace KMDIWinDoorsCS
                 pnlItems.Controls.Clear();
 
                 cpnlcount = mulcount = trnscount = framecntr = 0;
+
+                wndrfile = openFileDialog1.FileName;
 
                 file_lines = File.ReadAllLines(openFileDialog1.FileName);
                 tsprogress_Loading.Maximum = file_lines.Length;

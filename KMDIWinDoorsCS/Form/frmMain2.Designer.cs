@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -77,6 +77,7 @@
             this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.tsprogress_Loading = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -92,7 +93,6 @@
             this.btnAddZoom = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -150,14 +150,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -607,6 +607,14 @@
             this.tsprogress_Loading.Size = new System.Drawing.Size(100, 24);
             this.tsprogress_Loading.Visible = false;
             // 
+            // tsLbl_Loading
+            // 
+            this.tsLbl_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsLbl_Loading.Name = "tsLbl_Loading";
+            this.tsLbl_Loading.Size = new System.Drawing.Size(61, 24);
+            this.tsLbl_Loading.Text = "Initializing";
+            this.tsLbl_Loading.Visible = false;
+            // 
             // stsEditor
             // 
             this.stsEditor.AutoSize = false;
@@ -697,7 +705,7 @@
             this.trkZoom.AutoSize = false;
             this.trkZoom.Enabled = false;
             this.trkZoom.LargeChange = 25;
-            this.trkZoom.Location = new System.Drawing.Point(120, 554);
+            this.trkZoom.Location = new System.Drawing.Point(138, 554);
             this.trkZoom.Margin = new System.Windows.Forms.Padding(2);
             this.trkZoom.Maximum = 300;
             this.trkZoom.Minimum = 10;
@@ -717,7 +725,7 @@
             this.btnSubtractZoom.FlatAppearance.BorderSize = 0;
             this.btnSubtractZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSubtractZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSubtractZoom.Location = new System.Drawing.Point(97, 553);
+            this.btnSubtractZoom.Location = new System.Drawing.Point(115, 553);
             this.btnSubtractZoom.Name = "btnSubtractZoom";
             this.btnSubtractZoom.Size = new System.Drawing.Size(25, 23);
             this.btnSubtractZoom.TabIndex = 6;
@@ -734,7 +742,7 @@
             this.btnAddZoom.FlatAppearance.BorderSize = 0;
             this.btnAddZoom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddZoom.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddZoom.Location = new System.Drawing.Point(260, 553);
+            this.btnAddZoom.Location = new System.Drawing.Point(278, 553);
             this.btnAddZoom.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddZoom.Name = "btnAddZoom";
             this.btnAddZoom.Size = new System.Drawing.Size(25, 23);
@@ -750,14 +758,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "WNDR files (*.wndr)|*.wndr";
-            // 
-            // tsLbl_Loading
-            // 
-            this.tsLbl_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsLbl_Loading.Name = "tsLbl_Loading";
-            this.tsLbl_Loading.Size = new System.Drawing.Size(61, 24);
-            this.tsLbl_Loading.Text = "Initializing";
-            this.tsLbl_Loading.Visible = false;
             // 
             // frmMain2
             // 
