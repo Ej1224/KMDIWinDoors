@@ -1422,6 +1422,7 @@ namespace KMDIWinDoorsCS
 
             if (save == true)
             {
+                trackzoom = false;
                 itemselected.ForeColor = Color.Black;
 
                 string lblname = lbl.Name;
@@ -2202,7 +2203,7 @@ namespace KMDIWinDoorsCS
             }
             else if (row_str == ")")
             {
-                Panel_Painter();
+                //Panel_Painter();
 
                 UppdateDictionaries();
                 fpwidth = 0;
@@ -2955,6 +2956,11 @@ namespace KMDIWinDoorsCS
             return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
         }
 
+        private void refreshToolStripButton1_Click(object sender, EventArgs e)
+        {
+            Panel_Painter();
+        }
+
         private void tsSize_DoubleClick(object sender, EventArgs e)
         {
             if (Text.Contains("*") == false)
@@ -3275,8 +3281,8 @@ namespace KMDIWinDoorsCS
                                 int pnl_cntr,
                                 string profiletype)
         {
-            trackzoom = false;
             trkZoom.Value = 100;
+            trackzoom = false;
 
             paint_pnlMain = true;
             tsMain.Enabled = true;
@@ -3419,16 +3425,21 @@ namespace KMDIWinDoorsCS
 
         private void Panel_Painter()
         {
-            //Bitmap bm = new Bitmap(1024, 768);
             Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
-            //flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, 1024, 768));
             flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, flpMain2.Size.Width, flpMain2.Size.Height));
+
+            Size thumbnailSize = GetThumbnailSize(bm);
+
+            // Get thumbnail.
+            Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
+                thumbnailSize.Height, null, IntPtr.Zero);
+
             if (flpMain2.Tag != null)
             {
                 var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
                 foreach (PictureBox ctrl in pbxcoll)
                 {
-                    ctrl.Image = bm;
+                    ctrl.Image = thumbnail;
                 }
             }
         }
@@ -3437,26 +3448,7 @@ namespace KMDIWinDoorsCS
         {
             try
             {
-                //Bitmap bm = new Bitmap(1024, 768);
-                Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
-                //flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, 1024, 768));
-                flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, flpMain2.Size.Width, flpMain2.Size.Height));
-                //bm.Save("D:\\thumb2.png");
-
-                Size thumbnailSize = GetThumbnailSize(bm);
-
-                // Get thumbnail.
-                Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
-                    thumbnailSize.Height, null, IntPtr.Zero);
-
-                if (flpMain2.Tag != null)
-                {
-                    var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
-                    foreach (PictureBox ctrl in pbxcoll)
-                    {
-                        ctrl.Image = thumbnail;
-                    }
-                }
+                Panel_Painter();
             }
             catch (Exception)
             {
@@ -3667,25 +3659,20 @@ namespace KMDIWinDoorsCS
 
                     string itemname = lstDragOrder[i].Replace(" >> ", "");
                     var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
-                    string[] str_size = tsSize.Text.Split('x');
-                    string name = "", profile = "";
                     foreach (Panel ctrl in c)
                     {
                         if (itemname == ctrl.Name)
                         {
-                            //string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
-                            //string[] dimension = WxH.Split('x');
+                            string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
+                            string[] dimension = WxH.Split('x');
 
-                            name = ctrl.Name;
-                            profile = ctrl.AccessibleDescription;
+                            wndr_content.Add("(");
+                            wndr_content.Add(ctrl.Name);
+                            wndr_content.Add("FWidth: " + dimension[0]);
+                            wndr_content.Add("FHeight: " + dimension[1]);
+                            wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
                         }
                     }
-
-                    wndr_content.Add("(");
-                    wndr_content.Add(name);
-                    wndr_content.Add("FWidth: " + str_size[0].Trim());
-                    wndr_content.Add("FHeight: " + str_size[1].Trim());
-                    wndr_content.Add("FProfile: " + profile);
 
                 }
                 else if (i == lstDragOrder.Count - 1)

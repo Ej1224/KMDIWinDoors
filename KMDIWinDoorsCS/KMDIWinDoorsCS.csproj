@@ -157,6 +157,7 @@
     <None Include="Resources\plus_104px.png" />
     <None Include="Resources\plus2_104px.png" />
     <None Include="Resources\MultiplePanelSliding.png" />
+    <None Include="Resources\refresh_30px.png" />
     <Content Include="Resources\SinglePanel.png" />
     <Content Include="Resources\Transom.png" />
   </ItemGroup>

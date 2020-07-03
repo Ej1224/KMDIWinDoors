@@ -68,14 +68,6 @@
             this.autoSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.tsprogress_Loading = new System.Windows.Forms.ToolStripProgressBar();
             this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
@@ -89,10 +81,19 @@
             this.transomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.divCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trkZoom = new System.Windows.Forms.TrackBar();
-            this.btnSubtractZoom = new System.Windows.Forms.Button();
-            this.btnAddZoom = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnSubtractZoom = new System.Windows.Forms.Button();
+            this.btnAddZoom = new System.Windows.Forms.Button();
+            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
+            this.refreshToolStripButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -326,7 +327,7 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
@@ -364,7 +365,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -503,6 +504,7 @@
             this.tsBtnNdoor,
             this.openToolStripButton,
             this.newToolStripButton,
+            this.refreshToolStripButton,
             this.saveToolStripButton,
             this.printToolStripButton,
             this.tsb_Undo,
@@ -515,90 +517,6 @@
             this.tsMain.Size = new System.Drawing.Size(1084, 27);
             this.tsMain.TabIndex = 3;
             this.tsMain.Text = "toolStrip1";
-            // 
-            // tsBtnNwin
-            // 
-            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNwin.Enabled = false;
-            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
-            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNwin.Name = "tsBtnNwin";
-            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
-            this.tsBtnNwin.Text = "New Window";
-            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // tsBtnNdoor
-            // 
-            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNdoor.Enabled = false;
-            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
-            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
-            this.tsBtnNdoor.Name = "tsBtnNdoor";
-            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
-            this.tsBtnNdoor.Text = "New Door";
-            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // openToolStripButton
-            // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.openToolStripButton.Text = "&Open";
-            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
-            // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.newToolStripButton.Text = "&New";
-            this.newToolStripButton.Visible = false;
-            // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Enabled = false;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
-            // 
-            // printToolStripButton
-            // 
-            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
-            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.printToolStripButton.Text = "&Print";
-            this.printToolStripButton.Visible = false;
-            // 
-            // tsb_Undo
-            // 
-            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
-            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Undo.Name = "tsb_Undo";
-            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Undo.Text = "Undo";
-            this.tsb_Undo.Visible = false;
-            // 
-            // tsb_Redo
-            // 
-            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
-            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Redo.Name = "tsb_Redo";
-            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Redo.Text = "Redo";
-            this.tsb_Redo.Visible = false;
             // 
             // tsprogress_Loading
             // 
@@ -716,6 +634,14 @@
             this.trkZoom.Value = 100;
             this.trkZoom.ValueChanged += new System.EventHandler(this.trkZoom_ValueChanged);
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "WNDR files|*.wndr";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "WNDR files (*.wndr)|*.wndr";
+            // 
             // btnSubtractZoom
             // 
             this.btnSubtractZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -751,13 +677,99 @@
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
-            // saveFileDialog1
+            // tsBtnNwin
             // 
-            this.saveFileDialog1.Filter = "WNDR files|*.wndr";
+            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNwin.Enabled = false;
+            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
+            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNwin.Name = "tsBtnNwin";
+            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
+            this.tsBtnNwin.Text = "New Window";
+            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
             // 
-            // openFileDialog1
+            // tsBtnNdoor
             // 
-            this.openFileDialog1.Filter = "WNDR files (*.wndr)|*.wndr";
+            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNdoor.Enabled = false;
+            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
+            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
+            this.tsBtnNdoor.Name = "tsBtnNdoor";
+            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
+            this.tsBtnNdoor.Text = "New Door";
+            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Visible = false;
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Visible = false;
+            // 
+            // tsb_Undo
+            // 
+            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
+            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Undo.Name = "tsb_Undo";
+            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Undo.Text = "Undo";
+            this.tsb_Undo.Visible = false;
+            // 
+            // tsb_Redo
+            // 
+            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
+            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Redo.Name = "tsb_Redo";
+            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Redo.Text = "Redo";
+            this.tsb_Redo.Visible = false;
+            // 
+            // refreshToolStripButton
+            // 
+            this.refreshToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.refreshToolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.refresh_30px;
+            this.refreshToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.refreshToolStripButton.Name = "refreshToolStripButton";
+            this.refreshToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.refreshToolStripButton.Text = "toolStripButton1";
+            this.refreshToolStripButton.Click += new System.EventHandler(this.refreshToolStripButton1_Click);
             // 
             // frmMain2
             // 
@@ -870,6 +882,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripProgressBar tsprogress_Loading;
         private System.Windows.Forms.ToolStripLabel tsLbl_Loading;
+        private System.Windows.Forms.ToolStripButton refreshToolStripButton;
     }
 }
 
