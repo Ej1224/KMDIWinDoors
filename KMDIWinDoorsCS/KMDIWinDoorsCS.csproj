@@ -151,6 +151,7 @@
     <None Include="Resources\AddNew_Window.png" />
     <None Include="Resources\AddNew_Door.png" />
     <None Include="Resources\minus2_104px.png" />
+    <None Include="Resources\delete_file_30px.png" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />

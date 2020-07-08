@@ -840,26 +840,26 @@ namespace KMDIWinDoorsCS
                 wndr = Convert.ToInt32(ctrl.Tag);
                 lstDimensions = dictFrameDimension[frameid];
 
-                Rectangle curr_Frame = dictRectFrames[frameid];
+                //Rectangle curr_Frame = dictRectFrames[frameid];
 
                 if (num.Name.Contains("numfWidth_"))
                 {
                     lstDimensions[0] = Convert.ToInt32(num.Value);
                     ctrl.Width = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
 
-                    curr_Frame.Width = (int)num.Value;
+                    //curr_Frame.Width = (int)num.Value;
                     //dictRectFrames[frameid] = num.Value;
                 }
                 else if (num.Name.Contains("numfHeight_"))
                 {
                     lstDimensions[1] = Convert.ToInt32(num.Value);
                     ctrl.Height = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
-                    curr_Frame.Height = (int)num.Value;
+                    //curr_Frame.Height = (int)num.Value;
                 }
                 dictFrameDimension[frameid] = lstDimensions;
                 ctrl.Invalidate();
 
-                dictRectFrames[frameid] = curr_Frame;
+                //dictRectFrames[frameid] = curr_Frame;
                 flpMain2.Invalidate();
 
                 var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
@@ -1356,6 +1356,8 @@ namespace KMDIWinDoorsCS
                 itemselected.ForeColor = Color.Black;
             }
             itemselected = lbl;
+            selected_items_pnl = itmpnl;
+            item_id = count;
 
             lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
             itmpnl.Controls.Add(lbl);
@@ -1405,11 +1407,13 @@ namespace KMDIWinDoorsCS
         }
 
         Label itemselected = null;
-
+        Panel selected_items_pnl = null;
+        int item_id;
         private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             bool save = false;
             Label lbl = (Label)sender;
+            selected_items_pnl = (Panel)lbl.Parent;
             //int loc_framecntr = 0,
             //    loc_cpnlcount = 0,
             //    loc_mulcount = 0,
@@ -1439,7 +1443,7 @@ namespace KMDIWinDoorsCS
                 string lblname = lbl.Name;
                 //int indxOf_lblname = lblname.IndexOf("m");
                 string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
-                int item_id = Convert.ToInt32(getnum_lblname);
+                item_id = Convert.ToInt32(getnum_lblname);
                
                 string WxH = lbl.AccessibleDescription.Replace(" ", "");
                 string[] dimension = WxH.Split('x');
@@ -3120,6 +3124,26 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void deleteItemToolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (itemselected != null)
+            {
+                if (MessageBox.Show(this, "Are you sure to delete " + itemselected.Text + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    pnlItems.Controls.Remove(selected_items_pnl);
+                    itemslist.Remove(item_id);
+                    itemslist2.Remove(item_id);
+                    pnlPropertiesBody.Controls.Clear();
+                    flpMain.Controls.Clear();
+                    flpMain2.Controls.Clear();
+                    selected_items_pnl = null;
+                    item_id = 0;
+                    Text = quotation_ref_no;
+                    MessageBox.Show(this, "Please select another item.", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
         float zoom = 1f;
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
@@ -3305,34 +3329,34 @@ namespace KMDIWinDoorsCS
 
             flpMain.AccessibleDescription = profiletype;
             flpMain.Size = new Size(Fwidth, Fheight);
-            //flpMain2.Size = new Size(Fwidth, Fheight);
+            flpMain2.Size = new Size(Fwidth, Fheight);
 
 
-            if (Fwidth > 500 || Fheight > 500)
-            {
-                if (Fwidth > Fheight)
-                {
-                    if ((Fwidth - Fheight) > 100)
-                    {
-                        flpMain2.Size = new Size(700, 500);
-                    }
-                }
-                else if (Fheight > Fwidth)
-                {
-                    if ((Fheight - Fwidth) > 100)
-                    {
-                        flpMain2.Size = new Size(500, 700);
-                    }
-                }
-                else
-                {
-                    flpMain2.Size = new Size(500, 500);
-                }
-            }
-            else
-            {
-                flpMain2.Size = new Size(Fwidth, Fheight);
-            }
+            //if (Fwidth > 500 || Fheight > 500)
+            //{
+            //    if (Fwidth > Fheight)
+            //    {
+            //        if ((Fwidth - Fheight) > 100)
+            //        {
+            //            flpMain2.Size = new Size(700, 500);
+            //        }
+            //    }
+            //    else if (Fheight > Fwidth)
+            //    {
+            //        if ((Fheight - Fwidth) > 100)
+            //        {
+            //            flpMain2.Size = new Size(500, 700);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        flpMain2.Size = new Size(500, 500);
+            //    }
+            //}
+            //else
+            //{
+            //    flpMain2.Size = new Size(Fwidth, Fheight);
+            //}
 
 
             static_wd = flpMain.Width;
@@ -3468,19 +3492,19 @@ namespace KMDIWinDoorsCS
             Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
             flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, flpMain2.Size.Width, flpMain2.Size.Height));
 
-            //Size thumbnailSize = GetThumbnailSize(bm);
+            Size thumbnailSize = GetThumbnailSize(bm);
 
-            //// Get thumbnail.
-            //Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
-            //      thumbnailSize.Height, null, IntPtr.Zero);
+            // Get thumbnail.
+            Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
+                  thumbnailSize.Height, null, IntPtr.Zero);
 
             if (flpMain2.Tag != null)
             {
                 var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
                 foreach (PictureBox ctrl in pbxcoll)
                 {
-                    //ctrl.Image = thumbnail;
-                    ctrl.Image = bm;
+                    ctrl.Image = thumbnail;
+                    //ctrl.Image = bm;
                 }
             }
         }
@@ -3494,77 +3518,79 @@ namespace KMDIWinDoorsCS
         {
             try
             {
-                Graphics g = e.Graphics;
-                //g.ScaleTransform(zoom, zoom);
+                //Graphics g = e.Graphics;
+                ////GraphicsPath gpath = new GraphicsPath();
+                ////g.ScaleTransform(zoom, zoom);
 
-                Panel pfr = (Panel)sender;
+                //Panel pfr = (Panel)sender;
 
-                g.SmoothingMode = SmoothingMode.AntiAlias;
+                //g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Color col = Color.Black;
+                //Color col = Color.Black;
 
-                if (dictRectFrames.Count() != 0)
-                {
-                    if (wndrtype != 0)
-                    {
-                        //pfr.BackColor = SystemColors.Control;
+                //if (dictRectFrames.Count() != 0)
+                //{
+                //    //pfr.BackColor = SystemColors.Control;
+                //    string accname_col = pfr.AccessibleName;
 
-                        int pInnerX = wndrtype,
-                        pInnerY = wndrtype,
-                        pInnerWd = pfr.Width - (wndrtype * 2),
-                        pInnerHt = pfr.Height - (wndrtype * 2);
+                //    var frames = new List<Rectangle>(dictRectFrames.Values);
 
-                        Point[] corner_points = new[] //make dis dynamic to make the graphics dynamic
-                        {
-                        new Point(0,0),
-                        new Point(pInnerX,pInnerY),
-                        new Point(pfr.ClientRectangle.Width,0),
-                        new Point(pInnerX + pInnerWd,pInnerY),
-                        new Point(0,pfr.ClientRectangle.Height),
-                        new Point(pInnerX,pInnerY + pInnerHt),
-                        new Point(pfr.ClientRectangle.Width,pfr.ClientRectangle.Height),
-                        new Point(pInnerX + pInnerWd,pInnerY + pInnerHt)
-                        };
+                //    foreach (Rectangle rect in frames)
+                //    {
+                //        int pInnerX = wndrtype,
+                //        pInnerY = wndrtype,
+                //        pInnerWd = rect.Width - (wndrtype * 2),
+                //        pInnerHt = rect.Height - (wndrtype * 2);
 
-                        for (int i = 0; i < corner_points.Length - 1; i += 2)
-                        {
-                            g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
-                        }
 
-                        string accname_col = pfr.AccessibleName;
+                //        g.DrawRectangle(new Pen(col, w), new Rectangle(rect.X,
+                //                                                       rect.Y,
+                //                                                       rect.Width - w,
+                //                                                       rect.Height - w));
 
-                        int wd = 1;
-                        int wd2 = Convert.ToInt32(Math.Floor(wd / (double)2));
-                        g.DrawRectangle(new Pen(col, wd), new Rectangle(wndrtype,
-                                                                        wndrtype,
-                                                                        (pfr.ClientRectangle.Width - (wndrtype * 2)) - wd,
-                                                                        (pfr.ClientRectangle.Height - (wndrtype * 2)) - wd));
-                    }
-                    else
-                    {
-                        //pfr.BackColor = Color.DarkGray;
-                        int cond = pfr.Width + pfr.Height;
+                //        if (wndrtype != 0)
+                //        {
+                //            Point[] corner_points = new[] //make dis dynamic to make the graphics dynamic
+                //            {
+                //                new Point(0,0),
+                //                new Point(pInnerX, pInnerY),
+                //                new Point(rect.Width, 0),
+                //                new Point(pInnerX + pInnerWd, pInnerY),
+                //                new Point(0, rect.Height),
+                //                new Point(pInnerX, pInnerY + pInnerHt),
+                //                new Point(rect.Width, rect.Height),
+                //                new Point(pInnerX + pInnerWd, pInnerY + pInnerHt)
+                //            };
 
-                        for (int i = 10; i < cond; i += 10)
-                        {
-                            g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
-                        }
-                    }
+                //            for (int i = 0; i < corner_points.Length - 1; i += 2)
+                //            {
+                //                g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
+                //            }
 
-                    var frames = new List<Rectangle>(dictRectFrames.Values);
+                //            g.DrawRectangle(new Pen(col, w), new Rectangle(wndrtype,
+                //                                                           wndrtype,
+                //                                                           rect.Width - (wndrtype * 2) - w,
+                //                                                           rect.Height - (wndrtype * 2) - w));
 
-                    foreach (Rectangle rect in frames)
-                    {
-                        g.DrawRectangle(new Pen(col,w), rect);
-                    }
-                }
 
+                //        }
+                //        else
+                //        {
+                //            HatchBrush hbrush = new HatchBrush(HatchStyle.BackwardDiagonal, Color.Black, Color.White);
+                //            g.FillRectangle(hbrush, new Rectangle(rect.X,
+                //                                                  rect.Y,
+                //                                                  rect.Width - w,
+                //                                                  rect.Height - w));
+                //        }
+                //    }
+                    
+                //}
                 Panel_Painter();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
-                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                //MessageBox.Show(ex.Message);
+                //csfunc.LogToFile(ex.Message, ex.StackTrace);
             }
         }
 
@@ -3920,18 +3946,34 @@ namespace KMDIWinDoorsCS
                               int fwndr)
         {
             framecntr++;
-            if (framecntr == 1)
-            {
-                dictRectFrames.Add(framecntr, new Rectangle(0, 0, fwidth - w, fheight - w));
-            }
-            else
-            {
-                //dynamically add rectangles here
-            }
+            //var frames = new List<Rectangle>(dictRectFrames.Values);
+            //int total_width = 0,
+            //    total_height = 0,
+            //    rectLoc_X = 0,
+            //    recLoc_Y = 0;
+            //foreach (Rectangle rect in frames)
+            //{
+            //    total_width += rect.Width;
+            //    total_height += rect.Height;
+            //}
 
-            //Panel frame2 = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
-            //flpMain2.Controls.Add(frame2);
-            //flpMain2.Invalidate();
+            //if (total_width <= flpMain2)
+            //{
+
+            //}
+
+            //if (framecntr == 1)
+            //{
+            //    dictRectFrames.Add(framecntr, new Rectangle(0, 0, fwidth, fheight));
+            //}
+            //else
+            //{
+            //    //dynamically add rectangles here
+            //}
+
+            Panel frame2 = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
+            flpMain2.Controls.Add(frame2);
+            flpMain2.Invalidate();
 
             Panel frame = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
             frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,19 @@ namespace SamplesKMDIWinDoorsCS.Forms
                 {
                     g.DrawLine(Pens.Black, new Point(0, i), new Point(i, 0));
                 }
+            }
+            else if (comboBox1.Text == "Region")
+            {
+                GraphicsPath mypath = new GraphicsPath();
+                Rectangle ell = new Rectangle(20,20,100,100);
+                mypath.AddEllipse(ell);
+
+                SolidBrush myb = new SolidBrush(Color.Blue);
+                e.Graphics.FillPath(myb, mypath);
+
+                Region myreg = new Region(new Rectangle(20,20,50,100));
+                RectangleF bounds = myreg.GetBounds(e.Graphics);
+                e.Graphics.DrawRectangle(Pens.Red, Rectangle.Round(bounds));
             }
             else if (comboBox1.Text == "Louver")
             {
