@@ -1486,6 +1486,9 @@ namespace KMDIWinDoorsCS
                 Label lbl2 = new Label();
                 lbl2 = itemsLblSearch("lbldesc_");
                 lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
+
+                saveToolStripButton_Click(sender, e);
+                ToggleMode(false, true);
             }
         }
 
@@ -3138,8 +3141,12 @@ namespace KMDIWinDoorsCS
                     flpMain2.Controls.Clear();
                     selected_items_pnl = null;
                     item_id = 0;
-                    Text = quotation_ref_no;
+                    Text = quotation_ref_no + "*";
+                    flpMain.Tag = null;
                     MessageBox.Show(this, "Please select another item.", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    ToggleMode(false, false);
+                    pnlRight.Enabled = true;
                 }
             }
         }
