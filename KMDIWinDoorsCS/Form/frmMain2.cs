@@ -1324,7 +1324,8 @@ namespace KMDIWinDoorsCS
         private Panel CreateNewItem(string name,
                                     int count,
                                     string dimension,
-                                    string description)
+                                    string description,
+                                    bool itmpnl_visibility = true)
         {
             Panel itmpnl,pnl;
             Label lbl;
@@ -1337,6 +1338,7 @@ namespace KMDIWinDoorsCS
             itmpnl.Height = 373;
             itmpnl.AccessibleDefaultActionDescription = dimension;
             itmpnl.AccessibleDescription = description;
+            itmpnl.Visible = itmpnl_visibility;
 
             lbl = new Label();
             lbl.Name = "lbl_item" + count;
@@ -1489,6 +1491,8 @@ namespace KMDIWinDoorsCS
 
                 saveToolStripButton_Click(sender, e);
                 ToggleMode(false, true);
+                pnlMain.Enabled = true;
+                cmenuPanel.Enabled = true;
             }
         }
 
@@ -1935,7 +1939,7 @@ namespace KMDIWinDoorsCS
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
             divd_width, divd_height, divd_TabIndex; //for Divider
-        string framename = "", fptype = "", 
+        string framename = "", fptype = "", fstatus = "",
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
@@ -2228,6 +2232,7 @@ namespace KMDIWinDoorsCS
                 fpwidth = 0;
                 fpheight = 0;
                 fptype = "";
+                fstatus = "";
             }
 
             switch (inside_item)
@@ -2249,10 +2254,14 @@ namespace KMDIWinDoorsCS
                     {
                         fptype = row_str.Remove(0,10);
                     }
-
-                    if (fpwidth != 0 && fpheight != 0 && fptype != "")
+                    else if (row_str.Contains("FStatus"))
                     {
-                        AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype);
+                        fstatus = row_str.Remove(0, 9);
+                    }
+
+                    if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "")
+                    {
+                        AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
                         inside_item = false;
                     }
 
@@ -3016,7 +3025,8 @@ namespace KMDIWinDoorsCS
                     Label lblitm = new Label();
                     lblitm = itemsLblSearch("lbl_item" + lastnum);
                     lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-
+                    lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                    
                     flpMain.Invalidate();
                     flpMain2.Invalidate();
                     pnlMain.Invalidate();
@@ -3133,19 +3143,15 @@ namespace KMDIWinDoorsCS
             {
                 if (MessageBox.Show(this, "Are you sure to delete " + itemselected.Text + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    pnlItems.Controls.Remove(selected_items_pnl);
-                    itemslist.Remove(item_id);
-                    itemslist2.Remove(item_id);
+                    selected_items_pnl.Visible = false;
                     pnlPropertiesBody.Controls.Clear();
-                    flpMain.Controls.Clear();
-                    flpMain2.Controls.Clear();
                     selected_items_pnl = null;
-                    item_id = 0;
-                    Text = quotation_ref_no + "*";
-                    flpMain.Tag = null;
+                    
                     MessageBox.Show(this, "Please select another item.", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     ToggleMode(false, false);
+                    pnlMain.Enabled = false;
+                    cmenuPanel.Enabled = false;
                     pnlRight.Enabled = true;
                 }
             }
@@ -3183,18 +3189,6 @@ namespace KMDIWinDoorsCS
                 pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
             }
 
-            var MultiCol = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
-            foreach (FlowLayoutPanel multi in MultiCol)
-            {
-                int id = multi.TabIndex;
-                List<int> lstDimensions = new List<int>();
-                lstDimensions = dictMultiPanelDimension[id];
-
-                float multiPwd = lstDimensions[0] * zoom,
-                      multiPht = lstDimensions[1] * zoom;
-                multi.Size = new Size(Convert.ToInt32(multiPwd), Convert.ToInt32(multiPht));
-            }
-
             var MullionCol = csfunc.GetAll(flpMain, typeof(Panel), "Mullion_");
             foreach (Panel mul in MullionCol)
             {
@@ -3229,6 +3223,56 @@ namespace KMDIWinDoorsCS
                 float pnlwd = lstDimensions[0] * zoom,
                       pnlht = lstDimensions[1] * zoom;
                 pnl.Size = new Size(Convert.ToInt32(pnlwd), Convert.ToInt32(pnlht));
+            }
+
+
+            var MultiCol = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
+            foreach (FlowLayoutPanel multi in MultiCol)
+            {
+                int id = multi.TabIndex;
+                List<int> lstDimensions = new List<int>();
+                lstDimensions = dictMultiPanelDimension[id];
+
+                float multiPwd = lstDimensions[0] * zoom,
+                      multiPht = lstDimensions[1] * zoom;
+                multi.Size = new Size(Convert.ToInt32(multiPwd), Convert.ToInt32(multiPht));
+
+                int total_wd_of_controls = 0, total_ht_of_controls = 0;
+                foreach (Control item in multi.Controls)
+                {
+                    if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
+                    {
+                        total_wd_of_controls += item.Width;
+                    }
+                    else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
+                    {
+                        total_ht_of_controls += item.Height;
+                    }
+                }
+
+                //Small Adjustments on the sizes of panels inside multi-panel
+                if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
+                {
+                    if (total_wd_of_controls > multi.Width)
+                    {
+                        int wd_diff = total_wd_of_controls - multi.Width;
+                        if (wd_diff <= 5)
+                        {
+                            multi.Controls[multi.Controls.Count - 1].Width -= wd_diff;
+                        }
+                    }
+                }
+                else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
+                {
+                    if (total_ht_of_controls > multi.Height)
+                    {
+                        int ht_diff = total_ht_of_controls - multi.Height;
+                        if (ht_diff <= 5)
+                        {
+                            multi.Controls[multi.Controls.Count - 1].Height -= ht_diff;
+                        }
+                    }
+                }
             }
         }
 
@@ -3322,7 +3366,8 @@ namespace KMDIWinDoorsCS
         private void AddProfile(int Fwidth,
                                 int Fheight,
                                 int pnl_cntr,
-                                string profiletype)
+                                string profiletype,
+                                bool visibility = true)
         {
             trkZoom.Value = 100;
             trackzoom = false;
@@ -3375,7 +3420,7 @@ namespace KMDIWinDoorsCS
             pnlMain.Invalidate();
 
             Panel pnl = new Panel();
-            pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype);
+            pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
             pnlItems.Controls.Add(pnl);
             pnl.BringToFront();
             pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
@@ -3456,8 +3501,8 @@ namespace KMDIWinDoorsCS
             if (wndrfile != "")
             {
                 File.WriteAllLines(wndrfile, Saving_dotwndr());
+                //MessageBox.Show("Saved");
             }
-            MessageBox.Show("Saved");
         }
         
         private void frmMain2_TextChanged(object sender, EventArgs e)
@@ -3816,6 +3861,7 @@ namespace KMDIWinDoorsCS
                             wndr_content.Add("FWidth: " + dimension[0]);
                             wndr_content.Add("FHeight: " + dimension[1]);
                             wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
+                            wndr_content.Add("FStatus: " + ctrl.Visible);
                         }
                     }
 
