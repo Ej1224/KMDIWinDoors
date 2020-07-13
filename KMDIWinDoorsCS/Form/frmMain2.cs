@@ -1430,6 +1430,10 @@ namespace KMDIWinDoorsCS
                     save = true;
                     UppdateDictionaries();
                     Text = quotation_ref_no + " >> " + lbl.Text;
+                    if (!this.Text.Contains(wndrfile))
+                    {
+                        this.Text += "( " + wndrfile + " )";
+                    }
                 }
             }
             else
@@ -1916,6 +1920,7 @@ namespace KMDIWinDoorsCS
                     switch (e.Result.ToString())
                     {
                         case "Open_WndrFiles":
+                            this.Text += "( " + wndrfile + " )";
                             tsLbl_Loading.Text = "Finished";
                             ToggleMode(false,true);
                             tsLbl_Loading.Visible = true;
@@ -2147,6 +2152,7 @@ namespace KMDIWinDoorsCS
                 ctrl2.Controls.Add(div2);
             }
 
+            lstDragOrder.Add(divd_name);
         }
 
         private void Opening_dotwndr(int row)
@@ -2320,7 +2326,7 @@ namespace KMDIWinDoorsCS
                         }
                         else if (row_str.Contains("ChkText"))
                         {
-                            pnl_OrientationText = row_str.Trim().Remove(0, 9);
+                            pnl_OrientationText = row_str.TrimStart().Remove(0, 9);
                         }
                         else if (row_str.Contains("Parent"))
                         {
@@ -2335,7 +2341,7 @@ namespace KMDIWinDoorsCS
                             pnlheight != 0 &&
                             pnlwndrtype != "" &&
                             pnl_Orientation != "" &&
-                            pnl_OrientationText != "" &&
+                            //pnl_OrientationText != "" &&
                             pnl_Parent != "" &&
                             framename != "")
                         {
@@ -3157,6 +3163,15 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void frmMain2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show(this, "Exit?","Please save changes before exiting", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+        }
+
         float zoom = 1f;
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
@@ -3497,11 +3512,19 @@ namespace KMDIWinDoorsCS
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             UppdateDictionaries();
-            Text = Text.Replace("*", "");
+            this.Text = Text.Replace("*", "");
             if (wndrfile != "")
             {
+                if (!this.Text.Contains(wndrfile))
+                {
+                    this.Text += "( " + wndrfile + " )";
+                }
                 File.WriteAllLines(wndrfile, Saving_dotwndr());
                 //MessageBox.Show("Saved");
+            }
+            else
+            {
+                MessageBox.Show(this, "Please save your progress locally or online to prevent data loss", "", MessageBoxButtons.OK ,MessageBoxIcon.Information);
             }
         }
         
@@ -3865,6 +3888,10 @@ namespace KMDIWinDoorsCS
                         }
                     }
 
+                    if (i == lstDragOrder.Count - 1)
+                    {
+                        wndr_content.Add(")");
+                    }
                 }
                 else if (i == lstDragOrder.Count - 1)
                 {
@@ -3883,36 +3910,76 @@ namespace KMDIWinDoorsCS
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 wndrfile = saveFileDialog1.FileName;
-                File.WriteAllLines(saveFileDialog1.FileName, Saving_dotwndr());
+                saveToolStripButton_Click(sender, e);
             }
+        }
+
+        private void Clearing_Operation()
+        {
+            dictFrameDimension.Clear();
+            dictPanelDimension.Clear();
+            dictMultiPanelDimension.Clear();
+            dictMullionDimension.Clear();
+            dictTransomDimension.Clear();
+            itemslist.Clear();
+            itemslist2.Clear();
+            propertieslist.Clear();
+
+            flpMain.Controls.Clear();
+            flpMain2.Controls.Clear();
+            pnlPropertiesBody.Controls.Clear();
+            pnlItems.Controls.Clear();
+
+            cpnlcount = mulcount = trnscount = multicount = framecntr = 0;
+
+            wndrfile = "";
+
+            lstDragOrder.Clear();
+
+            //inside_item = false;
+            //inside_frame = false;
+            //inside_panel = false;
+            //inside_multi = false;
+            //inside_divider = false;
+
+            //fpwidth = 0;
+            //fpheight = 0; //for Profile
+            //frwidth = 0;
+            //frheight = 0;
+            //frwndr = 0;
+            //pnlwidth = 0;
+            //pnlheight = 0; //for Frame
+            //multi_Tabindex = 0; //for Multipanel 
+            //divd_width = 0;
+            //divd_height = 0;
+            //divd_TabIndex = 0; //for Divider
+            //framename = "";
+            //fptype = "";
+            //fstatus = "";
+            //pnlwndrtype = "";
+            //pnl_Parent = "";
+            //pnl_Orientation = "";
+            //pnl_OrientationText = "";
+            //multi_type = "";
+            //multi_Parent = "";
+            //multi_Size = "";
+            //multi_Name = "";
+            //multidivnum = "";
+            //divd_name = "";
+            //divd_Parent = "";
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                dictFrameDimension.Clear();
-                dictPanelDimension.Clear();
-                dictMultiPanelDimension.Clear();
-                dictMullionDimension.Clear();
-                dictTransomDimension.Clear();
-                itemslist.Clear();
-                itemslist2.Clear();
-                propertieslist.Clear();
-
-                flpMain.Controls.Clear();
-                flpMain2.Controls.Clear();
-                pnlPropertiesBody.Controls.Clear();
-                pnlItems.Controls.Clear();
-
-                cpnlcount = mulcount = trnscount = multicount = framecntr = 0;
+                Clearing_Operation();
 
                 wndrfile = openFileDialog1.FileName;
 
                 file_lines = File.ReadAllLines(openFileDialog1.FileName);
                 tsprogress_Loading.Maximum = file_lines.Length;
 
-                lstDragOrder.Clear();
                 StartWorker("Open_WndrFiles");
             }
         }
@@ -3920,12 +3987,35 @@ namespace KMDIWinDoorsCS
         string quotation_ref_no;
         private void QuotationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string input = Interaction.InputBox("Quotation Reference No.", "Windoor Maker", "");
-            if (input != "" && input != "0")
+            bool create_new = false;
+            
+            if (pnlItems.Controls.Count > 0)
             {
-                quotation_ref_no = input.ToUpper();
-                Text = quotation_ref_no;
+                if (MessageBox.Show(this, "Are you sure want to create new Quotation?", "Delete progress",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    create_new = true;
+                }
             }
+            else
+            {
+                create_new = true;
+            }
+            if (create_new == true)
+            {
+                string input = Interaction.InputBox("Quotation Reference No.", "Windoor Maker", "");
+                if (input != "" && input != "0")
+                {
+                    Clearing_Operation();
+                    flpMain.Visible = false;
+                    flpMain.Size = new Size(0, 0);
+                    paint_pnlMain = false;
+
+                    quotation_ref_no = input.ToUpper();
+                    Text = quotation_ref_no;
+                }
+            }
+            
         }
 
         private void btnZoom_Click(object sender, EventArgs e)
