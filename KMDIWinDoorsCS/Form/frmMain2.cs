@@ -2012,6 +2012,7 @@ namespace KMDIWinDoorsCS
 
             Panel pnl2 = CreatePanels("Panel_", dok, pnlwidth, pnlheight, pnlwndrtype);
             pnl2.Name += cpnlcount;
+            pnl2.TabIndex = cpnlcount;
 
             FlowLayoutPanel fprop = new FlowLayoutPanel();
             
@@ -2992,7 +2993,44 @@ namespace KMDIWinDoorsCS
 
         private void refreshToolStripButton1_Click(object sender, EventArgs e)
         {
-            Panel_Painter();
+            try
+            {
+                int area = static_wd * static_ht;
+                float zm = 0.0f;
+                if (area <= 360000)
+                {
+                    zm = 1.0f;
+                }
+                else if (area > 360000 && area <= 1000000)
+                {
+                    zm = 0.5f;
+                }
+                else if (area > 1000000 && area <= 4000000)
+                {
+                    zm = 0.28f;
+                }
+                else if (area > 4000000 && area <= 9000000)
+                {
+                    zm = 0.19f;
+                }
+                else if (area > 9000000 && area <= 16000000)
+                {
+                    zm = 0.14f;
+                }
+                else if (area > 16000000)
+                {
+                    zm = 0.10f;
+                }
+
+                func_zoom(flpMain2, zm);
+
+                Panel_Painter();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+            }
         }
         
         private void tsSize_DoubleClick(object sender, EventArgs e)
@@ -3176,20 +3214,17 @@ namespace KMDIWinDoorsCS
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
 
-        private void trkZoom_ValueChanged(object sender, EventArgs e)
+        private void func_zoom(FlowLayoutPanel flp_name,
+                               float zoom_val)
         {
-            trackzoom = true;
 
-            zoom = trkZoom.Value / 100f;
-            lblZoom.Text = trkZoom.Value.ToString() + " %";
+            float wd = static_wd * zoom_val,
+                  ht = static_ht * zoom_val;
 
-            float wd = static_wd * zoom,
-                  ht = static_ht * zoom;
+            flp_name.Width = Convert.ToInt32(wd);
+            flp_name.Height = Convert.ToInt32(ht);
 
-            flpMain.Width = Convert.ToInt32(wd);
-            flpMain.Height = Convert.ToInt32(ht);
-
-            foreach (Panel pnl in flpMain.Controls)
+            foreach (Panel pnl in flp_name.Controls)
             {
                 int id = pnl.TabIndex;
                 int wndr = Convert.ToInt32(pnl.Tag);
@@ -3197,59 +3232,59 @@ namespace KMDIWinDoorsCS
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictFrameDimension[id];
 
-                float fwd = lstDimensions[0] * zoom,
-                      fht = lstDimensions[1] * zoom;
+                float fwd = lstDimensions[0] * zoom_val,
+                      fht = lstDimensions[1] * zoom_val;
 
-                pnl.Padding = new Padding(Convert.ToInt32(wndr * zoom));
+                pnl.Padding = new Padding(Convert.ToInt32(wndr * zoom_val));
                 pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
             }
 
-            var MullionCol = csfunc.GetAll(flpMain, typeof(Panel), "Mullion_");
+            var MullionCol = csfunc.GetAll(flp_name, typeof(Panel), "Mullion_");
             foreach (Panel mul in MullionCol)
             {
                 int id = mul.TabIndex;
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictMullionDimension[id];
 
-                float mulwd = lstDimensions[0] * zoom,
-                      mulht = lstDimensions[1] * zoom;
+                float mulwd = lstDimensions[0] * zoom_val,
+                      mulht = lstDimensions[1] * zoom_val;
                 mul.Size = new Size(Convert.ToInt32(mulwd), Convert.ToInt32(mulht));
             }
 
-            var TransomCol = csfunc.GetAll(flpMain, typeof(Panel), "Transom_");
+            var TransomCol = csfunc.GetAll(flp_name, typeof(Panel), "Transom_");
             foreach (Panel trns in TransomCol)
             {
                 int id = trns.TabIndex;
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictTransomDimension[id];
 
-                float trnswd = lstDimensions[0] * zoom,
-                      trnsht = lstDimensions[1] * zoom;
+                float trnswd = lstDimensions[0] * zoom_val,
+                      trnsht = lstDimensions[1] * zoom_val;
                 trns.Size = new Size(Convert.ToInt32(trnswd), Convert.ToInt32(trnsht));
             }
 
-            var PanelCol = csfunc.GetAll(flpMain, typeof(Panel), "Panel_");
+            var PanelCol = csfunc.GetAll(flp_name, typeof(Panel), "Panel_");
             foreach (Panel pnl in PanelCol)
             {
                 int id = pnl.TabIndex;
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictPanelDimension[id];
 
-                float pnlwd = lstDimensions[0] * zoom,
-                      pnlht = lstDimensions[1] * zoom;
+                float pnlwd = lstDimensions[0] * zoom_val,
+                      pnlht = lstDimensions[1] * zoom_val;
                 pnl.Size = new Size(Convert.ToInt32(pnlwd), Convert.ToInt32(pnlht));
             }
 
 
-            var MultiCol = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
+            var MultiCol = csfunc.GetAll(flp_name, typeof(FlowLayoutPanel), "Multi");
             foreach (FlowLayoutPanel multi in MultiCol)
             {
                 int id = multi.TabIndex;
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictMultiPanelDimension[id];
 
-                float multiPwd = lstDimensions[0] * zoom,
-                      multiPht = lstDimensions[1] * zoom;
+                float multiPwd = lstDimensions[0] * zoom_val,
+                      multiPht = lstDimensions[1] * zoom_val;
                 multi.Size = new Size(Convert.ToInt32(multiPwd), Convert.ToInt32(multiPht));
 
                 int total_wd_of_controls = 0, total_ht_of_controls = 0;
@@ -3289,6 +3324,16 @@ namespace KMDIWinDoorsCS
                     }
                 }
             }
+        }
+
+        private void trkZoom_ValueChanged(object sender, EventArgs e)
+        {
+            trackzoom = true;
+
+            zoom = trkZoom.Value / 100f;
+            lblZoom.Text = trkZoom.Value.ToString() + " %";
+
+            func_zoom(flpMain, zoom);
         }
 
         bool paint_pnlMain = false;
@@ -3553,12 +3598,14 @@ namespace KMDIWinDoorsCS
                 saveAsToolStripMenuItem.Enabled = true;
                 tsBtnNdoor.Enabled = true;
                 tsBtnNwin.Enabled = true;
+                refreshToolStripButton.Enabled = true;
             }
             else
             {
                 saveAsToolStripMenuItem.Enabled = false;
                 tsBtnNdoor.Enabled = false;
                 tsBtnNwin.Enabled = false;
+                refreshToolStripButton.Enabled = false;
             }
         }
 
@@ -3658,8 +3705,36 @@ namespace KMDIWinDoorsCS
                 //                                                  rect.Height - w));
                 //        }
                 //    }
-                    
+
                 //}
+
+                int area = static_wd * static_ht;
+                float zm = 0.0f;
+                if (area <= 360000)
+                {
+                    zm = 1.0f;
+                }
+                else if (area > 360000 && area <= 1000000)
+                {
+                    zm = 0.5f;
+                }
+                else if (area > 1000000 && area <= 4000000)
+                {
+                    zm = 0.28f;
+                }
+                else if (area > 4000000 && area <= 9000000)
+                {
+                    zm = 0.19f;
+                }
+                else if (area > 9000000 && area <= 16000000)
+                {
+                    zm = 0.14f;
+                }
+                else if (area > 16000000)
+                {
+                    zm = 0.10f;
+                }
+                func_zoom(flpMain2, zm);
                 Panel_Painter();
             }
             catch (Exception)
