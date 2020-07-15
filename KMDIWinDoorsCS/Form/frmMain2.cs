@@ -882,11 +882,11 @@ namespace KMDIWinDoorsCS
             {
                 if (num.Name.Contains("numfWidth_"))
                 {
-                    ctrl.Width = Convert.ToInt32(num.Value);
+                    ctrl.Width = (int)((int)num.Value * zm);
                 }
                 else if (num.Name.Contains("numfHeight_"))
                 {
-                    ctrl.Height = Convert.ToInt32(num.Value);
+                    ctrl.Height = (int)((int)num.Value * zm);
                 }
                 ctrl.Invalidate();
 
@@ -1149,14 +1149,14 @@ namespace KMDIWinDoorsCS
             if (pnum.Name.Contains("Width"))
             {
                 lstDimensions[0] = Convert.ToInt32(pnum.Value);
-                pnl.Width = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
-                pnl2.Width = Convert.ToInt32(pnum.Value);
+                pnl.Width = (int)((int)(pnum.Value) * zoom);
+                pnl2.Width = (int)((int)pnum.Value * zm);
             }
             else if (pnum.Name.Contains("Height"))
             {
                 lstDimensions[1] = Convert.ToInt32(pnum.Value);
-                pnl.Height = Convert.ToInt32(Convert.ToInt32(pnum.Value) * zoom);
-                pnl2.Height = Convert.ToInt32(pnum.Value);
+                pnl.Height = (int)((int)(pnum.Value) * zoom);
+                pnl2.Height = (int)((int)pnum.Value * zm);
             }
             dictPanelDimension[pnlid] = lstDimensions;
             pnl.Invalidate();
@@ -3211,8 +3211,10 @@ namespace KMDIWinDoorsCS
         }
 
         float zoom = 1f;
+        float zm = 0.0f;
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
+        //bool checker;
 
         private void func_zoom(FlowLayoutPanel flp_name,
                                float zoom_val)
@@ -3287,48 +3289,82 @@ namespace KMDIWinDoorsCS
                       multiPht = lstDimensions[1] * zoom_val;
                 multi.Size = new Size(Convert.ToInt32(multiPwd), Convert.ToInt32(multiPht));
 
-                int total_wd_of_controls = 0, total_ht_of_controls = 0;
-                foreach (Control item in multi.Controls)
-                {
+                //checker = false;
+                //int i = 0;
+                //while (checker == false)
+                //{
+                    int total_wd_of_controls = 0, total_ht_of_controls = 0;
+                    foreach (Control item in multi.Controls)
+                    {
+                        if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
+                        {
+                            total_wd_of_controls += item.Width;
+                        }
+                        else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
+                        {
+                            total_ht_of_controls += item.Height;
+                        }
+                    }
+
+                    //Small Adjustments on the sizes of panels inside multi-panel
                     if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
                     {
-                        total_wd_of_controls += item.Width;
+                        if (total_wd_of_controls > multi.Width)
+                        {
+                            int wd_diff = total_wd_of_controls - multi.Width;
+                            if (wd_diff <= 5)
+                            {
+                                multi.Controls[multi.Controls.Count - 1].Width -= wd_diff;
+                            }
+                        }
                     }
                     else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
                     {
-                        total_ht_of_controls += item.Height;
+                        if (total_ht_of_controls > multi.Height)
+                        {
+                            int ht_diff = total_ht_of_controls - multi.Height;
+                            if (ht_diff <= 5)
+                            {
+                                multi.Controls[multi.Controls.Count - 1].Height -= ht_diff;
+                            }
+                        }
                     }
-                }
 
-                //Small Adjustments on the sizes of panels inside multi-panel
-                if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
-                {
-                    if (total_wd_of_controls > multi.Width)
-                    {
-                        int wd_diff = total_wd_of_controls - multi.Width;
-                        if (wd_diff <= 5)
-                        {
-                            multi.Controls[multi.Controls.Count - 1].Width -= wd_diff;
-                        }
-                    }
-                }
-                else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
-                {
-                    if (total_ht_of_controls > multi.Height)
-                    {
-                        int ht_diff = total_ht_of_controls - multi.Height;
-                        if (ht_diff <= 5)
-                        {
-                            multi.Controls[multi.Controls.Count - 1].Height -= ht_diff;
-                        }
-                    }
-                }
+                    //Checker will be true if condtions met
+                    //int size_checker = 0;
+                    //if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
+                    //{
+                    //    foreach (Control newsize_item in multi.Controls)
+                    //    {
+                    //        size_checker += newsize_item.Width;
+                    //    }
+
+                    //    if (size_checker <= multi.Width)
+                    //    {
+                    //        checker = true;
+                    //    }
+                    //}
+                    //else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
+                    //{
+                    //    foreach (Control newsize_item in multi.Controls)
+                    //    {
+                    //        size_checker += newsize_item.Height;
+                    //    }
+
+                    //    if (size_checker <= multi.Height)
+                    //    {
+                    //        checker = true;
+                    //    }
+                    //}
+                    //i++;
+                //}
             }
         }
 
         private void trkZoom_ValueChanged(object sender, EventArgs e)
         {
             trackzoom = true;
+            //checker = false;
 
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
@@ -3708,33 +3744,32 @@ namespace KMDIWinDoorsCS
 
                 //}
 
-                int area = static_wd * static_ht;
-                float zm = 0.0f;
-                if (area <= 360000)
-                {
-                    zm = 1.0f;
-                }
-                else if (area > 360000 && area <= 1000000)
-                {
-                    zm = 0.5f;
-                }
-                else if (area > 1000000 && area <= 4000000)
-                {
-                    zm = 0.28f;
-                }
-                else if (area > 4000000 && area <= 9000000)
-                {
-                    zm = 0.19f;
-                }
-                else if (area > 9000000 && area <= 16000000)
-                {
-                    zm = 0.14f;
-                }
-                else if (area > 16000000)
-                {
-                    zm = 0.10f;
-                }
-                func_zoom(flpMain2, zm);
+                //int area = static_wd * static_ht;
+                //if (area <= 360000)
+                //{
+                //    zm = 1.0f;
+                //}
+                //else if (area > 360000 && area <= 1000000)
+                //{
+                //    zm = 0.5f;
+                //}
+                //else if (area > 1000000 && area <= 4000000)
+                //{
+                //    zm = 0.28f;
+                //}
+                //else if (area > 4000000 && area <= 9000000)
+                //{
+                //    zm = 0.19f;
+                //}
+                //else if (area > 9000000 && area <= 16000000)
+                //{
+                //    zm = 0.14f;
+                //}
+                //else if (area > 16000000)
+                //{
+                //    zm = 0.10f;
+                //}
+                //func_zoom(flpMain2, zm);
                 Panel_Painter();
             }
             catch (Exception)
