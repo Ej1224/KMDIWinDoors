@@ -939,6 +939,8 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
+
+            refreshToolStripButton.PerformClick();
         }
 
         private Panel CreatePanelProperties(string name,
@@ -1166,6 +1168,8 @@ namespace KMDIWinDoorsCS
 
             pnl2.Invalidate();
             flpMain2.Invalidate();
+
+            refreshToolStripButton.PerformClick();
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -1401,11 +1405,24 @@ namespace KMDIWinDoorsCS
             lbl.Text = description;
             lbl.AccessibleDescription = description;
             lbl.Tag = itmpnl.Name;
+            lbl.Cursor = Cursors.Hand;
+            lbl.MouseClick += new MouseEventHandler(lbl_MouseClick);
 
             pnl.Controls.Add(lbl);
             lbl.BringToFront();
 
             return itmpnl;
+        }
+
+        Label selected_lbldesc;
+
+        private void lbl_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                selected_lbldesc = (Label)sender;
+                cmenuItemPanel.Show(MousePosition.X, MousePosition.Y);
+            }
         }
 
         Label itemselected = null;
@@ -1425,7 +1442,8 @@ namespace KMDIWinDoorsCS
 
             if (Text.Contains("*") == true)
             {
-                if (MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                DialogResult result = MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (result == DialogResult.Yes)
                 {
                     save = true;
                     UppdateDictionaries();
@@ -1438,56 +1456,12 @@ namespace KMDIWinDoorsCS
             }
             else
             {
-                save = true;
+                save = false;
             }
 
             if (save == true)
             {
-                trackzoom = false;
-                itemselected.ForeColor = Color.Black;
-
-                string lblname = lbl.Name;
-                //int indxOf_lblname = lblname.IndexOf("m");
-                string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
-                item_id = Convert.ToInt32(getnum_lblname);
-               
-                string WxH = lbl.AccessibleDescription.Replace(" ", "");
-                string[] dimension = WxH.Split('x');
-
-                static_wd = Convert.ToInt32(dimension[0]);
-                static_ht = Convert.ToInt32(dimension[1]);
-
-                flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                flpMain.Tag = "Item_" + item_id;
-                flpMain.Controls.Clear();
-
-                flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                flpMain2.Tag = "Item_" + item_id;
-                flpMain2.Controls.Clear();
-
-                foreach (Panel item in itemslist[item_id])
-                {
-                    flpMain.Controls.Add(item);
-                }
-
-                foreach (Panel item2 in itemslist2[item_id])
-                {
-                    flpMain2.Controls.Add(item2);
-                }
-                //flpMain.Controls.Add(itemslist[item_id]);
-
-                pnlPropertiesBody.Controls.Clear();
-                foreach (Panel item in propertieslist[item_id])
-                {
-                    pnlPropertiesBody.Controls.Add(item);
-                }
-                //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
-
-                lbl.ForeColor = Color.Blue;
-                itemselected = lbl;
-
                 UppdateDictionaries();
-                Text = quotation_ref_no + " >> " + lbl.Text;
 
                 Label lbl2 = new Label();
                 lbl2 = itemsLblSearch("lbldesc_");
@@ -1498,6 +1472,52 @@ namespace KMDIWinDoorsCS
                 pnlMain.Enabled = true;
                 cmenuPanel.Enabled = true;
             }
+
+            trackzoom = false;
+            itemselected.ForeColor = Color.Black;
+
+            string lblname = lbl.Name;
+            //int indxOf_lblname = lblname.IndexOf("m");
+            string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
+            item_id = Convert.ToInt32(getnum_lblname);
+
+            string WxH = lbl.AccessibleDescription.Replace(" ", "");
+            string[] dimension = WxH.Split('x');
+
+            static_wd = Convert.ToInt32(dimension[0]);
+            static_ht = Convert.ToInt32(dimension[1]);
+
+            flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+            flpMain.Tag = "Item_" + item_id;
+            flpMain.Controls.Clear();
+
+            flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+            flpMain2.Tag = "Item_" + item_id;
+            flpMain2.Controls.Clear();
+
+            foreach (Panel item in itemslist[item_id])
+            {
+                flpMain.Controls.Add(item);
+            }
+
+            foreach (Panel item2 in itemslist2[item_id])
+            {
+                flpMain2.Controls.Add(item2);
+            }
+            //flpMain.Controls.Add(itemslist[item_id]);
+
+            pnlPropertiesBody.Controls.Clear();
+            foreach (Panel item in propertieslist[item_id])
+            {
+                pnlPropertiesBody.Controls.Add(item);
+            }
+            //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
+
+            lbl.ForeColor = Color.Blue;
+            itemselected = lbl;
+
+            Text = quotation_ref_no + " >> " + lbl.Text;
+
         }
 
         private Label itemsLblSearch(string searchstr)
@@ -3212,6 +3232,15 @@ namespace KMDIWinDoorsCS
 
         float zoom = 1f;
         float zm = 0.0f;
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmLblDesc frm = new frmLblDesc();
+            frm.Text = "Item " + selected_lbldesc.Name.Replace("lbldesc_", "");
+            frm.rtboxLblDesc.Text = selected_lbldesc.Text;
+            frm.Show();
+        }
+
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
         //bool checker;
@@ -4308,6 +4337,10 @@ namespace KMDIWinDoorsCS
                 pnlnameSel = null;
                 pnlSel_parent = null;
             }
+            else if (e.KeyCode == Keys.F5)
+            {
+                refreshToolStripButton.PerformClick();
+            }
             else if (e.Control && e.KeyCode == Keys.W)
             {
                 if (tsBtnNwin.Enabled == true)
@@ -4444,6 +4477,11 @@ namespace KMDIWinDoorsCS
             trackzoom = false;
             flpMain.Invalidate();
             flpMain2.Invalidate();
+
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
         }
 
     }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -95,6 +95,8 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnSubtractZoom = new System.Windows.Forms.Button();
             this.btnAddZoom = new System.Windows.Forms.Button();
+            this.cmenuItemPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -110,6 +112,7 @@
             this.stsEditor.SuspendLayout();
             this.cmenuMultiP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkZoom)).BeginInit();
+            this.cmenuItemPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -152,14 +155,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -786,6 +789,20 @@
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
+            // cmenuItemPanel
+            // 
+            this.cmenuItemPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.cmenuItemPanel.Name = "cmenuItemPanel";
+            this.cmenuItemPanel.Size = new System.Drawing.Size(153, 48);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -829,6 +846,7 @@
             this.stsEditor.PerformLayout();
             this.cmenuMultiP.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trkZoom)).EndInit();
+            this.cmenuItemPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -900,6 +918,8 @@
         private System.Windows.Forms.ToolStripLabel tsLbl_Loading;
         private System.Windows.Forms.ToolStripButton refreshToolStripButton;
         private System.Windows.Forms.ToolStripButton deleteItemToolStripButton1;
+        private System.Windows.Forms.ContextMenuStrip cmenuItemPanel;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     }
 }
 

@@ -99,6 +99,12 @@
     <Compile Include="Form\frmAutoCreateSliding.Designer.cs">
       <DependentUpon>frmAutoCreateSliding.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form\frmLblDesc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmLblDesc.Designer.cs">
+      <DependentUpon>frmLblDesc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\frmAutoCreateSliding.resx">
@@ -106,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frmDimensions.resx">
       <DependentUpon>frmDimensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\frmLblDesc.resx">
+      <DependentUpon>frmLblDesc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frmMain2.resx">
       <DependentUpon>frmMain2.cs</DependentUpon>
