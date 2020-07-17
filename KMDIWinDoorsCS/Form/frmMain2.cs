@@ -629,11 +629,49 @@ namespace KMDIWinDoorsCS
 
         private string UpdateLblDescription(string profiletype)
         {
-            string desc = "";
-            string wndrtype = "",
+            string desc = "",
+                   wndrtype = "",
                    wndrcol = "",
-                   str_wndr = "";
-            //int loop_cntr = 0;
+                   str_wndr = "",
+                   slid_desc = "";
+
+            var multiSlid_col = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "MultiSliding_");
+            if (multiSlid_col.Count() != 0)
+            {
+                foreach (FlowLayoutPanel multi in multiSlid_col)
+                {
+                    string slid_wndrtype = "",
+                           pnlSlid = "";
+                    foreach (Panel pnl in multi.Controls)
+                    {
+                        if (pnl.AccessibleDescription.Contains("Fixed"))
+                        {
+                            pnlSlid += "F";
+                        }
+                        else if (pnl.AccessibleDescription.Contains("Sliding"))
+                        {
+                            pnlSlid += "S";
+                        }
+                    }
+                    if (pnlSlid != "")
+                    {
+                        var frame_col = csfunc.GetAll(flpMain, typeof(Panel), (string)multi.Tag);
+                        foreach (var frame in frame_col)
+                        {
+                            if ((int)frame.Tag == 26)
+                            {
+                                slid_wndrtype = "Sliding Window";
+                            }
+                            else if ((int)frame.Tag == 33)
+                            {
+                                slid_wndrtype = "Sliding Door";
+                            }
+                        }
+                    }
+
+                    slid_desc += "\n" + slid_wndrtype + " (" + pnlSlid + ") ";
+                }
+            }
 
             var pnlcol = csfunc.GetAll(pnlPropertiesBody, typeof(Panel), "Panel");
             int cnt_pnlcol = pnlcol.Count();
@@ -717,7 +755,7 @@ namespace KMDIWinDoorsCS
                 wndrtype = "Door";
             }
 
-            desc = profiletype + "\n" + pnlcol.Count().ToString() + " Panel " + wndrtype + "\n(" + str_wndr.TrimStart(' ',',') + ")";
+            desc = profiletype + "\n" + pnlcol.Count().ToString() + " Panel " + wndrtype + slid_desc + "\n(" + str_wndr.TrimStart(' ',',') + ")";
 
             return desc;
         }
@@ -940,7 +978,8 @@ namespace KMDIWinDoorsCS
             trackzoom = false;
             flpMain.Invalidate();
 
-            refreshToolStripButton.PerformClick();
+            refreshToolStripButton1_Click(sender, e);
+            //refreshToolStripButton.PerformClick();
         }
 
         private Panel CreatePanelProperties(string name,
@@ -1169,7 +1208,8 @@ namespace KMDIWinDoorsCS
             pnl2.Invalidate();
             flpMain2.Invalidate();
 
-            refreshToolStripButton.PerformClick();
+            refreshToolStripButton1_Click(sender, e);
+            //refreshToolStripButton.PerformClick();
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)
@@ -1323,6 +1363,8 @@ namespace KMDIWinDoorsCS
             flpMain2.Invalidate();
 
             SelectNextControl(cbx, true,false,true,true);
+
+            refreshToolStripButton1_Click(sender, e);
         }
 
         private Panel CreateNewItem(string name,
@@ -2255,11 +2297,16 @@ namespace KMDIWinDoorsCS
             {
                 //Panel_Painter();
 
+                refreshToolStripButton.PerformClick();
                 UppdateDictionaries();
                 fpwidth = 0;
                 fpheight = 0;
                 fptype = "";
                 fstatus = "";
+
+                Label lbl = new Label();
+                lbl = itemsLblSearch("lbldesc_");
+                lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
             }
 
             switch (inside_item)
@@ -3100,17 +3147,25 @@ namespace KMDIWinDoorsCS
 
         private void flpMain_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            try
+            {
+                Graphics g = e.Graphics;
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            FlowLayoutPanel fpnl = (FlowLayoutPanel)sender;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                FlowLayoutPanel fpnl = (FlowLayoutPanel)sender;
 
-            int w = 1;
-            int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-            g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
-                                                                   0,
-                                                                   fpnl.ClientRectangle.Width - w,
-                                                                   fpnl.ClientRectangle.Height - w));
+                int w = 1;
+                int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+                g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                       0,
+                                                                       fpnl.ClientRectangle.Width - w,
+                                                                       fpnl.ClientRectangle.Height - w));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+            }
             //THIS CODE IS TO SAVE IMAGE from PnlMain
             /*try
             {
@@ -3238,7 +3293,10 @@ namespace KMDIWinDoorsCS
             frmLblDesc frm = new frmLblDesc();
             frm.Text = "Item " + selected_lbldesc.Name.Replace("lbldesc_", "");
             frm.rtboxLblDesc.Text = selected_lbldesc.Text;
-            frm.Show();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+
+            }
         }
 
         int static_wd = 0, static_ht = 0;
@@ -3625,12 +3683,18 @@ namespace KMDIWinDoorsCS
             this.Text = Text.Replace("*", "");
             if (wndrfile != "")
             {
-                if (!this.Text.Contains(wndrfile))
+                if (File.Exists(wndrfile))
                 {
-                    this.Text += "( " + wndrfile + " )";
+                    if (!this.Text.Contains(wndrfile))
+                    {
+                        this.Text += "( " + wndrfile + " )";
+                    }
+                    File.WriteAllLines(wndrfile, Saving_dotwndr());
                 }
-                File.WriteAllLines(wndrfile, Saving_dotwndr());
-                //MessageBox.Show("Saved");
+                else
+                {
+                    MessageBox.Show(this, "Your file might be renamed/moved/deleted \nYou should save this progress", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {

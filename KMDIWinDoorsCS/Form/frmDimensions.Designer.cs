@@ -52,7 +52,7 @@
             this.numWidth.Location = new System.Drawing.Point(94, 21);
             this.numWidth.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.numWidth.Maximum = new decimal(new int[] {
-            1000000,
+            10000,
             0,
             0,
             0});
@@ -66,7 +66,7 @@
             this.numHeight.Location = new System.Drawing.Point(94, 54);
             this.numHeight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.numHeight.Maximum = new decimal(new int[] {
-            1000000,
+            10000,
             0,
             0,
             0});
