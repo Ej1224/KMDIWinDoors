@@ -3299,6 +3299,24 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void itemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmItems frm = new frmItems();
+            frm.Show();
+        }
+        
+        private void pnlItems_ControlChanged(object sender, ControlEventArgs e)
+        {
+            if (pnlItems.Controls.Count > 0)
+            {
+                itemsToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                itemsToolStripMenuItem.Enabled = false;
+            }
+        }
+
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
         //bool checker;
@@ -3756,6 +3774,8 @@ namespace KMDIWinDoorsCS
                 {
                     ctrl.Image = thumbnail;
                     //ctrl.Image = bm;
+                    //string filename = Application.StartupPath + @"\" + ctrl.Name + ".png";
+                    //thumbnail.Save(filename);
                 }
             }
         }

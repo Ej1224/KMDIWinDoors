@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -68,18 +68,8 @@
             this.autoSlidingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.refreshToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
-            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.tsprogress_Loading = new System.Windows.Forms.ToolStripProgressBar();
             this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
-            this.deleteItemToolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.stsEditor = new System.Windows.Forms.StatusStrip();
             this.tsSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblZoom = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,10 +83,22 @@
             this.trkZoom = new System.Windows.Forms.TrackBar();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.btnSubtractZoom = new System.Windows.Forms.Button();
-            this.btnAddZoom = new System.Windows.Forms.Button();
             this.cmenuItemPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSubtractZoom = new System.Windows.Forms.Button();
+            this.btnAddZoom = new System.Windows.Forms.Button();
+            this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.refreshToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Undo = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
+            this.deleteItemToolStripButton1 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -155,14 +157,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -308,7 +310,8 @@
             this.mnsMainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnsMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.costingToolStripMenuItem});
+            this.costingToolStripMenuItem,
+            this.ViewToolStripMenuItem});
             this.mnsMainMenu.Location = new System.Drawing.Point(0, 0);
             this.mnsMainMenu.Name = "mnsMainMenu";
             this.mnsMainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -406,6 +409,8 @@
             this.pnlItems.Name = "pnlItems";
             this.pnlItems.Size = new System.Drawing.Size(166, 496);
             this.pnlItems.TabIndex = 3;
+            this.pnlItems.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlItems_ControlChanged);
+            this.pnlItems.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.pnlItems_ControlChanged);
             // 
             // label6
             // 
@@ -523,102 +528,6 @@
             this.tsMain.TabIndex = 3;
             this.tsMain.Text = "toolStrip1";
             // 
-            // tsBtnNwin
-            // 
-            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNwin.Enabled = false;
-            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
-            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNwin.Name = "tsBtnNwin";
-            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
-            this.tsBtnNwin.Text = "New Window";
-            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // tsBtnNdoor
-            // 
-            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsBtnNdoor.Enabled = false;
-            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
-            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
-            this.tsBtnNdoor.Name = "tsBtnNdoor";
-            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
-            this.tsBtnNdoor.Text = "New Door";
-            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
-            // 
-            // openToolStripButton
-            // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.openToolStripButton.Text = "&Open";
-            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
-            // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.newToolStripButton.Text = "&New";
-            this.newToolStripButton.Visible = false;
-            // 
-            // refreshToolStripButton
-            // 
-            this.refreshToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.refreshToolStripButton.Enabled = false;
-            this.refreshToolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.refresh_30px;
-            this.refreshToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.refreshToolStripButton.Name = "refreshToolStripButton";
-            this.refreshToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.refreshToolStripButton.Text = "Refresh image";
-            this.refreshToolStripButton.ToolTipText = "Refresh image";
-            this.refreshToolStripButton.Click += new System.EventHandler(this.refreshToolStripButton1_Click);
-            // 
-            // saveToolStripButton
-            // 
-            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Enabled = false;
-            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
-            // 
-            // printToolStripButton
-            // 
-            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
-            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
-            this.printToolStripButton.Text = "&Print";
-            this.printToolStripButton.Visible = false;
-            // 
-            // tsb_Undo
-            // 
-            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
-            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Undo.Name = "tsb_Undo";
-            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Undo.Text = "Undo";
-            this.tsb_Undo.Visible = false;
-            // 
-            // tsb_Redo
-            // 
-            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
-            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Redo.Name = "tsb_Redo";
-            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
-            this.tsb_Redo.Text = "Redo";
-            this.tsb_Redo.Visible = false;
-            // 
             // tsprogress_Loading
             // 
             this.tsprogress_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -633,17 +542,6 @@
             this.tsLbl_Loading.Size = new System.Drawing.Size(61, 24);
             this.tsLbl_Loading.Text = "Initializing";
             this.tsLbl_Loading.Visible = false;
-            // 
-            // deleteItemToolStripButton1
-            // 
-            this.deleteItemToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.deleteItemToolStripButton1.Image = global::KMDIWinDoorsCS.Properties.Resources.delete_file_30px1;
-            this.deleteItemToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteItemToolStripButton1.Name = "deleteItemToolStripButton1";
-            this.deleteItemToolStripButton1.Size = new System.Drawing.Size(24, 24);
-            this.deleteItemToolStripButton1.Text = "Delete item";
-            this.deleteItemToolStripButton1.ToolTipText = "Delete item";
-            this.deleteItemToolStripButton1.Click += new System.EventHandler(this.deleteItemToolStripButton1_Click);
             // 
             // stsEditor
             // 
@@ -754,6 +652,35 @@
             // 
             this.openFileDialog1.Filter = "WNDR files (*.wndr)|*.wndr";
             // 
+            // cmenuItemPanel
+            // 
+            this.cmenuItemPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.cmenuItemPanel.Name = "cmenuItemPanel";
+            this.cmenuItemPanel.Size = new System.Drawing.Size(95, 26);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // ViewToolStripMenuItem
+            // 
+            this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.itemsToolStripMenuItem});
+            this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.ViewToolStripMenuItem.Text = "View";
+            // 
+            // itemsToolStripMenuItem
+            // 
+            this.itemsToolStripMenuItem.Name = "itemsToolStripMenuItem";
+            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.itemsToolStripMenuItem.Text = "Items";
+            this.itemsToolStripMenuItem.Click += new System.EventHandler(this.itemsToolStripMenuItem_Click);
+            // 
             // btnSubtractZoom
             // 
             this.btnSubtractZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -789,19 +716,112 @@
             this.btnAddZoom.UseVisualStyleBackColor = false;
             this.btnAddZoom.Click += new System.EventHandler(this.btnZoom_Click);
             // 
-            // cmenuItemPanel
+            // tsBtnNwin
             // 
-            this.cmenuItemPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem});
-            this.cmenuItemPanel.Name = "cmenuItemPanel";
-            this.cmenuItemPanel.Size = new System.Drawing.Size(153, 48);
+            this.tsBtnNwin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNwin.Enabled = false;
+            this.tsBtnNwin.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Window;
+            this.tsBtnNwin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNwin.Name = "tsBtnNwin";
+            this.tsBtnNwin.Size = new System.Drawing.Size(24, 24);
+            this.tsBtnNwin.Text = "New Window";
+            this.tsBtnNwin.Click += new System.EventHandler(this.tsBtnNewWindoor);
             // 
-            // editToolStripMenuItem
+            // tsBtnNdoor
             // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            this.tsBtnNdoor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsBtnNdoor.Enabled = false;
+            this.tsBtnNdoor.Image = global::KMDIWinDoorsCS.Properties.Resources.AddNew_Door;
+            this.tsBtnNdoor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnNdoor.Margin = new System.Windows.Forms.Padding(0);
+            this.tsBtnNdoor.Name = "tsBtnNdoor";
+            this.tsBtnNdoor.Size = new System.Drawing.Size(24, 27);
+            this.tsBtnNdoor.Text = "New Door";
+            this.tsBtnNdoor.Click += new System.EventHandler(this.tsBtnNewWindoor);
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.newToolStripButton.Text = "&New";
+            this.newToolStripButton.Visible = false;
+            // 
+            // refreshToolStripButton
+            // 
+            this.refreshToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.refreshToolStripButton.Enabled = false;
+            this.refreshToolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.refresh_30px;
+            this.refreshToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.refreshToolStripButton.Name = "refreshToolStripButton";
+            this.refreshToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.refreshToolStripButton.Text = "Refresh image";
+            this.refreshToolStripButton.ToolTipText = "Refresh image";
+            this.refreshToolStripButton.Click += new System.EventHandler(this.refreshToolStripButton1_Click);
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Enabled = false;
+            this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
+            // 
+            // printToolStripButton
+            // 
+            this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+            this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripButton.Name = "printToolStripButton";
+            this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.printToolStripButton.Text = "&Print";
+            this.printToolStripButton.Visible = false;
+            // 
+            // tsb_Undo
+            // 
+            this.tsb_Undo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Undo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Undo.Image")));
+            this.tsb_Undo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Undo.Name = "tsb_Undo";
+            this.tsb_Undo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Undo.Text = "Undo";
+            this.tsb_Undo.Visible = false;
+            // 
+            // tsb_Redo
+            // 
+            this.tsb_Redo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Redo.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Redo.Image")));
+            this.tsb_Redo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Redo.Name = "tsb_Redo";
+            this.tsb_Redo.Size = new System.Drawing.Size(24, 24);
+            this.tsb_Redo.Text = "Redo";
+            this.tsb_Redo.Visible = false;
+            // 
+            // deleteItemToolStripButton1
+            // 
+            this.deleteItemToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteItemToolStripButton1.Image = global::KMDIWinDoorsCS.Properties.Resources.delete_file_30px1;
+            this.deleteItemToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteItemToolStripButton1.Name = "deleteItemToolStripButton1";
+            this.deleteItemToolStripButton1.Size = new System.Drawing.Size(24, 24);
+            this.deleteItemToolStripButton1.Text = "Delete item";
+            this.deleteItemToolStripButton1.ToolTipText = "Delete item";
+            this.deleteItemToolStripButton1.Click += new System.EventHandler(this.deleteItemToolStripButton1_Click);
             // 
             // frmMain2
             // 
@@ -859,7 +879,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Panel pnlRight;
-        private System.Windows.Forms.Panel pnlItems;
         internal System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Panel pnlControlMain;
@@ -920,6 +939,9 @@
         private System.Windows.Forms.ToolStripButton deleteItemToolStripButton1;
         private System.Windows.Forms.ContextMenuStrip cmenuItemPanel;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem itemsToolStripMenuItem;
+        public System.Windows.Forms.Panel pnlItems;
     }
 }
 
