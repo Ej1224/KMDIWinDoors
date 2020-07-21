@@ -1367,6 +1367,39 @@ namespace KMDIWinDoorsCS
             refreshToolStripButton1_Click(sender, e);
         }
 
+        public IEnumerable<ItemControl.Item> GetItem()
+        {
+            foreach (var item in pnlItems.Controls.OfType<ItemControl>())
+            {
+                yield return item.GetFillItem();
+            }
+        }
+
+        private ItemControl CreateItemControl(string name,
+                                              int count,
+                                              string dimension,
+                                              string description,
+                                              bool itmpnl_visibility = true)
+        {
+            ItemControl itm = new ItemControl();
+            itm.AccessibleDefaultActionDescription = dimension;
+            itm.AccessibleDescription = description;
+            itm.Visible = itmpnl_visibility;
+
+            Label itm_lbl = itm.lbl_item;
+            itm_lbl.Text = name + " " + count;
+            if (itemselected != null)
+            {
+                itemselected.ForeColor = Color.Black;
+            }
+            itemselected = itm_lbl;
+            //selected_items_pnl = itm;
+            item_id = count;
+            itm_lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
+
+            return itm;
+        }
+
         private Panel CreateNewItem(string name,
                                     int count,
                                     string dimension,
@@ -3302,7 +3335,13 @@ namespace KMDIWinDoorsCS
         private void itemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmItems frm = new frmItems();
-            frm.Show();
+
+            foreach (var item in GetItem())
+            {
+                frm.lbl_ItemName.Text = item.ItemName;
+
+            }
+            frm.ShowDialog();
         }
         
         private void pnlItems_ControlChanged(object sender, ControlEventArgs e)
@@ -3620,10 +3659,15 @@ namespace KMDIWinDoorsCS
             flpMain2.Controls.Clear();
             pnlMain.Invalidate();
 
-            Panel pnl = new Panel();
-            pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
-            pnlItems.Controls.Add(pnl);
-            pnl.BringToFront();
+            //Panel pnl = new Panel();
+            //pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
+            pnlItems.Controls.Add(CreateItemControl("Item", 
+                                                    pnl_cntr, 
+                                                    flpMain.Width + " x " + flpMain.Height,
+                                                    profiletype, 
+                                                    visibility));
+            //pnlItems.Controls.Add(pnl);
+            //pnl.BringToFront();
             pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
             pnlItems.PerformLayout();
 

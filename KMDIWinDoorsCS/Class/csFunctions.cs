@@ -36,6 +36,7 @@ namespace KMDIWinDoorsCS.Class
                                       .Concat(controls)
                                       .Where(c => c.Name.Contains(name));
         }
+        
         public void LogToFile(string errormsg, string stacktrace)
         {
             using (StreamWriter logfile = new StreamWriter(Application.StartupPath + @"\Error_Logs.txt", true))

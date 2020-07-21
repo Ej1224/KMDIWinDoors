@@ -33,7 +33,7 @@
             this.pnlFill = new System.Windows.Forms.Panel();
             this.pnlSample = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lbl_ItemName = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@
             // 
             this.pnlSample.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlSample.Controls.Add(this.pictureBox1);
-            this.pnlSample.Controls.Add(this.label9);
+            this.pnlSample.Controls.Add(this.lbl_ItemName);
             this.pnlSample.Controls.Add(this.label10);
             this.pnlSample.Controls.Add(this.label8);
             this.pnlSample.Controls.Add(this.label7);
@@ -99,15 +99,15 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // label9
+            // lbl_ItemName
             // 
-            this.label9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label9.Location = new System.Drawing.Point(0, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(281, 20);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "1. Living Rm Dining";
+            this.lbl_ItemName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbl_ItemName.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.lbl_ItemName.Location = new System.Drawing.Point(0, 0);
+            this.lbl_ItemName.Name = "lbl_ItemName";
+            this.lbl_ItemName.Size = new System.Drawing.Size(281, 20);
+            this.lbl_ItemName.TabIndex = 4;
+            this.lbl_ItemName.Text = "1. Living Rm Dining";
             // 
             // label10
             // 
@@ -232,6 +232,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "View Items";
+            this.Load += new System.EventHandler(this.frmItems_Load);
             this.pnlBase.ResumeLayout(false);
             this.pnlFill.ResumeLayout(false);
             this.pnlSample.ResumeLayout(false);
@@ -255,8 +256,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.Label lbl_ItemName;
     }
 }
