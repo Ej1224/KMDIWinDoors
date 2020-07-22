@@ -19,7 +19,12 @@ namespace KMDIWinDoorsCS
 
         private void frmItems_Load(object sender, EventArgs e)
         {
-
+            for (int i = 0; i < 3; i++)
+            {
+                ViewItemsControl vItm = new ViewItemsControl();
+                vItm.Dock = DockStyle.Top;
+                pnlFill.Controls.Add(vItm);
+            }
         }
     }
 }

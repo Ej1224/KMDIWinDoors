@@ -76,6 +76,7 @@
             // 
             // lbl_desc
             // 
+            this.lbl_desc.AutoEllipsis = true;
             this.lbl_desc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbl_desc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_desc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -84,6 +85,7 @@
             this.lbl_desc.Size = new System.Drawing.Size(162, 106);
             this.lbl_desc.TabIndex = 1;
             this.lbl_desc.Text = "lbldesc_";
+            this.lbl_desc.UseMnemonic = false;
             // 
             // lbl_dimension
             // 
@@ -114,10 +116,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox pbox_itemImage;
         private System.Windows.Forms.Panel pnl_itmbot_;
-        private System.Windows.Forms.Label lbl_dimension;
-        private System.Windows.Forms.Label lbl_desc;
         public System.Windows.Forms.Label lbl_item;
+        public System.Windows.Forms.PictureBox pbox_itemImage;
+        public System.Windows.Forms.Label lbl_dimension;
+        public System.Windows.Forms.Label lbl_desc;
     }
 }

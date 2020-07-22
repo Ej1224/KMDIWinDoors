@@ -764,7 +764,7 @@ namespace KMDIWinDoorsCS
         {
             FlowLayoutPanel flp = (FlowLayoutPanel)sender;
             Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc_");
+            lbl = itemsLblSearch("lbldesc");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
         }
 
@@ -848,7 +848,7 @@ namespace KMDIWinDoorsCS
 
             FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
             Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc_");
+            lbl = itemsLblSearch("lbldesc");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
@@ -1151,7 +1151,7 @@ namespace KMDIWinDoorsCS
 
             FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
             Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc_");
+            lbl = itemsLblSearch("lbldesc");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
@@ -1355,7 +1355,7 @@ namespace KMDIWinDoorsCS
 
             FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
             Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc_");
+            lbl = itemsLblSearch("lbldesc");
             lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
@@ -1381,21 +1381,34 @@ namespace KMDIWinDoorsCS
                                               string description,
                                               bool itmpnl_visibility = true)
         {
+            string id = name + "_" + count;
+            Label lblname, desc, wxh;
+
             ItemControl itm = new ItemControl();
             itm.AccessibleDefaultActionDescription = dimension;
             itm.AccessibleDescription = description;
             itm.Visible = itmpnl_visibility;
+            itm.Dock = DockStyle.Top;
+            itm.Tag = id;
 
-            Label itm_lbl = itm.lbl_item;
-            itm_lbl.Text = name + " " + count;
+            lblname = itm.lbl_item;
+            lblname.AccessibleDescription = dimension;
+            lblname.Text = name + " " + count;
+            lblname.Tag = id;
             if (itemselected != null)
             {
                 itemselected.ForeColor = Color.Black;
             }
-            itemselected = itm_lbl;
-            //selected_items_pnl = itm;
+            itemselected = lblname;
             item_id = count;
-            itm_lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
+            lblname.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
+
+            wxh = itm.lbl_dimension;
+            wxh.Text = dimension;
+
+            desc = itm.lbl_desc;
+            desc.AccessibleDescription = description;
+            desc.Text = description;
 
             return itm;
         }
@@ -1437,7 +1450,7 @@ namespace KMDIWinDoorsCS
                 itemselected.ForeColor = Color.Black;
             }
             itemselected = lbl;
-            selected_items_pnl = itmpnl;
+            //selected_items_pnl = itmpnl;
             item_id = count;
 
             lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
@@ -1501,13 +1514,13 @@ namespace KMDIWinDoorsCS
         }
 
         Label itemselected = null;
-        Panel selected_items_pnl = null;
+        ItemControl selected_items_pnl = null;
         int item_id;
         private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             bool save = false;
             Label lbl = (Label)sender;
-            selected_items_pnl = (Panel)lbl.Parent;
+            selected_items_pnl = (ItemControl)lbl.Parent;
             //int loc_framecntr = 0,
             //    loc_cpnlcount = 0,
             //    loc_mulcount = 0,
@@ -1539,7 +1552,7 @@ namespace KMDIWinDoorsCS
                 UppdateDictionaries();
 
                 Label lbl2 = new Label();
-                lbl2 = itemsLblSearch("lbldesc_");
+                lbl2 = itemsLblSearch("lbldesc");
                 lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
 
                 saveToolStripButton_Click(sender, e);
@@ -1551,9 +1564,9 @@ namespace KMDIWinDoorsCS
             trackzoom = false;
             itemselected.ForeColor = Color.Black;
 
-            string lblname = lbl.Name;
+            string lblname = lbl.Tag.ToString();
             //int indxOf_lblname = lblname.IndexOf("m");
-            string getnum_lblname = lblname.Substring(8, lbl.Name.Length - 8);
+            string getnum_lblname = lblname.Replace("Item_","");
             item_id = Convert.ToInt32(getnum_lblname);
 
             string WxH = lbl.AccessibleDescription.Replace(" ", "");
@@ -1599,14 +1612,31 @@ namespace KMDIWinDoorsCS
         {
             Label lbl = new Label();
 
-            var lblcoll = csfunc.GetAll(pnlItems, typeof(Label), searchstr);
+            foreach (ItemControl item in pnlItems.Controls)
+            {
+                if (item.Tag.ToString() == flpMain.Tag.ToString())
+                {
+                    if (searchstr == "lbldesc")
+                    {
+                        lbl = item.lbl_desc;
+                    }
+                    else if (searchstr == "lbldimension")
+                    {
+                        lbl = item.lbl_dimension;
+                    }
+                }
+            }
+            
+
+            /*var lblcoll = csfunc.GetAll(pnlItems, typeof(Label), searchstr);
             foreach (Label ctrl in lblcoll)
             {
                 if (ctrl.Tag.ToString() == flpMain.Tag.ToString())
                 {
                     lbl = ctrl;
                 }
-            }
+            }*/
+
             return lbl;
         }
 
@@ -2338,7 +2368,7 @@ namespace KMDIWinDoorsCS
                 fstatus = "";
 
                 Label lbl = new Label();
-                lbl = itemsLblSearch("lbldesc_");
+                lbl = itemsLblSearch("lbldesc");
                 lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
             }
 
@@ -3163,13 +3193,13 @@ namespace KMDIWinDoorsCS
                     string flptag = flpMain.Tag.ToString();
                     string lastnum = flptag.Substring(flptag.Length - 1);
                     Label lbl = new Label();
-                    lbl = itemsLblSearch("lbldimension_" + lastnum);
+                    lbl = itemsLblSearch("lbldimension");
                     lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
-                    Label lblitm = new Label();
-                    lblitm = itemsLblSearch("lbl_item" + lastnum);
-                    lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-                    lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                    //Label lblitm = new Label();
+                    //lblitm = itemsLblSearch("lbl_item" + lastnum);
+                    //lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                    //lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     
                     flpMain.Invalidate();
                     flpMain2.Invalidate();
@@ -3338,7 +3368,7 @@ namespace KMDIWinDoorsCS
 
             foreach (var item in GetItem())
             {
-                frm.lbl_ItemName.Text = item.ItemName;
+                //frm.lbl_ItemName.Text = item.ItemName;
 
             }
             frm.ShowDialog();
@@ -3661,11 +3691,13 @@ namespace KMDIWinDoorsCS
 
             //Panel pnl = new Panel();
             //pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
-            pnlItems.Controls.Add(CreateItemControl("Item", 
-                                                    pnl_cntr, 
-                                                    flpMain.Width + " x " + flpMain.Height,
-                                                    profiletype, 
-                                                    visibility));
+            ItemControl itm = CreateItemControl("Item",
+                                                pnl_cntr,
+                                                flpMain.Width + " x " + flpMain.Height,
+                                                profiletype,
+                                                visibility);
+            pnlItems.Controls.Add(itm);
+            itm.BringToFront();
             //pnlItems.Controls.Add(pnl);
             //pnl.BringToFront();
             pnlItems.VerticalScroll.Value = pnlItems.VerticalScroll.Maximum;
@@ -3805,22 +3837,32 @@ namespace KMDIWinDoorsCS
             Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
             flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, flpMain2.Size.Width, flpMain2.Size.Height));
 
-            Size thumbnailSize = GetThumbnailSize(bm);
+            //Size thumbnailSize = GetThumbnailSize(bm);
 
             // Get thumbnail.
-            Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
-                  thumbnailSize.Height, null, IntPtr.Zero);
+            //Image thumbnail = bm.GetThumbnailImage(thumbnailSize.Width,
+            //      thumbnailSize.Height, null, IntPtr.Zero);
 
             if (flpMain2.Tag != null)
             {
-                var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
+                foreach (ItemControl item in pnlItems.Controls)
+                {
+                    if (item.Tag.ToString() == flpMain2.Tag.ToString())
+                    {
+                        item.pbox_itemImage.Image = bm;
+                        //string filename = Application.StartupPath + @"\" + item.Tag.ToString() + "2.png";
+                        //bm.Save(filename);
+                    }
+                }
+
+                /*var pbxcoll = csfunc.GetAll(pnlItems, typeof(PictureBox), flpMain2.Tag.ToString());
                 foreach (PictureBox ctrl in pbxcoll)
                 {
                     ctrl.Image = thumbnail;
                     //ctrl.Image = bm;
                     //string filename = Application.StartupPath + @"\" + ctrl.Name + ".png";
                     //thumbnail.Save(filename);
-                }
+                }*/
             }
         }
 
