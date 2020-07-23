@@ -52,6 +52,9 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MetroFramework">
+      <HintPath>..\..\LatestV2\latestWindowsApplication7\WindowsApplication7\bin\Debug\MetroFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -67,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\csFunctions.cs" />
+    <Compile Include="UserControls\CustomLbl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomLbl.Designer.cs">
+      <DependentUpon>CustomLbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dataset\dsWindoor.cs">
       <DependentUpon>dsWindoor.xsd</DependentUpon>
     </Compile>
@@ -125,6 +134,9 @@
     <Compile Include="UserControls\ViewItemsControl.Designer.cs">
       <DependentUpon>ViewItemsControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\CustomLbl.resx">
+      <DependentUpon>CustomLbl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\frmAutoCreateSliding.resx">
       <DependentUpon>frmAutoCreateSliding.cs</DependentUpon>
     </EmbeddedResource>

@@ -22,6 +22,10 @@ namespace KMDIWinDoorsCS
             public string ItemName { get; set; }
             public string ItemDimension { get; set; }
             public string ItemDesc { get; set; }
+            public Image ItemImage { get; set; }
+            public bool ItemVisibility { get; set; }
+            public string ItemProfile { get; set; }
+            public string ItemID { get; set; }
         }
 
         public Item GetFillItem()
@@ -30,7 +34,11 @@ namespace KMDIWinDoorsCS
             {
                 ItemName = lbl_item.Text,
                 ItemDimension = lbl_dimension.Text,
-                ItemDesc = lbl_desc.Text
+                ItemDesc = lbl_desc.Text,
+                ItemImage = pbox_itemImage.Image,
+                ItemVisibility = this.Visible,
+                ItemProfile = this.AccessibleDescription,
+                ItemID = (string)this.Tag
             };
         }
     }

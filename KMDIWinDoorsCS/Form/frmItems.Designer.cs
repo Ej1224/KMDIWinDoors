@@ -125,7 +125,7 @@
             this.MinimizeBox = false;
             this.Name = "frmItems";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "View Items";
             this.Load += new System.EventHandler(this.frmItems_Load);
             this.pnlBase.ResumeLayout(false);

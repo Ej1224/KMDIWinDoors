@@ -3365,12 +3365,21 @@ namespace KMDIWinDoorsCS
         private void itemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmItems frm = new frmItems();
+            IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
 
+            int i = 0;
             foreach (var item in GetItem())
             {
-                //frm.lbl_ItemName.Text = item.ItemName;
+                List<object> item_info = new List<object>();
+                item_info.Add(item.ItemName);
+                item_info.Add(item.ItemDimension);
+                item_info.Add(item.ItemDesc);
+                item_info.Add(item.ItemImage);
 
+                dict_items.Add(i, item_info);
+                i++;
             }
+            frm.dict_items = dict_items;
             frm.ShowDialog();
         }
         
@@ -4179,23 +4188,39 @@ namespace KMDIWinDoorsCS
                         inside_item = true;
                     }
 
-                    string itemname = lstDragOrder[i].Replace(" >> ", "");
-                    var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
-                    foreach (Panel ctrl in c)
+                    string item_ID = lstDragOrder[i].Replace(" >> ", "");
+                    foreach (var item in GetItem())
                     {
-                        if (itemname == ctrl.Name)
+                        if (item_ID == item.ItemID)
                         {
-                            string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
+                            string WxH = item.ItemDimension.Replace(" ","");
                             string[] dimension = WxH.Split('x');
 
                             wndr_content.Add("(");
-                            wndr_content.Add(ctrl.Name);
+                            wndr_content.Add(item.ItemID);
                             wndr_content.Add("FWidth: " + dimension[0]);
                             wndr_content.Add("FHeight: " + dimension[1]);
-                            wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
-                            wndr_content.Add("FStatus: " + ctrl.Visible);
+                            wndr_content.Add("FProfile: " + item.ItemProfile);
+                            wndr_content.Add("FStatus: " + item.ItemVisibility);
                         }
                     }
+
+                    //var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
+                    //foreach (Panel ctrl in c)
+                    //{
+                    //    if (itemname == ctrl.Name)
+                    //    {
+                    //        string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
+                    //        string[] dimension = WxH.Split('x');
+
+                    //        wndr_content.Add("(");
+                    //        wndr_content.Add(ctrl.Name);
+                    //        wndr_content.Add("FWidth: " + dimension[0]);
+                    //        wndr_content.Add("FHeight: " + dimension[1]);
+                    //        wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
+                    //        wndr_content.Add("FStatus: " + ctrl.Visible);
+                    //    }
+                    //}
 
                     if (i == lstDragOrder.Count - 1)
                     {

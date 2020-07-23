@@ -17,14 +17,21 @@ namespace KMDIWinDoorsCS
             InitializeComponent();
         }
 
+        public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
+
         private void frmItems_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 3; i++)
+            foreach (KeyValuePair<int, List<object>> items in dict_items)
             {
-                ViewItemsControl vItm = new ViewItemsControl();
-                vItm.Dock = DockStyle.Top;
-                pnlFill.Controls.Add(vItm);
+                ViewItemsControl itmctrl = new ViewItemsControl();
+                itmctrl.ItemName = (string)items.Value[0];
+                itmctrl.ItemDesc = (string)items.Value[1] + "\n" + (string)items.Value[2];
+                itmctrl.ItemImage = (Image)items.Value[3];
+                itmctrl.Dock = DockStyle.Top;
+                pnlFill.Controls.Add(itmctrl);
             }
+            this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2, 0);
+            this.Height = Screen.PrimaryScreen.WorkingArea.Height;
         }
     }
 }
