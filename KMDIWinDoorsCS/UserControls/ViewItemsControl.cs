@@ -26,9 +26,9 @@ namespace KMDIWinDoorsCS
         {
             //lbl_itemname.Text = ItemName;
             //lbl_desc.Text = ItemDesc;
-            lbl_Price.Text = ItemPrice.ToString();
-            lbl_NetPrice.Text = ItemNetPrice.ToString();
-            lbl_Discount.Text = ItemDiscount.ToString();
+            //lbl_Price.Text = ItemPrice.ToString();
+            //lbl_NetPrice.Text = ItemNetPrice.ToString();
+            //lbl_Discount.Text = ItemDiscount.ToString();
             //lbl_Qty.Text = ItemQuantity.ToString();
             pbox_image.Image = ItemImage;
         }

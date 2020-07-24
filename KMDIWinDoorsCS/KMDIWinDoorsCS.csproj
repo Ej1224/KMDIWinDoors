@@ -70,11 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\csFunctions.cs" />
-    <Compile Include="UserControls\CustomLbl.cs">
+    <Compile Include="UserControls\CustomLblNum.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CustomLbl.Designer.cs">
-      <DependentUpon>CustomLbl.cs</DependentUpon>
+    <Compile Include="UserControls\CustomLblNum.Designer.cs">
+      <DependentUpon>CustomLblNum.cs</DependentUpon>
     </Compile>
     <Compile Include="Dataset\dsWindoor.cs">
       <DependentUpon>dsWindoor.xsd</DependentUpon>
@@ -134,8 +134,8 @@
     <Compile Include="UserControls\ViewItemsControl.Designer.cs">
       <DependentUpon>ViewItemsControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UserControls\CustomLbl.resx">
-      <DependentUpon>CustomLbl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\CustomLblNum.resx">
+      <DependentUpon>CustomLblNum.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frmAutoCreateSliding.resx">
       <DependentUpon>frmAutoCreateSliding.cs</DependentUpon>

@@ -38,12 +38,14 @@
             this.lbl_customLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_customLbl.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbl_customLbl.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_customLbl.Location = new System.Drawing.Point(0, 0);
             this.lbl_customLbl.Name = "lbl_customLbl";
             this.lbl_customLbl.Size = new System.Drawing.Size(150, 150);
             this.lbl_customLbl.TabIndex = 0;
-            this.lbl_customLbl.Text = "custom_label";
+            this.lbl_customLbl.Text = "0";
+            this.lbl_customLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.lbl_customLbl.DoubleClick += new System.EventHandler(this.lbl_customLbl_DoubleClick);
             // 
             // num_CustomNum
@@ -51,11 +53,13 @@
             this.num_CustomNum.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_CustomNum.DecimalPlaces = 2;
             this.num_CustomNum.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.num_CustomNum.Location = new System.Drawing.Point(0, 0);
             this.num_CustomNum.Name = "num_CustomNum";
             this.num_CustomNum.Size = new System.Drawing.Size(150, 25);
             this.num_CustomNum.TabIndex = 1;
+            this.num_CustomNum.ThousandsSeparator = true;
             this.num_CustomNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_CustomNum_KeyDown);
             // 
             // CustomLbl
