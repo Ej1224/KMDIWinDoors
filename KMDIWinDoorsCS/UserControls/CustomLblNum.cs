@@ -27,6 +27,15 @@ namespace KMDIWinDoorsCS
             get { return has_decimal; }
             set { has_decimal = value; }
         }
+
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public decimal Value
+        {
+            get { return num_CustomNum.Value; }
+            set { num_CustomNum.Value = value; }
+        }
+
         private void CustomLbl_Load(object sender, EventArgs e)
         {
             num_CustomNum.Maximum = decimal.MaxValue;
@@ -64,6 +73,18 @@ namespace KMDIWinDoorsCS
                 {
                     lbl_customLbl.Text = num_CustomNum.Value.ToString();
                 }
+            }
+        }
+        [Browsable(true)]
+        [Category("Action")]
+        [Description("Invoked when user changes value")]
+        public event EventHandler numValueChanged;
+
+        protected void num_ValueChanged(object sender, EventArgs e)
+        {
+            if (this.numValueChanged != null)
+            {
+                numValueChanged?.Invoke(this, e);
             }
         }
     }

@@ -60,6 +60,7 @@
             this.num_CustomNum.Size = new System.Drawing.Size(150, 25);
             this.num_CustomNum.TabIndex = 1;
             this.num_CustomNum.ThousandsSeparator = true;
+            this.num_CustomNum.ValueChanged += new System.EventHandler(this.num_ValueChanged);
             this.num_CustomNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.num_CustomNum_KeyDown);
             // 
             // CustomLbl

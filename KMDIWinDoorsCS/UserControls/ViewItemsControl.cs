@@ -18,14 +18,25 @@ namespace KMDIWinDoorsCS
         }
 
         public string ItemName, ItemDesc;
-        public decimal ItemPrice, ItemNetPrice, ItemDiscount;
+        public decimal ItemPrice, ItemDiscount;
         public int ItemQuantity;
         public Image ItemImage;
 
+        private void cstm_numValueChanged(object sender, EventArgs e)
+        {
+            ItemQuantity = (int)cstm_qty.Value;
+            ItemPrice = cstm_Price.Value;
+            ItemDiscount = cstm_Discount.Value / 100;
+
+            decimal DiscountPrice = (ItemPrice * ItemQuantity) * ItemDiscount;
+
+            lbl_NetPrice.Text = ((ItemPrice * ItemQuantity) - DiscountPrice).ToString("N2");
+        }
+
         private void ViewItemsControl_Load(object sender, EventArgs e)
         {
-            //lbl_itemname.Text = ItemName;
-            //lbl_desc.Text = ItemDesc;
+            tbox_lblname.Text = ItemName;
+            rtbox_desc.Text = ItemDesc;
             //lbl_Price.Text = ItemPrice.ToString();
             //lbl_NetPrice.Text = ItemNetPrice.ToString();
             //lbl_Discount.Text = ItemDiscount.ToString();
