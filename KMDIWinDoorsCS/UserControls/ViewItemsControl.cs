@@ -17,7 +17,17 @@ namespace KMDIWinDoorsCS
             InitializeComponent();
         }
 
-        public string ItemName, ItemDesc;
+        public class ItemRow
+        {
+            public string rowItemID { get; set; }
+            public string rowItemName { get; set; }
+            public string rowItemDesc { get; set; }
+            public int rowItemQty { get; set; }
+            public decimal rowItemPrice { get; set; }
+            public decimal rowItemDiscount { get; set; }
+        }
+
+        public string ItemName, ItemDesc, ItemID;
         public decimal ItemPrice, ItemDiscount;
         public int ItemQuantity;
         public Image ItemImage;
@@ -37,12 +47,23 @@ namespace KMDIWinDoorsCS
         {
             tbox_lblname.Text = ItemName;
             rtbox_desc.Text = ItemDesc;
-            //lbl_Price.Text = ItemPrice.ToString();
-            //lbl_NetPrice.Text = ItemNetPrice.ToString();
-            //lbl_Discount.Text = ItemDiscount.ToString();
-            //lbl_Qty.Text = ItemQuantity.ToString();
+            cstm_Price.Value = ItemPrice;
+            cstm_Discount.Value = ItemDiscount;
+            cstm_qty.Value = ItemQuantity;
             pbox_image.Image = ItemImage;
         }
 
+        public ItemRow GetFilledRow()
+        {
+            return new ItemRow()
+            {
+                rowItemID = ItemID,
+                rowItemName = tbox_lblname.Text,
+                rowItemDesc = rtbox_desc.Text,
+                rowItemPrice = cstm_Price.Value,
+                rowItemDiscount = cstm_Discount.Value,
+                rowItemQty = (int)cstm_qty.Value
+            };
+        }
     }
 }

@@ -1390,6 +1390,9 @@ namespace KMDIWinDoorsCS
             itm.Visible = itmpnl_visibility;
             itm.Dock = DockStyle.Top;
             itm.Tag = id;
+            itm.itmID = id;
+            itm.itmDimension = dimension;
+            itm.itmDesc = description;
 
             lblname = itm.lbl_item;
             lblname.AccessibleDescription = dimension;
@@ -3375,6 +3378,7 @@ namespace KMDIWinDoorsCS
                 item_info.Add(item.ItemDimension);
                 item_info.Add(item.ItemDesc);
                 item_info.Add(item.ItemImage);
+                item_info.Add(item.ItemID);
 
                 dict_items.Add(i, item_info);
                 i++;

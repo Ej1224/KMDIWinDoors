@@ -17,15 +17,22 @@ namespace KMDIWinDoorsCS
             InitializeComponent();
         }
 
+        public string itmName, itmDesc, itmProfile, itmDimension, itmID;
+        public decimal itmPrice, itmDiscount;
+        public int itmQuantity;
+
         public class Item
         {
             public string ItemName { get; set; }
             public string ItemDimension { get; set; }
             public string ItemDesc { get; set; }
-            public Image ItemImage { get; set; }
-            public bool ItemVisibility { get; set; }
             public string ItemProfile { get; set; }
             public string ItemID { get; set; }
+            public Image ItemImage { get; set; }
+            public bool ItemVisibility { get; set; }
+            public int ItemQty { get; set; }
+            public decimal ItemPrice { get; set; }
+            public decimal ItemDiscount { get; set; }
         }
 
         public Item GetFillItem()
@@ -37,9 +44,18 @@ namespace KMDIWinDoorsCS
                 ItemDesc = lbl_desc.Text,
                 ItemImage = pbox_itemImage.Image,
                 ItemVisibility = this.Visible,
-                ItemProfile = this.AccessibleDescription,
+                ItemProfile = itmProfile,
                 ItemID = (string)this.Tag
             };
+        }
+
+        public Item SetValue
+        {
+            set
+            {
+                lbl_item.Text = value.ItemName;
+                lbl_desc.Text = value.ItemDesc;
+            }
         }
     }
 }

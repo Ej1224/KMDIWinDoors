@@ -56,6 +56,7 @@ namespace KMDIWinDoorsCS
             num_CustomNum.Focus();
 
             num_CustomNum.Value = Convert.ToDecimal(lbl_customLbl.Text);
+            num_CustomNum.Select(0, num_CustomNum.Text.Length);
         }
 
         private void num_CustomNum_KeyDown(object sender, KeyEventArgs e)
