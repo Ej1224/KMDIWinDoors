@@ -35,8 +35,11 @@
             this.cstm_qty = new KMDIWinDoorsCS.CustomLbl();
             this.cstm_Price = new KMDIWinDoorsCS.CustomLbl();
             this.cstm_Discount = new KMDIWinDoorsCS.CustomLbl();
+            this.tbox_Dimension = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.rtbox_desc = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbox_image)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbox_lblname
@@ -80,6 +83,11 @@
             this.cstm_qty.Name = "cstm_qty";
             this.cstm_qty.Size = new System.Drawing.Size(75, 165);
             this.cstm_qty.TabIndex = 10;
+            this.cstm_qty.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.cstm_qty.numValueChanged += new System.EventHandler(this.cstm_numValueChanged);
             // 
             // cstm_Price
@@ -90,6 +98,11 @@
             this.cstm_Price.Name = "cstm_Price";
             this.cstm_Price.Size = new System.Drawing.Size(119, 165);
             this.cstm_Price.TabIndex = 13;
+            this.cstm_Price.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.cstm_Price.numValueChanged += new System.EventHandler(this.cstm_numValueChanged);
             // 
             // cstm_Discount
@@ -100,20 +113,45 @@
             this.cstm_Discount.Name = "cstm_Discount";
             this.cstm_Discount.Size = new System.Drawing.Size(83, 165);
             this.cstm_Discount.TabIndex = 12;
+            this.cstm_Discount.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.cstm_Discount.numValueChanged += new System.EventHandler(this.cstm_numValueChanged);
+            // 
+            // tbox_Dimension
+            // 
+            this.tbox_Dimension.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbox_Dimension.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbox_Dimension.Location = new System.Drawing.Point(0, 0);
+            this.tbox_Dimension.Name = "tbox_Dimension";
+            this.tbox_Dimension.ReadOnly = true;
+            this.tbox_Dimension.Size = new System.Drawing.Size(203, 25);
+            this.tbox_Dimension.TabIndex = 16;
+            this.tbox_Dimension.Text = "3000w x 3200h";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.rtbox_desc);
+            this.panel1.Controls.Add(this.tbox_Dimension);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(281, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(203, 165);
+            this.panel1.TabIndex = 17;
             // 
             // rtbox_desc
             // 
             this.rtbox_desc.AcceptsTab = true;
-            this.rtbox_desc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.rtbox_desc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbox_desc.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbox_desc.Location = new System.Drawing.Point(281, 0);
+            this.rtbox_desc.Location = new System.Drawing.Point(0, 25);
             this.rtbox_desc.Name = "rtbox_desc";
             this.rtbox_desc.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.rtbox_desc.Size = new System.Drawing.Size(203, 165);
-            this.rtbox_desc.TabIndex = 15;
-            this.rtbox_desc.Text = "SD1\n3000w x 3200h\nHD DS-DM Sliding Door 1F/1S\nw/ Aluminum Pull Handle\n10mm Temp. " +
-    "Clear";
+            this.rtbox_desc.Size = new System.Drawing.Size(203, 140);
+            this.rtbox_desc.TabIndex = 17;
+            this.rtbox_desc.Text = "SD1\nHD DS-DM Sliding Door 1F/1S\nw/ Aluminum Pull Handle\n10mm Temp. Clear";
             // 
             // ViewItemsControl
             // 
@@ -122,7 +160,7 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.pbox_image);
             this.Controls.Add(this.tbox_lblname);
-            this.Controls.Add(this.rtbox_desc);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.cstm_qty);
             this.Controls.Add(this.cstm_Price);
             this.Controls.Add(this.cstm_Discount);
@@ -131,6 +169,8 @@
             this.Size = new System.Drawing.Size(880, 165);
             this.Load += new System.EventHandler(this.ViewItemsControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbox_image)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,6 +183,8 @@
         private CustomLbl cstm_Discount;
         private CustomLbl cstm_Price;
         private System.Windows.Forms.Label lbl_NetPrice;
+        private System.Windows.Forms.TextBox tbox_Dimension;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RichTextBox rtbox_desc;
     }
 }

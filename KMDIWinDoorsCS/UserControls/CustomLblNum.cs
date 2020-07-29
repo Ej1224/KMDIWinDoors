@@ -36,6 +36,13 @@ namespace KMDIWinDoorsCS
             set { num_CustomNum.Value = value; }
         }
 
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public string Text
+        {
+            set { lbl_customLbl.Text = value; }
+        }
+
         private void CustomLbl_Load(object sender, EventArgs e)
         {
             num_CustomNum.Maximum = decimal.MaxValue;
@@ -61,7 +68,7 @@ namespace KMDIWinDoorsCS
 
         private void num_CustomNum_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Enter)
             {
                 lbl_customLbl.BringToFront();
                 num_CustomNum.SendToBack();

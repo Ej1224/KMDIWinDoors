@@ -1375,6 +1375,24 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        public void SetItemControl()
+        {
+            foreach (KeyValuePair<int, List<object>> items in dict_items)
+            {
+                foreach (var itemctrl in pnlItems.Controls.OfType<ItemControl>())
+                {
+                    if ((string)items.Value[4] == itemctrl.itmID)
+                    {
+                        itemctrl.itmName = itemctrl.lbl_item.Text = (string)items.Value[0];
+                        itemctrl.itmDesc = itemctrl.lbl_desc.Text = (string)items.Value[2];
+                        itemctrl.itmQuantity = (int)items.Value[5];
+                        itemctrl.itmPrice = (decimal)items.Value[6];
+                        itemctrl.itmDiscount = (decimal)items.Value[7];
+                    }
+                }
+            }
+        }
+
         private ItemControl CreateItemControl(string name,
                                               int count,
                                               string dimension,
@@ -3365,10 +3383,22 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
+        /*
+         * [0] = Item Name
+         * [1] = Item Dimension
+         * [2] = Item Description
+         * [3] = Item Image
+         * [4] = Item ID
+         * [5] = Item Qty
+         * [6] = Item Price
+         * [7] = Item Discount
+         */
+
         private void itemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmItems frm = new frmItems();
-            IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
+            dict_items.Clear();
 
             int i = 0;
             foreach (var item in GetItem())
@@ -3379,12 +3409,16 @@ namespace KMDIWinDoorsCS
                 item_info.Add(item.ItemDesc);
                 item_info.Add(item.ItemImage);
                 item_info.Add(item.ItemID);
+                item_info.Add(item.ItemQty);
+                item_info.Add(item.ItemPrice);
+                item_info.Add(item.ItemDiscount);
 
                 dict_items.Add(i, item_info);
                 i++;
             }
             frm.dict_items = dict_items;
             frm.ShowDialog();
+            SetItemControl();
         }
         
         private void pnlItems_ControlChanged(object sender, ControlEventArgs e)
@@ -3398,7 +3432,7 @@ namespace KMDIWinDoorsCS
                 itemsToolStripMenuItem.Enabled = false;
             }
         }
-
+        
         int static_wd = 0, static_ht = 0;
         bool trackzoom;
         //bool checker;

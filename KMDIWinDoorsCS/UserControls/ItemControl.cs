@@ -45,17 +45,11 @@ namespace KMDIWinDoorsCS
                 ItemImage = pbox_itemImage.Image,
                 ItemVisibility = this.Visible,
                 ItemProfile = itmProfile,
-                ItemID = (string)this.Tag
+                ItemID = (string)this.Tag,
+                ItemQty = itmQuantity,
+                ItemPrice = itmPrice,
+                ItemDiscount = itmDiscount
             };
-        }
-
-        public Item SetValue
-        {
-            set
-            {
-                lbl_item.Text = value.ItemName;
-                lbl_desc.Text = value.ItemDesc;
-            }
         }
     }
 }

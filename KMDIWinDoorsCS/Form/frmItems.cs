@@ -18,6 +18,16 @@ namespace KMDIWinDoorsCS
         }
 
         public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
+        /*
+         * [0] = Item Name
+         * [1] = Item Dimension
+         * [2] = Item Description
+         * [3] = Item Image
+         * [4] = Item ID
+         * [5] = Item Qty
+         * [6] = Item Price
+         * [7] = Item Discount
+         */
 
         private void frmItems_Load(object sender, EventArgs e)
         {
@@ -25,9 +35,14 @@ namespace KMDIWinDoorsCS
             {
                 ViewItemsControl itmctrl = new ViewItemsControl();
                 itmctrl.ItemName = (string)items.Value[0];
-                itmctrl.ItemDesc = (string)items.Value[1] + "\n" + (string)items.Value[2];
+                itmctrl.ItemDimension = (string)items.Value[1];
+                itmctrl.ItemDesc = (string)items.Value[2];
                 itmctrl.ItemImage = (Image)items.Value[3];
                 itmctrl.ItemID = (string)items.Value[4];
+                itmctrl.ItemQuantity = (int)items.Value[5];
+                itmctrl.ItemPrice = (decimal)items.Value[6];
+                itmctrl.ItemDiscount = (decimal)items.Value[7];
+
                 itmctrl.Dock = DockStyle.Top;
                 pnlFill.Controls.Add(itmctrl);
             }
@@ -38,18 +53,26 @@ namespace KMDIWinDoorsCS
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             frmMain2 frm = new frmMain2();
+            dict_items.Clear();
 
-            foreach (var item in frm.pnlItems.Controls.OfType<ItemControl>())
+            int i = 0;
+            foreach (var row in GetRow())
             {
-                foreach (var row in GetRow())
-                {
-                    if (item.itmID == row.rowItemID)
-                    {
-                        item.itmName = row.rowItemName;
-                        item.itmDesc = row.rowItemDesc;
-                    }
-                }
+                List<object> item_info = new List<object>();
+                item_info.Add(row.rowItemName);
+                item_info.Add(row.rowItemDimension);
+                item_info.Add(row.rowItemDesc);
+                item_info.Add(row.rowItemImage);
+                item_info.Add(row.rowItemID);
+                item_info.Add(row.rowItemQty);
+                item_info.Add(row.rowItemPrice);
+                item_info.Add(row.rowItemDiscount);
+
+                dict_items.Add(i, item_info);
+                i++;
             }
+
+            frm.dict_items = dict_items;
         }
 
         public IEnumerable<ViewItemsControl.ItemRow> GetRow()
@@ -57,14 +80,6 @@ namespace KMDIWinDoorsCS
             foreach (var item in pnlFill.Controls.OfType<ViewItemsControl>())
             {
                 yield return item.GetFilledRow();
-            }
-        }
-
-        public IEnumerable<ItemControl.Item> SetRow()
-        {
-            foreach (var item in pnlFill.Controls.OfType<ItemControl>())
-            {
-                item.SetValue.ItemDesc = "";
             }
         }
     }
