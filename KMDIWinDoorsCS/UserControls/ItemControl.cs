@@ -20,6 +20,7 @@ namespace KMDIWinDoorsCS
         public string itmName, itmDesc, itmProfile, itmDimension, itmID;
         public decimal itmPrice, itmDiscount;
         public int itmQuantity;
+        public bool itmVisible;
 
         public class Item
         {
@@ -43,9 +44,9 @@ namespace KMDIWinDoorsCS
                 ItemDimension = lbl_dimension.Text,
                 ItemDesc = lbl_desc.Text,
                 ItemImage = pbox_itemImage.Image,
-                ItemVisibility = this.Visible,
+                ItemVisibility = itmVisible,
                 ItemProfile = itmProfile,
-                ItemID = (string)this.Tag,
+                ItemID = itmID,
                 ItemQty = itmQuantity,
                 ItemPrice = itmPrice,
                 ItemDiscount = itmDiscount

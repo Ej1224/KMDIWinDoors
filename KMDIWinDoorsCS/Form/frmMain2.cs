@@ -762,10 +762,10 @@ namespace KMDIWinDoorsCS
 
         private void flpProp_SizeChanged(object sender, EventArgs e)
         {
-            FlowLayoutPanel flp = (FlowLayoutPanel)sender;
-            Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc");
-            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
+            itemControlsSearch("lbldesc");
+            //ItemControl itm = new ItemControl();
+            //itm = itemControlsSearch();
+            //itm.lbl_desc.Text = UpdateLblDescription(itm.itmProfile);
         }
 
         public void rd_CheckChanged(object sender, EventArgs e)
@@ -846,10 +846,11 @@ namespace KMDIWinDoorsCS
                 }
             }
 
-            FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
-            Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc");
-            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
+            itemControlsSearch("lbldesc");
+            //FlowLayoutPanel flp = (FlowLayoutPanel)rd.Parent;
+            //Label lbl = new Label();
+            //lbl = itemControlsSearch("lbldesc");
+            //lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
             flpMain.Invalidate();
@@ -1149,10 +1150,12 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
 
-            FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
-            Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc");
-            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
+            itemControlsSearch("lbldesc");
+
+            //FlowLayoutPanel flp = (FlowLayoutPanel)bnum.Parent.Parent;
+            //Label lbl = new Label();
+            //lbl = itemControlsSearch("lbldesc");
+            //lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
             flpMain.Invalidate();
@@ -1353,10 +1356,12 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
             }
 
-            FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
-            Label lbl = new Label();
-            lbl = itemsLblSearch("lbldesc");
-            lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
+            itemControlsSearch("lbldesc");
+
+            //FlowLayoutPanel flp = (FlowLayoutPanel)cbx.Parent.Parent;
+            //Label lbl = new Label();
+            //lbl = itemControlsSearch("lbldesc");
+            //lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
 
             trackzoom = false;
             flpMain.Invalidate();
@@ -1397,25 +1402,28 @@ namespace KMDIWinDoorsCS
                                               int count,
                                               string dimension,
                                               string description,
+                                              decimal price,
+                                              decimal discount,
+                                              int qty,
                                               bool itmpnl_visibility = true)
         {
             string id = name + "_" + count;
             Label lblname, desc, wxh;
 
             ItemControl itm = new ItemControl();
-            itm.AccessibleDefaultActionDescription = dimension;
-            itm.AccessibleDescription = description;
             itm.Visible = itmpnl_visibility;
+            itm.itmVisible = itmpnl_visibility;
             itm.Dock = DockStyle.Top;
-            itm.Tag = id;
             itm.itmID = id;
             itm.itmDimension = dimension;
             itm.itmDesc = description;
+            itm.itmProfile = description;
+            itm.itmPrice = price;
+            itm.itmDiscount = discount;
+            itm.itmQuantity = qty;
 
             lblname = itm.lbl_item;
-            lblname.AccessibleDescription = dimension;
             lblname.Text = name + " " + count;
-            lblname.Tag = id;
             if (itemselected != null)
             {
                 itemselected.ForeColor = Color.Black;
@@ -1428,7 +1436,6 @@ namespace KMDIWinDoorsCS
             wxh.Text = dimension;
 
             desc = itm.lbl_desc;
-            desc.AccessibleDescription = description;
             desc.Text = description;
 
             return itm;
@@ -1572,11 +1579,14 @@ namespace KMDIWinDoorsCS
             {
                 UppdateDictionaries();
 
-                Label lbl2 = new Label();
-                lbl2 = itemsLblSearch("lbldesc");
-                lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
+                itemControlsSearch("lbldesc");
+
+                //Label lbl2 = new Label();
+                //lbl2 = itemControlsSearch("lbldesc");
+                //lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
 
                 saveToolStripButton_Click(sender, e);
+                pnlPropertiesBody.Enabled = true;
                 ToggleMode(false, true);
                 pnlMain.Enabled = true;
                 cmenuPanel.Enabled = true;
@@ -1585,12 +1595,12 @@ namespace KMDIWinDoorsCS
             trackzoom = false;
             itemselected.ForeColor = Color.Black;
 
-            string lblname = lbl.Tag.ToString();
+            string lblname = selected_items_pnl.itmID;
             //int indxOf_lblname = lblname.IndexOf("m");
             string getnum_lblname = lblname.Replace("Item_","");
             item_id = Convert.ToInt32(getnum_lblname);
 
-            string WxH = lbl.AccessibleDescription.Replace(" ", "");
+            string WxH = selected_items_pnl.itmDimension.Replace(" ", "");
             string[] dimension = WxH.Split('x');
 
             static_wd = Convert.ToInt32(dimension[0]);
@@ -1629,21 +1639,21 @@ namespace KMDIWinDoorsCS
 
         }
 
-        private Label itemsLblSearch(string searchstr)
+        private void itemControlsSearch(string searchstr)
         {
-            Label lbl = new Label();
-
             foreach (ItemControl item in pnlItems.Controls)
             {
-                if (item.Tag.ToString() == flpMain.Tag.ToString())
+                if (item.itmID == flpMain.Tag.ToString())
                 {
                     if (searchstr == "lbldesc")
                     {
-                        lbl = item.lbl_desc;
+                        item.lbl_desc.Text = UpdateLblDescription(item.itmProfile);
+                        //itemReturn = item.itmDesc;
                     }
                     else if (searchstr == "lbldimension")
                     {
-                        lbl = item.lbl_dimension;
+                        item.lbl_dimension.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                        //itemReturn = item.itmDimension;
                     }
                 }
             }
@@ -1657,8 +1667,6 @@ namespace KMDIWinDoorsCS
                     lbl = ctrl;
                 }
             }*/
-
-            return lbl;
         }
 
         private void UppdateDictionaries()
@@ -2085,7 +2093,7 @@ namespace KMDIWinDoorsCS
         }
 
         bool inside_item, inside_frame, inside_panel, inside_multi, inside_divider;
-        int fpwidth, fpheight, //for Profile
+        int fpwidth, fpheight, fqty, //for Profile
             frwidth, frheight, frwndr,
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
@@ -2094,6 +2102,7 @@ namespace KMDIWinDoorsCS
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
+        decimal fprice, fdiscount;
         DockStyle dok, multidok;
 
         private void AddPanel()
@@ -2388,9 +2397,11 @@ namespace KMDIWinDoorsCS
                 fptype = "";
                 fstatus = "";
 
-                Label lbl = new Label();
-                lbl = itemsLblSearch("lbldesc");
-                lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
+                itemControlsSearch("lbldesc");
+
+                //Label lbl = new Label();
+                //lbl = itemControlsSearch("lbldesc");
+                //lbl.Text = UpdateLblDescription(lbl.AccessibleDescription);
             }
 
             switch (inside_item)
@@ -2415,7 +2426,22 @@ namespace KMDIWinDoorsCS
                     else if (row_str.Contains("FStatus"))
                     {
                         fstatus = row_str.Remove(0, 9);
+                        fprice = Convert.ToDecimal(file_lines[row + 1].Remove(0, 8));
+                        fqty = Convert.ToInt32(file_lines[row + 2].Remove(0, 6));
+                        fdiscount = Convert.ToDecimal(file_lines[row + 3].Remove(0, 11));
                     }
+                    //else if (row_str.Contains("FPrice"))
+                    //{
+                    //    fprice = Convert.ToDecimal(row_str.Remove(0, 8));
+                    //}
+                    //else if (row_str.Contains("FQty"))
+                    //{
+                    //    fqty = Convert.ToInt32(row_str.Remove(0, 6));
+                    //}
+                    //else if (row_str.Contains("FDiscount"))
+                    //{
+                    //    fdiscount = Convert.ToDecimal(row_str.Remove(0, 11));
+                    //}
 
                     if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "")
                     {
@@ -3213,12 +3239,14 @@ namespace KMDIWinDoorsCS
                 {
                     string flptag = flpMain.Tag.ToString();
                     string lastnum = flptag.Substring(flptag.Length - 1);
-                    Label lbl = new Label();
-                    lbl = itemsLblSearch("lbldimension");
-                    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+
+                    itemControlsSearch("lbldimension");
+                    //Label lbl = new Label();
+                    //lbl = itemControlsSearch("lbldimension");
+                    //lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
                     //Label lblitm = new Label();
-                    //lblitm = itemsLblSearch("lbl_item" + lastnum);
+                    //lblitm = itemControlsSearch("lbl_item" + lastnum);
                     //lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     //lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     
@@ -3292,11 +3320,11 @@ namespace KMDIWinDoorsCS
                     string flptag = flpMain.Tag.ToString();
                     string lastnum = flptag.Substring(flptag.Length - 1);
                     Label lbl = new Label();
-                    lbl = itemsLblSearch("lbldimension_" + lastnum);
+                    lbl = itemControlsSearch("lbldimension_" + lastnum);
                     lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
                     Label lblitm = new Label();
-                    lblitm = itemsLblSearch("lbl_item" + lastnum);
+                    lblitm = itemControlsSearch("lbl_item" + lastnum);
                     lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
 
                     flpMain.Invalidate();
@@ -3346,8 +3374,15 @@ namespace KMDIWinDoorsCS
             {
                 if (MessageBox.Show(this, "Are you sure to delete " + itemselected.Text + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
+                    if (Text.Contains("*") == false)
+                    {
+                        Text += "*";
+                    }
+
                     selected_items_pnl.Visible = false;
-                    pnlPropertiesBody.Controls.Clear();
+                    selected_items_pnl.itmVisible = false;
+                    pnlPropertiesBody.Enabled = false;
+                    //pnlPropertiesBody.Controls.Clear();
                     selected_items_pnl = null;
                     
                     MessageBox.Show(this, "Please select another item.", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -3356,6 +3391,7 @@ namespace KMDIWinDoorsCS
                     pnlMain.Enabled = false;
                     cmenuPanel.Enabled = false;
                     pnlRight.Enabled = true;
+
                 }
             }
         }
@@ -3384,7 +3420,7 @@ namespace KMDIWinDoorsCS
         }
 
         public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
-        /*
+        /* Indexes of dict_items
          * [0] = Item Name
          * [1] = Item Dimension
          * [2] = Item Description
@@ -3700,34 +3736,6 @@ namespace KMDIWinDoorsCS
             flpMain.Size = new Size(Fwidth, Fheight);
             flpMain2.Size = new Size(Fwidth, Fheight);
 
-
-            //if (Fwidth > 500 || Fheight > 500)
-            //{
-            //    if (Fwidth > Fheight)
-            //    {
-            //        if ((Fwidth - Fheight) > 100)
-            //        {
-            //            flpMain2.Size = new Size(700, 500);
-            //        }
-            //    }
-            //    else if (Fheight > Fwidth)
-            //    {
-            //        if ((Fheight - Fwidth) > 100)
-            //        {
-            //            flpMain2.Size = new Size(500, 700);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        flpMain2.Size = new Size(500, 500);
-            //    }
-            //}
-            //else
-            //{
-            //    flpMain2.Size = new Size(Fwidth, Fheight);
-            //}
-
-
             static_wd = flpMain.Width;
             static_ht = flpMain.Height;
 
@@ -3742,6 +3750,9 @@ namespace KMDIWinDoorsCS
                                                 pnl_cntr,
                                                 flpMain.Width + " x " + flpMain.Height,
                                                 profiletype,
+                                                fprice,
+                                                fdiscount,
+                                                fqty,
                                                 visibility);
             pnlItems.Controls.Add(itm);
             itm.BringToFront();
@@ -3894,7 +3905,7 @@ namespace KMDIWinDoorsCS
             {
                 foreach (ItemControl item in pnlItems.Controls)
                 {
-                    if (item.Tag.ToString() == flpMain2.Tag.ToString())
+                    if (item.itmID == flpMain2.Tag.ToString())
                     {
                         item.pbox_itemImage.Image = bm;
                         //string filename = Application.StartupPath + @"\" + item.Tag.ToString() + "2.png";
@@ -4240,25 +4251,11 @@ namespace KMDIWinDoorsCS
                             wndr_content.Add("FHeight: " + dimension[1]);
                             wndr_content.Add("FProfile: " + item.ItemProfile);
                             wndr_content.Add("FStatus: " + item.ItemVisibility);
+                            wndr_content.Add("FPrice: " + item.ItemPrice);
+                            wndr_content.Add("FQty: " + item.ItemQty);
+                            wndr_content.Add("FDiscount: " + item.ItemDiscount);
                         }
                     }
-
-                    //var c = csfunc.GetAll(pnlItems, typeof(Panel), itemname);
-                    //foreach (Panel ctrl in c)
-                    //{
-                    //    if (itemname == ctrl.Name)
-                    //    {
-                    //        string WxH = ctrl.AccessibleDefaultActionDescription.Replace(" ", "");
-                    //        string[] dimension = WxH.Split('x');
-
-                    //        wndr_content.Add("(");
-                    //        wndr_content.Add(ctrl.Name);
-                    //        wndr_content.Add("FWidth: " + dimension[0]);
-                    //        wndr_content.Add("FHeight: " + dimension[1]);
-                    //        wndr_content.Add("FProfile: " + ctrl.AccessibleDescription);
-                    //        wndr_content.Add("FStatus: " + ctrl.Visible);
-                    //    }
-                    //}
 
                     if (i == lstDragOrder.Count - 1)
                     {
