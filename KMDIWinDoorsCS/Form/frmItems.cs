@@ -73,6 +73,7 @@ namespace KMDIWinDoorsCS
             }
 
             frm.dict_items = dict_items;
+
         }
 
         public IEnumerable<ViewItemsControl.ItemRow> GetRow()

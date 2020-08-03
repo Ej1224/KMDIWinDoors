@@ -109,6 +109,7 @@
             this.Controls.Add(this.pnl_itmbot_);
             this.Name = "ItemControl";
             this.Size = new System.Drawing.Size(166, 373);
+            this.Load += new System.EventHandler(this.ItemControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbox_itemImage)).EndInit();
             this.pnl_itmbot_.ResumeLayout(false);
             this.ResumeLayout(false);

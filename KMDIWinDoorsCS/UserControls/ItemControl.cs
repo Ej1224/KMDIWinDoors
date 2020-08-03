@@ -22,6 +22,14 @@ namespace KMDIWinDoorsCS
         public int itmQuantity;
         public bool itmVisible;
 
+        private void ItemControl_Load(object sender, EventArgs e)
+        {
+            this.Visible = itmVisible;
+            this.Dock = DockStyle.Top;
+            lbl_dimension.Text = itmDimension;
+            lbl_desc.Text = itmDesc;
+        }
+
         public class Item
         {
             public string ItemName { get; set; }

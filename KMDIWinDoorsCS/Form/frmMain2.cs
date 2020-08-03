@@ -762,10 +762,7 @@ namespace KMDIWinDoorsCS
 
         private void flpProp_SizeChanged(object sender, EventArgs e)
         {
-            itemControlsSearch("lbldesc");
-            //ItemControl itm = new ItemControl();
-            //itm = itemControlsSearch();
-            //itm.lbl_desc.Text = UpdateLblDescription(itm.itmProfile);
+            //itemControlsSearch("lbldesc");
         }
 
         public void rd_CheckChanged(object sender, EventArgs e)
@@ -1408,19 +1405,20 @@ namespace KMDIWinDoorsCS
                                               bool itmpnl_visibility = true)
         {
             string id = name + "_" + count;
-            Label lblname, desc, wxh;
+            Label lblname;
 
             ItemControl itm = new ItemControl();
-            itm.Visible = itmpnl_visibility;
+            //itm.Visible = itmpnl_visibility;
             itm.itmVisible = itmpnl_visibility;
-            itm.Dock = DockStyle.Top;
+            //itm.Dock = DockStyle.Top;
             itm.itmID = id;
             itm.itmDimension = dimension;
-            itm.itmDesc = description;
+            itm.itmDesc = fdesc;
             itm.itmProfile = description;
             itm.itmPrice = price;
             itm.itmDiscount = discount;
             itm.itmQuantity = qty;
+            //itm.itmDesc
 
             lblname = itm.lbl_item;
             lblname.Text = name + " " + count;
@@ -1432,11 +1430,11 @@ namespace KMDIWinDoorsCS
             item_id = count;
             lblname.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
 
-            wxh = itm.lbl_dimension;
-            wxh.Text = dimension;
+            //wxh = itm.lbl_dimension;
+            //wxh.Text = dimension;
 
-            desc = itm.lbl_desc;
-            desc.Text = description;
+            //desc = itm.lbl_desc;
+            //desc.Text = description;
 
             return itm;
         }
@@ -1639,34 +1637,29 @@ namespace KMDIWinDoorsCS
 
         }
 
+        bool autoDescription = true;
+
         private void itemControlsSearch(string searchstr)
         {
-            foreach (ItemControl item in pnlItems.Controls)
+            if (autoDescription)
             {
-                if (item.itmID == flpMain.Tag.ToString())
+                foreach (ItemControl item in pnlItems.Controls)
                 {
-                    if (searchstr == "lbldesc")
+                    if (item.itmID == flpMain.Tag.ToString())
                     {
-                        item.lbl_desc.Text = UpdateLblDescription(item.itmProfile);
-                        //itemReturn = item.itmDesc;
-                    }
-                    else if (searchstr == "lbldimension")
-                    {
-                        item.lbl_dimension.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-                        //itemReturn = item.itmDimension;
+                        if (searchstr == "lbldesc")
+                        {
+                            item.lbl_desc.Text = UpdateLblDescription(item.itmProfile);
+                            //itemReturn = item.itmDesc;
+                        }
+                        else if (searchstr == "lbldimension")
+                        {
+                            item.lbl_dimension.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                            //itemReturn = item.itmDimension;
+                        }
                     }
                 }
             }
-            
-
-            /*var lblcoll = csfunc.GetAll(pnlItems, typeof(Label), searchstr);
-            foreach (Label ctrl in lblcoll)
-            {
-                if (ctrl.Tag.ToString() == flpMain.Tag.ToString())
-                {
-                    lbl = ctrl;
-                }
-            }*/
         }
 
         private void UppdateDictionaries()
@@ -2078,6 +2071,7 @@ namespace KMDIWinDoorsCS
                             tsLbl_Loading.Text = "Finished";
                             ToggleMode(false,true);
                             tsLbl_Loading.Visible = true;
+                            autoDescription = true;
 
                             break;
                         default:
@@ -2098,7 +2092,7 @@ namespace KMDIWinDoorsCS
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
             divd_width, divd_height, divd_TabIndex; //for Divider
-        string framename = "", fptype = "", fstatus = "",
+        string framename = "", fptype = "", fstatus = "", fdesc = "",
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
@@ -2397,6 +2391,11 @@ namespace KMDIWinDoorsCS
                 fptype = "";
                 fstatus = "";
 
+                fprice = 0.0M;
+                fqty = 0;
+                fdiscount = 0.0M;
+                fdesc = "";
+
                 itemControlsSearch("lbldesc");
 
                 //Label lbl = new Label();
@@ -2429,20 +2428,21 @@ namespace KMDIWinDoorsCS
                         fprice = Convert.ToDecimal(file_lines[row + 1].Remove(0, 8));
                         fqty = Convert.ToInt32(file_lines[row + 2].Remove(0, 6));
                         fdiscount = Convert.ToDecimal(file_lines[row + 3].Remove(0, 11));
-                    }
-                    //else if (row_str.Contains("FPrice"))
-                    //{
-                    //    fprice = Convert.ToDecimal(row_str.Remove(0, 8));
-                    //}
-                    //else if (row_str.Contains("FQty"))
-                    //{
-                    //    fqty = Convert.ToInt32(row_str.Remove(0, 6));
-                    //}
-                    //else if (row_str.Contains("FDiscount"))
-                    //{
-                    //    fdiscount = Convert.ToDecimal(row_str.Remove(0, 11));
-                    //}
+                        fdesc = file_lines[row + 4].Remove(0, 7);
 
+                        for (int i = row + 5; i < file_lines.Count(); i++)
+                        {
+                            string raw_desc = file_lines[i];
+                            if (!raw_desc.Contains("{"))
+                            {
+                                fdesc += "\n" + raw_desc;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
                     if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "")
                     {
                         AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
@@ -3454,6 +3454,10 @@ namespace KMDIWinDoorsCS
             }
             frm.dict_items = dict_items;
             frm.ShowDialog();
+            if (!this.Text.Contains("*"))
+            {
+                this.Text += "*";
+            }
             SetItemControl();
         }
         
@@ -4254,6 +4258,7 @@ namespace KMDIWinDoorsCS
                             wndr_content.Add("FPrice: " + item.ItemPrice);
                             wndr_content.Add("FQty: " + item.ItemQty);
                             wndr_content.Add("FDiscount: " + item.ItemDiscount);
+                            wndr_content.Add("FDesc: " + item.ItemDesc);
                         }
                     }
 
@@ -4348,6 +4353,8 @@ namespace KMDIWinDoorsCS
 
                 file_lines = File.ReadAllLines(openFileDialog1.FileName);
                 tsprogress_Loading.Maximum = file_lines.Length;
+
+                autoDescription = false;
 
                 StartWorker("Open_WndrFiles");
             }
