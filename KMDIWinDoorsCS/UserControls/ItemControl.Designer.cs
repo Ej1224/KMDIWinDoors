@@ -39,6 +39,7 @@
             // 
             // lbl_item
             // 
+            this.lbl_item.AutoEllipsis = true;
             this.lbl_item.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbl_item.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbl_item.Dock = System.Windows.Forms.DockStyle.Top;

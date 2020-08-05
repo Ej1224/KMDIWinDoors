@@ -38,7 +38,7 @@ namespace KMDIWinDoorsCS
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public string Text
+        public new string Text
         {
             set { lbl_customLbl.Text = value; }
         }

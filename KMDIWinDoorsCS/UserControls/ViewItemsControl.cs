@@ -53,6 +53,11 @@ namespace KMDIWinDoorsCS
             decimal DiscountPrice = (ItemPrice * ItemQuantity) * ItemDiscount;
 
             lbl_NetPrice.Text = ((ItemPrice * ItemQuantity) - DiscountPrice).ToString("N2");
+
+            if (this.ctrlValueChanged != null)
+            {
+                ctrlValueChanged?.Invoke(this, e);
+            }
         }
 
         private void ViewItemsControl_Load(object sender, EventArgs e)
@@ -85,6 +90,19 @@ namespace KMDIWinDoorsCS
                 rowItemDimension = ItemDimension,
                 rowItemImage = ItemImage
             };
+        }
+
+        [Browsable(true)]
+        [Category("Action")]
+        [Description("Invoked when user changes value")]
+        public event EventHandler ctrlValueChanged;
+
+        protected void ctrl_ValueChanged(object sender, EventArgs e)
+        {
+            if (this.ctrlValueChanged != null)
+            {
+                ctrlValueChanged?.Invoke(this, e);
+            }
         }
     }
 }

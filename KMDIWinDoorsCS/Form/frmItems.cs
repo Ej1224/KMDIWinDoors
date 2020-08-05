@@ -44,16 +44,27 @@ namespace KMDIWinDoorsCS
                 itmctrl.ItemDiscount = (decimal)items.Value[7];
 
                 itmctrl.Dock = DockStyle.Top;
+                itmctrl.ctrlValueChanged += Itmctrl_ctrlValueChanged;
+
                 pnlFill.Controls.Add(itmctrl);
             }
             this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2, 0);
             this.Height = Screen.PrimaryScreen.WorkingArea.Height;
         }
 
+        private void Itmctrl_ctrlValueChanged(object sender, EventArgs e)
+        {
+            saveToolStripButton.Enabled = true;
+        }
+
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             frmMain2 frm = new frmMain2();
             dict_items.Clear();
+
+            tspbar_saving.Visible = true;
+            tspbar_saving.Maximum = GetRow().Count();
+            this.Cursor = Cursors.WaitCursor;
 
             int i = 0;
             foreach (var row in GetRow())
@@ -70,10 +81,14 @@ namespace KMDIWinDoorsCS
 
                 dict_items.Add(i, item_info);
                 i++;
+                tspbar_saving.Value = i;
             }
 
-            frm.dict_items = dict_items;
+            this.Cursor = Cursors.Default;
+            timer1.Start();
 
+            frm.dict_items = dict_items;
+            saveToolStripButton.Enabled = false;
         }
 
         public IEnumerable<ViewItemsControl.ItemRow> GetRow()
@@ -81,6 +96,19 @@ namespace KMDIWinDoorsCS
             foreach (var item in pnlFill.Controls.OfType<ViewItemsControl>())
             {
                 yield return item.GetFilledRow();
+            }
+        }
+
+        int secs = 0;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            secs++;
+            if (secs == 3)
+            {
+                tspbar_saving.Visible = false;
+                secs = 0;
+                timer1.Stop();
             }
         }
     }

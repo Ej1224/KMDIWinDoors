@@ -1391,11 +1391,17 @@ namespace KMDIWinDoorsCS
                         itemctrl.itmPrice = (decimal)items.Value[6];
                         itemctrl.itmDiscount = (decimal)items.Value[7];
                     }
+
+                    if (flpMain2.Tag.ToString() == itemctrl.itmID)
+                    {
+                        Text = quotation_ref_no + " >> " + itemctrl.itmName;
+                    }
                 }
             }
         }
 
-        private ItemControl CreateItemControl(string name,
+        private ItemControl CreateItemControl(string f_id,
+                                              string name,
                                               int count,
                                               string dimension,
                                               string description,
@@ -1404,14 +1410,14 @@ namespace KMDIWinDoorsCS
                                               int qty,
                                               bool itmpnl_visibility = true)
         {
-            string id = name + "_" + count;
+            string id = f_id;
             Label lblname;
 
             ItemControl itm = new ItemControl();
             //itm.Visible = itmpnl_visibility;
             itm.itmVisible = itmpnl_visibility;
             //itm.Dock = DockStyle.Top;
-            itm.itmID = id;
+            itm.itmID = f_id;
             itm.itmDimension = dimension;
             itm.itmDesc = fdesc;
             itm.itmProfile = description;
@@ -1421,7 +1427,7 @@ namespace KMDIWinDoorsCS
             //itm.itmDesc
 
             lblname = itm.lbl_item;
-            lblname.Text = name + " " + count;
+            lblname.Text = fName;
             if (itemselected != null)
             {
                 itemselected.ForeColor = Color.Black;
@@ -2092,7 +2098,7 @@ namespace KMDIWinDoorsCS
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
             divd_width, divd_height, divd_TabIndex; //for Divider
-        string framename = "", fptype = "", fstatus = "", fdesc = "",
+        string framename = "", fptype = "", fstatus = "", fdesc = "", fName = "", fid = "",
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
@@ -2390,7 +2396,7 @@ namespace KMDIWinDoorsCS
                 fpheight = 0;
                 fptype = "";
                 fstatus = "";
-
+                fName = "";
                 fprice = 0.0M;
                 fqty = 0;
                 fdiscount = 0.0M;
@@ -2406,9 +2412,14 @@ namespace KMDIWinDoorsCS
             switch (inside_item)
             {
                 case true:
-                    if (row_str.Contains("Item"))
+                    if (row_str.Contains("FID"))
                     {
-                        Text = quotation_ref_no + " >> " + row_str.Replace("_"," ");
+                        fid = row_str.Remove(0, 5);
+                    }
+                    else if (row_str.Contains("FName"))
+                    {
+                        Text = quotation_ref_no + " >> " + row_str.Remove(0, 7);
+                        fName = row_str.Remove(0, 7);
                     }
                     else if (row_str.Contains("FWidth"))
                     {
@@ -2443,7 +2454,7 @@ namespace KMDIWinDoorsCS
                             }
                         }
                     }
-                    if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "")
+                    if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "" && fName != "" && fid != "")
                     {
                         AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
                         inside_item = false;
@@ -3419,6 +3430,11 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void autoDescriptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            autoDescription = autoDescriptionToolStripMenuItem.Checked;
+        }
+
         public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
         /* Indexes of dict_items
          * [0] = Item Name
@@ -3454,11 +3470,12 @@ namespace KMDIWinDoorsCS
             }
             frm.dict_items = dict_items;
             frm.ShowDialog();
+            SetItemControl();
+
             if (!this.Text.Contains("*"))
             {
                 this.Text += "*";
             }
-            SetItemControl();
         }
         
         private void pnlItems_ControlChanged(object sender, ControlEventArgs e)
@@ -3750,7 +3767,8 @@ namespace KMDIWinDoorsCS
 
             //Panel pnl = new Panel();
             //pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
-            ItemControl itm = CreateItemControl("Item",
+            ItemControl itm = CreateItemControl(fid,
+                                                fName,
                                                 pnl_cntr,
                                                 flpMain.Width + " x " + flpMain.Height,
                                                 profiletype,
@@ -4250,7 +4268,8 @@ namespace KMDIWinDoorsCS
                             string[] dimension = WxH.Split('x');
 
                             wndr_content.Add("(");
-                            wndr_content.Add(item.ItemID);
+                            wndr_content.Add("FID: " + item.ItemID);
+                            wndr_content.Add("FName: " + item.ItemName);
                             wndr_content.Add("FWidth: " + dimension[0]);
                             wndr_content.Add("FHeight: " + dimension[1]);
                             wndr_content.Add("FProfile: " + item.ItemProfile);
@@ -4497,6 +4516,7 @@ namespace KMDIWinDoorsCS
             Panel frame = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
             frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));
             frame.Size = new Size(Convert.ToInt32(fwidth * zoom), Convert.ToInt32(fheight * zoom));
+
             lstDragOrder.Add(frame.Name);
 
             flpMain.Controls.Add(frame);

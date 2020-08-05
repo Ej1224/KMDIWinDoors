@@ -52,6 +52,7 @@
             this.tbox_lblname.Size = new System.Drawing.Size(281, 25);
             this.tbox_lblname.TabIndex = 8;
             this.tbox_lblname.Text = "1. Living Rm Dining";
+            this.tbox_lblname.TextChanged += new System.EventHandler(this.ctrl_ValueChanged);
             // 
             // pbox_image
             // 
@@ -152,6 +153,7 @@
             this.rtbox_desc.Size = new System.Drawing.Size(203, 140);
             this.rtbox_desc.TabIndex = 17;
             this.rtbox_desc.Text = "SD1\nHD DS-DM Sliding Door 1F/1S\nw/ Aluminum Pull Handle\n10mm Temp. Clear";
+            this.rtbox_desc.TextChanged += new System.EventHandler(this.ctrl_ValueChanged);
             // 
             // ViewItemsControl
             // 
