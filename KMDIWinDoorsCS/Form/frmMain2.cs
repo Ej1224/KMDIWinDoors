@@ -332,7 +332,7 @@ namespace KMDIWinDoorsCS
                                   int id)
         {
             Panel frame = new Panel();
-            frame.Name = name + "_" + id;
+            frame.Name = name;
             frame.AccessibleDescription = "viewmodeOff";
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
@@ -512,7 +512,7 @@ namespace KMDIWinDoorsCS
         }
 
         private FlowLayoutPanel CreateFrameProperties(string name,
-                                                      int count,
+                                                      int id,
                                                       int fwidth,
                                                       int fheight,
                                                       int wndr)
@@ -533,7 +533,7 @@ namespace KMDIWinDoorsCS
             NumericUpDown num;
 
             fprop = new FlowLayoutPanel();
-            fprop.Name = name + "_" + count;
+            fprop.Name = name;
             fprop.AutoSize = true;
             fprop.BorderStyle = BorderStyle.FixedSingle;
             fprop.Font = new Font("Segoe UI", 8.25f);
@@ -543,47 +543,47 @@ namespace KMDIWinDoorsCS
             fprop.SizeChanged += new EventHandler(flpProp_SizeChanged);
 
             lbl = new Label();
-            lbl.Text = name + " " + count;
+            lbl.Text = name.Replace("_"," ");
             lbl.BorderStyle = BorderStyle.FixedSingle;
             lbl.AutoSize = true;
             lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             fprop.Controls.Add(lbl);
 
             rd = new RadioButton();
-            rd.Name = "rdWindow_" + count;
+            rd.Name = "rdWindow_" + id;
             rd.AutoSize = false;
             rd.Checked = bool_win;
             rd.Margin = new Padding(3, 3, 3, 3);
             rd.Padding = new Padding(0);
             rd.Size = new Size(140, 23);
             rd.TabStop = true;
-            rd.Tag = name + "_" + count;
+            rd.Tag = name;
             rd.Text = "Window";
             rd.CheckedChanged += new EventHandler(rd_CheckChanged);
             fprop.Controls.Add(rd);
 
             rd = new RadioButton();
-            rd.Name = "rdDoor_" + count;
+            rd.Name = "rdDoor_" + id;
             rd.AutoSize = false;
             rd.Checked = bool_door;
             rd.Margin = new Padding(3, 3, 3, 3);
             rd.Padding = new Padding(0);
             rd.Size = new Size(140, 23);
             rd.TabStop = true;
-            rd.Tag = name + "_" + count;
+            rd.Tag = name;
             rd.Text = "Door";
             rd.CheckedChanged += new EventHandler(rd_CheckChanged);
             fprop.Controls.Add(rd);
 
             rd = new RadioButton();
-            rd.Name = "rdConcrete_" + count;
+            rd.Name = "rdConcrete_" + id;
             rd.AutoSize = false;
             rd.Checked = false;
             rd.Margin = new Padding(3, 3, 3, 3);
             rd.Padding = new Padding(0);
             rd.Size = new Size(140, 23);
             rd.TabStop = true;
-            rd.Tag = name + "_" + count;
+            rd.Tag = name;
             rd.Text = "Concrete";
             rd.CheckedChanged += new EventHandler(rd_CheckChanged);
             fprop.Controls.Add(rd);
@@ -596,7 +596,7 @@ namespace KMDIWinDoorsCS
             fprop.Controls.Add(lbl);
 
             num = new NumericUpDown();
-            num.Name = "numfWidth_" + count;
+            num.Name = "numfWidth_" + id;
             num.AutoSize = false;
             num.Font = new Font("Segoe UI", 8.25f);
             num.Size = new Size(135, 26);
@@ -614,7 +614,7 @@ namespace KMDIWinDoorsCS
             fprop.Controls.Add(lbl);
 
             num = new NumericUpDown();
-            num.Name = "numfHeight_" + count;
+            num.Name = "numfHeight_" + id;
             num.AutoSize = false;
             num.Font = new Font("Segoe UI", 8.25f);
             num.Size = new Size(135, 26);
@@ -1639,7 +1639,7 @@ namespace KMDIWinDoorsCS
             lbl.ForeColor = Color.Blue;
             itemselected = lbl;
 
-            Text = quotation_ref_no + " >> " + lbl.Text;
+            Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
 
         }
 
@@ -1860,7 +1860,7 @@ namespace KMDIWinDoorsCS
                 fprop.Controls.Add(Pprop);
 
                 dictDragOrder[flpMain.Tag.ToString()].Add(pnl.Name);
-                lstDragOrder.Add(pnl.Name);
+                //lstDragOrder.Add(pnl.Name);
 
                 if (i != wndrCount - 1 && !multipnl.Name.Contains("Sliding"))
                 {
@@ -1921,7 +1921,7 @@ namespace KMDIWinDoorsCS
                     multipnl.Controls.Add(divMT);
 
                     dictDragOrder[flpMain.Tag.ToString()].Add(divMT.Name);
-                    lstDragOrder.Add(divMT.Name);
+                    //lstDragOrder.Add(divMT.Name);
                 }
             }
         }
@@ -2112,7 +2112,7 @@ namespace KMDIWinDoorsCS
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
             divd_width, divd_height, divd_TabIndex; //for Divider
-        string framename = "", fptype = "", fstatus = "", fdesc = "", fName = "", fid = "",
+        string frameGroup = "", fptype = "", fstatus = "", fdesc = "", fName = "", fid = "", frname = "",
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
@@ -2208,7 +2208,7 @@ namespace KMDIWinDoorsCS
                                                 chkvisible,
                                                 numBladeVisible);
 
-            var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), framename);
+            var fpropcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), frameGroup);
             foreach (FlowLayoutPanel ctrl in fpropcol)
             {
                 fprop = ctrl;
@@ -2229,7 +2229,7 @@ namespace KMDIWinDoorsCS
             }
 
             dictDragOrder[flpMain.Tag.ToString()].Add(pnl.Name);
-            lstDragOrder.Add(pnl.Name);
+            //lstDragOrder.Add(pnl.Name);
         }
 
         private void AddMultiPanel()
@@ -2280,7 +2280,7 @@ namespace KMDIWinDoorsCS
             }
 
             dictDragOrder[flpMain.Tag.ToString()].Add(multi.Name);
-            lstDragOrder.Add(multi.Name);
+            //lstDragOrder.Add(multi.Name);
 
         }
 
@@ -2325,7 +2325,7 @@ namespace KMDIWinDoorsCS
             }
 
             dictDragOrder[flpMain.Tag.ToString()].Add(divd_name);
-            lstDragOrder.Add(divd_name);
+            //lstDragOrder.Add(divd_name);
         }
 
         private void Opening_dotwndr(int row)
@@ -2368,6 +2368,7 @@ namespace KMDIWinDoorsCS
             {
                 if (inside_frame)
                 {
+                    frname = "";
                     frwidth = 0;
                     frheight = 0;
                     frwndr = 0;
@@ -2380,7 +2381,7 @@ namespace KMDIWinDoorsCS
                     pnlwndrtype = "";
                     pnl_Orientation = "";
                     pnl_Parent = "";
-                    framename = "";
+                    frameGroup = "";
                     inside_panel = false;
                 }
                 else if (inside_multi)
@@ -2481,7 +2482,11 @@ namespace KMDIWinDoorsCS
                 case false:
                     if (inside_frame)
                     {
-                        if (row_str.Contains("FrWidth"))
+                        if (row_str.Contains("FrameName"))
+                        {
+                            frname = row_str.Remove(0, 11);
+                        }
+                        else if (row_str.Contains("FrWidth"))
                         {
                             frwidth = Convert.ToInt32(row_str.Trim().Remove(0, 9));
                         }
@@ -2494,9 +2499,9 @@ namespace KMDIWinDoorsCS
                             frwndr = Convert.ToInt32(row_str.Trim().Remove(0, 8));
                         }
 
-                        if (frwidth != 0 && frheight != 0 && frwndr != 0)
+                        if (frname != "" && frwidth != 0 && frheight != 0 && frwndr != 0)
                         {
-                            AddFrame(frwidth, frheight, frwndr);
+                            AddFrame(frname, frwidth, frheight, frwndr);
                         }
                     }
 
@@ -2540,7 +2545,7 @@ namespace KMDIWinDoorsCS
                         }
                         else if (row_str.Contains("FrameGroup"))
                         {
-                            framename = row_str.Trim().Remove(0, 12);
+                            frameGroup = row_str.Trim().Remove(0, 12);
                         }
 
                         if (pnlwidth != 0 &&
@@ -2549,7 +2554,7 @@ namespace KMDIWinDoorsCS
                             pnl_Orientation != "" &&
                             //pnl_OrientationText != "" &&
                             pnl_Parent != "" &&
-                            framename != "")
+                            frameGroup != "")
                         {
                             AddPanel();
                         }
@@ -2680,7 +2685,7 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<int>> dictTransomDimension = new Dictionary<int, List<int>>();
 
         IDictionary<string, List<string>> dictDragOrder = new Dictionary<string, List<string>>();
-        List<string> lstDragOrder = new List<string>();
+        //List<string> lstDragOrder = new List<string>();
         int cpnlcount = 0,
             mulcount = 0,
             trnscount = 0,
@@ -3021,7 +3026,7 @@ namespace KMDIWinDoorsCS
             }
 
             dictDragOrder[flpMain.Tag.ToString()].Add(c.Name);
-            lstDragOrder.Add(c.Name);
+            //lstDragOrder.Add(c.Name);
             pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
             pnlPropertiesBody.PerformLayout();
         }
@@ -3201,7 +3206,6 @@ namespace KMDIWinDoorsCS
 
         private void refreshToolStripButton1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(dictDragOrder);
             try
             {
                 int area = static_wd * static_ht;
@@ -3237,8 +3241,8 @@ namespace KMDIWinDoorsCS
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
@@ -3816,7 +3820,7 @@ namespace KMDIWinDoorsCS
             flpMain2.Tag = "Item_" + pnl_cntr;
 
             dictDragOrder.Add("Item_" + pnl_cntr, new List<string>());
-            lstDragOrder.Add(" >> Item_" + pnl_cntr);
+            //lstDragOrder.Add(" >> Item_" + pnl_cntr);
             pnlPropertiesBody.Controls.Clear();
 
         }
@@ -3889,11 +3893,7 @@ namespace KMDIWinDoorsCS
             {
                 if (File.Exists(wndrfile))
                 {
-                    if (!this.Text.Contains(wndrfile))
-                    {
-                        this.Text += "( " + wndrfile + " )";
-                    }
-                    File.WriteAllLines(wndrfile, Saving_dotwndr());
+                   File.WriteAllLines(wndrfile, Saving_dotwndr());
                 }
                 else
                 {
@@ -4307,8 +4307,20 @@ namespace KMDIWinDoorsCS
             saveFileDialog1.FileName = quotation_ref_no;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                wndrfile = saveFileDialog1.FileName;
-                saveToolStripButton_Click(sender, e);
+                if (wndrfile != saveFileDialog1.FileName)
+                {
+                    wndrfile = saveFileDialog1.FileName;
+                    Text = quotation_ref_no + " >> " + itemselected.Text + "( " + wndrfile + " )";
+                }
+                else
+                {
+                    if (!this.Text.Contains(wndrfile))
+                    {
+                        this.Text += "( " + wndrfile + " )";
+                    }
+                    saveToolStripButton_Click(sender, e);
+                }
+
             }
         }
 
@@ -4333,7 +4345,7 @@ namespace KMDIWinDoorsCS
             wndrfile = "";
 
             dictDragOrder.Clear();
-            lstDragOrder.Clear();
+            //lstDragOrder.Clear();
 
             //inside_item = false;
             //inside_frame = false;
@@ -4485,55 +4497,47 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<int>> dictFrameDimension = new Dictionary<int, List<int>>();
         int framecntr = 0;
 
-        private void AddFrame(int fwidth,
+        private void AddFrame(string frname,
+                              int fwidth,
                               int fheight,
                               int fwndr)
         {
             framecntr++;
-            //var frames = new List<Rectangle>(dictRectFrames.Values);
-            //int total_width = 0,
-            //    total_height = 0,
-            //    rectLoc_X = 0,
-            //    recLoc_Y = 0;
-            //foreach (Rectangle rect in frames)
-            //{
-            //    total_width += rect.Width;
-            //    total_height += rect.Height;
-            //}
 
-            //if (total_width <= flpMain2)
-            //{
+            string extracted_id_str = frname.Replace("Frame_", "");
+            int fr_id = 0;
+            string fr_name_id = "";
 
-            //}
+            if (extracted_id_str != "")
+            {
+                fr_name_id = frname;
+                fr_id = Convert.ToInt32(extracted_id_str);
+            }
+            else
+            {
+                fr_name_id = "Frame_" + framecntr;
+                fr_id = framecntr;
+            }
 
-            //if (framecntr == 1)
-            //{
-            //    dictRectFrames.Add(framecntr, new Rectangle(0, 0, fwidth, fheight));
-            //}
-            //else
-            //{
-            //    //dynamically add rectangles here
-            //}
-
-            Panel frame2 = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
+            Panel frame2 = CreateFrame(fr_name_id, fwidth, fheight, fwndr, fr_id);
             flpMain2.Controls.Add(frame2);
             flpMain2.Invalidate();
 
-            Panel frame = CreateFrame("Frame", fwidth, fheight, fwndr, framecntr);
+            Panel frame = CreateFrame(fr_name_id, fwidth, fheight, fwndr, fr_id);
             frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));
             frame.Size = new Size(Convert.ToInt32(fwidth * zoom), Convert.ToInt32(fheight * zoom));
 
             //List<string> DragOrder = dictDragOrder[flpMain.Tag.ToString()];
             //DragOrder.Add(frame.Name);
             dictDragOrder[flpMain.Tag.ToString()].Add(frame.Name);
-            lstDragOrder.Add(frame.Name);
+            ////lstDragOrder.Add(frame.Name);
 
             flpMain.Controls.Add(frame);
             trackzoom = false;
             flpMain.Invalidate();
 
-            FlowLayoutPanel prop = CreateFrameProperties("Frame",
-                                                         framecntr,
+            FlowLayoutPanel prop = CreateFrameProperties(fr_name_id,
+                                                         fr_id,
                                                          fwidth,
                                                          fheight,
                                                          fwndr);
@@ -4544,13 +4548,13 @@ namespace KMDIWinDoorsCS
             lstDimensions.Add(fwidth);
             lstDimensions.Add(fheight);
 
-            if (dictFrameDimension.ContainsKey(framecntr))
+            if (dictFrameDimension.ContainsKey(fr_id))
             {
-                dictFrameDimension[framecntr] = lstDimensions;
+                dictFrameDimension[fr_id] = lstDimensions;
             }
             else
             {
-                dictFrameDimension.Add(framecntr, lstDimensions);
+                dictFrameDimension.Add(fr_id, lstDimensions);
             }
         }
 
@@ -4581,7 +4585,7 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                AddFrame(defwidth, defheight, defwndr);
+                AddFrame("Frame_", defwidth, defheight, defwndr);
 
                 wndrtype = defwndr;
                 flpMain2.Invalidate();
@@ -4657,19 +4661,24 @@ namespace KMDIWinDoorsCS
                 var c3 = csfunc.GetAll(pnlSel, typeof(Panel)); //Gets all the Panels inside Frame
                 foreach (var pnl in c3)
                 {
-                    if (lstDragOrder.Contains(pnl.Name)) //Searching for matches 
-                    {
-                        lstDragOrder.Remove(pnl.Name); //Removes into lstDragOrder
-                    }
+                    dictDragOrder[flpMain.Tag.ToString()].Remove(pnl.Name);
+                    //if (dictDragOrder[flpMain.Tag.ToString()].Contains(pnl.Name))
+                    //{
+                    //}
+                    //if (lstDragOrder.Contains(pnl.Name)) //Searching for matches 
+                    //{
+                    //    lstDragOrder.Remove(pnl.Name); //Removes into lstDragOrder
+                    //}
                 }
                 
                 var c4 = csfunc.GetAll(pnlSel, typeof(FlowLayoutPanel)); //Gets all the MultiPanels inside Frame
                 foreach (var flp in c4)
                 {
-                    if (lstDragOrder.Contains(flp.Name))
-                    {
-                        lstDragOrder.Remove(flp.Name);
-                    }
+                    dictDragOrder[flpMain.Tag.ToString()].Remove(flp.Name);
+                    //if (lstDragOrder.Contains(flp.Name))
+                    //{
+                    //    lstDragOrder.Remove(flp.Name);
+                    //}
                 }
             }
             else if (pnlSel.Name.Contains("Panel"))
@@ -4702,7 +4711,8 @@ namespace KMDIWinDoorsCS
                 var pnlcol1 = csfunc.GetAll(pnlSel, typeof(Panel), "Panel");
                 foreach (Panel ctrl1 in pnlcol1)
                 {
-                    lstDragOrder.Remove(ctrl1.Name);
+                    dictDragOrder[flpMain.Tag.ToString()].Remove(ctrl1.Name);
+                    //lstDragOrder.Remove(ctrl1.Name);
 
                     FlowLayoutPanel fprop = new FlowLayoutPanel();
                     var flpcol = csfunc.GetAll(pnlPropertiesBody, typeof(FlowLayoutPanel), ctrl1.Tag.ToString());
@@ -4735,7 +4745,8 @@ namespace KMDIWinDoorsCS
                     ctrl.Parent.Controls.Remove(ctrl);
                 }
             }
-            lstDragOrder.Remove(pnlSel.Name);
+            //lstDragOrder.Remove(pnlSel.Name);
+            dictDragOrder[flpMain.Tag.ToString()].Remove(pnlSel.Name);
 
             pnlSel_parent.Controls.Remove(pnlSel);
             pnlSel_parent.Invalidate();
