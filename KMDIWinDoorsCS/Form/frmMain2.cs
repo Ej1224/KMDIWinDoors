@@ -1558,7 +1558,7 @@ namespace KMDIWinDoorsCS
             //    loc_mulcount = 0,
             //    loc_trnscount = 0;
 
-            trkZoom.Value = 100;
+            //trkZoom.Value = 100;
 
             if (Text.Contains("*") == true)
             {
@@ -1597,6 +1597,7 @@ namespace KMDIWinDoorsCS
             }
 
             trackzoom = false;
+
             itemselected.ForeColor = Color.Black;
 
             string lblname = selected_items_pnl.itmID;
@@ -1641,6 +1642,8 @@ namespace KMDIWinDoorsCS
 
             Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
 
+            trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
+            trkZoom_ValueChanged(sender, e);
         }
 
         bool autoDescription = true;
@@ -2302,12 +2305,14 @@ namespace KMDIWinDoorsCS
             if (divd_name.Contains("Transom"))
             {
                 trnscount++;
-                dictTransomDimension.Add(trnscount, lstDvdrDimensions);
+                //dictTransomDimension.Add(trnscount, lstDvdrDimensions); //Beware! Kinoment to kasi may error sa id ng Divider sa pagopen ng file.
+                dictTransomDimension.Add(divd_TabIndex, lstDvdrDimensions);
             }
             else if (divd_name.Contains("Mullion"))
             {
                 mulcount++;
-                dictMullionDimension.Add(mulcount, lstDvdrDimensions);
+                //dictMullionDimension.Add(mulcount, lstDvdrDimensions);
+                dictMullionDimension.Add(divd_TabIndex, lstDvdrDimensions);
             }
 
             
@@ -2484,7 +2489,7 @@ namespace KMDIWinDoorsCS
                     {
                         if (row_str.Contains("FrameName"))
                         {
-                            frname = row_str.Remove(0, 11);
+                            frname = row_str.Trim().Remove(0, 11);
                         }
                         else if (row_str.Contains("FrWidth"))
                         {
@@ -2529,7 +2534,8 @@ namespace KMDIWinDoorsCS
                         }
                         else if (row_str.Contains("WndrType"))
                         {
-                            pnlwndrtype = row_str.Trim().Remove(0, 10);
+                            //pnlwndrtype = row_str.Trim().Remove(0, 10);
+                            pnlwndrtype = row_str.Trim().Replace("WndrType: ", "");
                         }
                         else if (row_str.Contains("Orientation"))
                         {
@@ -2550,7 +2556,7 @@ namespace KMDIWinDoorsCS
 
                         if (pnlwidth != 0 &&
                             pnlheight != 0 &&
-                            pnlwndrtype != "" &&
+                            //pnlwndrtype != "" &&
                             pnl_Orientation != "" &&
                             //pnl_OrientationText != "" &&
                             pnl_Parent != "" &&
@@ -3680,6 +3686,15 @@ namespace KMDIWinDoorsCS
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
 
+            foreach (var item in pnlItems.Controls.OfType<ItemControl>())
+            {
+                if (item.itmID == flpMain.Tag.ToString())
+                {
+                    item.itmZoom = zoom;
+                    break;
+                }
+            }
+
             func_zoom(flpMain, zoom);
         }
 
@@ -3875,8 +3890,14 @@ namespace KMDIWinDoorsCS
                     defwidth = Convert.ToInt32(frm.numWidth.Value);
                     defheight = Convert.ToInt32(frm.numHeight.Value);
 
+                    fid = "Item_" + pnl_cntr;
+                    fName = "Item " + pnl_cntr;
+
                     AddProfile(defwidth, defheight, pnl_cntr, profiletype);
                     Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
+
+                    itemControlsSearch("lbldesc");
+
                 }
             }
         }
@@ -4152,7 +4173,7 @@ namespace KMDIWinDoorsCS
                                 int frame_id = Convert.ToInt32(item.Replace("Frame_", ""));
 
                                 wndr_content.Add("\t{");
-                                wndr_content.Add("\tFrameName: " + item); //Frames
+                                wndr_content.Add("\tFrameName: " + item.Trim()); //Frames
                                 wndr_content.Add("\tFrWidth: " + dictFrameDimension[frame_id][0]);
                                 wndr_content.Add("\tFrHeight: " + dictFrameDimension[frame_id][1]);
                                 wndr_content.Add("\tFrWndr: " + frame_tag);
@@ -4208,7 +4229,7 @@ namespace KMDIWinDoorsCS
                                                 wndr_content.Add("\tOrientation: " + Orientation);
                                                 wndr_content.Add("\tChkText: " + chktxt);
                                                 wndr_content.Add("\tParent: " + ctrl.Parent.Name);
-                                                wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag);
+                                                wndr_content.Add("\tFrameGroup: " + ctrl.Parent.Tag.ToString().Trim());
                                                 wndr_content.Add("\t}");
                                             }
                                         }
@@ -4318,9 +4339,8 @@ namespace KMDIWinDoorsCS
                     {
                         this.Text += "( " + wndrfile + " )";
                     }
-                    saveToolStripButton_Click(sender, e);
                 }
-
+                saveToolStripButton_Click(sender, e);
             }
         }
 

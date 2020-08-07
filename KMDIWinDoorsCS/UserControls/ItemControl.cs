@@ -19,6 +19,7 @@ namespace KMDIWinDoorsCS
 
         public string itmName, itmDesc, itmProfile, itmDimension, itmID;
         public decimal itmPrice, itmDiscount;
+        public float itmZoom = 1.0f;
         public int itmQuantity;
         public bool itmVisible;
 
