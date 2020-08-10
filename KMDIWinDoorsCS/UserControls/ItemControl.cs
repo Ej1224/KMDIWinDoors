@@ -19,7 +19,7 @@ namespace KMDIWinDoorsCS
 
         public string itmName, itmDesc, itmProfile, itmDimension, itmID;
         public decimal itmPrice, itmDiscount;
-        public float itmZoom = 1.0f;
+        public float itmZoom;
         public int itmQuantity;
         public bool itmVisible;
 
@@ -43,6 +43,7 @@ namespace KMDIWinDoorsCS
             public int ItemQty { get; set; }
             public decimal ItemPrice { get; set; }
             public decimal ItemDiscount { get; set; }
+            public float ItemZoom { get; set; }
         }
 
         public Item GetFillItem()
@@ -58,7 +59,8 @@ namespace KMDIWinDoorsCS
                 ItemID = itmID,
                 ItemQty = itmQuantity,
                 ItemPrice = itmPrice,
-                ItemDiscount = itmDiscount
+                ItemDiscount = itmDiscount,
+                ItemZoom = itmZoom
             };
         }
     }

@@ -790,7 +790,7 @@ namespace KMDIWinDoorsCS
                 {
                     wndr_padd = wndrtype = 0;
                 }
-                flpMain2.Invalidate();
+                refreshToolStripButton1_Click(sender, e);
 
 
                 Panel frame = new Panel();
@@ -851,7 +851,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
         }
 
         private void num_ValueChanged(object sender, EventArgs e)
@@ -896,7 +896,7 @@ namespace KMDIWinDoorsCS
                 ctrl.Invalidate();
 
                 //dictRectFrames[frameid] = curr_Frame;
-                flpMain2.Invalidate();
+                refreshToolStripButton1_Click(sender, e);
 
                 var PnlCollect = csfunc.GetAll(ctrl, typeof(Panel));
                 foreach (Panel pnl in PnlCollect)
@@ -1156,7 +1156,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
         }
 
         private void Pnum_ValueChanged(object sender, EventArgs e)
@@ -1206,7 +1206,7 @@ namespace KMDIWinDoorsCS
             flpMain.Invalidate();
 
             pnl2.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
 
             refreshToolStripButton1_Click(sender, e);
             //refreshToolStripButton.PerformClick();
@@ -1274,7 +1274,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
         }
 
         private void cbx_SelectedIndexChanged(object sender, EventArgs e)
@@ -1362,11 +1362,9 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
 
             SelectNextControl(cbx, true,false,true,true);
-
-            refreshToolStripButton1_Click(sender, e);
         }
 
         public IEnumerable<ItemControl.Item> GetItem()
@@ -1408,6 +1406,7 @@ namespace KMDIWinDoorsCS
                                               decimal price,
                                               decimal discount,
                                               int qty,
+                                              float zoom,
                                               bool itmpnl_visibility = true)
         {
             string id = f_id;
@@ -1424,6 +1423,7 @@ namespace KMDIWinDoorsCS
             itm.itmPrice = price;
             itm.itmDiscount = discount;
             itm.itmQuantity = qty;
+            itm.itmZoom = zoom;
             //itm.itmDesc
 
             lblname = itm.lbl_item;
@@ -1550,7 +1550,6 @@ namespace KMDIWinDoorsCS
         int item_id;
         private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            bool save = false;
             Label lbl = (Label)sender;
             selected_items_pnl = (ItemControl)lbl.Parent;
             //int loc_framecntr = 0,
@@ -1562,88 +1561,72 @@ namespace KMDIWinDoorsCS
 
             if (Text.Contains("*") == true)
             {
-                DialogResult result = MessageBox.Show("Save changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result == DialogResult.Yes)
-                {
-                    save = true;
-                    UppdateDictionaries();
-                    Text = quotation_ref_no + " >> " + lbl.Text;
-                    if (!this.Text.Contains(wndrfile))
-                    {
-                        this.Text += "( " + wndrfile + " )";
-                    }
-                }
+                MessageBox.Show("Save changes first.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
-            {
-                save = false;
-            }
-
-            if (save == true)
             {
                 UppdateDictionaries();
 
                 itemControlsSearch("lbldesc");
-
-                //Label lbl2 = new Label();
-                //lbl2 = itemControlsSearch("lbldesc");
-                //lbl2.Text = UpdateLblDescription(lbl2.AccessibleDescription);
 
                 saveToolStripButton_Click(sender, e);
                 pnlPropertiesBody.Enabled = true;
                 ToggleMode(false, true);
                 pnlMain.Enabled = true;
                 cmenuPanel.Enabled = true;
+
+
+                trackzoom = false;
+
+                itemselected.ForeColor = Color.Black;
+
+                string lblname = selected_items_pnl.itmID;
+                //int indxOf_lblname = lblname.IndexOf("m");
+                string getnum_lblname = lblname.Replace("Item_", "");
+                item_id = Convert.ToInt32(getnum_lblname);
+
+                string WxH = selected_items_pnl.itmDimension.Replace(" ", "");
+                string[] dimension = WxH.Split('x');
+
+                static_wd = Convert.ToInt32(dimension[0]);
+                static_ht = Convert.ToInt32(dimension[1]);
+
+                flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                flpMain.Tag = "Item_" + item_id;
+                flpMain.Controls.Clear();
+
+                flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                flpMain2.Tag = "Item_" + item_id;
+                flpMain2.Controls.Clear();
+
+                foreach (Panel item in itemslist[item_id])
+                {
+                    flpMain.Controls.Add(item);
+                }
+
+                foreach (Panel item2 in itemslist2[item_id])
+                {
+                    flpMain2.Controls.Add(item2);
+                }
+                //flpMain.Controls.Add(itemslist[item_id]);
+
+                pnlPropertiesBody.Controls.Clear();
+                foreach (Panel item in propertieslist[item_id])
+                {
+                    pnlPropertiesBody.Controls.Add(item);
+                }
+
+                pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+                pnlPropertiesBody.PerformLayout();
+
+                lbl.ForeColor = Color.Blue;
+                itemselected = lbl;
+
+                Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
+
+                trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
+                trkZoom_ValueChanged(sender, e);
             }
-
-            trackzoom = false;
-
-            itemselected.ForeColor = Color.Black;
-
-            string lblname = selected_items_pnl.itmID;
-            //int indxOf_lblname = lblname.IndexOf("m");
-            string getnum_lblname = lblname.Replace("Item_","");
-            item_id = Convert.ToInt32(getnum_lblname);
-
-            string WxH = selected_items_pnl.itmDimension.Replace(" ", "");
-            string[] dimension = WxH.Split('x');
-
-            static_wd = Convert.ToInt32(dimension[0]);
-            static_ht = Convert.ToInt32(dimension[1]);
-
-            flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-            flpMain.Tag = "Item_" + item_id;
-            flpMain.Controls.Clear();
-
-            flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-            flpMain2.Tag = "Item_" + item_id;
-            flpMain2.Controls.Clear();
-
-            foreach (Panel item in itemslist[item_id])
-            {
-                flpMain.Controls.Add(item);
-            }
-
-            foreach (Panel item2 in itemslist2[item_id])
-            {
-                flpMain2.Controls.Add(item2);
-            }
-            //flpMain.Controls.Add(itemslist[item_id]);
-
-            pnlPropertiesBody.Controls.Clear();
-            foreach (Panel item in propertieslist[item_id])
-            {
-                pnlPropertiesBody.Controls.Add(item);
-            }
-            //pnlPropertiesBody.Controls.Add(propertieslist[item_id]);
-
-            lbl.ForeColor = Color.Blue;
-            itemselected = lbl;
-
-            Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
-
-            trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
-            trkZoom_ValueChanged(sender, e);
         }
 
         bool autoDescription = true;
@@ -1949,6 +1932,10 @@ namespace KMDIWinDoorsCS
             }
 
             AutoCreate(tsmSel.Text, numdiv + 1, wndr, fprop);
+
+            pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+            pnlPropertiesBody.PerformLayout();
+
         }
 
         /*private void lstDragOrder_search_n_add(string searchstr, string toAddstr)
@@ -1975,7 +1962,7 @@ namespace KMDIWinDoorsCS
             dgvControls.ClearSelection();
             splitContainer1.SplitterDistance = 150;
 
-            flpMain.Size = new Size(0, 0);
+            //flpMain.Size = new Size(0, 0);
             pnlProperties.Size = new Size(185, 629);
 
             bgw.WorkerReportsProgress = true;
@@ -2084,6 +2071,7 @@ namespace KMDIWinDoorsCS
                     tsLbl_Loading.Text = "Error";
                     ToggleMode(false, true);
                     tsLbl_Loading.Visible = true;
+                    onload = false;
                 }
                 else
                 {
@@ -2095,6 +2083,8 @@ namespace KMDIWinDoorsCS
                             ToggleMode(false,true);
                             tsLbl_Loading.Visible = true;
                             autoDescription = true;
+                            onload = false;
+
 
                             break;
                         default:
@@ -2120,6 +2110,7 @@ namespace KMDIWinDoorsCS
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
         decimal fprice, fdiscount;
+        float fzoom;
         DockStyle dok, multidok;
 
         private void AddPanel()
@@ -2413,6 +2404,9 @@ namespace KMDIWinDoorsCS
             {
                 //Panel_Painter();
 
+                trkZoom.Value = (int)(fzoom * 100.0f);
+                trkZoom_ValueChanged(new object(), new EventArgs());
+
                 refreshToolStripButton.PerformClick();
                 UppdateDictionaries();
                 fpwidth = 0;
@@ -2423,9 +2417,13 @@ namespace KMDIWinDoorsCS
                 fprice = 0.0M;
                 fqty = 0;
                 fdiscount = 0.0M;
+                fzoom = 0.0f;
                 fdesc = "";
 
                 itemControlsSearch("lbldesc");
+
+                pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+                pnlPropertiesBody.PerformLayout();
 
                 //Label lbl = new Label();
                 //lbl = itemControlsSearch("lbldesc");
@@ -2462,9 +2460,10 @@ namespace KMDIWinDoorsCS
                         fprice = Convert.ToDecimal(file_lines[row + 1].Remove(0, 8));
                         fqty = Convert.ToInt32(file_lines[row + 2].Remove(0, 6));
                         fdiscount = Convert.ToDecimal(file_lines[row + 3].Remove(0, 11));
-                        fdesc = file_lines[row + 4].Remove(0, 7);
+                        fzoom = float.Parse(file_lines[row + 4].Remove(0,7));
+                        fdesc = file_lines[row + 5].Remove(0, 7);
 
-                        for (int i = row + 5; i < file_lines.Count(); i++)
+                        for (int i = row + 6; i < file_lines.Count(); i++)
                         {
                             string raw_desc = file_lines[i];
                             if (!raw_desc.Contains("{"))
@@ -2679,7 +2678,6 @@ namespace KMDIWinDoorsCS
                 tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
-            //flpMain2.Invalidate();
 
             pnlMain.Invalidate();
             flpMain.Invalidate();
@@ -3077,7 +3075,7 @@ namespace KMDIWinDoorsCS
                 ctrl.Controls.Add(ctrl2);
             }
 
-            flpMain2.Invalidate();
+            //refreshToolStripButton1_Click(new object(), new EventArgs());
         }
 
         private void pnl_inner_DragOver(object sender, DragEventArgs e)
@@ -3301,8 +3299,8 @@ namespace KMDIWinDoorsCS
                     //lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     
                     flpMain.Invalidate();
-                    flpMain2.Invalidate();
                     pnlMain.Invalidate();
+                    refreshToolStripButton1_Click(sender, e);
                 }
             }
         }
@@ -3678,6 +3676,8 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        bool onload = false;
+
         private void trkZoom_ValueChanged(object sender, EventArgs e)
         {
             trackzoom = true;
@@ -3686,12 +3686,15 @@ namespace KMDIWinDoorsCS
             zoom = trkZoom.Value / 100f;
             lblZoom.Text = trkZoom.Value.ToString() + " %";
 
-            foreach (var item in pnlItems.Controls.OfType<ItemControl>())
+            if (onload == false)
             {
-                if (item.itmID == flpMain.Tag.ToString())
+                foreach (var item in pnlItems.Controls.OfType<ItemControl>())
                 {
-                    item.itmZoom = zoom;
-                    break;
+                    if (item.itmID == flpMain.Tag.ToString())
+                    {
+                        item.itmZoom = zoom;
+                        break;
+                    }
                 }
             }
 
@@ -3823,6 +3826,7 @@ namespace KMDIWinDoorsCS
                                                 fprice,
                                                 fdiscount,
                                                 fqty,
+                                                fzoom,
                                                 visibility);
             pnlItems.Controls.Add(itm);
             itm.BringToFront();
@@ -4125,6 +4129,10 @@ namespace KMDIWinDoorsCS
             {
                 AutoCreate(frm.txtPattern.Text, 0, 0, fprop);
             }
+
+            pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+            pnlPropertiesBody.PerformLayout();
+
         }
 
         private List<string> Saving_dotwndr()
@@ -4152,6 +4160,7 @@ namespace KMDIWinDoorsCS
                         wndr_content.Add("FPrice: " + itm.ItemPrice);
                         wndr_content.Add("FQty: " + itm.ItemQty);
                         wndr_content.Add("FDiscount: " + itm.ItemDiscount);
+                        wndr_content.Add("FZoom: " + itm.ItemZoom);
                         wndr_content.Add("FDesc: " + itm.ItemDesc);
 
                         foreach (var item in items.Value)
@@ -4412,6 +4421,7 @@ namespace KMDIWinDoorsCS
                 tsprogress_Loading.Maximum = file_lines.Length;
 
                 autoDescription = false;
+                onload = true;
 
                 StartWorker("Open_WndrFiles");
             }
@@ -4541,7 +4551,7 @@ namespace KMDIWinDoorsCS
 
             Panel frame2 = CreateFrame(fr_name_id, fwidth, fheight, fwndr, fr_id);
             flpMain2.Controls.Add(frame2);
-            flpMain2.Invalidate();
+            //refreshToolStripButton1_Click(new object(), new EventArgs());
 
             Panel frame = CreateFrame(fr_name_id, fwidth, fheight, fwndr, fr_id);
             frame.Padding = new Padding(Convert.ToInt32(fwndr * zoom));
@@ -4608,7 +4618,11 @@ namespace KMDIWinDoorsCS
                 AddFrame("Frame_", defwidth, defheight, defwndr);
 
                 wndrtype = defwndr;
-                flpMain2.Invalidate();
+                refreshToolStripButton1_Click(sender, e);
+
+                pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+                pnlPropertiesBody.PerformLayout();
+
             }
         }
 
@@ -4773,7 +4787,7 @@ namespace KMDIWinDoorsCS
 
             trackzoom = false;
             flpMain.Invalidate();
-            flpMain2.Invalidate();
+            refreshToolStripButton1_Click(sender, e);
 
             if (Text.Contains("*") == false)
             {
