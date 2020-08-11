@@ -111,5 +111,14 @@ namespace KMDIWinDoorsCS
                 timer1.Stop();
             }
         }
+
+        private void frmItems_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (saveToolStripButton.Enabled == true)
+            {
+                e.Cancel = true;
+                MessageBox.Show(this,"Save first before exiting.","",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+        }
     }
 }

@@ -691,7 +691,7 @@ namespace KMDIWinDoorsCS
                         if (ctrl.GetType() == typeof(NumericUpDown))
                         {
                             NumericUpDown bnum = (NumericUpDown)ctrl;
-                            if (bnum.Name.Contains("numBladeCount_"))
+                            if (bnum.Name.Contains("numBladeCount_") && bnum.Visible == true)
                             {
                                 bladecount = Convert.ToInt32(bnum.Value);
                             }

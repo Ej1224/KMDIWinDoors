@@ -70,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\csFunctions.cs" />
+    <Compile Include="Form\frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CustomLblNum.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     <Compile Include="UserControls\ViewItemsControl.Designer.cs">
       <DependentUpon>ViewItemsControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form\frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CustomLblNum.resx">
       <DependentUpon>CustomLblNum.cs</DependentUpon>
     </EmbeddedResource>
@@ -200,6 +209,7 @@
     <None Include="Resources\AddNew_Door.png" />
     <None Include="Resources\minus2_104px.png" />
     <None Include="Resources\delete_file_30px.png" />
+    <None Include="Resources\K&amp;M_logo_official_2018-1.png" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />
