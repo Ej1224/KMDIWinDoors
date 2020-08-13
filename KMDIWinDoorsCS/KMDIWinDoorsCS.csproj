@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\csFunctions.cs" />
+    <Compile Include="Class\csQueries.cs" />
     <Compile Include="Form\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +211,8 @@
     <None Include="Resources\minus2_104px.png" />
     <None Include="Resources\delete_file_30px.png" />
     <None Include="Resources\K&amp;M_logo_official_2018-1.png" />
+    <None Include="Resources\loading_trans.gif" />
+    <None Include="Resources\loading2.gif" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />

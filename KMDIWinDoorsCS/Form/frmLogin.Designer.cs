@@ -34,10 +34,12 @@
             this.lblPass = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.pnl_btnContainer = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnl_btnContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblUser
@@ -106,6 +108,28 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // pnl_btnContainer
+            // 
+            this.pnl_btnContainer.Controls.Add(this.btnLogin);
+            this.pnl_btnContainer.Controls.Add(this.btnCancel);
+            this.pnl_btnContainer.Location = new System.Drawing.Point(128, 179);
+            this.pnl_btnContainer.Name = "pnl_btnContainer";
+            this.pnl_btnContainer.Size = new System.Drawing.Size(178, 35);
+            this.pnl_btnContainer.TabIndex = 7;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Image = global::KMDIWinDoorsCS.Properties.Resources.loading2;
+            this.pictureBox2.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(302, 202);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Visible = false;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::KMDIWinDoorsCS.Properties.Resources.K_M_logo_official_2018_1;
@@ -116,15 +140,6 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnLogin);
-            this.panel1.Controls.Add(this.btnCancel);
-            this.panel1.Location = new System.Drawing.Point(128, 179);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(178, 35);
-            this.panel1.TabIndex = 7;
-            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
@@ -132,13 +147,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(326, 221);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtPass);
             this.Controls.Add(this.lblPass);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.lblUser);
+            this.Controls.Add(this.pnl_btnContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
@@ -148,8 +165,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Costing Login";
             this.Load += new System.EventHandler(this.frmLogin_Load);
+            this.pnl_btnContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,6 +182,7 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnl_btnContainer;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

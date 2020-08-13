@@ -17,11 +17,14 @@ namespace KMDIWinDoorsCS
         {
             InitializeComponent();
         }
+        Class.csFunctions csfunc = new Class.csFunctions();
+        csQueries csqr = new csQueries();
 
         BackgroundWorker bgw = new BackgroundWorker();
 
-        string username, password,
-               sqlConStr = "Data Source='121.58.229.248,49107';Network Library=DBMSSOCN;Initial Catalog='KMDIDATA';User ID='kmdiadmin';Password='kmdiadmin';";
+        string username, password;
+        List<object> info = new List<object>();
+        bool expt = false;
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
@@ -31,40 +34,76 @@ namespace KMDIWinDoorsCS
             bgw.DoWork += Bgw_DoWork;
         }
 
+
         private void Bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
-
+                info = csqr.Login(username, password);
             }
             catch (SqlException ex)
             {
+                expt = true;
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
                 if (ex.Number == -2)
                 {
-                    MessageBox.Show(this, "Request timed out", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Request timed out", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else if (ex.Number == 1232)
                 {
-                    MessageBox.Show(this, "Please check internet connection", "Network Disconnected?", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please check internet connection", "Network Disconnected?", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (ex.Number == 19)
                 {
-                    MessageBox.Show(this, "Server is down", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Server is down", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show(this, ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex2)
             {
-                MessageBox.Show(this, ex2.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                expt = true;
+                csfunc.LogToFile(ex2.Message, ex2.StackTrace);
+                MessageBox.Show(ex2.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         
+
         private void Bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (e.Error != null)
+                {
+                    MessageBox.Show(this, "Error occured", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (e.Cancelled == true)
+                {
+                    pnl_btnContainer.Visible = txtUser.Enabled = txtPass.Enabled = true;
+                    pictureBox2.Visible = false;
+                }
+                else
+                {
+                    pnl_btnContainer.Visible = txtUser.Enabled = txtPass.Enabled = true;
+                    pictureBox2.Visible = false;
+
+                    if (info.Count() > 1)
+                    {
+                        MessageBox.Show("Finished", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (info.Count() == 0 && expt == false)
+                    {
+                        MessageBox.Show("Incorrect username/password", "Please try again.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                expt = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -76,14 +115,17 @@ namespace KMDIWinDoorsCS
 
                 if (username == "")
                 {
-                    MessageBox.Show(this, "Username must not be empty.","", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Username must not be empty.","", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else if (password == "")
                 {
-                    MessageBox.Show(this, "Password must not be empty.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Password must not be empty.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else if (username != "" && password != "")
                 {
+
+                    pnl_btnContainer.Visible = txtUser.Enabled = txtPass.Enabled = false;
+                    pictureBox2.Visible = true;
                     bgw.RunWorkerAsync();
                 }
             }
