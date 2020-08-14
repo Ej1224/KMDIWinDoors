@@ -1950,6 +1950,7 @@ namespace KMDIWinDoorsCS
         }*/
 
         BackgroundWorker bgw = new BackgroundWorker();
+        public List<object> info = new List<object>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -2092,6 +2093,10 @@ namespace KMDIWinDoorsCS
                     }
                 }
 
+                int startFileName = wndrfile.LastIndexOf("\\") + 1;
+                string outFile = wndrfile.Substring(0, startFileName) +
+                                 wndrfile.Substring(startFileName, wndrfile.LastIndexOf(".") - startFileName) + ".txt";
+                File.Delete(outFile);
             }
             catch (Exception ex)
             {
@@ -3456,6 +3461,16 @@ namespace KMDIWinDoorsCS
         float zoom = 1f;
         float zm = 0.0f;
 
+        private void frmMain2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void tsBtn_Encrypt_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmLblDesc frm = new frmLblDesc();
@@ -3916,14 +3931,12 @@ namespace KMDIWinDoorsCS
             this.Text = Text.Replace("*", "");
             if (wndrfile != "")
             {
-                if (File.Exists(wndrfile))
-                {
-                   File.WriteAllLines(wndrfile, Saving_dotwndr());
-                }
-                else
-                {
-                    MessageBox.Show(this, "Your file might be renamed/moved/deleted \nYou should save this progress", "File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+                string txtfile = wndrfile.Replace(".wndr", ".txt");
+                File.WriteAllLines(txtfile, Saving_dotwndr());
+                File.SetAttributes(txtfile, FileAttributes.Hidden);
+                csfunc.EncryptFile(txtfile);
+                File.Delete(txtfile);
             }
             else
             {
@@ -4374,56 +4387,38 @@ namespace KMDIWinDoorsCS
             wndrfile = "";
 
             dictDragOrder.Clear();
-            //lstDragOrder.Clear();
-
-            //inside_item = false;
-            //inside_frame = false;
-            //inside_panel = false;
-            //inside_multi = false;
-            //inside_divider = false;
-
-            //fpwidth = 0;
-            //fpheight = 0; //for Profile
-            //frwidth = 0;
-            //frheight = 0;
-            //frwndr = 0;
-            //pnlwidth = 0;
-            //pnlheight = 0; //for Frame
-            //multi_Tabindex = 0; //for Multipanel 
-            //divd_width = 0;
-            //divd_height = 0;
-            //divd_TabIndex = 0; //for Divider
-            //framename = "";
-            //fptype = "";
-            //fstatus = "";
-            //pnlwndrtype = "";
-            //pnl_Parent = "";
-            //pnl_Orientation = "";
-            //pnl_OrientationText = "";
-            //multi_type = "";
-            //multi_Parent = "";
-            //multi_Size = "";
-            //multi_Name = "";
-            //multidivnum = "";
-            //divd_name = "";
-            //divd_Parent = "";
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            try
             {
-                Clearing_Operation();
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Clearing_Operation();
 
-                wndrfile = openFileDialog1.FileName;
+                    wndrfile = openFileDialog1.FileName;
 
-                file_lines = File.ReadAllLines(openFileDialog1.FileName);
-                tsprogress_Loading.Maximum = file_lines.Length;
+                    csfunc.DecryptFile(wndrfile);
 
-                autoDescription = false;
-                onload = true;
+                    int startFileName = wndrfile.LastIndexOf("\\") + 1;
+                    string outFile = wndrfile.Substring(0, startFileName) +
+                                     wndrfile.Substring(startFileName, wndrfile.LastIndexOf(".") - startFileName) + ".txt";
 
-                StartWorker("Open_WndrFiles");
+                    file_lines = File.ReadAllLines(outFile);
+                    File.SetAttributes(outFile, FileAttributes.Hidden);
+                    tsprogress_Loading.Maximum = file_lines.Length;
+
+                    autoDescription = false;
+                    onload = true;
+
+                    StartWorker("Open_WndrFiles");
+                }
+            }
+            catch (Exception ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show("Corrupted file", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

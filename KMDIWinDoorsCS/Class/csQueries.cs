@@ -14,31 +14,35 @@ namespace KMDIWinDoorsCS
 
         string sqlConStr = "Data Source='121.58.229.248,49107';Network Library=DBMSSOCN;Initial Catalog='KMDIDATA';User ID='kmdiadmin';Password='kmdiadmin';";
 
-        SqlCommand sqlcmd;
-        SqlDataReader sqlread;
-        SqlConnection sqlcon;
-        SqlTransaction sqltrans;
-
         public List<object> Login(string username, string password)
         {
             List<object> info = new List<object>();
-            using (sqlcon = new SqlConnection(sqlConStr))
+            using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
             {
                 sqlcon.Open();
-                using (sqlcmd = sqlcon.CreateCommand())
+                using (SqlCommand sqlcmd = sqlcon.CreateCommand())
                 {
-                    sqltrans = sqlcon.BeginTransaction(IsolationLevel.RepeatableRead, "stp_Login");
-                    sqlcmd.Connection = sqlcon;
-                    sqlcmd.Transaction = sqltrans;
-                    sqlcmd.CommandText = "stp_Login";
-                    sqlcmd.CommandType = CommandType.StoredProcedure;
-                    sqlcmd.Parameters.AddWithValue("@UserName", username);
-                    sqlcmd.Parameters.AddWithValue("@Password", csfunc.Encrypt(password));
-                    sqlread = sqlcmd.ExecuteReader();
-                    sqlread.Read();
-                    foreach (var item in sqlread)
+                    using (SqlTransaction sqltrans = sqlcon.BeginTransaction(IsolationLevel.RepeatableRead, "stp_Login"))
                     {
-                        info.Add(item);
+                        sqlcmd.Connection = sqlcon;
+                        sqlcmd.Transaction = sqltrans;
+                        sqlcmd.CommandText = "stp_Login";
+                        sqlcmd.CommandType = CommandType.StoredProcedure;
+                        sqlcmd.Parameters.AddWithValue("@UserName", username);
+                        sqlcmd.Parameters.AddWithValue("@Password", csfunc.Encrypt(password));
+                        using (SqlDataReader rdr = sqlcmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                info.Add(rdr.GetInt32(0));  //[AUTONUM]
+                                info.Add(rdr.GetString(1)); //[FULLNAME]
+                                info.Add(rdr.GetString(2)); //[NICKNAME]
+                                info.Add(rdr.GetString(3)); //[ACCTTYPE]
+                                info.Add(rdr.GetString(4)); //[USERNAME]
+                                info.Add(rdr.GetString(5)); //[PASSWORD]
+                                info.Add(rdr.GetString(6)); //[PROFILEPATH]
+                            }
+                        }
                     }
                 }
             }

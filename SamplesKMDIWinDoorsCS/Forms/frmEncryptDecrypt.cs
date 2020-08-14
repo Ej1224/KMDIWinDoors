@@ -1,116 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 
-namespace KMDIWinDoorsCS.Class
+namespace SamplesKMDIWinDoorsCS.Forms
 {
-    class csFunctions
+    public partial class frmEncryptDecrypt : Form
     {
-        public IEnumerable<Control> GetAll(Control control, Type type, string name)
+        public frmEncryptDecrypt()
         {
-            var controls = control.Controls.Cast<Control>();
-
-            return controls.SelectMany(ctrl => GetAll(ctrl, type, name))
-                                      .Concat(controls)
-                                      .Where(c => c.GetType() == type)
-                                      .Where(c => c.Name.Contains(name));
-        }
-        public IEnumerable<Control> GetAll(Control control, Type type)
-        {
-            var controls = control.Controls.Cast<Control>();
-
-            return controls.SelectMany(ctrl => GetAll(ctrl, type))
-                                      .Concat(controls)
-                                      .Where(c => c.GetType() == type);
-        }
-        public IEnumerable<Control> GetAll(Control control, string name)
-        {
-            var controls = control.Controls.Cast<Control>();
-
-            return controls.SelectMany(ctrl => GetAll(ctrl, name))
-                                      .Concat(controls)
-                                      .Where(c => c.Name.Contains(name));
-        }
-        
-        public void LogToFile(string errormsg, string stacktrace)
-        {
-            using (StreamWriter logfile = new StreamWriter(Application.StartupPath + @"\Error_Logs.txt", true))
-            {
-                logfile.WriteLine("Dated: " + DateTime.Now.ToString("dddd, MMMM dd, yyyy HH:mm:ss tt") +
-                                 "\nError: " + errormsg +
-                                 "\nStacktrace: " + stacktrace +
-                                 "\n");
-            }
+            InitializeComponent();
         }
 
+        // Declare CspParmeters and RsaCryptoServiceProvider
+        // objects with global scope of your Form class.
+        CspParameters cspp = new CspParameters();
+        RSACryptoServiceProvider rsa;
 
-        public string Encrypt(string clearText)
+        // Path variables for source, encryption, and
+        // decryption folders. Must end with a backslash.
+        const string EncrFolder = @"C:\Users\kmdie\Documents\wndr files\Encrypt\";
+        const string DecrFolder = @"C:\Users\kmdie\Documents\wndr files\Decrypt\";
+        const string SrcFolder = @"C:\Users\kmdie\Documents\wndr files\docs\";
+
+        // Public key file
+        const string PubKeyFile = @"C:\Users\kmdie\Documents\wndr files\encrypt\rsaPublicKey.txt";
+
+        // Key container name for
+        // private/public key value pair.
+        const string keyName = "Key01";
+
+        private void buttonCreateAsmKeys_Click(object sender, EventArgs e)
         {
-            string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6E, 0x20, 0x4D, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
-                        cs.Close();
-                    }
-                    clearText = Convert.ToBase64String(ms.ToArray());
-                }
-            }
-
-            return clearText;
-        }
-
-        public string Decrypt(string cipherText)
-        {
-            string EncryptionKey = "MAKV2SPBNI99212";
-
-            byte[] cipherBytes = Convert.FromBase64String(cipherText);
-
-            using (Aes encryptor = Aes.Create())
-            {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6E, 0x20, 0x4D, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(cipherBytes, 0, cipherBytes.Length);
-                        cs.Close();
-                    }
-
-                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
-                }
-            }
-
-            return cipherText;
-        }
-
-
-        public void EncryptFile(string inFile)
-        {
-
-            CspParameters cspp = new CspParameters();
-            RSACryptoServiceProvider rsa;
-            cspp.KeyContainerName = "Key01";
+            // Stores a key pair in the key container.
+            cspp.KeyContainerName = keyName;
             rsa = new RSACryptoServiceProvider(cspp);
             rsa.PersistKeyInCsp = true;
+            if (rsa.PublicOnly == true)
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Public Only";
+            else
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Full Key Pair";
+        }
+
+        private void buttonEncryptFile_Click(object sender, EventArgs e)
+        {
+            if (rsa == null)
+            {
+                MessageBox.Show("Key not set.");
+            }
+            else
+            {
+
+                // Display a dialog box to select a file to encrypt.
+                openFileDialog1.InitialDirectory = SrcFolder;
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string fName = openFileDialog1.FileName;
+                    if (fName != null)
+                    {
+                        FileInfo fInfo = new FileInfo(fName);
+                        // Pass the file name without the path.
+                        string name = fInfo.FullName;
+                        EncryptFile(name);
+                    }
+                }
+            }
+        }
+        private void EncryptFile(string inFile)
+        {
 
             // Create instance of Aes for
             // symmetric encryption of the data.
@@ -141,10 +105,9 @@ namespace KMDIWinDoorsCS.Class
             // - the IV
             // - the encrypted cipher content
 
-            // Change the file's extension to ".wndr"
             int startFileName = inFile.LastIndexOf("\\") + 1;
-            string outFile = inFile.Substring(0, startFileName) + 
-                             inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ".wndr";
+            // Change the file's extension to ".enc"
+            string outFile = EncrFolder + inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ".wndr";
 
             using (FileStream outFs = new FileStream(outFile, FileMode.Create))
             {
@@ -188,13 +151,8 @@ namespace KMDIWinDoorsCS.Class
                 outFs.Close();
             }
         }
-        public void DecryptFile(string inFile)
+        private void DecryptFile(string inFile)
         {
-            CspParameters cspp = new CspParameters();
-            RSACryptoServiceProvider rsa;
-            cspp.KeyContainerName = "Key01";
-            rsa = new RSACryptoServiceProvider(cspp);
-            rsa.PersistKeyInCsp = true;
 
             // Create instance of Aes for
             // symetric decryption of the data.
@@ -208,14 +166,11 @@ namespace KMDIWinDoorsCS.Class
             byte[] LenIV = new byte[4];
 
             // Construct the file name for the decrypted file.
-            // Change the file's extension to ".wndr"
-            int startFileName = inFile.LastIndexOf("\\") + 1;
-            string outFile = inFile.Substring(0, startFileName) +
-                             inFile.Substring(startFileName, inFile.LastIndexOf(".") - startFileName) + ".txt";
+            string outFile = DecrFolder + inFile.Substring(0, inFile.LastIndexOf(".")) + ".txt";
 
             // Use FileStream objects to read the encrypted
             // file (inFs) and save the decrypted file (outFs).
-            using (FileStream inFs = new FileStream(inFile, FileMode.Open))
+            using (FileStream inFs = new FileStream(EncrFolder + inFile, FileMode.Open))
             {
 
                 inFs.Seek(0, SeekOrigin.Begin);
@@ -247,6 +202,7 @@ namespace KMDIWinDoorsCS.Class
                 inFs.Read(KeyEncrypted, 0, lenK);
                 inFs.Seek(8 + lenK, SeekOrigin.Begin);
                 inFs.Read(IV, 0, lenIV);
+                Directory.CreateDirectory(DecrFolder);
                 // Use RSACryptoServiceProvider
                 // to decrypt the AES key.
                 byte[] KeyDecrypted = rsa.Decrypt(KeyEncrypted, false);
@@ -292,6 +248,68 @@ namespace KMDIWinDoorsCS.Class
                 }
                 inFs.Close();
             }
+        }
+
+        private void buttonDecryptFile_Click(object sender, EventArgs e)
+        {
+            if (rsa == null)
+            {
+                MessageBox.Show("Key not set.");
+            }
+            else
+            {
+                // Display a dialog box to select the encrypted file.
+                openFileDialog2.InitialDirectory = EncrFolder;
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                {
+                    string fName = openFileDialog2.FileName;
+                    if (fName != null)
+                    {
+                        FileInfo fi = new FileInfo(fName);
+                        string name = fi.Name;
+                        DecryptFile(name);
+                    }
+                }
+            }
+        }
+
+        void buttonExportPublicKey_Click(object sender, System.EventArgs e)
+        {
+            // Save the public key created by the RSA
+            // to a file. Caution, persisting the
+            // key to a file is a security risk.
+            Directory.CreateDirectory(EncrFolder);
+            StreamWriter sw = new StreamWriter(PubKeyFile, false);
+            sw.Write(rsa.ToXmlString(false));
+            sw.Close();
+        }
+
+        void buttonImportPublicKey_Click(object sender, System.EventArgs e)
+        {
+            StreamReader sr = new StreamReader(PubKeyFile);
+            cspp.KeyContainerName = keyName;
+            rsa = new RSACryptoServiceProvider(cspp);
+            string keytxt = sr.ReadToEnd();
+            rsa.FromXmlString(keytxt);
+            rsa.PersistKeyInCsp = true;
+            if (rsa.PublicOnly == true)
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Public Only";
+            else
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Full Key Pair";
+            sr.Close();
+        }
+
+        private void buttonGetPrivateKey_Click(object sender, EventArgs e)
+        {
+            cspp.KeyContainerName = keyName;
+
+            rsa = new RSACryptoServiceProvider(cspp);
+            rsa.PersistKeyInCsp = true;
+
+            if (rsa.PublicOnly == true)
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Public Only";
+            else
+                label1.Text = "Key: " + cspp.KeyContainerName + " - Full Key Pair";
         }
 
     }

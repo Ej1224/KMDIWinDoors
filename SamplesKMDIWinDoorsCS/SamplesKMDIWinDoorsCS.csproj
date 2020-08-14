@@ -71,6 +71,12 @@
     <Compile Include="Forms\frmDimensions.Designer.cs">
       <DependentUpon>frmDimensions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmEncryptDecrypt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmEncryptDecrypt.Designer.cs">
+      <DependentUpon>frmEncryptDecrypt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Form1.resx">
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDimensions.resx">
       <DependentUpon>frmDimensions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmEncryptDecrypt.resx">
+      <DependentUpon>frmEncryptDecrypt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

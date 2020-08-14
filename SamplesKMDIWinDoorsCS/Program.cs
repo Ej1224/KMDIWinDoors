@@ -16,7 +16,7 @@ namespace SamplesKMDIWinDoorsCS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Forms.Form3());
+            Application.Run(new Forms.frmEncryptDecrypt());
         }
     }
 }

@@ -89,9 +89,19 @@ namespace KMDIWinDoorsCS
                     pnl_btnContainer.Visible = txtUser.Enabled = txtPass.Enabled = true;
                     pictureBox2.Visible = false;
 
-                    if (info.Count() > 1)
+                    if (info.Count() > 0)
                     {
-                        MessageBox.Show("Finished", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (info[3].ToString() == "Costing" || info[3].ToString() == "Admin")
+                        {
+                            this.Hide();
+                            frmMain2 frm = new frmMain2();
+                            frm.info = info;
+                            frm.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Restricted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else if (info.Count() == 0 && expt == false)
                     {
