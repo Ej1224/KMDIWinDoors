@@ -8,6 +8,8 @@ using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace KMDIWinDoorsCS
 {
@@ -1950,6 +1952,7 @@ namespace KMDIWinDoorsCS
         }*/
 
         BackgroundWorker bgw = new BackgroundWorker();
+        BackgroundWorker updatefile_bgw = new BackgroundWorker();
         public List<object> info = new List<object>();
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1971,7 +1974,13 @@ namespace KMDIWinDoorsCS
             bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
             bgw.ProgressChanged += Bgw_ProgressChanged;
             bgw.DoWork += Bgw_DoWork;
-            
+
+            updatefile_bgw.WorkerReportsProgress = true;
+            updatefile_bgw.WorkerSupportsCancellation = true;
+            updatefile_bgw.RunWorkerCompleted += updatefile_bgw_RunWorkerCompleted;
+            updatefile_bgw.ProgressChanged += updatefile_bgw_ProgressChanged;
+            updatefile_bgw.DoWork += updatefile_bgw_DoWork;
+
         }
 
         private void ToggleMode(bool visibility, bool enabled)
@@ -2001,6 +2010,10 @@ namespace KMDIWinDoorsCS
         }
 
         string[] file_lines;
+        string cloud_directory = @"C:\Users\kmdie\Desktop\Cloud server\",
+               searchStr = "";
+
+        csQueries csq = new csQueries();
         private void Bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -2024,6 +2037,26 @@ namespace KMDIWinDoorsCS
 
                     default:
                         break;
+                }
+            }
+            catch (SqlException ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                if (ex.Number == -2)
+                {
+                    MessageBox.Show("Request timed out", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else if (ex.Number == 1232)
+                {
+                    MessageBox.Show("Please check internet connection", "Network Disconnected?", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (ex.Number == 19)
+                {
+                    MessageBox.Show("Server is down", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -2085,9 +2118,8 @@ namespace KMDIWinDoorsCS
                             tsLbl_Loading.Visible = true;
                             autoDescription = true;
                             onload = false;
-
-
                             break;
+
                         default:
                             break;
                     }
@@ -2103,6 +2135,141 @@ namespace KMDIWinDoorsCS
                 MessageBox.Show(ex.Message);
             }
         }
+
+        string todo;
+        private void updatefile_bgw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                switch (todo)
+                {
+                    case "GetFile":
+                        DataSet ds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        e.Result = ds;
+                        break;
+
+                    case "AddFile":
+                        bool ret_val = csq.CostingQuery_ReturnBool("AddFile", searchStr, (int)info[0]);
+                        e.Result = ret_val.ToString();
+                        break;
+                    default:
+                        break;
+                }
+                //e.Result = e.Argument.ToString();
+                //switch (e.Argument.ToString())
+                //{
+                //    case "GetFile":
+                //        updatefile_bgw.ReportProgress(1, "GetFile");
+                //        e.Result = ds;
+                //        break;
+
+                //    case "AddFile":
+                //        updatefile_bgw.ReportProgress(1, "AddFile");
+                //        break;
+
+                //    default:
+                //        break;
+                //}
+
+            }
+            catch (SqlException ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                if (ex.Number == -2)
+                {
+                    tsp_Sync.Text = "Request timed out";
+                    tsp_Sync.Image = Properties.Resources.box_important_40px;
+                }
+                else if (ex.Number == 1232)
+                {
+                    tsp_Sync.Text = "Network Disconnected";
+                    tsp_Sync.Image = Properties.Resources.cancel_40px;
+                }
+            }
+            catch (Exception ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void updatefile_bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                switch (e.UserState.ToString())
+                {
+                    case "GetFile":
+                        //ds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        break;
+
+                    case "AddFile":
+                        bool ret_val = csq.CostingQuery_ReturnBool("AddFile", searchStr, (int)info[0]);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void updatefile_bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                if (e.Error != null || e.Cancelled == true)
+                {
+                    tsp_Sync.Text = "Error";
+                    tsp_Sync.Image = Properties.Resources.cancel_40px;
+                }
+                else
+                {
+                    switch (todo)
+                    {
+                        case "GetFile":
+                            DataSet ds = (DataSet)e.Result;
+                            int sqldscount = ds.Tables["GetFile"].Rows.Count;
+                            if (sqldscount == 1)
+                            {
+
+                            }
+                            else if (sqldscount > 1)
+                            {
+                                tsp_Sync.Text = "Error";
+                                tsp_Sync.Image = Properties.Resources.cancel_40px;
+                            }
+                            else
+                            {
+                                todo = "AddFile";
+                                updatefile_bgw.RunWorkerAsync();
+                            }
+                            break;
+
+                        case "AddFile":
+                            if (e.Result.ToString() == "True")
+                            {
+                                tsp_Sync.Text = "";
+                                tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
         bool inside_item, inside_frame, inside_panel, inside_multi, inside_divider;
         int fpwidth, fpheight, fqty, //for Profile
@@ -3925,6 +4092,7 @@ namespace KMDIWinDoorsCS
         IDictionary<int, List<Panel>> itemslist2 = new Dictionary<int, List<Panel>>();
         IDictionary<int, List<Panel>> propertieslist = new Dictionary<int, List<Panel>>();
 
+        public bool online_login = true;
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             UppdateDictionaries();
@@ -3937,6 +4105,16 @@ namespace KMDIWinDoorsCS
                 File.SetAttributes(txtfile, FileAttributes.Hidden);
                 csfunc.EncryptFile(txtfile);
                 File.Delete(txtfile);
+
+                if (online_login && updatefile_bgw.IsBusy != true)
+                {
+                    int startFileName = txtfile.LastIndexOf("\\") + 1;
+                    string outFile = txtfile.Substring(startFileName, txtfile.LastIndexOf(".") - startFileName) + ".wndr";
+                    searchStr = outFile;
+                    todo = "GetFile";
+                    updatefile_bgw.RunWorkerAsync();
+                    tsp_Sync.Visible = true;
+                }
             }
             else
             {

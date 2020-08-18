@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows.Forms;
 
 namespace KMDIWinDoorsCS
 {
@@ -47,6 +48,70 @@ namespace KMDIWinDoorsCS
                 }
             }
             return info;
+        }
+
+        public DataSet CostingQuery_ReturnDS(string todo,
+                                             string searchstr,
+                                             int acctno) // function for Select STATEMENTS
+        {
+            SqlDataAdapter sqlda = new SqlDataAdapter();
+            DataSet sqlds = new DataSet();
+
+            using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
+            {
+                sqlcon.Open();
+                using (SqlCommand sqlcmd = sqlcon.CreateCommand())
+                {
+                    SqlTransaction sqltrans = sqlcon.BeginTransaction("Costing_STP");
+                    sqlcmd.Connection = sqlcon;
+                    sqlcmd.Transaction = sqltrans;
+                    sqlcmd.CommandText = "Costing_STP";
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    sqlcmd.Parameters.Add("@todo",SqlDbType.VarChar).Value = todo;
+                    sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = searchstr;
+                    sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
+                    sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = "";
+                    sqltrans.Commit();
+
+                    sqlda.SelectCommand = sqlcmd;
+                    sqlda.Fill(sqlds, todo);
+                }
+            }
+            return sqlds;
+        }
+
+        public bool CostingQuery_ReturnBool(string todo,
+                                            string C_File_addr,
+                                            int acctno) //function for Inser, Update and Delete STATEMENTS
+        {
+            int count = 0;
+            using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
+            {
+                sqlcon.Open();
+                using (SqlCommand sqlcmd = sqlcon.CreateCommand())
+                {
+                    SqlTransaction sqltrans = sqlcon.BeginTransaction("Costing_STP");
+                    sqlcmd.Connection = sqlcon;
+                    sqlcmd.Transaction = sqltrans;
+                    sqlcmd.CommandText = "Costing_STP";
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = "";
+                    sqlcmd.Parameters.Add("@todo", SqlDbType.VarChar).Value = todo;
+                    sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = C_File_addr;
+                    sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
+                    count = sqlcmd.ExecuteNonQuery();
+
+                    sqltrans.Commit();
+                }
+            }
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

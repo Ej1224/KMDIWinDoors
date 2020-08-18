@@ -96,6 +96,7 @@ namespace KMDIWinDoorsCS
                             this.Hide();
                             frmMain2 frm = new frmMain2();
                             frm.info = info;
+                            frm.online_login = true;
                             frm.Show();
                         }
                         else
