@@ -218,6 +218,9 @@
     <None Include="Resources\cloud_sync_40px.png" />
     <None Include="Resources\cancel_40px.png" />
     <None Include="Resources\box_important_40px.png" />
+    <None Include="Resources\cloud_checked_40px2.png" />
+    <None Include="Resources\cancel_30px.png" />
+    <None Include="Resources\animat-cloudsync.gif" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />

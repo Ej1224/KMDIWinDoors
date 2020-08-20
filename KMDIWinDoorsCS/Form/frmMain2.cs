@@ -2118,6 +2118,8 @@ namespace KMDIWinDoorsCS
                             tsLbl_Loading.Visible = true;
                             autoDescription = true;
                             onload = false;
+                            timer1.Enabled = true;
+                            timer1.Start();
                             break;
 
                         default:
@@ -2146,6 +2148,7 @@ namespace KMDIWinDoorsCS
                     case "GetFile":
                         DataSet ds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
                         e.Result = ds;
+                        updatefile_bgw.ReportProgress(1);
                         break;
 
                     case "AddFile":
@@ -2155,22 +2158,6 @@ namespace KMDIWinDoorsCS
                     default:
                         break;
                 }
-                //e.Result = e.Argument.ToString();
-                //switch (e.Argument.ToString())
-                //{
-                //    case "GetFile":
-                //        updatefile_bgw.ReportProgress(1, "GetFile");
-                //        e.Result = ds;
-                //        break;
-
-                //    case "AddFile":
-                //        updatefile_bgw.ReportProgress(1, "AddFile");
-                //        break;
-
-                //    default:
-                //        break;
-                //}
-
             }
             catch (SqlException ex)
             {
@@ -2197,14 +2184,14 @@ namespace KMDIWinDoorsCS
         {
             try
             {
-                switch (e.UserState.ToString())
+                switch (todo)
                 {
                     case "GetFile":
-                        //ds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        File.Copy(wndrfile, cloud_directory + searchStr, true);
                         break;
 
                     case "AddFile":
-                        bool ret_val = csq.CostingQuery_ReturnBool("AddFile", searchStr, (int)info[0]);
+                        
                         break;
 
                     default:
@@ -2234,20 +2221,30 @@ namespace KMDIWinDoorsCS
                         case "GetFile":
                             DataSet ds = (DataSet)e.Result;
                             int sqldscount = ds.Tables["GetFile"].Rows.Count;
-                            if (sqldscount == 1)
+                            if (File.Exists(cloud_directory + searchStr))
                             {
-
+                                if (sqldscount == 1)
+                                {
+                                    tsp_Sync.Text = "";
+                                    tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                }
+                                else if (sqldscount > 1)
+                                {
+                                    tsp_Sync.Text = "Error";
+                                    tsp_Sync.Image = Properties.Resources.cancel_40px;
+                                }
+                                else if (sqldscount == 0)
+                                {
+                                    todo = "AddFile";
+                                    updatefile_bgw.RunWorkerAsync();
+                                }
                             }
-                            else if (sqldscount > 1)
+                            else
                             {
                                 tsp_Sync.Text = "Error";
                                 tsp_Sync.Image = Properties.Resources.cancel_40px;
                             }
-                            else
-                            {
-                                todo = "AddFile";
-                                updatefile_bgw.RunWorkerAsync();
-                            }
+                            
                             break;
 
                         case "AddFile":
@@ -2255,6 +2252,11 @@ namespace KMDIWinDoorsCS
                             {
                                 tsp_Sync.Text = "";
                                 tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                            }
+                            else
+                            {
+                                tsp_Sync.Text = "Error";
+                                tsp_Sync.Image = Properties.Resources.cancel_40px;
                             }
                             break;
 
@@ -2269,7 +2271,6 @@ namespace KMDIWinDoorsCS
                 MessageBox.Show(ex.Message);
             }
         }
-
 
         bool inside_item, inside_frame, inside_panel, inside_multi, inside_divider;
         int fpwidth, fpheight, fqty, //for Profile
@@ -3632,10 +3633,18 @@ namespace KMDIWinDoorsCS
         {
             Application.Exit();
         }
-
-        private void tsBtn_Encrypt_Click(object sender, EventArgs e)
+        
+        private void timer1_Tick(object sender, EventArgs e)
         {
-
+            int fadingSpeed = 3;
+            tsLbl_Loading.ForeColor = Color.FromArgb(tsLbl_Loading.ForeColor.R + fadingSpeed, tsLbl_Loading.ForeColor.G + fadingSpeed, tsLbl_Loading.ForeColor.B + fadingSpeed);
+            if (tsLbl_Loading.ForeColor.R >= this.BackColor.R)
+            {
+                timer1.Stop();
+                timer1.Enabled = false;
+                tsLbl_Loading.Visible = false;
+                //tsLbl_Loading.ForeColor = this.BackColor;
+            }
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4112,8 +4121,10 @@ namespace KMDIWinDoorsCS
                     string outFile = txtfile.Substring(startFileName, txtfile.LastIndexOf(".") - startFileName) + ".wndr";
                     searchStr = outFile;
                     todo = "GetFile";
-                    updatefile_bgw.RunWorkerAsync();
+                    tsp_Sync.Text = "Syncing";
+                    tsp_Sync.Image = Properties.Resources.cloud_sync_40px;
                     tsp_Sync.Visible = true;
+                    updatefile_bgw.RunWorkerAsync();
                 }
             }
             else

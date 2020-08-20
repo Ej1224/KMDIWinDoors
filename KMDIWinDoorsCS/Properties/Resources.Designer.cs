@@ -83,9 +83,29 @@ namespace KMDIWinDoorsCS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap animat_cloudsync {
+            get {
+                object obj = ResourceManager.GetObject("animat_cloudsync", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_important_40px {
             get {
                 object obj = ResourceManager.GetObject("box_important_40px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cancel_30px {
+            get {
+                object obj = ResourceManager.GetObject("cancel_30px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

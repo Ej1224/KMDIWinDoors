@@ -82,7 +82,7 @@ namespace KMDIWinDoorsCS
 
         public bool CostingQuery_ReturnBool(string todo,
                                             string C_File_addr,
-                                            int acctno) //function for Inser, Update and Delete STATEMENTS
+                                            int acctno) //function for Insert, Update and Delete STATEMENTS
         {
             int count = 0;
             using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
