@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -88,13 +88,13 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.cmenuItemPanel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.tmr_fadeOutText = new System.Windows.Forms.Timer(this.components);
+            this.tmr_fadeOutImage = new System.Windows.Forms.Timer(this.components);
             this.btnSubtractZoom = new System.Windows.Forms.Button();
             this.btnAddZoom = new System.Windows.Forms.Button();
             this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
             this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.refreshToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -102,6 +102,7 @@
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.deleteItemToolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tsp_Sync = new System.Windows.Forms.ToolStripLabel();
+            this.CloudStoragetoolStripButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -160,14 +161,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -337,7 +338,7 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
@@ -375,7 +376,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -542,7 +543,7 @@
             this.tsBtnNwin,
             this.tsBtnNdoor,
             this.openToolStripButton,
-            this.newToolStripButton,
+            this.CloudStoragetoolStripButton,
             this.saveToolStripButton,
             this.refreshToolStripButton,
             this.printToolStripButton,
@@ -697,9 +698,14 @@
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // timer1
+            // tmr_fadeOutText
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.tmr_fadeOutText.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // tmr_fadeOutImage
+            // 
+            this.tmr_fadeOutImage.Interval = 500;
+            this.tmr_fadeOutImage.Tick += new System.EventHandler(this.tmr_fadeOutImage_Tick);
             // 
             // btnSubtractZoom
             // 
@@ -768,16 +774,6 @@
             this.openToolStripButton.Size = new System.Drawing.Size(24, 29);
             this.openToolStripButton.Text = "&Open";
             this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
-            // 
-            // newToolStripButton
-            // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(24, 29);
-            this.newToolStripButton.Text = "&New";
-            this.newToolStripButton.Visible = false;
             // 
             // saveToolStripButton
             // 
@@ -848,15 +844,25 @@
             this.tsp_Sync.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tsp_Sync.AutoSize = false;
             this.tsp_Sync.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.tsp_Sync.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsp_Sync.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tsp_Sync.Image = global::KMDIWinDoorsCS.Properties.Resources.cloud_sync_40px;
             this.tsp_Sync.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tsp_Sync.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsp_Sync.Name = "tsp_Sync";
-            this.tsp_Sync.Size = new System.Drawing.Size(89, 32);
-            this.tsp_Sync.Text = "Syncing";
+            this.tsp_Sync.Size = new System.Drawing.Size(50, 32);
+            this.tsp_Sync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tsp_Sync.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.tsp_Sync.Visible = false;
+            // 
+            // CloudStoragetoolStripButton
+            // 
+            this.CloudStoragetoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CloudStoragetoolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.cloud_storage_30px;
+            this.CloudStoragetoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloudStoragetoolStripButton.Name = "CloudStoragetoolStripButton";
+            this.CloudStoragetoolStripButton.Size = new System.Drawing.Size(24, 29);
+            this.CloudStoragetoolStripButton.Text = "Open Cloud storage";
             // 
             // frmMain2
             // 
@@ -924,7 +930,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DescCol;
         private System.Windows.Forms.ContextMenuStrip cmenuPanel;
         private System.Windows.Forms.ToolStrip tsMain;
-        private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripButton printToolStripButton;
@@ -980,7 +985,9 @@
         private System.Windows.Forms.ToolStripMenuItem itemsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoDescriptionToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel tsp_Sync;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer tmr_fadeOutText;
+        private System.Windows.Forms.Timer tmr_fadeOutImage;
+        private System.Windows.Forms.ToolStripButton CloudStoragetoolStripButton;
     }
 }
 

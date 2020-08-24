@@ -2118,8 +2118,8 @@ namespace KMDIWinDoorsCS
                             tsLbl_Loading.Visible = true;
                             autoDescription = true;
                             onload = false;
-                            timer1.Enabled = true;
-                            timer1.Start();
+                            tmr_fadeOutText.Enabled = true;
+                            tmr_fadeOutText.Start();
                             break;
 
                         default:
@@ -2139,6 +2139,7 @@ namespace KMDIWinDoorsCS
         }
 
         string todo;
+        string sql_Transaction_result;
         private void updatefile_bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -2146,7 +2147,9 @@ namespace KMDIWinDoorsCS
                 switch (todo)
                 {
                     case "GetFile":
-                        DataSet ds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        var objds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        DataSet ds = objds.Item2;
+                        sql_Transaction_result = objds.Item1;
                         e.Result = ds;
                         updatefile_bgw.ReportProgress(1);
                         break;
@@ -2164,13 +2167,13 @@ namespace KMDIWinDoorsCS
                 csfunc.LogToFile(ex.Message, ex.StackTrace);
                 if (ex.Number == -2)
                 {
-                    tsp_Sync.Text = "Request timed out";
+                    //tsp_Sync.Text = "Request timed out";
                     tsp_Sync.Image = Properties.Resources.box_important_40px;
                 }
                 else if (ex.Number == 1232)
                 {
-                    tsp_Sync.Text = "Network Disconnected";
-                    tsp_Sync.Image = Properties.Resources.cancel_40px;
+                    //tsp_Sync.Text = "Network Disconnected";
+                    tsp_Sync.Image = Properties.Resources.cancel_30px;
                 }
             }
             catch (Exception ex)
@@ -2211,52 +2214,62 @@ namespace KMDIWinDoorsCS
             {
                 if (e.Error != null || e.Cancelled == true)
                 {
-                    tsp_Sync.Text = "Error";
-                    tsp_Sync.Image = Properties.Resources.cancel_40px;
+                    //tsp_Sync.Text = "Error";
+                    tsp_Sync.Image = Properties.Resources.cancel_30px;
                 }
                 else
                 {
                     switch (todo)
                     {
                         case "GetFile":
-                            DataSet ds = (DataSet)e.Result;
-                            int sqldscount = ds.Tables["GetFile"].Rows.Count;
-                            if (File.Exists(cloud_directory + searchStr))
+                            if (sql_Transaction_result == "Committed")
                             {
-                                if (sqldscount == 1)
+                                DataSet ds = (DataSet)e.Result;
+                                int sqldscount = ds.Tables["GetFile"].Rows.Count;
+                                if (File.Exists(cloud_directory + searchStr))
                                 {
-                                    tsp_Sync.Text = "";
-                                    tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                    if (sqldscount == 1)
+                                    {
+                                        //tsp_Sync.Text = "";
+                                        tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                        tmr_fadeOutImage.Start();
+                                    }
+                                    else if (sqldscount > 1)
+                                    {
+                                        //tsp_Sync.Text = "Error";
+                                        tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                    }
+                                    else if (sqldscount == 0)
+                                    {
+                                        todo = "AddFile";
+                                        updatefile_bgw.RunWorkerAsync();
+                                    }
                                 }
-                                else if (sqldscount > 1)
+                                else
                                 {
-                                    tsp_Sync.Text = "Error";
-                                    tsp_Sync.Image = Properties.Resources.cancel_40px;
-                                }
-                                else if (sqldscount == 0)
-                                {
-                                    todo = "AddFile";
-                                    updatefile_bgw.RunWorkerAsync();
+                                    //tsp_Sync.Text = "Error";
+                                    tsp_Sync.Image = Properties.Resources.cancel_30px;
                                 }
                             }
                             else
                             {
-                                tsp_Sync.Text = "Error";
-                                tsp_Sync.Image = Properties.Resources.cancel_40px;
+                                //tsp_Sync.Text = "Error";
+                                tsp_Sync.Image = Properties.Resources.cancel_30px;
                             }
-                            
+                            sql_Transaction_result = "";
+
                             break;
 
                         case "AddFile":
                             if (e.Result.ToString() == "True")
                             {
-                                tsp_Sync.Text = "";
+                                //tsp_Sync.Text = "";
                                 tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
                             }
                             else
                             {
-                                tsp_Sync.Text = "Error";
-                                tsp_Sync.Image = Properties.Resources.cancel_40px;
+                                //tsp_Sync.Text = "Error";
+                                tsp_Sync.Image = Properties.Resources.cancel_30px;
                             }
                             break;
 
@@ -3640,13 +3653,42 @@ namespace KMDIWinDoorsCS
             tsLbl_Loading.ForeColor = Color.FromArgb(tsLbl_Loading.ForeColor.R + fadingSpeed, tsLbl_Loading.ForeColor.G + fadingSpeed, tsLbl_Loading.ForeColor.B + fadingSpeed);
             if (tsLbl_Loading.ForeColor.R >= this.BackColor.R)
             {
-                timer1.Stop();
-                timer1.Enabled = false;
+                tmr_fadeOutText.Stop();
+                tmr_fadeOutText.Enabled = false;
                 tsLbl_Loading.Visible = false;
                 //tsLbl_Loading.ForeColor = this.BackColor;
             }
         }
+        int x = 50;
 
+        private Image Lighter(Image imgLight, int level, int nRed, int nGreen, int nBlue)
+        {
+            Graphics graphics = Graphics.FromImage(imgLight); //convert image to graphics object
+            int conversion = (5 * (level - 50)); //calculate new alpha value
+            Pen pLight = new Pen(Color.FromArgb(conversion, nRed, nGreen, nBlue), imgLight.Width * 2); //create mask with blended alpha value and chosen color as pen 
+            graphics.DrawLine(pLight, -1, -1, imgLight.Width, imgLight.Height); //apply created mask to graphics object
+            graphics.Save(); //save created graphics object and modify image object by that
+            graphics.Dispose(); //dispose graphics object
+            return imgLight; //return modified image
+        }
+
+        private void tmr_fadeOutImage_Tick(object sender, EventArgs e)
+        {
+            Color colToFadeTo = this.BackColor;
+            if (x == 102)
+            {//if x was incremented up to 102, the picture was faded and the buttons can be enabled again
+                x = 50;
+                tsp_Sync.Visible = false;
+                tmr_fadeOutImage.Stop();
+            }
+            else//pass incremented x, and chosen color to function Lighter and set modified image as second picture box image
+            {
+                tsp_Sync.Image = Lighter(tsp_Sync.Image, x++, colToFadeTo.R, colToFadeTo.G, colToFadeTo.B);
+                tsp_Sync.PerformClick();
+            }
+            
+        }
+        
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmLblDesc frm = new frmLblDesc();
@@ -4121,7 +4163,6 @@ namespace KMDIWinDoorsCS
                     string outFile = txtfile.Substring(startFileName, txtfile.LastIndexOf(".") - startFileName) + ".wndr";
                     searchStr = outFile;
                     todo = "GetFile";
-                    tsp_Sync.Text = "Syncing";
                     tsp_Sync.Image = Properties.Resources.cloud_sync_40px;
                     tsp_Sync.Visible = true;
                     updatefile_bgw.RunWorkerAsync();

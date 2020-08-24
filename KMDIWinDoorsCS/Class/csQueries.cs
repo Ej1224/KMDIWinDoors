@@ -49,13 +49,14 @@ namespace KMDIWinDoorsCS
             }
             return info;
         }
-
-        public DataSet CostingQuery_ReturnDS(string todo,
-                                             string searchstr,
-                                             int acctno) // function for Select STATEMENTS
+        
+        public Tuple<string, DataSet> CostingQuery_ReturnDS(string todo,
+                                                            string searchstr,
+                                                            int acctno) // function for Select STATEMENTS
         {
             SqlDataAdapter sqlda = new SqlDataAdapter();
             DataSet sqlds = new DataSet();
+            string sql_Transaction_result = "";
 
             using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
             {
@@ -72,12 +73,13 @@ namespace KMDIWinDoorsCS
                     sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
                     sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = "";
                     sqltrans.Commit();
+                    sql_Transaction_result = "Committed";
 
                     sqlda.SelectCommand = sqlcmd;
                     sqlda.Fill(sqlds, todo);
                 }
             }
-            return sqlds;
+            return Tuple.Create(sql_Transaction_result, sqlds);
         }
 
         public bool CostingQuery_ReturnBool(string todo,
