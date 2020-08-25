@@ -1999,9 +1999,18 @@ namespace KMDIWinDoorsCS
         {
             if (bgw.IsBusy != true)
             {
-                bgw.RunWorkerAsync(todo);
-                tsLbl_Loading.Text = "Initializing";
-                ToggleMode(true,false);
+                mainTodo = todo;
+                bgw.RunWorkerAsync();
+                if (todo == "Open_WndrFiles")
+                {
+                    tsLbl_Loading.Text = "Initializing";
+                    ToggleMode(true, false);
+                }
+                else
+                {
+                    ToggleMode(false, false);
+                }
+                
             }
             else
             {
@@ -2011,14 +2020,15 @@ namespace KMDIWinDoorsCS
 
         string[] file_lines;
         string cloud_directory = @"C:\Users\kmdie\Desktop\Cloud server\",
-               searchStr = "";
+               searchStr = "",
+               mainTodo;
 
         csQueries csq = new csQueries();
         private void Bgw_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
-                switch (e.Argument.ToString())
+                switch (mainTodo)
                 {
                     case "Open_WndrFiles":
                         for (int i = 0; i < file_lines.Length; i++)
@@ -2029,10 +2039,16 @@ namespace KMDIWinDoorsCS
                             }
                             else
                             {
-                                bgw.ReportProgress(i, e.Argument.ToString());
+                                bgw.ReportProgress(i);
                             }
                         }
-                        e.Result = e.Argument.ToString();
+                        //e.Result = e.Argument.ToString();
+                        break;
+
+                    case "GetCloudFiles":
+                        var objds = csq.CostingQuery_ReturnDS("GetCloudFiles", "", (int)info[0]);
+                        sql_Transaction_result = objds.Item1;
+                        e.Result = objds.Item2;
                         break;
 
                     default:
@@ -2061,6 +2077,7 @@ namespace KMDIWinDoorsCS
             }
             catch (Exception ex)
             {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -2069,7 +2086,7 @@ namespace KMDIWinDoorsCS
         {
             try
             {
-                switch (e.UserState.ToString())
+                switch (mainTodo)
                 {
                     case "Open_WndrFiles":
                         Opening_dotwndr(e.ProgressPercentage);
@@ -2109,7 +2126,7 @@ namespace KMDIWinDoorsCS
                 }
                 else
                 {
-                    switch (e.Result.ToString())
+                    switch (mainTodo)
                     {
                         case "Open_WndrFiles":
                             this.Text += "( " + wndrfile + " )";
@@ -2120,17 +2137,29 @@ namespace KMDIWinDoorsCS
                             onload = false;
                             tmr_fadeOutText.Enabled = true;
                             tmr_fadeOutText.Start();
+
+                            int startFileName = wndrfile.LastIndexOf("\\") + 1;
+                            string outFile = wndrfile.Substring(0, startFileName) +
+                                             wndrfile.Substring(startFileName, wndrfile.LastIndexOf(".") - startFileName) + ".txt";
+                            File.Delete(outFile);
+                            break;
+
+                        case "GetCloudFiles":
+                            if (sql_Transaction_result == "Committed")
+                            {
+                                frmQuoteList frm = new frmQuoteList();
+                                frm.ds = (DataSet)e.Result;
+                                ToggleMode(false, true);
+                                frm.ShowDialog();
+                            }
                             break;
 
                         default:
                             break;
                     }
+                    sql_Transaction_result = "";
                 }
 
-                int startFileName = wndrfile.LastIndexOf("\\") + 1;
-                string outFile = wndrfile.Substring(0, startFileName) +
-                                 wndrfile.Substring(startFileName, wndrfile.LastIndexOf(".") - startFileName) + ".txt";
-                File.Delete(outFile);
             }
             catch (Exception ex)
             {
@@ -2232,6 +2261,7 @@ namespace KMDIWinDoorsCS
                                     {
                                         //tsp_Sync.Text = "";
                                         tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                        cloud_is_chkd = true;
                                         tmr_fadeOutImage.Start();
                                     }
                                     else if (sqldscount > 1)
@@ -2265,6 +2295,8 @@ namespace KMDIWinDoorsCS
                             {
                                 //tsp_Sync.Text = "";
                                 tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                cloud_is_chkd = true;
+                                tmr_fadeOutImage.Start();
                             }
                             else
                             {
@@ -3672,23 +3704,32 @@ namespace KMDIWinDoorsCS
             return imgLight; //return modified image
         }
 
+        bool cloud_is_chkd = false;
         private void tmr_fadeOutImage_Tick(object sender, EventArgs e)
         {
             Color colToFadeTo = this.BackColor;
-            if (x == 102)
-            {//if x was incremented up to 102, the picture was faded and the buttons can be enabled again
-                x = 50;
-                tsp_Sync.Visible = false;
-                tmr_fadeOutImage.Stop();
-            }
-            else//pass incremented x, and chosen color to function Lighter and set modified image as second picture box image
+            if (cloud_is_chkd)
             {
-                tsp_Sync.Image = Lighter(tsp_Sync.Image, x++, colToFadeTo.R, colToFadeTo.G, colToFadeTo.B);
-                tsp_Sync.PerformClick();
+                if (x == 102)
+                {//if x was incremented up to 102, the picture was faded and the buttons can be enabled again
+                    x = 50;
+                    tsp_Sync.Visible = false;
+                    cloud_is_chkd = false;
+                    tmr_fadeOutImage.Stop();
+                }
+                else//pass incremented x, and chosen color to function Lighter and set modified image as second picture box image
+                {
+                    tsp_Sync.Image = Lighter(tsp_Sync.Image, x++, colToFadeTo.R, colToFadeTo.G, colToFadeTo.B);
+                    tsp_Sync.PerformClick();
+                }
             }
-            
         }
-        
+
+        private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)
+        {
+            StartWorker("GetCloudFiles");
+        }
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmLblDesc frm = new frmLblDesc();
@@ -4163,6 +4204,7 @@ namespace KMDIWinDoorsCS
                     string outFile = txtfile.Substring(startFileName, txtfile.LastIndexOf(".") - startFileName) + ".wndr";
                     searchStr = outFile;
                     todo = "GetFile";
+                    x = 50; // for fadeoutImage
                     tsp_Sync.Image = Properties.Resources.cloud_sync_40px;
                     tsp_Sync.Visible = true;
                     updatefile_bgw.RunWorkerAsync();

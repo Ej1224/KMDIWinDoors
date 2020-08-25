@@ -95,6 +95,7 @@
             this.tsBtnNwin = new System.Windows.Forms.ToolStripButton();
             this.tsBtnNdoor = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.CloudStoragetoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.refreshToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -102,7 +103,7 @@
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.deleteItemToolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tsp_Sync = new System.Windows.Forms.ToolStripLabel();
-            this.CloudStoragetoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.syncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -327,7 +328,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.saveAsToolStripMenuItem,
+            this.syncToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
@@ -338,7 +340,7 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
@@ -376,7 +378,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -775,6 +777,16 @@
             this.openToolStripButton.Text = "&Open";
             this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
             // 
+            // CloudStoragetoolStripButton
+            // 
+            this.CloudStoragetoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CloudStoragetoolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.cloud_storage_30px;
+            this.CloudStoragetoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CloudStoragetoolStripButton.Name = "CloudStoragetoolStripButton";
+            this.CloudStoragetoolStripButton.Size = new System.Drawing.Size(24, 29);
+            this.CloudStoragetoolStripButton.Text = "Open Cloud storage";
+            this.CloudStoragetoolStripButton.Click += new System.EventHandler(this.CloudStoragetoolStripButton_Click);
+            // 
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -855,14 +867,11 @@
             this.tsp_Sync.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.tsp_Sync.Visible = false;
             // 
-            // CloudStoragetoolStripButton
+            // syncToolStripMenuItem
             // 
-            this.CloudStoragetoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CloudStoragetoolStripButton.Image = global::KMDIWinDoorsCS.Properties.Resources.cloud_storage_30px;
-            this.CloudStoragetoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CloudStoragetoolStripButton.Name = "CloudStoragetoolStripButton";
-            this.CloudStoragetoolStripButton.Size = new System.Drawing.Size(24, 29);
-            this.CloudStoragetoolStripButton.Text = "Open Cloud storage";
+            this.syncToolStripMenuItem.Name = "syncToolStripMenuItem";
+            this.syncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.syncToolStripMenuItem.Text = "Cloud sync";
             // 
             // frmMain2
             // 
@@ -988,6 +997,7 @@
         private System.Windows.Forms.Timer tmr_fadeOutText;
         private System.Windows.Forms.Timer tmr_fadeOutImage;
         private System.Windows.Forms.ToolStripButton CloudStoragetoolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem syncToolStripMenuItem;
     }
 }
 
