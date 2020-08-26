@@ -2150,7 +2150,28 @@ namespace KMDIWinDoorsCS
                                 frmQuoteList frm = new frmQuoteList();
                                 frm.ds = (DataSet)e.Result;
                                 ToggleMode(false, true);
-                                frm.ShowDialog();
+                                //frm.ShowDialog();
+                                if (frm.ShowDialog() == DialogResult.OK)
+                                {
+                                    Clearing_Operation();
+
+                                    wndrfile = frm.FileName;
+
+                                    csfunc.DecryptFile(wndrfile);
+
+                                    int startFileName1 = wndrfile.LastIndexOf("\\") + 1;
+                                    string outFile1 = wndrfile.Substring(0, startFileName1) +
+                                                     wndrfile.Substring(startFileName1, wndrfile.LastIndexOf(".") - startFileName1) + ".txt";
+
+                                    file_lines = File.ReadAllLines(outFile1);
+                                    File.SetAttributes(outFile1, FileAttributes.Hidden);
+                                    tsprogress_Loading.Maximum = file_lines.Length;
+
+                                    autoDescription = false;
+                                    onload = true;
+
+                                    StartWorker("Open_WndrFiles");
+                                }
                             }
                             break;
 
@@ -2163,6 +2184,7 @@ namespace KMDIWinDoorsCS
             }
             catch (Exception ex)
             {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
                 MessageBox.Show(ex.Message);
             }
         }
@@ -4445,7 +4467,14 @@ namespace KMDIWinDoorsCS
                         wndr_content.Add("FPrice: " + itm.ItemPrice);
                         wndr_content.Add("FQty: " + itm.ItemQty);
                         wndr_content.Add("FDiscount: " + itm.ItemDiscount);
-                        wndr_content.Add("FZoom: " + itm.ItemZoom);
+                        if (itm.ItemZoom == 0)
+                        {
+                            wndr_content.Add("FZoom: " + 1);
+                        }
+                        else
+                        {
+                            wndr_content.Add("FZoom: " + itm.ItemZoom);
+                        }
                         wndr_content.Add("FDesc: " + itm.ItemDesc);
 
                         foreach (var item in items.Value)
