@@ -1957,6 +1957,8 @@ namespace KMDIWinDoorsCS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            tsLbl_Welcome.Text = "Welcome, " + info[2];
+
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
             dgvControls.Rows.Add(Properties.Resources.MultiplePanel_Mul, "Multiple Panel(1)");
             dgvControls.Rows.Add(Properties.Resources.Mullion, "Mullion");
@@ -1991,7 +1993,7 @@ namespace KMDIWinDoorsCS
             mnsMainMenu.Enabled = enabled;
             splitContainer1.Enabled = enabled;
             pnlRight.Enabled = enabled;
-            stsEditor.Enabled = enabled;
+            tsBot.Enabled = enabled;
             tsMain.Enabled = enabled;
         }
 
@@ -2150,10 +2152,11 @@ namespace KMDIWinDoorsCS
                                 frmQuoteList frm = new frmQuoteList();
                                 frm.ds = (DataSet)e.Result;
                                 ToggleMode(false, true);
-                                //frm.ShowDialog();
+                                frm.info = info;
                                 if (frm.ShowDialog() == DialogResult.OK)
                                 {
                                     Clearing_Operation();
+
 
                                     wndrfile = frm.FileName;
 
@@ -2915,7 +2918,7 @@ namespace KMDIWinDoorsCS
             }
             if (trackzoom == false)
             {
-                tsSize.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                tsSize2.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
 
@@ -4095,7 +4098,7 @@ namespace KMDIWinDoorsCS
 
             paint_pnlMain = true;
             tsMain.Enabled = true;
-            stsEditor.Enabled = true;
+            tsBot.Enabled = true;
             btnAddZoom.Enabled = true;
             trkZoom.Enabled = true;
             btnSubtractZoom.Enabled = true;

@@ -69,7 +69,7 @@ namespace KMDIWinDoorsCS
                     sqlcmd.CommandText = "Costing_STP";
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     sqlcmd.Parameters.Add("@todo",SqlDbType.VarChar).Value = todo;
-                    sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = searchstr;
+                    sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = "%" + searchstr + "%";
                     sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
                     sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = "";
                     sqltrans.Commit();

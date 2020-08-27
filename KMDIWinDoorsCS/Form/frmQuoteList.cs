@@ -19,7 +19,9 @@ namespace KMDIWinDoorsCS
         }
         public DataSet ds = new DataSet();
         public string FileName;
-        private void frmQuoteList_Load(object sender, EventArgs e)
+        public List<object> info = new List<object>();
+
+        private void AddToListView(DataSet ds)
         {
             for (int i = 0; i <= ds.Tables["GetCloudFiles"].Rows.Count - 1; i++)
             {
@@ -29,6 +31,11 @@ namespace KMDIWinDoorsCS
                 lv.ImageKey = "file_40px.png";
                 listView1.Items.Add(lv);
             }
+        }
+
+        private void frmQuoteList_Load(object sender, EventArgs e)
+        {
+            AddToListView(ds);
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -44,6 +51,44 @@ namespace KMDIWinDoorsCS
             this.Close();
             //MessageBox.Show("Text: " + listView1.SelectedItems[0].Text + "\n" +
             //                "Tag: " + listView1.SelectedItems[0].Tag);
+        }
+
+        private void btn_Search_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            csQueries csq = new csQueries();
+
+            var objds = csq.CostingQuery_ReturnDS("GetCloudFiles", txt_Search.Text, (int)info[0]);
+            if (objds.Item1 == "Committed")
+            {
+                AddToListView(objds.Item2);
+            }
+
+        }
+
+        private void btn_Reset_Click(object sender, EventArgs e)
+        {
+            txt_Search.Clear();
+            listView1.Items.Clear();
+            csQueries csq = new csQueries();
+
+            var objds = csq.CostingQuery_ReturnDS("GetCloudFiles", "", (int)info[0]);
+            if (objds.Item1 == "Committed")
+            {
+                AddToListView(objds.Item2);
+            }
+        }
+
+        private void btn_Search_MouseEnter(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Font = new Font("Segoe UI", 9.0f ,FontStyle.Underline);
+        }
+
+        private void btn_Search_MouseLeave(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Font = new Font("Segoe UI", 9.0f, FontStyle.Regular);
         }
     }
 }
