@@ -33,10 +33,11 @@
             this.txtPass = new System.Windows.Forms.TextBox();
             this.lblPass = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.pnl_btnContainer = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btn_OffLogin = new System.Windows.Forms.Button();
             this.pnl_btnContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -94,25 +95,11 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.FlatAppearance.BorderSize = 0;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(16, 3);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 28);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
             // pnl_btnContainer
             // 
             this.pnl_btnContainer.Controls.Add(this.btnLogin);
             this.pnl_btnContainer.Controls.Add(this.btnCancel);
-            this.pnl_btnContainer.Location = new System.Drawing.Point(128, 179);
+            this.pnl_btnContainer.Location = new System.Drawing.Point(135, 179);
             this.pnl_btnContainer.Name = "pnl_btnContainer";
             this.pnl_btnContainer.Size = new System.Drawing.Size(178, 35);
             this.pnl_btnContainer.TabIndex = 7;
@@ -140,6 +127,40 @@
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Location = new System.Drawing.Point(16, 3);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 28);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btn_OffLogin
+            // 
+            this.btn_OffLogin.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btn_OffLogin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_OffLogin.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_OffLogin.FlatAppearance.BorderSize = 0;
+            this.btn_OffLogin.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.btn_OffLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btn_OffLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_OffLogin.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_OffLogin.ForeColor = System.Drawing.Color.Blue;
+            this.btn_OffLogin.Location = new System.Drawing.Point(7, 182);
+            this.btn_OffLogin.Name = "btn_OffLogin";
+            this.btn_OffLogin.Size = new System.Drawing.Size(137, 28);
+            this.btn_OffLogin.TabIndex = 10;
+            this.btn_OffLogin.Text = "No internet, Offline use";
+            this.btn_OffLogin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_OffLogin.UseVisualStyleBackColor = true;
+            this.btn_OffLogin.Click += new System.EventHandler(this.btn_OffLogin_Click);
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
@@ -148,6 +169,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(326, 221);
             this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.btn_OffLogin);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtPass);
             this.Controls.Add(this.lblPass);
@@ -180,9 +202,10 @@
         private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Label lblPass;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnl_btnContainer;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button btnCancel;
+        public System.Windows.Forms.Button btn_OffLogin;
     }
 }

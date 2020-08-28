@@ -3750,6 +3750,20 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void syncToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (online_login == false)
+            {
+                frmLogin frm = new frmLogin();
+                frm.btn_OffLogin.Visible = false;
+                frm.ShowDialog();
+            }
+            else
+            {
+                saveToolStripButton_Click(sender, e);
+            }
+        }
+
         private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)
         {
             StartWorker("GetCloudFiles");

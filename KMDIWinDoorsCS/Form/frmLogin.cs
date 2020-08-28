@@ -159,6 +159,18 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void btn_OffLogin_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmMain2 frm = new frmMain2();
+            info.Add("");
+            info.Add("");
+            info.Add("Offline user");
+            frm.info = info;
+            frm.online_login = false;
+            frm.Show();
+        }
+
         private void txt_Leave(object sender, EventArgs e)
         {
             if (sender == txtUser)
