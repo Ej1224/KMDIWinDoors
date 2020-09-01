@@ -23,8 +23,9 @@ namespace KMDIWinDoorsCS
         BackgroundWorker bgw = new BackgroundWorker();
 
         string username, password;
-        List<object> info = new List<object>();
+        public List<object> info = new List<object>();
         bool expt = false;
+        public string mode;
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
@@ -93,11 +94,19 @@ namespace KMDIWinDoorsCS
                     {
                         if (info[3].ToString() == "Costing" || info[3].ToString() == "Admin")
                         {
-                            this.Hide();
-                            frmMain2 frm = new frmMain2();
-                            frm.info = info;
-                            frm.online_login = true;
-                            frm.Show();
+                            if (mode == "Cloud sync")
+                            {
+                                this.DialogResult = DialogResult.OK;
+                                this.Hide();
+                            }
+                            else
+                            {
+                                this.Hide();
+                                frmMain2 frm = new frmMain2();
+                                frm.info = info;
+                                frm.online_login = true;
+                                frm.Show();
+                            }
                         }
                         else
                         {

@@ -1983,6 +1983,14 @@ namespace KMDIWinDoorsCS
             updatefile_bgw.ProgressChanged += updatefile_bgw_ProgressChanged;
             updatefile_bgw.DoWork += updatefile_bgw_DoWork;
 
+            if (online_login)
+            {
+                CloudStoragetoolStripButton.Enabled = true;
+            }
+            else
+            {
+                CloudStoragetoolStripButton.Enabled = false;
+            }
         }
 
         private void ToggleMode(bool visibility, bool enabled)
@@ -3755,8 +3763,16 @@ namespace KMDIWinDoorsCS
             if (online_login == false)
             {
                 frmLogin frm = new frmLogin();
+                frm.mode = syncToolStripMenuItem.Text;
                 frm.btn_OffLogin.Visible = false;
-                frm.ShowDialog();
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    info = frm.info;
+                    tsLbl_Welcome.Text = "Welcome, " + info[2];
+                    online_login = true;
+                    CloudStoragetoolStripButton.Enabled = true;
+                    saveToolStripButton_Click(sender, e);
+                }
             }
             else
             {
@@ -4278,6 +4294,7 @@ namespace KMDIWinDoorsCS
             if (Text.Contains(">>"))
             {
                 saveAsToolStripMenuItem.Enabled = true;
+                syncToolStripMenuItem.Enabled = true;
                 tsBtnNdoor.Enabled = true;
                 tsBtnNwin.Enabled = true;
                 refreshToolStripButton.Enabled = true;
@@ -4285,6 +4302,7 @@ namespace KMDIWinDoorsCS
             else
             {
                 saveAsToolStripMenuItem.Enabled = false;
+                syncToolStripMenuItem.Enabled = false;
                 tsBtnNdoor.Enabled = false;
                 tsBtnNwin.Enabled = false;
                 refreshToolStripButton.Enabled = false;
