@@ -29,6 +29,10 @@ namespace KMDIWinDoorsCS
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
+            chk_Remember.Checked = Properties.Settings.Default.rmbrMe;
+            txtUser.Text = Properties.Settings.Default.Username;
+            txtPass.Text = csfunc.Decrypt(Properties.Settings.Default.Password);
+
             bgw.WorkerReportsProgress = true;
             bgw.WorkerSupportsCancellation = true;
             bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
@@ -101,6 +105,18 @@ namespace KMDIWinDoorsCS
                             }
                             else
                             {
+                                if (chk_Remember.Checked == true)
+                                {
+                                    Properties.Settings.Default.rmbrMe = true;
+                                    Properties.Settings.Default.Username = username;
+                                    Properties.Settings.Default.Password = csfunc.Encrypt(password);
+                                }
+                                else
+                                {
+                                    Properties.Settings.Default.rmbrMe = false;
+                                    Properties.Settings.Default.Username = Properties.Settings.Default.Password = "";
+                                }
+
                                 this.Hide();
                                 frmMain2 frm = new frmMain2();
                                 frm.info = info;

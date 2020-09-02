@@ -1957,6 +1957,8 @@ namespace KMDIWinDoorsCS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
             tsLbl_Welcome.Text = "Welcome, " + info[2];
 
             dgvControls.Rows.Add(Properties.Resources.SinglePanel, "Single Panel");
@@ -3709,6 +3711,7 @@ namespace KMDIWinDoorsCS
 
         private void frmMain2_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Properties.Settings.Default.Save();
             Application.Exit();
         }
         

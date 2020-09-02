@@ -34,10 +34,11 @@
             this.lblPass = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
             this.pnl_btnContainer = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.btn_OffLogin = new System.Windows.Forms.Button();
+            this.chk_Remember = new System.Windows.Forms.CheckBox();
             this.pnl_btnContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -46,7 +47,7 @@
             // lblUser
             // 
             this.lblUser.AutoSize = true;
-            this.lblUser.Location = new System.Drawing.Point(10, 117);
+            this.lblUser.Location = new System.Drawing.Point(10, 112);
             this.lblUser.Name = "lblUser";
             this.lblUser.Size = new System.Drawing.Size(71, 19);
             this.lblUser.TabIndex = 0;
@@ -54,7 +55,7 @@
             // 
             // txtUser
             // 
-            this.txtUser.Location = new System.Drawing.Point(90, 114);
+            this.txtUser.Location = new System.Drawing.Point(90, 109);
             this.txtUser.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(216, 25);
@@ -64,7 +65,7 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(90, 147);
+            this.txtPass.Location = new System.Drawing.Point(90, 138);
             this.txtPass.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPass.Name = "txtPass";
             this.txtPass.PasswordChar = '*';
@@ -76,7 +77,7 @@
             // lblPass
             // 
             this.lblPass.AutoSize = true;
-            this.lblPass.Location = new System.Drawing.Point(10, 150);
+            this.lblPass.Location = new System.Drawing.Point(10, 141);
             this.lblPass.Name = "lblPass";
             this.lblPass.Size = new System.Drawing.Size(67, 19);
             this.lblPass.TabIndex = 2;
@@ -99,33 +100,10 @@
             // 
             this.pnl_btnContainer.Controls.Add(this.btnLogin);
             this.pnl_btnContainer.Controls.Add(this.btnCancel);
-            this.pnl_btnContainer.Location = new System.Drawing.Point(135, 179);
+            this.pnl_btnContainer.Location = new System.Drawing.Point(135, 193);
             this.pnl_btnContainer.Name = "pnl_btnContainer";
             this.pnl_btnContainer.Size = new System.Drawing.Size(178, 35);
             this.pnl_btnContainer.TabIndex = 7;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox2.Image = global::KMDIWinDoorsCS.Properties.Resources.loading2;
-            this.pictureBox2.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(302, 202);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 9;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KMDIWinDoorsCS.Properties.Resources.K_M_logo_official_2018_1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(302, 88);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
             // 
             // btnCancel
             // 
@@ -141,6 +119,29 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox2.Image = global::KMDIWinDoorsCS.Properties.Resources.loading2;
+            this.pictureBox2.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(302, 217);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 9;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::KMDIWinDoorsCS.Properties.Resources.K_M_logo_official_2018_1;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(302, 88);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // btn_OffLogin
             // 
             this.btn_OffLogin.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -152,7 +153,7 @@
             this.btn_OffLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_OffLogin.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_OffLogin.ForeColor = System.Drawing.Color.Blue;
-            this.btn_OffLogin.Location = new System.Drawing.Point(7, 182);
+            this.btn_OffLogin.Location = new System.Drawing.Point(7, 197);
             this.btn_OffLogin.Name = "btn_OffLogin";
             this.btn_OffLogin.Size = new System.Drawing.Size(137, 28);
             this.btn_OffLogin.TabIndex = 10;
@@ -161,14 +162,25 @@
             this.btn_OffLogin.UseVisualStyleBackColor = true;
             this.btn_OffLogin.Click += new System.EventHandler(this.btn_OffLogin_Click);
             // 
+            // chk_Remember
+            // 
+            this.chk_Remember.AutoSize = true;
+            this.chk_Remember.Location = new System.Drawing.Point(14, 171);
+            this.chk_Remember.Name = "chk_Remember";
+            this.chk_Remember.Size = new System.Drawing.Size(117, 23);
+            this.chk_Remember.TabIndex = 11;
+            this.chk_Remember.Text = "Remember me";
+            this.chk_Remember.UseVisualStyleBackColor = true;
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(326, 221);
+            this.ClientSize = new System.Drawing.Size(326, 241);
             this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.chk_Remember);
             this.Controls.Add(this.btn_OffLogin);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtPass);
@@ -207,5 +219,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btn_OffLogin;
+        private System.Windows.Forms.CheckBox chk_Remember;
     }
 }

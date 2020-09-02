@@ -13,7 +13,7 @@ namespace KMDIWinDoorsCS
     {
         Class.csFunctions csfunc = new Class.csFunctions();
 
-        string sqlConStr = "Data Source='121.58.229.248,49107';Network Library=DBMSSOCN;Initial Catalog='KMDIDATA';User ID='kmdiadmin';Password='kmdiadmin';";
+        string sqlConStr = Properties.Settings.Default.dbCon;
 
         public List<object> Login(string username, string password)
         {
