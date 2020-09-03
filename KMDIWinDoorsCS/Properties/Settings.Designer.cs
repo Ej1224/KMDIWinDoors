@@ -80,5 +80,17 @@ namespace KMDIWinDoorsCS.Properties {
                 this["WndrDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FirstTym {
+            get {
+                return ((bool)(this["FirstTym"]));
+            }
+            set {
+                this["FirstTym"] = value;
+            }
+        }
     }
 }

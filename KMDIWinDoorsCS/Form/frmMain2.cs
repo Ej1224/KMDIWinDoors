@@ -1954,10 +1954,20 @@ namespace KMDIWinDoorsCS
         BackgroundWorker bgw = new BackgroundWorker();
         BackgroundWorker updatefile_bgw = new BackgroundWorker();
         public List<object> info = new List<object>();
-
+        string defDir;
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            if (Properties.Settings.Default.FirstTym == false)
+            {
+                defDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Windoor Maker files";
+                Directory.CreateDirectory(defDir);
+                MessageBox.Show("Your default sync directory >> " + defDir + "\n\nYou can change sync directory anytime at 'Tools' > 'Change sync directory'", 
+                                "Sync directory", 
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                Properties.Settings.Default.WndrDir = defDir;
+                Properties.Settings.Default.FirstTym = true;
+            }
 
             tsLbl_Welcome.Text = "Welcome, " + info[2];
 
@@ -3783,6 +3793,14 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        private void changeSyncDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Properties.Settings.Default.WndrDir = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
         private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)
         {
             StartWorker("GetCloudFiles");
@@ -4687,6 +4705,7 @@ namespace KMDIWinDoorsCS
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.FileName = quotation_ref_no;
+            saveFileDialog1.InitialDirectory = Properties.Settings.Default.WndrDir;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (wndrfile != saveFileDialog1.FileName)
@@ -4732,6 +4751,7 @@ namespace KMDIWinDoorsCS
         {
             try
             {
+                openFileDialog1.InitialDirectory = Properties.Settings.Default.WndrDir;
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     Clearing_Operation();
