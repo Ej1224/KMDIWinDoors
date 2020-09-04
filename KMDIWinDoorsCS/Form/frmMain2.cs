@@ -1955,6 +1955,8 @@ namespace KMDIWinDoorsCS
         BackgroundWorker updatefile_bgw = new BackgroundWorker();
         public List<object> info = new List<object>();
         string defDir;
+        DataTable CostingItems = new DataTable();
+
         private void Form1_Load(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.FirstTym == false)
@@ -1998,11 +2000,28 @@ namespace KMDIWinDoorsCS
             if (online_login)
             {
                 CloudStoragetoolStripButton.Enabled = true;
+                syncLocalToCloudToolStripMenuItem.Enabled = true;
             }
             else
             {
                 CloudStoragetoolStripButton.Enabled = false;
+                syncLocalToCloudToolStripMenuItem.Enabled = false;
             }
+            
+            CostingItems.Columns.Add("CI_id", typeof(int));
+            CostingItems.Columns.Add("CI_Qno", typeof(string));
+            CostingItems.Columns.Add("CI_Item_id", typeof(string));
+            CostingItems.Columns.Add("CI_Item_no", typeof(string));
+            CostingItems.Columns.Add("CI_Item_location", typeof(string));
+            CostingItems.Columns.Add("CI_Item_Width", typeof(int));
+            CostingItems.Columns.Add("CI_Item_Height", typeof(int));
+            CostingItems.Columns.Add("CI_Item_Desc", typeof(string));
+            CostingItems.Columns.Add("CI_Item_Qty", typeof(int));
+            CostingItems.Columns.Add("CI_Item_Price", typeof(decimal));
+            CostingItems.Columns.Add("CI_Item_Disc", typeof(decimal));
+            CostingItems.Columns.Add("CI_Item_Net", typeof(decimal));
+            CostingItems.Columns.Add("CI_Sys_used", typeof(string));
+            CostingItems.Columns.Add("CI_row_sts", typeof(bool));
         }
 
         private void ToggleMode(bool visibility, bool enabled)
@@ -2221,7 +2240,7 @@ namespace KMDIWinDoorsCS
                 switch (todo)
                 {
                     case "GetFile":
-                        var objds = csq.CostingQuery_ReturnDS("GetFile", searchStr, (int)info[0]);
+                        var objds = csq.CostingQuery_ReturnDS(todo, searchStr, (int)info[0]);
                         DataSet ds = objds.Item2;
                         sql_Transaction_result = objds.Item1;
                         e.Result = ds;
@@ -2229,9 +2248,14 @@ namespace KMDIWinDoorsCS
                         break;
 
                     case "AddFile":
-                        bool ret_val = csq.CostingQuery_ReturnBool("AddFile", searchStr, (int)info[0]);
+                        bool ret_val = csq.CostingQuery_ReturnBool(todo, searchStr, "", null, (int)info[0]);
                         e.Result = ret_val.ToString();
                         break;
+
+                    case "InsertItems":
+                        updatefile_bgw.ReportProgress(0, csq.TABLGETMaxID_STP2("A_NEW_COSTING_ITEMS", "CI_id"));
+                        break;
+
                     default:
                         break;
                 }
@@ -2271,6 +2295,38 @@ namespace KMDIWinDoorsCS
                         
                         break;
 
+                    case "InsertItems":
+                        int maxid = (int)e.UserState;
+                        foreach (KeyValuePair<string, List<string>> items in dictDragOrder)
+                        {
+                            foreach (var itm in GetItem())
+                            {
+                                if (items.Key == itm.ItemID)
+                                {
+                                    string WxH = itm.ItemDimension.Replace(" ", "");
+                                    string[] dimension = WxH.Split('x');
+
+                                    maxid++;
+
+                                    CostingItems.Rows.Add(maxid,
+                                                          quotation_ref_no,
+                                                          itm.ItemID,
+                                                          itm.ItemID.Replace("Item_","") + ".0",
+                                                          itm.ItemName,
+                                                          dimension[0],
+                                                          dimension[1],
+                                                          itm.ItemDesc,
+                                                          itm.ItemQty,
+                                                          itm.ItemPrice,
+                                                          itm.ItemDiscount,
+                                                          ((itm.ItemPrice * itm.ItemQty) - ((itm.ItemPrice * itm.ItemQty) * (itm.ItemDiscount / 100))).ToString("N2"),
+                                                          itm.ItemProfile,
+                                                          1);
+                                }
+                            }
+                        }
+                        break;
+
                     default:
                         break;
                 }
@@ -2305,9 +2361,11 @@ namespace KMDIWinDoorsCS
                                     if (sqldscount == 1)
                                     {
                                         //tsp_Sync.Text = "";
-                                        tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
-                                        cloud_is_chkd = true;
-                                        tmr_fadeOutImage.Start();
+                                        //tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
+                                        //cloud_is_chkd = true;
+                                        //tmr_fadeOutImage.Start();
+                                        todo = "InsertItems";
+                                        updatefile_bgw.RunWorkerAsync();
                                     }
                                     else if (sqldscount > 1)
                                     {
@@ -2338,14 +2396,24 @@ namespace KMDIWinDoorsCS
                         case "AddFile":
                             if (e.Result.ToString() == "True")
                             {
-                                //tsp_Sync.Text = "";
+                                todo = "InsertItems";
+                                updatefile_bgw.RunWorkerAsync();
+                            }
+                            else
+                            {
+                                tsp_Sync.Image = Properties.Resources.cancel_30px;
+                            }
+                            break;
+
+                        case "InsertItems":
+                            if (csq.CostingQuery_ReturnBool(todo, "", quotation_ref_no, CostingItems, 0))
+                            {
                                 tsp_Sync.Image = Properties.Resources.cloud_checked_40px;
                                 cloud_is_chkd = true;
                                 tmr_fadeOutImage.Start();
                             }
                             else
                             {
-                                //tsp_Sync.Text = "Error";
                                 tsp_Sync.Image = Properties.Resources.cancel_30px;
                             }
                             break;
@@ -3784,6 +3852,7 @@ namespace KMDIWinDoorsCS
                     tsLbl_Welcome.Text = "Welcome, " + info[2];
                     online_login = true;
                     CloudStoragetoolStripButton.Enabled = true;
+                    syncLocalToCloudToolStripMenuItem.Enabled = true;
                     saveToolStripButton_Click(sender, e);
                 }
             }
@@ -3798,6 +3867,14 @@ namespace KMDIWinDoorsCS
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 Properties.Settings.Default.WndrDir = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void syncLocalToCloudToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (online_login == false)
+            {
+
             }
         }
 
@@ -4283,6 +4360,7 @@ namespace KMDIWinDoorsCS
                     x = 50; // for fadeoutImage
                     tsp_Sync.Image = Properties.Resources.cloud_sync_40px;
                     tsp_Sync.Visible = true;
+                    CostingItems.Rows.Clear();
                     updatefile_bgw.RunWorkerAsync();
                 }
             }
@@ -4532,7 +4610,7 @@ namespace KMDIWinDoorsCS
                             wndr_content.Add("FZoom: " + itm.ItemZoom);
                         }
                         wndr_content.Add("FDesc: " + itm.ItemDesc);
-
+                        
                         foreach (var item in items.Value)
                         {
                             if (item.Contains("Frame"))

@@ -72,6 +72,8 @@ namespace KMDIWinDoorsCS
                     sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = "%" + searchstr + "%";
                     sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
                     sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = "";
+                    sqlcmd.Parameters.Add("@CI_Qno", SqlDbType.VarChar).Value = "";
+                    sqlcmd.Parameters.Add("@Costing_Items", SqlDbType.Structured).Value = null;
                     sqltrans.Commit();
                     sql_Transaction_result = "Committed";
 
@@ -84,6 +86,8 @@ namespace KMDIWinDoorsCS
 
         public bool CostingQuery_ReturnBool(string todo,
                                             string C_File_addr,
+                                            string CI_Qno,
+                                            DataTable Costing_Items,
                                             int acctno) //function for Insert, Update and Delete STATEMENTS
         {
             int count = 0;
@@ -100,6 +104,8 @@ namespace KMDIWinDoorsCS
                     sqlcmd.Parameters.Add("@SearchString", SqlDbType.VarChar).Value = "";
                     sqlcmd.Parameters.Add("@todo", SqlDbType.VarChar).Value = todo;
                     sqlcmd.Parameters.Add("@C_File_addr", SqlDbType.VarChar).Value = C_File_addr;
+                    sqlcmd.Parameters.Add("@CI_Qno", SqlDbType.VarChar).Value = CI_Qno;
+                    sqlcmd.Parameters.Add("@Costing_Items", SqlDbType.Structured).Value = Costing_Items;
                     sqlcmd.Parameters.Add("@intVar", SqlDbType.Int).Value = acctno;
                     count = sqlcmd.ExecuteNonQuery();
 
@@ -114,6 +120,36 @@ namespace KMDIWinDoorsCS
             {
                 return false;
             }
+        }
+
+        public int TABLGETMaxID_STP2(string TBL_NAME ,
+                                     string COL_NAME,
+                                     string StoredProcedureName = "A_GLOBAL_stp_GetMaxID")
+        {
+            int maxid = 0;
+            using (SqlConnection sqlcon = new SqlConnection(sqlConStr))
+            {
+                sqlcon.Open();
+                using (SqlCommand sqlcmd = sqlcon.CreateCommand())
+                {
+                    SqlTransaction sqltrans = sqlcon.BeginTransaction("A_GLOBAL_stp_GetMaxID");
+                    sqlcmd.Connection = sqlcon;
+                    sqlcmd.Transaction = sqltrans;
+                    sqlcmd.CommandText = StoredProcedureName;
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    sqlcmd.Parameters.Add("@TBL_NAME", SqlDbType.VarChar).Value = TBL_NAME;
+                    sqlcmd.Parameters.Add("@COL_NAME", SqlDbType.VarChar).Value = COL_NAME;
+                    using (SqlDataReader rdr = sqlcmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            maxid = rdr.GetInt32(0);
+                        }
+                    }
+                    sqltrans.Commit();
+                }
+            }
+            return maxid;
         }
     }
 }
