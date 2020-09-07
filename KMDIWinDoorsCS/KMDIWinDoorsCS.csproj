@@ -52,9 +52,12 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +82,12 @@
     </Compile>
     <Compile Include="Form\frmQuoteList.Designer.cs">
       <DependentUpon>frmQuoteList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrintQuote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrintQuote.Designer.cs">
+      <DependentUpon>frmPrintQuote.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomLblNum.cs">
       <SubType>UserControl</SubType>
@@ -150,6 +159,10 @@
     <EmbeddedResource Include="Form\frmQuoteList.resx">
       <DependentUpon>frmQuoteList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPrintQuote.resx">
+      <DependentUpon>frmPrintQuote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptQuotation.rdlc" />
     <EmbeddedResource Include="UserControls\CustomLblNum.resx">
       <DependentUpon>CustomLblNum.cs</DependentUpon>
     </EmbeddedResource>

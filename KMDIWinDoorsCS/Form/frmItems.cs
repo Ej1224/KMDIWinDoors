@@ -120,5 +120,11 @@ namespace KMDIWinDoorsCS
                 MessageBox.Show(this,"Save first before exiting.","",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
         }
+
+        private void printToolStripButton_Click(object sender, EventArgs e)
+        {
+            frmPrintQuote frm = new frmPrintQuote();
+            frm.Show();
+        }
     }
 }

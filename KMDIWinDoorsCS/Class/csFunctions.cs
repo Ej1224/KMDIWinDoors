@@ -37,7 +37,15 @@ namespace KMDIWinDoorsCS.Class
                                       .Concat(controls)
                                       .Where(c => c.Name.Contains(name));
         }
-        
+        public IEnumerable<Control> GetAllwithID(Control control, Type type, string name)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAllwithID(ctrl, type, name))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type)
+                                      .Where(c => c.Name == (name));
+        }
         public void LogToFile(string errormsg, string stacktrace)
         {
             using (StreamWriter logfile = new StreamWriter(Application.StartupPath + @"\Error_Logs.txt", true))

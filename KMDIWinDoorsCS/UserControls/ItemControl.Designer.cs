@@ -52,6 +52,7 @@
             this.lbl_item.TabIndex = 0;
             this.lbl_item.Tag = "lbl_item";
             this.lbl_item.Text = "lbl_item";
+            this.lbl_item.UseMnemonic = false;
             // 
             // pbox_itemImage
             // 

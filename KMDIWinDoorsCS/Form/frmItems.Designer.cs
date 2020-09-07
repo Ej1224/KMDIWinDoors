@@ -38,10 +38,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tspbar_saving = new System.Windows.Forms.ToolStripProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pnlBase.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -137,6 +137,19 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // tspbar_saving
+            // 
+            this.tspbar_saving.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tspbar_saving.Name = "tspbar_saving";
+            this.tspbar_saving.Size = new System.Drawing.Size(100, 22);
+            this.tspbar_saving.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -156,19 +169,7 @@
             this.printToolStripButton.Name = "printToolStripButton";
             this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.printToolStripButton.Text = "&Print";
-            // 
-            // tspbar_saving
-            // 
-            this.tspbar_saving.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tspbar_saving.Name = "tspbar_saving";
-            this.tspbar_saving.Size = new System.Drawing.Size(100, 22);
-            this.tspbar_saving.Visible = false;
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.printToolStripButton.Click += new System.EventHandler(this.printToolStripButton_Click);
             // 
             // frmItems
             // 

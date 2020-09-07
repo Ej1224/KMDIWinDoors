@@ -632,7 +632,7 @@ namespace KMDIWinDoorsCS
         private string UpdateLblDescription(string profiletype)
         {
             string desc = "",
-                   wndrtype = "",
+                   //wndrtype = "",
                    wndrcol = "",
                    str_wndr = "",
                    slid_desc = "";
@@ -671,7 +671,8 @@ namespace KMDIWinDoorsCS
                         }
                     }
 
-                    slid_desc += "\n" + slid_wndrtype + " (" + pnlSlid + ") ";
+                    //slid_desc += "\n" + slid_wndrtype + " (" + pnlSlid + ") ";
+                    slid_desc += slid_wndrtype + " (" + pnlSlid + ") ";
                 }
             }
 
@@ -744,21 +745,28 @@ namespace KMDIWinDoorsCS
                 }
             }
 
-            if (wndrloop.Contains("Window") && wndrloop.Contains("Door"))
-            {
-                wndrtype = "Window/Door";
-            }
-            else if (wndrloop.Contains("Window") && wndrloop.Contains("Door") == false)
-            {
-                wndrtype = "Window";
-            }
-            else if (wndrloop.Contains("Window") == false && wndrloop.Contains("Door"))
-            {
-                wndrtype = "Door";
-            }
+            //if (wndrloop.Contains("Window") && wndrloop.Contains("Door"))
+            //{
+            //    wndrtype = "Window/Door";
+            //}
+            //else if (wndrloop.Contains("Window") && wndrloop.Contains("Door") == false)
+            //{
+            //    wndrtype = "Window";
+            //}
+            //else if (wndrloop.Contains("Window") == false && wndrloop.Contains("Door"))
+            //{
+            //    wndrtype = "Door";
+            //}
 
-            desc = profiletype + "\n" + pnlcol.Count().ToString() + " Panel " + wndrtype + slid_desc + "\n(" + str_wndr.TrimStart(' ',',') + ")";
-
+            //desc = profiletype + "\n" + pnlcol.Count().ToString() + " Panel " + wndrtype + slid_desc + "\n(" + str_wndr.TrimStart(' ',',') + ")";
+            if (slid_desc == "")
+            {
+                desc = str_wndr.TrimStart(' ', ',');
+            }
+            else
+            {
+                desc = slid_desc + "\n(" + str_wndr.TrimStart(' ', ',') + ")";
+            }
             return desc;
         }
 
@@ -1571,7 +1579,7 @@ namespace KMDIWinDoorsCS
 
                 itemControlsSearch("lbldesc");
 
-                saveToolStripButton_Click(sender, e);
+                //saveToolStripButton_Click(sender, e);
                 pnlPropertiesBody.Enabled = true;
                 ToggleMode(false, true);
                 pnlMain.Enabled = true;
@@ -2305,6 +2313,8 @@ namespace KMDIWinDoorsCS
                                 {
                                     string WxH = itm.ItemDimension.Replace(" ", "");
                                     string[] dimension = WxH.Split('x');
+                                    int indxofDot = itm.ItemName.IndexOf(".");
+                                    string frameloc = itm.ItemName.Substring(indxofDot + 1);
 
                                     maxid++;
 
@@ -2312,7 +2322,7 @@ namespace KMDIWinDoorsCS
                                                           quotation_ref_no,
                                                           itm.ItemID,
                                                           itm.ItemID.Replace("Item_","") + ".0",
-                                                          itm.ItemName,
+                                                          frameloc.Trim(),
                                                           dimension[0],
                                                           dimension[1],
                                                           itm.ItemDesc,
@@ -4656,7 +4666,7 @@ namespace KMDIWinDoorsCS
                                                 {
                                                     foreach (Panel property in prop.Value)
                                                     {
-                                                        var chk_col = csfunc.GetAll(property, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
+                                                        var chk_col = csfunc.GetAllwithID(property, typeof(CheckBox), "chkWdrOrientation_" + pnl_id);
                                                         foreach (CheckBox chk in chk_col)
                                                         {
                                                             if (chk.Visible == true)
@@ -4666,7 +4676,7 @@ namespace KMDIWinDoorsCS
                                                             }
                                                         }
 
-                                                        var num_col = csfunc.GetAll(property, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
+                                                        var num_col = csfunc.GetAllwithID(property, typeof(NumericUpDown), "numBladeCount_" + pnl_id);
                                                         foreach (NumericUpDown num in num_col)
                                                         {
                                                             if (num.Visible == true)
