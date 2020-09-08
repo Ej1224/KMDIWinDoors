@@ -1408,6 +1408,8 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        int ItemControltagID = 0;
+
         private ItemControl CreateItemControl(string f_id,
                                               string name,
                                               int count,
@@ -1422,6 +1424,11 @@ namespace KMDIWinDoorsCS
             string id = f_id;
             Label lblname;
 
+            if (itmpnl_visibility)
+            {
+                ItemControltagID++;
+            }
+
             ItemControl itm = new ItemControl();
             //itm.Visible = itmpnl_visibility;
             itm.itmVisible = itmpnl_visibility;
@@ -1434,6 +1441,7 @@ namespace KMDIWinDoorsCS
             itm.itmDiscount = discount;
             itm.itmQuantity = qty;
             itm.itmZoom = zoom;
+            itm.Tag = ItemControltagID;
             //itm.itmDesc
 
             lblname = itm.lbl_item;
@@ -3938,6 +3946,7 @@ namespace KMDIWinDoorsCS
                 item_info.Add(item.ItemQty);
                 item_info.Add(item.ItemPrice);
                 item_info.Add(item.ItemDiscount);
+                item_info.Add(item.ItemTagID);
 
                 dict_items.Add(i, item_info);
                 i++;

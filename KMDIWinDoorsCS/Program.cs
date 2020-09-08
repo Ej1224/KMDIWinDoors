@@ -18,7 +18,7 @@ namespace KMDIWinDoorsCS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmPrintQuote());
+            Application.Run(new frmLogin());
         }
     }
 }

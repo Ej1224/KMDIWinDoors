@@ -19,6 +19,7 @@ namespace KMDIWinDoorsCS
 
         public class ItemRow
         {
+            public int rowTagID { get; set; }
             public string rowItemID { get; set; }
             public string rowItemName { get; set; }
             public string rowItemDesc { get; set; }
@@ -62,8 +63,12 @@ namespace KMDIWinDoorsCS
 
         private void ViewItemsControl_Load(object sender, EventArgs e)
         {
+            string WxH = ItemDimension.Replace(" ", "");
+            string[] dimension = WxH.Split('x');
+
+            tbox_Dimension.Text = dimension[0] + "w x " + dimension[1] + "h";
+
             tbox_lblname.Text = ItemName;
-            tbox_Dimension.Text = ItemDimension;
             rtbox_desc.Text = ItemDesc;
 
             cstm_Price.Value = ItemPrice;
@@ -88,7 +93,8 @@ namespace KMDIWinDoorsCS
                 rowItemDiscount = cstm_Discount.Value,
                 rowItemQty = (int)cstm_qty.Value,
                 rowItemDimension = ItemDimension,
-                rowItemImage = ItemImage
+                rowItemImage = ItemImage,
+                rowTagID = (int)this.Tag
             };
         }
 

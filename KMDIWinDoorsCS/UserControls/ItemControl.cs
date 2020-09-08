@@ -33,6 +33,7 @@ namespace KMDIWinDoorsCS
 
         public class Item
         {
+            public int ItemTagID { get; set; }
             public string ItemName { get; set; }
             public string ItemDimension { get; set; }
             public string ItemDesc { get; set; }
@@ -60,7 +61,8 @@ namespace KMDIWinDoorsCS
                 ItemQty = itmQuantity,
                 ItemPrice = itmPrice,
                 ItemDiscount = itmDiscount,
-                ItemZoom = itmZoom
+                ItemZoom = itmZoom,
+                ItemTagID = (int)this.Tag
             };
         }
     }

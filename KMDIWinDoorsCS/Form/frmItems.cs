@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +28,15 @@ namespace KMDIWinDoorsCS
          * [5] = Item Qty
          * [6] = Item Price
          * [7] = Item Discount
+         * [8] = ItemTagID
          */
 
         private void frmItems_Load(object sender, EventArgs e)
         {
+            int tagID = 0;
             foreach (KeyValuePair<int, List<object>> items in dict_items)
             {
+                tagID++;
                 ViewItemsControl itmctrl = new ViewItemsControl();
                 itmctrl.ItemName = (string)items.Value[0];
                 itmctrl.ItemDimension = (string)items.Value[1];
@@ -42,6 +46,7 @@ namespace KMDIWinDoorsCS
                 itmctrl.ItemQuantity = (int)items.Value[5];
                 itmctrl.ItemPrice = (decimal)items.Value[6];
                 itmctrl.ItemDiscount = (decimal)items.Value[7];
+                itmctrl.Tag = (int)items.Value[8];
 
                 itmctrl.Dock = DockStyle.Top;
                 itmctrl.ctrlValueChanged += Itmctrl_ctrlValueChanged;
@@ -123,8 +128,35 @@ namespace KMDIWinDoorsCS
 
         private void printToolStripButton_Click(object sender, EventArgs e)
         {
+            Dataset.dsWindoor dsw = new Dataset.dsWindoor();
+
+            foreach (var row in GetRow().OrderBy(item => item.rowTagID))
+            {
+                decimal DiscountPrice = (row.rowItemPrice * row.rowItemQty) * (row.rowItemDiscount / 100);
+                decimal netprice = ((row.rowItemPrice * row.rowItemQty) - DiscountPrice);
+
+                MemoryStream mstream = new MemoryStream();
+                row.rowItemImage.Save(mstream, System.Drawing.Imaging.ImageFormat.Png);
+                byte[] arrimage = mstream.ToArray();
+                string byteToStr = Convert.ToBase64String(arrimage);
+
+                string WxH = row.rowItemDimension.Replace(" ", "");
+                string[] dimension = WxH.Split('x');
+
+                string reportdimension = dimension[0] + "w x " + dimension[1] + "h";
+
+                dsw.dtQuote.Rows.Add(byteToStr,
+                                     reportdimension + "\n" + row.rowItemDesc,
+                                     row.rowItemQty,
+                                     row.rowItemPrice,
+                                     row.rowItemDiscount,
+                                     netprice);
+            }
+            
             frmPrintQuote frm = new frmPrintQuote();
+            frm.QuoteBS.DataSource = dsw.dtQuote.DefaultView;
             frm.Show();
+
         }
     }
 }
