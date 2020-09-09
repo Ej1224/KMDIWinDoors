@@ -51,6 +51,9 @@
     <StartupObject>
     </StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icons8_closed_window.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -155,6 +158,7 @@
     </Compile>
     <EmbeddedResource Include="Form\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\frmQuoteList.resx">
       <DependentUpon>frmQuoteList.cs</DependentUpon>
@@ -243,6 +247,7 @@
     <None Include="Resources\cloud_storage_40px.png" />
     <None Include="Resources\cloud_storage_30px.png" />
     <None Include="Resources\file_40px.png" />
+    <Content Include="icons8_closed_window.ico" />
     <Content Include="Resources\Mullion.png" />
     <Content Include="Resources\MultiplePanel.png" />
     <None Include="Resources\MultiplePanel1.png" />

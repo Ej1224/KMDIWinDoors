@@ -408,14 +408,14 @@
             // itemsToolStripMenuItem
             // 
             this.itemsToolStripMenuItem.Name = "itemsToolStripMenuItem";
-            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.itemsToolStripMenuItem.Text = "Items";
             this.itemsToolStripMenuItem.Click += new System.EventHandler(this.itemsToolStripMenuItem_Click);
             // 
             // defaultValuesToolStripMenuItem
             // 
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // ViewToolStripMenuItem
@@ -927,6 +927,7 @@
             this.Controls.Add(this.mnsMainMenu);
             this.Controls.Add(this.tsBot);
             this.Controls.Add(this.flpMain2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.mnsMainMenu;
             this.Name = "frmMain2";
