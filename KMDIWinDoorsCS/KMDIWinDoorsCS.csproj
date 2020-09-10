@@ -166,6 +166,7 @@
     <EmbeddedResource Include="Form\frmPrintQuote.resx">
       <DependentUpon>frmPrintQuote.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Report1.rdlc" />
     <EmbeddedResource Include="Reports\rptQuotation.rdlc" />
     <EmbeddedResource Include="UserControls\CustomLblNum.resx">
       <DependentUpon>CustomLblNum.cs</DependentUpon>

@@ -2272,6 +2272,9 @@ namespace KMDIWinDoorsCS
                         updatefile_bgw.ReportProgress(0, csq.TABLGETMaxID_STP2("A_NEW_COSTING_ITEMS", "CI_id"));
                         break;
 
+                    case "CloudSync":
+
+                        break;
                     default:
                         break;
                 }
@@ -2345,6 +2348,9 @@ namespace KMDIWinDoorsCS
                         }
                         break;
 
+                    case "CloudSync":
+
+                        break;
                     default:
                         break;
                 }
@@ -2436,6 +2442,9 @@ namespace KMDIWinDoorsCS
                             }
                             break;
 
+                        case "CloudSync":
+
+                            break;
                         default:
                             break;
                     }
@@ -3893,6 +3902,14 @@ namespace KMDIWinDoorsCS
             if (online_login == false)
             {
 
+            }
+            else
+            {
+                string[] files = Directory.GetFiles(Properties.Settings.Default.WndrDir, "*.wndr");
+                foreach (string item in files)
+                {
+                    Console.WriteLine(item);
+                }
             }
         }
 

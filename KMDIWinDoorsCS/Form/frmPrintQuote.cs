@@ -34,6 +34,7 @@ namespace KMDIWinDoorsCS
                 reportViewer1.LocalReport.DataSources.Add(QuoteDS);
 
                 reportViewer1.LocalReport.ReportEmbeddedResource = "KMDIWinDoorsCS.Reports.rptQuotation.rdlc";
+                //reportViewer1.LocalReport.ReportEmbeddedResource = "KMDIWinDoorsCS.Reports.Report1.rdlc";
 
                 ReportParameter[] param = new ReportParameter[7];
                 param[0] = new ReportParameter("JO", txt_JO.Text);
