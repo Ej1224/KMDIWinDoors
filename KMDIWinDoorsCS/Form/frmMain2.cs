@@ -2256,7 +2256,7 @@ namespace KMDIWinDoorsCS
                 switch (todo)
                 {
                     case "GetFile":
-                        var objds = csq.CostingQuery_ReturnDS(todo, searchStr, (int)info[0]);
+                        var objds = csq.CostingQuery_ReturnDS(todo, info[0] + @"\" + searchStr, (int)info[0]);
                         DataSet ds = objds.Item2;
                         sql_Transaction_result = objds.Item1;
                         e.Result = ds;
@@ -2264,7 +2264,7 @@ namespace KMDIWinDoorsCS
                         break;
 
                     case "AddFile":
-                        bool ret_val = csq.CostingQuery_ReturnBool(todo, searchStr, "", null, (int)info[0]);
+                        bool ret_val = csq.CostingQuery_ReturnBool(todo, info[0] + @"\" + searchStr, "", null, (int)info[0]);
                         e.Result = ret_val.ToString();
                         break;
 
@@ -2307,7 +2307,15 @@ namespace KMDIWinDoorsCS
                 switch (todo)
                 {
                     case "GetFile":
-                        File.Copy(wndrfile, cloud_directory + searchStr, true);
+                        if (Directory.Exists(cloud_directory + info[0] + @"\" + searchStr)) //Checking directory i.e C:/.../Cloud/ + 104/ej.wndr
+                        {
+                            File.Copy(wndrfile, cloud_directory + info[0] + @"\"+ searchStr, true);
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(cloud_directory + info[0]);
+                            File.Copy(wndrfile, cloud_directory + info[0] + @"\"+ searchStr, true);
+                        }
                         break;
 
                     case "AddFile":
@@ -3899,18 +3907,20 @@ namespace KMDIWinDoorsCS
 
         private void syncLocalToCloudToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (online_login == false)
-            {
+            //if (online_login == false)
+            //{
 
-            }
-            else
-            {
-                string[] files = Directory.GetFiles(Properties.Settings.Default.WndrDir, "*.wndr");
-                foreach (string item in files)
-                {
-                    Console.WriteLine(item);
-                }
-            }
+            //}
+            //else
+            //{
+                frmCloudSync frm = new frmCloudSync();
+                frm.ShowDialog();
+                //string[] files = Directory.GetFiles(Properties.Settings.Default.WndrDir, "*.wndr");
+                //foreach (string item in files)
+                //{
+                //    Console.WriteLine(item);
+                //}
+            //}
         }
 
         private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)

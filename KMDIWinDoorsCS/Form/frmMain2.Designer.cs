@@ -590,8 +590,8 @@
             this.tsb_Redo,
             this.tsprogress_Loading,
             this.deleteItemToolStripButton1,
-            this.tsLbl_Loading,
-            this.tsp_Sync});
+            this.tsp_Sync,
+            this.tsLbl_Loading});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
             this.tsMain.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
