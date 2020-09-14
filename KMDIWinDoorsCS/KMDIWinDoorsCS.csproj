@@ -92,10 +92,10 @@
     <Compile Include="Form\frmPrintQuote.Designer.cs">
       <DependentUpon>frmPrintQuote.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCloudSync.cs">
+    <Compile Include="Form\frmCloudSync.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCloudSync.Designer.cs">
+    <Compile Include="Form\frmCloudSync.Designer.cs">
       <DependentUpon>frmCloudSync.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CustomLblNum.cs">
@@ -172,7 +172,7 @@
     <EmbeddedResource Include="Form\frmPrintQuote.resx">
       <DependentUpon>frmPrintQuote.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCloudSync.resx">
+    <EmbeddedResource Include="Form\frmCloudSync.resx">
       <DependentUpon>frmCloudSync.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Report1.rdlc" />

@@ -2016,12 +2016,12 @@ namespace KMDIWinDoorsCS
             if (online_login)
             {
                 CloudStoragetoolStripButton.Enabled = true;
-                syncLocalToCloudToolStripMenuItem.Enabled = true;
+                //syncLocalToCloudToolStripMenuItem.Enabled = true;
             }
             else
             {
                 CloudStoragetoolStripButton.Enabled = false;
-                syncLocalToCloudToolStripMenuItem.Enabled = false;
+                //syncLocalToCloudToolStripMenuItem.Enabled = false;
             }
             
             CostingItems.Columns.Add("CI_id", typeof(int));
@@ -2136,6 +2136,7 @@ namespace KMDIWinDoorsCS
             {
                 csfunc.LogToFile(ex.Message, ex.StackTrace);
                 MessageBox.Show(ex.Message);
+                ToggleMode(false, true);
             }
         }
 
@@ -2230,6 +2231,10 @@ namespace KMDIWinDoorsCS
 
                                     StartWorker("Open_WndrFiles");
                                 }
+                            }
+                            else
+                            {
+                                ToggleMode(false, true);
                             }
                             break;
 
@@ -3907,20 +3912,25 @@ namespace KMDIWinDoorsCS
 
         private void syncLocalToCloudToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (online_login == false)
-            //{
-
-            //}
-            //else
-            //{
+            if (online_login == false)
+            {
+                frmLogin frm = new frmLogin();
+                frm.mode = syncToolStripMenuItem.Text;
+                frm.btn_OffLogin.Visible = false;
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    info = frm.info;
+                    tsLbl_Welcome.Text = "Welcome, " + info[2];
+                    online_login = true;
+                    syncLocalToCloudToolStripMenuItem_Click(sender, e);
+                }
+            }
+            else
+            {
                 frmCloudSync frm = new frmCloudSync();
+                frm.autonum = info[0].ToString();
                 frm.ShowDialog();
-                //string[] files = Directory.GetFiles(Properties.Settings.Default.WndrDir, "*.wndr");
-                //foreach (string item in files)
-                //{
-                //    Console.WriteLine(item);
-                //}
-            //}
+            }
         }
 
         private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)

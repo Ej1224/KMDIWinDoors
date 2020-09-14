@@ -26,9 +26,10 @@ namespace KMDIWinDoorsCS
             for (int i = 0; i <= ds.Tables["GetCloudFiles"].Rows.Count - 1; i++)
             {
                 ListViewItem lv = new ListViewItem();
-                lv.Text = ds.Tables["GetCloudFiles"].Rows[i]["C_File_addr"].ToString();
+                lv.Text = Path.GetFileName(ds.Tables["GetCloudFiles"].Rows[i]["C_File_addr"].ToString());
                 lv.Tag = ds.Tables["GetCloudFiles"].Rows[i]["C_File_id"].ToString();
                 lv.ImageKey = "file_40px.png";
+                lv.Name = ds.Tables["GetCloudFiles"].Rows[i]["C_File_addr"].ToString();
                 listView1.Items.Add(lv);
             }
         }
@@ -40,7 +41,7 @@ namespace KMDIWinDoorsCS
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            FileName = @"C:\Users\kmdie\Desktop\Cloud server\" + listView1.SelectedItems[0].Text;
+            FileName = @"C:\Users\kmdie\Desktop\Cloud server\" + listView1.SelectedItems[0].Name;
             string tempDir = Path.GetTempPath() + @"wndrTemp\",
                    tempfile = tempDir + listView1.SelectedItems[0].Text;
             Directory.CreateDirectory(tempDir);
