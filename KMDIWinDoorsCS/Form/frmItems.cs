@@ -53,6 +53,10 @@ namespace KMDIWinDoorsCS
 
                 pnlFill.Controls.Add(itmctrl);
             }
+
+            pnlFill.VerticalScroll.Value = pnlFill.VerticalScroll.Maximum;
+            pnlFill.PerformLayout();
+
             this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2, 0);
             this.Height = Screen.PrimaryScreen.WorkingArea.Height;
         }

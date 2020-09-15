@@ -58,7 +58,11 @@ namespace KMDIWinDoorsCS
                         {
                             ret_val = csq.CostingQuery_ReturnBool("AddFile", autonum + @"\" + Path.GetFileName(files[i]), "", null, Convert.ToInt32(autonum));
                         }
-                        else
+                        else if (ds.Tables["GetFile"].Rows.Count == 1)
+                        {
+                            ret_val = true;
+                        }
+                        else if (ds.Tables["GetFile"].Rows.Count > 1)
                         {
                             success = false;
                         }

@@ -47,7 +47,7 @@
             this.lbl_files.Name = "lbl_files";
             this.lbl_files.Size = new System.Drawing.Size(260, 23);
             this.lbl_files.TabIndex = 1;
-            this.lbl_files.Text = "*.wndr";
+            this.lbl_files.Text = "Connecting...";
             this.lbl_files.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmCloudSync

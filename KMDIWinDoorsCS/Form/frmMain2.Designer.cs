@@ -86,8 +86,8 @@
             this.tsb_Redo = new System.Windows.Forms.ToolStripButton();
             this.tsprogress_Loading = new System.Windows.Forms.ToolStripProgressBar();
             this.deleteItemToolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             this.tsp_Sync = new System.Windows.Forms.ToolStripLabel();
+            this.tsLbl_Loading = new System.Windows.Forms.ToolStripLabel();
             this.cmenuMultiP = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.divTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mullionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -346,7 +346,7 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
@@ -384,7 +384,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -392,7 +392,7 @@
             // 
             this.syncToolStripMenuItem.Enabled = false;
             this.syncToolStripMenuItem.Name = "syncToolStripMenuItem";
-            this.syncToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.syncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.syncToolStripMenuItem.Text = "Cloud sync";
             this.syncToolStripMenuItem.Click += new System.EventHandler(this.syncToolStripMenuItem_Click);
             // 
@@ -408,14 +408,14 @@
             // itemsToolStripMenuItem
             // 
             this.itemsToolStripMenuItem.Name = "itemsToolStripMenuItem";
-            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.itemsToolStripMenuItem.Text = "Items";
             this.itemsToolStripMenuItem.Click += new System.EventHandler(this.itemsToolStripMenuItem_Click);
             // 
             // defaultValuesToolStripMenuItem
             // 
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // ViewToolStripMenuItem
@@ -714,14 +714,6 @@
             this.deleteItemToolStripButton1.ToolTipText = "Delete item";
             this.deleteItemToolStripButton1.Click += new System.EventHandler(this.deleteItemToolStripButton1_Click);
             // 
-            // tsLbl_Loading
-            // 
-            this.tsLbl_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsLbl_Loading.Name = "tsLbl_Loading";
-            this.tsLbl_Loading.Size = new System.Drawing.Size(61, 29);
-            this.tsLbl_Loading.Text = "Initializing";
-            this.tsLbl_Loading.Visible = false;
-            // 
             // tsp_Sync
             // 
             this.tsp_Sync.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -737,6 +729,14 @@
             this.tsp_Sync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tsp_Sync.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.tsp_Sync.Visible = false;
+            // 
+            // tsLbl_Loading
+            // 
+            this.tsLbl_Loading.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsLbl_Loading.Name = "tsLbl_Loading";
+            this.tsLbl_Loading.Size = new System.Drawing.Size(61, 29);
+            this.tsLbl_Loading.Text = "Initializing";
+            this.tsLbl_Loading.Visible = false;
             // 
             // cmenuMultiP
             // 

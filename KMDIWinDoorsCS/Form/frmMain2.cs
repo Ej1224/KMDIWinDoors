@@ -2187,6 +2187,7 @@ namespace KMDIWinDoorsCS
                     switch (mainTodo)
                     {
                         case "Open_WndrFiles":
+                           this.Text = this.Text.Replace("*", "");
                             this.Text += "( " + wndrfile + " )";
                             tsLbl_Loading.Text = "Finished";
                             ToggleMode(false,true);
@@ -2393,7 +2394,7 @@ namespace KMDIWinDoorsCS
                             {
                                 DataSet ds = (DataSet)e.Result;
                                 int sqldscount = ds.Tables["GetFile"].Rows.Count;
-                                if (File.Exists(cloud_directory + searchStr))
+                                if (File.Exists(cloud_directory + info[0] + @"\" + searchStr))
                                 {
                                     if (sqldscount == 1)
                                     {
@@ -3793,10 +3794,10 @@ namespace KMDIWinDoorsCS
             {
                 if (MessageBox.Show(this, "Are you sure to delete " + itemselected.Text + "?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    if (Text.Contains("*") == false)
-                    {
-                        Text += "*";
-                    }
+                    //if (Text.Contains("*") == false)
+                    //{
+                    //    Text += "*";
+                    //}
 
                     selected_items_pnl.Visible = false;
                     selected_items_pnl.itmVisible = false;
@@ -3974,19 +3975,22 @@ namespace KMDIWinDoorsCS
             int i = 0;
             foreach (var item in GetItem())
             {
-                List<object> item_info = new List<object>();
-                item_info.Add(item.ItemName);
-                item_info.Add(item.ItemDimension);
-                item_info.Add(item.ItemDesc);
-                item_info.Add(item.ItemImage);
-                item_info.Add(item.ItemID);
-                item_info.Add(item.ItemQty);
-                item_info.Add(item.ItemPrice);
-                item_info.Add(item.ItemDiscount);
-                item_info.Add(item.ItemTagID);
+                if (item.ItemVisibility == true)
+                {
+                    List<object> item_info = new List<object>();
+                    item_info.Add(item.ItemName);
+                    item_info.Add(item.ItemDimension);
+                    item_info.Add(item.ItemDesc);
+                    item_info.Add(item.ItemImage);
+                    item_info.Add(item.ItemID);
+                    item_info.Add(item.ItemQty);
+                    item_info.Add(item.ItemPrice);
+                    item_info.Add(item.ItemDiscount);
+                    item_info.Add(item.ItemTagID);
 
-                dict_items.Add(i, item_info);
-                i++;
+                    dict_items.Add(i, item_info);
+                    i++;
+                }
             }
             frm.dict_items = dict_items;
             frm.ShowDialog();
