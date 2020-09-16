@@ -2277,10 +2277,7 @@ namespace KMDIWinDoorsCS
                     case "InsertItems":
                         updatefile_bgw.ReportProgress(0, csq.TABLGETMaxID_STP2("A_NEW_COSTING_ITEMS", "CI_id"));
                         break;
-
-                    case "CloudSync":
-
-                        break;
+                        
                     default:
                         break;
                 }
@@ -2361,10 +2358,7 @@ namespace KMDIWinDoorsCS
                             }
                         }
                         break;
-
-                    case "CloudSync":
-
-                        break;
+                        
                     default:
                         break;
                 }
@@ -2408,7 +2402,9 @@ namespace KMDIWinDoorsCS
                                     else if (sqldscount > 1)
                                     {
                                         //tsp_Sync.Text = "Error";
+                                        tsp_Sync.Visible = true;
                                         tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                        saveToolStripButton.Enabled = true;
                                     }
                                     else if (sqldscount == 0)
                                     {
@@ -2419,13 +2415,17 @@ namespace KMDIWinDoorsCS
                                 else
                                 {
                                     //tsp_Sync.Text = "Error";
+                                    tsp_Sync.Visible = true;
                                     tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                    saveToolStripButton.Enabled = true;
                                 }
                             }
                             else
                             {
                                 //tsp_Sync.Text = "Error";
+                                tsp_Sync.Visible = true;
                                 tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                saveToolStripButton.Enabled = true;
                             }
                             sql_Transaction_result = "";
 
@@ -2439,7 +2439,9 @@ namespace KMDIWinDoorsCS
                             }
                             else
                             {
+                                tsp_Sync.Visible = true;
                                 tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                saveToolStripButton.Enabled = true;
                             }
                             break;
 
@@ -2452,13 +2454,12 @@ namespace KMDIWinDoorsCS
                             }
                             else
                             {
+                                tsp_Sync.Visible = true;
                                 tsp_Sync.Image = Properties.Resources.cancel_30px;
+                                saveToolStripButton.Enabled = true;
                             }
                             break;
-
-                        case "CloudSync":
-
-                            break;
+                            
                         default:
                             break;
                     }
@@ -3399,6 +3400,7 @@ namespace KMDIWinDoorsCS
                         
                     }
                 }
+                refreshToolStripButton1_Click(sender, e);
             }
 
             dictDragOrder[flpMain.Tag.ToString()].Add(c.Name);
@@ -4400,6 +4402,7 @@ namespace KMDIWinDoorsCS
         public bool online_login = true;
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
+            saveToolStripButton.Enabled = false;
             UppdateDictionaries();
             this.Text = Text.Replace("*", "");
             if (wndrfile != "")
