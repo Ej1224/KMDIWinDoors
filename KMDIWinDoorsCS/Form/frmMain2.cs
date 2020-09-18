@@ -3048,7 +3048,8 @@ namespace KMDIWinDoorsCS
             }
             if (trackzoom == false)
             {
-                tsSize2.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
+                tsSize2.Text = flpMain.Width + " x " + flpMain.Height;
+                //tsSize2.Text = (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
 
@@ -4396,8 +4397,8 @@ namespace KMDIWinDoorsCS
             flpMain.Size = new Size(Fwidth, Fheight);
             flpMain2.Size = new Size(Fwidth, Fheight);
 
-            static_wd = flpMain.Width;
-            static_ht = flpMain.Height;
+            static_wd = flpMain.Width - 40;
+            static_ht = flpMain.Height - 35;
 
             flpMain.Visible = true;
             flpMain.Controls.Clear();
@@ -4409,7 +4410,7 @@ namespace KMDIWinDoorsCS
             ItemControl itm = CreateItemControl(fid,
                                                 fName,
                                                 pnl_cntr,
-                                                flpMain.Width + " x " + flpMain.Height,
+                                                (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString(),
                                                 profiletype,
                                                 fprice,
                                                 fdiscount,
@@ -4437,26 +4438,29 @@ namespace KMDIWinDoorsCS
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
             string profiletype = "";
 
-            if (menu == C70ToolStripMenuItem)
-            {
-                profiletype = "C70 Profile";
-            }
-            else if (menu == PremiLineToolStripMenuItem)
-            {
-                profiletype = "PremiLine Profile";
-            }
-
             bool save = false;
 
             int defwidth = 400,
                 defheight = 400,
-                pnl_cntr = pnlItems.Controls.Count + 1;//,
-                //loc_framecntr = 0,
-                //loc_cpnlcount = 0,
-                //loc_mulcount = 0,
-                //loc_trnscount = 0;
+                pnl_cntr = pnlItems.Controls.Count + 1;
 
             frmDimensions frm = new frmDimensions();
+            if (menu == C70ToolStripMenuItem)
+            {
+                frm.rad_c70.Checked = true;
+                frm.Size = new Size(200, 156);
+            }
+            else if (menu == PremiLineToolStripMenuItem)
+            {
+                frm.rad_PremiLine.Checked = true;
+                frm.Size = new Size(200, 156);
+            }
+            else if (menu == QuotationToolStripMenuItem)
+            {
+                frm.Size = new Size(200, 193);
+                frm.rad_c70.Checked = true;
+            }
+
             frm.numWidth.Value = defwidth;
             frm.numHeight.Value = defheight;
 
@@ -4482,11 +4486,20 @@ namespace KMDIWinDoorsCS
                     defwidth = Convert.ToInt32(frm.numWidth.Value + 40);
                     defheight = Convert.ToInt32(frm.numHeight.Value + 35);
 
+                    if (frm.rad_c70.Checked)
+                    {
+                        profiletype = "C70 Profile";
+                    }
+                    else if (frm.rad_PremiLine.Checked)
+                    {
+                        profiletype = "PremiLine Profile";
+                    }
+
                     fid = "Item_" + pnl_cntr;
                     fName = "Item " + pnl_cntr;
 
                     AddProfile(defwidth, defheight, pnl_cntr, profiletype);
-                    Text = quotation_ref_no + " >> Item " + pnl_cntr + "*";
+                    Text = quotation_ref_no + " >> Item " + pnl_cntr + " (" + profiletype + ")" + "*";
 
                     itemControlsSearch("lbldesc");
 
@@ -4613,100 +4626,6 @@ namespace KMDIWinDoorsCS
         {
             try
             {
-                //Graphics g = e.Graphics;
-                ////GraphicsPath gpath = new GraphicsPath();
-                ////g.ScaleTransform(zoom, zoom);
-
-                //Panel pfr = (Panel)sender;
-
-                //g.SmoothingMode = SmoothingMode.AntiAlias;
-
-                //Color col = Color.Black;
-
-                //if (dictRectFrames.Count() != 0)
-                //{
-                //    //pfr.BackColor = SystemColors.Control;
-                //    string accname_col = pfr.AccessibleName;
-
-                //    var frames = new List<Rectangle>(dictRectFrames.Values);
-
-                //    foreach (Rectangle rect in frames)
-                //    {
-                //        int pInnerX = wndrtype,
-                //        pInnerY = wndrtype,
-                //        pInnerWd = rect.Width - (wndrtype * 2),
-                //        pInnerHt = rect.Height - (wndrtype * 2);
-
-
-                //        g.DrawRectangle(new Pen(col, w), new Rectangle(rect.X,
-                //                                                       rect.Y,
-                //                                                       rect.Width - w,
-                //                                                       rect.Height - w));
-
-                //        if (wndrtype != 0)
-                //        {
-                //            Point[] corner_points = new[] //make dis dynamic to make the graphics dynamic
-                //            {
-                //                new Point(0,0),
-                //                new Point(pInnerX, pInnerY),
-                //                new Point(rect.Width, 0),
-                //                new Point(pInnerX + pInnerWd, pInnerY),
-                //                new Point(0, rect.Height),
-                //                new Point(pInnerX, pInnerY + pInnerHt),
-                //                new Point(rect.Width, rect.Height),
-                //                new Point(pInnerX + pInnerWd, pInnerY + pInnerHt)
-                //            };
-
-                //            for (int i = 0; i < corner_points.Length - 1; i += 2)
-                //            {
-                //                g.DrawLine(blkPen, corner_points[i], corner_points[i + 1]);
-                //            }
-
-                //            g.DrawRectangle(new Pen(col, w), new Rectangle(wndrtype,
-                //                                                           wndrtype,
-                //                                                           rect.Width - (wndrtype * 2) - w,
-                //                                                           rect.Height - (wndrtype * 2) - w));
-
-
-                //        }
-                //        else
-                //        {
-                //            HatchBrush hbrush = new HatchBrush(HatchStyle.BackwardDiagonal, Color.Black, Color.White);
-                //            g.FillRectangle(hbrush, new Rectangle(rect.X,
-                //                                                  rect.Y,
-                //                                                  rect.Width - w,
-                //                                                  rect.Height - w));
-                //        }
-                //    }
-
-                //}
-
-                //int area = static_wd * static_ht;
-                //if (area <= 360000)
-                //{
-                //    zm = 1.0f;
-                //}
-                //else if (area > 360000 && area <= 1000000)
-                //{
-                //    zm = 0.5f;
-                //}
-                //else if (area > 1000000 && area <= 4000000)
-                //{
-                //    zm = 0.28f;
-                //}
-                //else if (area > 4000000 && area <= 9000000)
-                //{
-                //    zm = 0.19f;
-                //}
-                //else if (area > 9000000 && area <= 16000000)
-                //{
-                //    zm = 0.14f;
-                //}
-                //else if (area > 16000000)
-                //{
-                //    zm = 0.10f;
-                //}
-                //func_zoom(flpMain2, zm);
                 Panel_Painter();
             }
             catch (Exception)
@@ -5050,6 +4969,8 @@ namespace KMDIWinDoorsCS
 
                     quotation_ref_no = input.ToUpper();
                     Text = quotation_ref_no;
+
+                    ProfileTypeToolStripMenuItem_Click(sender, e);
                 }
             }
             
@@ -5190,6 +5111,7 @@ namespace KMDIWinDoorsCS
                 //flp_cntr = flpMain.Controls.Count + 1;
 
             frmDimensions frm = new frmDimensions();
+            frm.Size = new Size(200, 156);
             frm.numWidth.Value = defwidth;
             frm.numHeight.Value = defheight;
 
