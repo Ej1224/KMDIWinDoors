@@ -3048,8 +3048,8 @@ namespace KMDIWinDoorsCS
             }
             if (trackzoom == false)
             {
-                tsSize2.Text = flpMain.Width + " x " + flpMain.Height;
-                //tsSize2.Text = (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString();
+                //tsSize2.Text = flpMain.Width + " x " + flpMain.Height;
+                tsSize2.Text = (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
 
@@ -3633,19 +3633,20 @@ namespace KMDIWinDoorsCS
             }
 
             frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = static_wd;
-            frm.numHeight.Value = static_ht;
+            frm.Size = new Size(200, 156);
+            frm.numWidth.Value = static_wd - 40;
+            frm.numHeight.Value = static_ht - 35;
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 trkZoom.Value = 100;
                 trackzoom = false;
 
-                flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
-                flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
+                flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                flpMain2.Width = Convert.ToInt32(frm.numWidth.Value);
-                flpMain2.Height = Convert.ToInt32(frm.numHeight.Value);
+                flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
                 static_wd = flpMain.Width;
                 static_ht = flpMain.Height;
@@ -3682,6 +3683,93 @@ namespace KMDIWinDoorsCS
 
         bool paint_flpMain = false;
 
+        private void Create_ArrowLines(Graphics g,
+                                       Panel sender)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            int ctrl_X = 40,
+                ctrl_Y = 35,
+                ctrl_Width = 400,
+                ctrl_Height = 400;
+
+            //string dmnsion_w = flpMain.Width.ToString();
+            string dmnsion_w = (static_wd - 40).ToString();
+            //string dmnsion_w = "9999";
+            Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
+            Point dmnsion_w_endP = new Point(ctrl_Width + ctrl_X, ctrl_Y - 17);
+            Font dmnsion_font = new Font("Segoe UI", 12);
+
+            Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
+            double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
+
+            //arrow for WIDTH
+            Point[] arrwhd_pnts_W1 =
+            {
+                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
+                dmnsion_w_startP,
+                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
+            };
+
+            Point[] arrwhd_pnts_W2 =
+            {
+                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
+                dmnsion_w_endP,
+                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
+            };
+
+            g.DrawLines(Pens.Red, arrwhd_pnts_W1);
+            g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
+            g.DrawLines(Pens.Red, arrwhd_pnts_W2);
+            TextRenderer.DrawText(g,
+                                  dmnsion_w,
+                                  dmnsion_font,
+                                  new Rectangle(new Point((int)(mid - (s.Width / 2)), 7),
+                                                new Size(s.Width, s.Height)),
+                                  Color.Black,
+                                  sender.BackColor,
+                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+            //arrow for WIDTH
+
+
+            //arrow for HEIGHT
+            //string dmnsion_h = flpMain.Height.ToString();
+            string dmnsion_h = (static_ht - 35).ToString();
+            //string dmnsion_h = "9999";
+            Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
+            Point dmnsion_h_endP = new Point(ctrl_X - 17, ctrl_Y + ctrl_Height);
+
+            Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
+            double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
+
+            Point[] arrwhd_pnts_H1 =
+            {
+                new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
+                dmnsion_h_startP,
+                new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
+            };
+
+            Point[] arrwhd_pnts_H2 =
+            {
+                new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
+                dmnsion_h_endP,
+                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10) 
+            };
+
+            g.DrawLines(Pens.Red, arrwhd_pnts_H1);
+            g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
+            g.DrawLines(Pens.Red, arrwhd_pnts_H2);
+            TextRenderer.DrawText(g,
+                                  dmnsion_h,
+                                  dmnsion_font,
+                                  new Rectangle(new Point(s.Width - 35, (int)(mid2 - (s2.Height / 2))),
+                                                new Size(s.Width, s.Height)),
+                                  Color.Black,
+                                  sender.BackColor,
+                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+            //arrow for HEIGHT
+        }
+
         private void flpMain_Paint(object sender, PaintEventArgs e)
         {
             try
@@ -3700,99 +3788,7 @@ namespace KMDIWinDoorsCS
 
                 if (paint_flpMain == true)
                 {
-                    //g.ScaleTransform(zoom, zoom);
-
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-
-                    int ctrl_X = 40,
-                        ctrl_Y = 35,
-                        ctrl_Width = 400,
-                        ctrl_Height = 400;
-
-                    //string dmnsion_w = flpMain.Width.ToString();
-                    string dmnsion_w = (static_wd - 40).ToString();
-                    Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
-                    Point dmnsion_w_endP = new Point(ctrl_Width + ctrl_X, ctrl_Y - 17);
-                    Font dmnsion_font = new Font("Segoe UI", 12);
-
-                    Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
-                    double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
-
-                    //arrow for WIDTH
-                    Point[] arrwhd_pnts_W1 =
-                    {
-                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
-                dmnsion_w_startP,
-                new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
-                };
-
-                    Point[] arrwhd_pnts_W2 =
-                    {
-                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
-                dmnsion_w_endP,
-                new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
-                };
-
-                    g.DrawLines(Pens.Red, arrwhd_pnts_W1);
-                    g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
-                    g.DrawLines(Pens.Red, arrwhd_pnts_W2);
-                    TextRenderer.DrawText(g,
-                                          dmnsion_w,
-                                          dmnsion_font,
-                                          new Rectangle(new Point((int)(mid - (s.Width / 2)), 7), 
-                                                        new Size(s.Width, s.Height)),
-                                          Color.Black,
-                                          this.BackColor,
-                                          TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                    //TextRenderer.DrawText(g,
-                    //                      dmnsion_w,
-                    //                      dmnsion_font,
-                    //                      new Point((int)(mid - (s.Width / 2)),
-                    //                      7),
-                    //                      Color.Black);
-                    //arrow for WIDTH
-
-
-                    //arrow for HEIGHT
-                    //string dmnsion_h = flpMain.Height.ToString();
-                    string dmnsion_h = (static_ht - 35).ToString();
-                    Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
-                    Point dmnsion_h_endP = new Point(ctrl_X - 17, ctrl_Y + ctrl_Height);
-
-                    Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
-                    double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
-
-                    Point[] arrwhd_pnts_H1 =
-                    {
-                new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
-                dmnsion_h_startP,
-                new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
-                };
-
-                    Point[] arrwhd_pnts_H2 =
-                    {
-                new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
-                dmnsion_h_endP,
-                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
-                };
-
-                    g.DrawLines(Pens.Red, arrwhd_pnts_H1);
-                    g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
-                    g.DrawLines(Pens.Red, arrwhd_pnts_H2);
-                    TextRenderer.DrawText(g,
-                                          dmnsion_h,
-                                          dmnsion_font,
-                                          new Rectangle(new Point(2, (int)(mid2 - (s2.Height / 2))),
-                                                        new Size(s.Width, s.Height)),
-                                          Color.Black,
-                                          this.BackColor,
-                                          TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                    //TextRenderer.DrawText(g,
-                    //                      dmnsion_h,
-                    //                      dmnsion_font,
-                    //                      new Point(dmnsion_h_startP.X - s2.Width, (int)(mid2 - (s2.Height / 2))),
-                    //                      Color.Black);
-                    //arrow for HEIGHT
+                    Create_ArrowLines(g, (Panel)sender);
                 }
             }
             catch (Exception ex)
@@ -4397,8 +4393,8 @@ namespace KMDIWinDoorsCS
             flpMain.Size = new Size(Fwidth, Fheight);
             flpMain2.Size = new Size(Fwidth, Fheight);
 
-            static_wd = flpMain.Width - 40;
-            static_ht = flpMain.Height - 35;
+            static_wd = flpMain.Width;
+            static_ht = flpMain.Height;
 
             flpMain.Visible = true;
             flpMain.Controls.Clear();
@@ -4410,7 +4406,7 @@ namespace KMDIWinDoorsCS
             ItemControl itm = CreateItemControl(fid,
                                                 fName,
                                                 pnl_cntr,
-                                                (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString(),
+                                                (flpMain.Width - 40) + " x " + (flpMain.Height - 35),
                                                 profiletype,
                                                 fprice,
                                                 fdiscount,
@@ -4626,6 +4622,11 @@ namespace KMDIWinDoorsCS
         {
             try
             {
+                if (paint_flpMain == true)
+                {
+                    Graphics g = e.Graphics;
+                    Create_ArrowLines(g, (Panel)sender);
+                }
                 Panel_Painter();
             }
             catch (Exception)
@@ -5112,8 +5113,8 @@ namespace KMDIWinDoorsCS
 
             frmDimensions frm = new frmDimensions();
             frm.Size = new Size(200, 156);
-            frm.numWidth.Value = defwidth;
-            frm.numHeight.Value = defheight;
+            frm.numWidth.Value = defwidth - 40;
+            frm.numHeight.Value = defheight - 35;
 
             if (sender == tsBtnNwin)
             {
@@ -5128,8 +5129,8 @@ namespace KMDIWinDoorsCS
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                defwidth = Convert.ToInt32(frm.numWidth.Value - 40);
-                defheight = Convert.ToInt32(frm.numHeight.Value - 35);
+                defwidth = Convert.ToInt32(frm.numWidth.Value);
+                defheight = Convert.ToInt32(frm.numHeight.Value);
 
                 paint_flpMain = true;
 
