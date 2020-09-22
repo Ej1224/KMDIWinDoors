@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -109,6 +109,7 @@
             this.lblZoom = new System.Windows.Forms.ToolStripLabel();
             this.tsLbl_Welcome = new System.Windows.Forms.ToolStripLabel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -116,6 +117,7 @@
             this.pnlControlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).BeginInit();
             this.pnlMain.SuspendLayout();
+            this.flpMain.SuspendLayout();
             this.pnlProperties.SuspendLayout();
             this.mnsMainMenu.SuspendLayout();
             this.pnlRight.SuspendLayout();
@@ -167,14 +169,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -236,6 +238,7 @@
             this.flpMain.AccessibleDescription = "";
             this.flpMain.AccessibleName = "";
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
+            this.flpMain.Controls.Add(this.panel1);
             this.flpMain.Cursor = System.Windows.Forms.Cursors.Hand;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpMain.Location = new System.Drawing.Point(170, 86);
@@ -914,6 +917,14 @@
             this.tsLbl_Welcome.Size = new System.Drawing.Size(86, 22);
             this.tsLbl_Welcome.Text = "Welcome, User";
             // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(43, 38);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(0, 100);
+            this.panel1.TabIndex = 0;
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -947,6 +958,7 @@
             this.pnlControlMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).EndInit();
             this.pnlMain.ResumeLayout(false);
+            this.flpMain.ResumeLayout(false);
             this.pnlProperties.ResumeLayout(false);
             this.pnlProperties.PerformLayout();
             this.mnsMainMenu.ResumeLayout(false);
@@ -1045,6 +1057,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSyncDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syncLocalToCloudToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

@@ -336,6 +336,7 @@ namespace KMDIWinDoorsCS
             Panel frame = new Panel();
             frame.Name = name;
             frame.AccessibleDescription = "viewmodeOff";
+            frame.AccessibleDefaultActionDescription = fwidth + "x" + fheight;
             frame.Margin = new Padding(0);
             frame.Padding = new Padding(wndr);
             frame.Size = new Size(fwidth, fheight);
@@ -3684,90 +3685,97 @@ namespace KMDIWinDoorsCS
         bool paint_flpMain = false;
 
         private void Create_ArrowLines(Graphics g,
-                                       Panel sender)
+                                       FlowLayoutPanel sender)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            int ctrl_X = 40,
-                ctrl_Y = 35,
-                ctrl_Width = 400,
-                ctrl_Height = 400;
-
-            //string dmnsion_w = flpMain.Width.ToString();
-            string dmnsion_w = (static_wd - 40).ToString();
-            //string dmnsion_w = "9999";
-            Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
-            Point dmnsion_w_endP = new Point(ctrl_Width + ctrl_X, ctrl_Y - 17);
-            Font dmnsion_font = new Font("Segoe UI", 12);
-
-            Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
-            double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
-
-            //arrow for WIDTH
-            Point[] arrwhd_pnts_W1 =
+            foreach (Panel item in sender.Controls)
             {
+                int ctrl_X = item.Location.X,
+                ctrl_Y = item.Location.Y,
+                ctrl_Width = item.Width,
+                ctrl_Height = item.Height;
+
+                string[] dimension = item.AccessibleDefaultActionDescription.Split('x');
+
+                //string dmnsion_w = flpMain.Width.ToString();
+                string dmnsion_w = dimension[0];
+                //string dmnsion_w = (static_wd - 40).ToString();
+                //string dmnsion_w = "9999";
+                Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
+                Point dmnsion_w_endP = new Point(ctrl_Width + ctrl_X, ctrl_Y - 17);
+                Font dmnsion_font = new Font("Segoe UI", 12);
+
+                Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
+                double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
+
+                //arrow for WIDTH
+                Point[] arrwhd_pnts_W1 =
+                {
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y - 10),
                 dmnsion_w_startP,
                 new Point(dmnsion_w_startP.X + 10,dmnsion_w_startP.Y + 10),
             };
 
-            Point[] arrwhd_pnts_W2 =
-            {
+                Point[] arrwhd_pnts_W2 =
+                {
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y - 10),
                 dmnsion_w_endP,
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
             };
 
-            g.DrawLines(Pens.Red, arrwhd_pnts_W1);
-            g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
-            g.DrawLines(Pens.Red, arrwhd_pnts_W2);
-            TextRenderer.DrawText(g,
-                                  dmnsion_w,
-                                  dmnsion_font,
-                                  new Rectangle(new Point((int)(mid - (s.Width / 2)), 7),
-                                                new Size(s.Width, s.Height)),
-                                  Color.Black,
-                                  sender.BackColor,
-                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-            //arrow for WIDTH
+                g.DrawLines(Pens.Red, arrwhd_pnts_W1);
+                g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
+                g.DrawLines(Pens.Red, arrwhd_pnts_W2);
+                TextRenderer.DrawText(g,
+                                      dmnsion_w,
+                                      dmnsion_font,
+                                      new Rectangle(new Point((int)(mid - (s.Width / 2)), 7),
+                                                    new Size(s.Width, s.Height)),
+                                      Color.Black,
+                                      sender.BackColor,
+                                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                //arrow for WIDTH
 
 
-            //arrow for HEIGHT
-            //string dmnsion_h = flpMain.Height.ToString();
-            string dmnsion_h = (static_ht - 35).ToString();
-            //string dmnsion_h = "9999";
-            Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
-            Point dmnsion_h_endP = new Point(ctrl_X - 17, ctrl_Y + ctrl_Height);
+                //arrow for HEIGHT
+                //string dmnsion_h = flpMain.Height.ToString();
+                string dmnsion_h = dimension[1];
+                //string dmnsion_h = (static_ht - 35).ToString();
+                //string dmnsion_h = "9999";
+                Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
+                Point dmnsion_h_endP = new Point(ctrl_X - 17, ctrl_Y + ctrl_Height);
 
-            Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
-            double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
+                Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
+                double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
 
-            Point[] arrwhd_pnts_H1 =
-            {
+                Point[] arrwhd_pnts_H1 =
+                {
                 new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
                 dmnsion_h_startP,
                 new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
             };
 
-            Point[] arrwhd_pnts_H2 =
-            {
+                Point[] arrwhd_pnts_H2 =
+                {
                 new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
                 dmnsion_h_endP,
-                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10) 
+                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
             };
 
-            g.DrawLines(Pens.Red, arrwhd_pnts_H1);
-            g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
-            g.DrawLines(Pens.Red, arrwhd_pnts_H2);
-            TextRenderer.DrawText(g,
-                                  dmnsion_h,
-                                  dmnsion_font,
-                                  new Rectangle(new Point(s.Width - 35, (int)(mid2 - (s2.Height / 2))),
-                                                new Size(s.Width, s.Height)),
-                                  Color.Black,
-                                  sender.BackColor,
-                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-            //arrow for HEIGHT
+                g.DrawLines(Pens.Red, arrwhd_pnts_H1);
+                g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
+                g.DrawLines(Pens.Red, arrwhd_pnts_H2);
+                TextRenderer.DrawText(g,
+                                      dmnsion_h,
+                                      dmnsion_font,
+                                      new Rectangle(new Point(s2.Width - 35, (int)(mid2 - (s2.Height / 2))),
+                                                    new Size(s2.Width, s2.Height)),
+                                      Color.Black,
+                                      sender.BackColor,
+                                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                //arrow for HEIGHT
+            }
         }
 
         private void flpMain_Paint(object sender, PaintEventArgs e)
@@ -3788,7 +3796,7 @@ namespace KMDIWinDoorsCS
 
                 if (paint_flpMain == true)
                 {
-                    Create_ArrowLines(g, (Panel)sender);
+                    Create_ArrowLines(g, (FlowLayoutPanel)sender);
                 }
             }
             catch (Exception ex)
@@ -4134,8 +4142,8 @@ namespace KMDIWinDoorsCS
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictFrameDimension[id];
 
-                float fwd = lstDimensions[0] * zoom_val,
-                      fht = lstDimensions[1] * zoom_val;
+                float fwd = ((lstDimensions[0] + 40 ) * zoom_val) - 40,
+                      fht = ((lstDimensions[1] + 35) * zoom_val) - 35;
 
                 pnl.Padding = new Padding(Convert.ToInt32(wndr * zoom_val));
                 pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
@@ -4625,7 +4633,7 @@ namespace KMDIWinDoorsCS
                 if (paint_flpMain == true)
                 {
                     Graphics g = e.Graphics;
-                    Create_ArrowLines(g, (Panel)sender);
+                    Create_ArrowLines(g, (FlowLayoutPanel)sender);
                 }
                 Panel_Painter();
             }
