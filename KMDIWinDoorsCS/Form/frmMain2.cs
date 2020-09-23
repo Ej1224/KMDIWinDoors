@@ -3028,34 +3028,36 @@ namespace KMDIWinDoorsCS
         private void Editors_SizeChanged(object sender, EventArgs e)
         {
             int cX, cY;
-            cX = (pnlMain.Width - flpMain.Width) / 2;
-            cY = (pnlMain.Height - flpMain.Height) / 2;
+            cX = (pnlMain.Width - pnl_flpMain.Width) / 2;
+            cY = (pnlMain.Height - pnl_flpMain.Height) / 2;
+            //cX = (pnlMain.Width - flpMain.Width) / 2;
+            //cY = (pnlMain.Height - flpMain.Height) / 2;
 
             if (cX <= 30 && cY <= 30)
             {
-                flpMain.Location = new Point(60, 60);
+                pnl_flpMain.Location = new Point(60, 60);
             }
             else if (cX <= 30)
             {
-                flpMain.Location = new Point(60, cY);
+                pnl_flpMain.Location = new Point(60, cY);
             }
             else if (cY <= 30)
             {
-                flpMain.Location = new Point(cX, 60);
+                pnl_flpMain.Location = new Point(cX, 60);
             }
             else
             {
-                flpMain.Location = new Point(cX, cY);
+                pnl_flpMain.Location = new Point(cX, cY);
             }
             if (trackzoom == false)
             {
                 //tsSize2.Text = flpMain.Width + " x " + flpMain.Height;
-                tsSize2.Text = (flpMain.Width - 40).ToString() + " x " + (flpMain.Height - 35).ToString();
+                tsSize2.Text = (pnl_flpMain.Width - 40).ToString() + " x " + (pnl_flpMain.Height - 35).ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
 
             pnlMain.Invalidate();
-            flpMain.Invalidate();
+            pnl_flpMain.Invalidate();
         }
 
         IDictionary<int, List<int>> dictPanelDimension = new Dictionary<int, List<int>>();
@@ -3643,14 +3645,20 @@ namespace KMDIWinDoorsCS
                 trkZoom.Value = 100;
                 trackzoom = false;
 
-                flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
-                flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
+                //flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                //flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
+
+                pnl_flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                pnl_flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
                 flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
                 flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                static_wd = flpMain.Width;
-                static_ht = flpMain.Height;
+                //static_wd = flpMain.Width;
+                //static_ht = flpMain.Height;
+
+                static_wd = pnl_flpMain.Width;
+                static_ht = pnl_flpMain.Height;
 
                 foreach (var item in pnlItems.Controls.OfType<ItemControl>())
                 {
@@ -3675,7 +3683,8 @@ namespace KMDIWinDoorsCS
                     //lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     //lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     
-                    flpMain.Invalidate();
+                    //flpMain.Invalidate();
+                    pnl_flpMain.Invalidate();
                     pnlMain.Invalidate();
                     refreshToolStripButton1_Click(sender, e);
                 }
@@ -3691,8 +3700,8 @@ namespace KMDIWinDoorsCS
 
             foreach (Panel item in sender.Controls)
             {
-                int ctrl_X = item.Location.X,
-                ctrl_Y = item.Location.Y,
+                int ctrl_X = item.Location.X + 40,
+                ctrl_Y = item.Location.Y + 35,
                 ctrl_Width = item.Width,
                 ctrl_Height = item.Height;
 
@@ -3794,10 +3803,10 @@ namespace KMDIWinDoorsCS
                                                                        fpnl.ClientRectangle.Width - w,
                                                                        fpnl.ClientRectangle.Height - w));
 
-                if (paint_flpMain == true)
-                {
-                    Create_ArrowLines(g, (FlowLayoutPanel)sender);
-                }
+                //if (paint_flpMain == true)
+                //{
+                //    Create_ArrowLines(g, (FlowLayoutPanel)sender);
+                //}
             }
             catch (Exception ex)
             {
@@ -3832,31 +3841,6 @@ namespace KMDIWinDoorsCS
         private void flpMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             tsSize_DoubleClick(sender, e);
-            /*frmDimensions frm = new frmDimensions();
-            frm.numWidth.Value = flpMain.Width;
-            frm.numHeight.Value = flpMain.Height;
-
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                flpMain.Width = Convert.ToInt32(frm.numWidth.Value);
-                flpMain.Height = Convert.ToInt32(frm.numHeight.Value);
-
-                if (flpMain.Tag != null)
-                {
-                    string flptag = flpMain.Tag.ToString();
-                    string lastnum = flptag.Substring(flptag.Length - 1);
-                    Label lbl = new Label();
-                    lbl = itemControlsSearch("lbldimension_" + lastnum);
-                    lbl.Text = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-
-                    Label lblitm = new Label();
-                    lblitm = itemControlsSearch("lbl_item" + lastnum);
-                    lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-
-                    flpMain.Invalidate();
-                    pnlMain.Invalidate();
-                }
-            }*/
         }
 
         private void chkView_CheckedChanged(object sender, EventArgs e)
@@ -4037,6 +4021,34 @@ namespace KMDIWinDoorsCS
                 frmCloudSync frm = new frmCloudSync();
                 frm.autonum = info[0].ToString();
                 frm.ShowDialog();
+            }
+        }
+
+        private void pnl_flpMain_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                Graphics g = e.Graphics;
+
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                Panel fpnl = (Panel)sender;
+
+                int w = 1;
+                int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+                g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                                                                       0,
+                                                                       fpnl.ClientRectangle.Width - w,
+                                                                       fpnl.ClientRectangle.Height - w));
+
+                if (paint_flpMain == true)
+                {
+                    Create_ArrowLines(g, flpMain);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
             }
         }
 
@@ -4298,17 +4310,18 @@ namespace KMDIWinDoorsCS
 
         private void pnlMain_Paint(object sender, PaintEventArgs e)
         {
-            if (paint_pnlMain == true)
+            //if (paint_pnlMain == true)
+            if (false)
             {
                 Graphics g = e.Graphics;
                 //g.ScaleTransform(zoom, zoom);
 
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                int flp_X = flpMain.Location.X,
-                    flp_Y = flpMain.Location.Y,
-                    flp_Width = flpMain.Width,
-                    flp_Height = flpMain.Height;
+                int flp_X = pnl_flpMain.Location.X,
+                    flp_Y = pnl_flpMain.Location.Y,
+                    flp_Width = pnl_flpMain.Width,
+                    flp_Height = pnl_flpMain.Height;
 
                 //string dmnsion_w = flpMain.Width.ToString();
                 string dmnsion_w = (static_wd - 40).ToString();
@@ -4398,13 +4411,15 @@ namespace KMDIWinDoorsCS
             btnSubtractZoom.Enabled = true;
 
             flpMain.AccessibleDescription = profiletype;
-            flpMain.Size = new Size(Fwidth, Fheight);
+            //flpMain.Size = new Size(Fwidth, Fheight);
+            pnl_flpMain.Size = new Size(Fwidth, Fheight);
             flpMain2.Size = new Size(Fwidth, Fheight);
 
-            static_wd = flpMain.Width;
-            static_ht = flpMain.Height;
+            static_wd = pnl_flpMain.Width;
+            static_ht = pnl_flpMain.Height;
 
-            flpMain.Visible = true;
+            pnl_flpMain.Visible = true;
+            //flpMain.Visible = true;
             flpMain.Controls.Clear();
             flpMain2.Controls.Clear();
             pnlMain.Invalidate();
@@ -4414,7 +4429,7 @@ namespace KMDIWinDoorsCS
             ItemControl itm = CreateItemControl(fid,
                                                 fName,
                                                 pnl_cntr,
-                                                (flpMain.Width - 40) + " x " + (flpMain.Height - 35),
+                                                (pnl_flpMain.Width - 40) + " x " + (pnl_flpMain.Height - 35),
                                                 profiletype,
                                                 fprice,
                                                 fdiscount,
@@ -4633,7 +4648,7 @@ namespace KMDIWinDoorsCS
                 if (paint_flpMain == true)
                 {
                     Graphics g = e.Graphics;
-                    Create_ArrowLines(g, (FlowLayoutPanel)sender);
+                    //Create_ArrowLines(g, (FlowLayoutPanel)sender);
                 }
                 Panel_Painter();
             }
@@ -4972,8 +4987,10 @@ namespace KMDIWinDoorsCS
                 if (input != "" && input != "0")
                 {
                     Clearing_Operation();
-                    flpMain.Visible = false;
-                    flpMain.Size = new Size(0, 0);
+                    pnl_flpMain.Visible = false;
+                    pnl_flpMain.Size = new Size(0, 0);
+                    //flpMain.Visible = false;
+                    //flpMain.Size = new Size(0, 0);
                     paint_pnlMain = false;
 
                     quotation_ref_no = input.ToUpper();
@@ -5088,7 +5105,8 @@ namespace KMDIWinDoorsCS
 
             flpMain.Controls.Add(frame);
             trackzoom = false;
-            flpMain.Invalidate();
+            //flpMain.Invalidate();
+            pnl_flpMain.Invalidate();
 
             FlowLayoutPanel prop = CreateFrameProperties(fr_name_id,
                                                          fr_id,
