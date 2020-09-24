@@ -894,6 +894,8 @@ namespace KMDIWinDoorsCS
                     lstDimensions[0] = Convert.ToInt32(num.Value);
                     ctrl.Width = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
 
+                    string[] dimension = ctrl.AccessibleDefaultActionDescription.Split('x');
+                    ctrl.AccessibleDefaultActionDescription = num.Value + "x" + dimension[1];
                     //curr_Frame.Width = (int)num.Value;
                     //dictRectFrames[frameid] = num.Value;
                 }
@@ -901,6 +903,9 @@ namespace KMDIWinDoorsCS
                 {
                     lstDimensions[1] = Convert.ToInt32(num.Value);
                     ctrl.Height = Convert.ToInt32(Convert.ToInt32(num.Value) * zoom);
+
+                    string[] dimension = ctrl.AccessibleDefaultActionDescription.Split('x');
+                    ctrl.AccessibleDefaultActionDescription = dimension[0] + "x" + num.Value;
                     //curr_Frame.Height = (int)num.Value;
                 }
                 dictFrameDimension[frameid] = lstDimensions;
@@ -930,10 +935,16 @@ namespace KMDIWinDoorsCS
                 if (num.Name.Contains("numfWidth_"))
                 {
                     ctrl.Width = (int)((int)num.Value * zm);
+
+                    string[] dimension = ctrl.AccessibleDefaultActionDescription.Split('x');
+                    ctrl.AccessibleDefaultActionDescription = num.Value + "x" + dimension[1];
                 }
                 else if (num.Name.Contains("numfHeight_"))
                 {
                     ctrl.Height = (int)((int)num.Value * zm);
+
+                    string[] dimension = ctrl.AccessibleDefaultActionDescription.Split('x');
+                    ctrl.AccessibleDefaultActionDescription = dimension[0] + "x" + num.Value;
                 }
                 ctrl.Invalidate();
 
@@ -985,7 +996,9 @@ namespace KMDIWinDoorsCS
             }
 
             trackzoom = false;
-            flpMain.Invalidate();
+            //flpMain.Invalidate();
+            pnl_flpMain.Invalidate();
+            pnl_flpMain2.Invalidate();
 
             refreshToolStripButton1_Click(sender, e);
             //refreshToolStripButton.PerformClick();
@@ -3651,8 +3664,11 @@ namespace KMDIWinDoorsCS
                 pnl_flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
                 pnl_flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
-                flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
+                //flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                //flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
+
+                pnl_flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                pnl_flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
                 //static_wd = flpMain.Width;
                 //static_ht = flpMain.Height;
@@ -3739,7 +3755,7 @@ namespace KMDIWinDoorsCS
                 TextRenderer.DrawText(g,
                                       dmnsion_w,
                                       dmnsion_font,
-                                      new Rectangle(new Point((int)(mid - (s.Width / 2)), 7),
+                                      new Rectangle(new Point((int)(mid - (s.Width / 2)), (ctrl_Y - s.Height) / 2),
                                                     new Size(s.Width, s.Height)),
                                       Color.Black,
                                       sender.BackColor,
@@ -4049,6 +4065,24 @@ namespace KMDIWinDoorsCS
             {
                 MessageBox.Show(ex.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 csfunc.LogToFile(ex.Message, ex.StackTrace);
+            }
+        }
+
+        private void pnl_flpMain2_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                if (paint_flpMain == true)
+                {
+                    Graphics g = e.Graphics;
+                    Create_ArrowLines(g, flpMain2);
+                }
+                Panel_Painter();
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(ex.Message);
+                //csfunc.LogToFile(ex.Message, ex.StackTrace);
             }
         }
 
@@ -4413,7 +4447,8 @@ namespace KMDIWinDoorsCS
             flpMain.AccessibleDescription = profiletype;
             //flpMain.Size = new Size(Fwidth, Fheight);
             pnl_flpMain.Size = new Size(Fwidth, Fheight);
-            flpMain2.Size = new Size(Fwidth, Fheight);
+            pnl_flpMain2.Size = new Size(Fwidth, Fheight);
+            //flpMain2.Size = new Size(Fwidth, Fheight);
 
             static_wd = pnl_flpMain.Width;
             static_ht = pnl_flpMain.Height;
@@ -4604,8 +4639,9 @@ namespace KMDIWinDoorsCS
 
         private void Panel_Painter()
         {
-            Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
-            flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, flpMain2.Size.Width, flpMain2.Size.Height));
+            //Bitmap bm = new Bitmap(flpMain2.Size.Width, flpMain2.Size.Height);
+            Bitmap bm = new Bitmap(pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height);
+            pnl_flpMain2.DrawToBitmap(bm, new Rectangle(0, 0, pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height));
 
             //Size thumbnailSize = GetThumbnailSize(bm);
 
@@ -4650,7 +4686,7 @@ namespace KMDIWinDoorsCS
                     Graphics g = e.Graphics;
                     //Create_ArrowLines(g, (FlowLayoutPanel)sender);
                 }
-                Panel_Painter();
+                //Panel_Painter();
             }
             catch (Exception)
             {
