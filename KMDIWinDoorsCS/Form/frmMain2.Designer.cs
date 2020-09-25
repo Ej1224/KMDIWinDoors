@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -40,7 +40,6 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnl_flpMain = new System.Windows.Forms.Panel();
             this.flpMain = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pnlProperties = new System.Windows.Forms.Panel();
             this.chkView = new System.Windows.Forms.CheckBox();
             this.pnlPropertiesBody = new System.Windows.Forms.Panel();
@@ -112,6 +111,8 @@
             this.tsLbl_Welcome = new System.Windows.Forms.ToolStripLabel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.pnl_flpMain2 = new System.Windows.Forms.Panel();
+            this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.invertOrientationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -120,7 +121,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).BeginInit();
             this.pnlMain.SuspendLayout();
             this.pnl_flpMain.SuspendLayout();
-            this.flpMain.SuspendLayout();
             this.pnlProperties.SuspendLayout();
             this.mnsMainMenu.SuspendLayout();
             this.pnlRight.SuspendLayout();
@@ -173,14 +173,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle12;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -256,7 +256,6 @@
             this.flpMain.AccessibleDescription = "";
             this.flpMain.AccessibleName = "";
             this.flpMain.BackColor = System.Drawing.SystemColors.Control;
-            this.flpMain.Controls.Add(this.panel1);
             this.flpMain.Cursor = System.Windows.Forms.Cursors.Default;
             this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -265,14 +264,6 @@
             this.flpMain.Size = new System.Drawing.Size(260, 290);
             this.flpMain.TabIndex = 1;
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
-            // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(0, 100);
-            this.panel1.TabIndex = 0;
             // 
             // pnlProperties
             // 
@@ -373,13 +364,13 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
             // 
             this.QuotationToolStripMenuItem.Name = "QuotationToolStripMenuItem";
-            this.QuotationToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.QuotationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.QuotationToolStripMenuItem.Text = "&Quotation";
             this.QuotationToolStripMenuItem.Click += new System.EventHandler(this.QuotationToolStripMenuItem_Click);
             // 
@@ -390,7 +381,7 @@
             this.PremiLineToolStripMenuItem});
             this.ItemToolStripMenuItem.Enabled = false;
             this.ItemToolStripMenuItem.Name = "ItemToolStripMenuItem";
-            this.ItemToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.ItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ItemToolStripMenuItem.Text = "I&tem";
             // 
             // C70ToolStripMenuItem
@@ -411,7 +402,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -419,7 +410,7 @@
             // 
             this.syncToolStripMenuItem.Enabled = false;
             this.syncToolStripMenuItem.Name = "syncToolStripMenuItem";
-            this.syncToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.syncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.syncToolStripMenuItem.Text = "Cloud sync";
             this.syncToolStripMenuItem.Click += new System.EventHandler(this.syncToolStripMenuItem_Click);
             // 
@@ -435,14 +426,14 @@
             // itemsToolStripMenuItem
             // 
             this.itemsToolStripMenuItem.Name = "itemsToolStripMenuItem";
-            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.itemsToolStripMenuItem.Text = "Items";
             this.itemsToolStripMenuItem.Click += new System.EventHandler(this.itemsToolStripMenuItem_Click);
             // 
             // defaultValuesToolStripMenuItem
             // 
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // ViewToolStripMenuItem
@@ -467,7 +458,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeSyncDirectoryToolStripMenuItem,
-            this.syncLocalToCloudToolStripMenuItem});
+            this.syncLocalToCloudToolStripMenuItem,
+            this.editorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -475,14 +467,14 @@
             // changeSyncDirectoryToolStripMenuItem
             // 
             this.changeSyncDirectoryToolStripMenuItem.Name = "changeSyncDirectoryToolStripMenuItem";
-            this.changeSyncDirectoryToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.changeSyncDirectoryToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.changeSyncDirectoryToolStripMenuItem.Text = "Change sync directory";
             this.changeSyncDirectoryToolStripMenuItem.Click += new System.EventHandler(this.changeSyncDirectoryToolStripMenuItem_Click);
             // 
             // syncLocalToCloudToolStripMenuItem
             // 
             this.syncLocalToCloudToolStripMenuItem.Name = "syncLocalToCloudToolStripMenuItem";
-            this.syncLocalToCloudToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.syncLocalToCloudToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.syncLocalToCloudToolStripMenuItem.Text = "Sync local to cloud";
             this.syncLocalToCloudToolStripMenuItem.Click += new System.EventHandler(this.syncLocalToCloudToolStripMenuItem_Click);
             // 
@@ -950,6 +942,22 @@
             this.pnl_flpMain2.TabIndex = 7;
             this.pnl_flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.pnl_flpMain2_Paint);
             // 
+            // editorToolStripMenuItem
+            // 
+            this.editorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.invertOrientationToolStripMenuItem});
+            this.editorToolStripMenuItem.Name = "editorToolStripMenuItem";
+            this.editorToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.editorToolStripMenuItem.Text = "Editor";
+            // 
+            // invertOrientationToolStripMenuItem
+            // 
+            this.invertOrientationToolStripMenuItem.CheckOnClick = true;
+            this.invertOrientationToolStripMenuItem.Name = "invertOrientationToolStripMenuItem";
+            this.invertOrientationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.invertOrientationToolStripMenuItem.Text = "Invert Orientation";
+            this.invertOrientationToolStripMenuItem.Click += new System.EventHandler(this.invertOrientationToolStripMenuItem_Click);
+            // 
             // frmMain2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -984,7 +992,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvControls)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnl_flpMain.ResumeLayout(false);
-            this.flpMain.ResumeLayout(false);
             this.pnlProperties.ResumeLayout(false);
             this.pnlProperties.PerformLayout();
             this.mnsMainMenu.ResumeLayout(false);
@@ -1084,9 +1091,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSyncDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syncLocalToCloudToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnl_flpMain;
         private System.Windows.Forms.Panel pnl_flpMain2;
+        private System.Windows.Forms.ToolStripMenuItem editorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem invertOrientationToolStripMenuItem;
     }
 }
 

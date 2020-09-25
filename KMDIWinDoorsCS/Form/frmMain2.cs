@@ -3794,7 +3794,7 @@ namespace KMDIWinDoorsCS
                 TextRenderer.DrawText(g,
                                       dmnsion_h,
                                       dmnsion_font,
-                                      new Rectangle(new Point(s2.Width - 35, (int)(mid2 - (s2.Height / 2))),
+                                      new Rectangle(new Point((ctrl_X - s2.Width) / 2, (int)(mid2 - (s2.Height / 2))),
                                                     new Size(s2.Width, s2.Height)),
                                       Color.Black,
                                       sender.BackColor,
@@ -4047,14 +4047,14 @@ namespace KMDIWinDoorsCS
                 Graphics g = e.Graphics;
 
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                Panel fpnl = (Panel)sender;
+                //Panel fpnl = (Panel)sender;
 
-                int w = 1;
-                int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
-                g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
-                                                                       0,
-                                                                       fpnl.ClientRectangle.Width - w,
-                                                                       fpnl.ClientRectangle.Height - w));
+                //int w = 1;
+                //int w2 = Convert.ToInt32(Math.Floor(w / (double)2));
+                //g.DrawRectangle(new Pen(Color.Black, w), new Rectangle(0,
+                //                                                       0,
+                //                                                       fpnl.ClientRectangle.Width - w,
+                //                                                       fpnl.ClientRectangle.Height - w));
 
                 if (paint_flpMain == true)
                 {
@@ -4084,6 +4084,21 @@ namespace KMDIWinDoorsCS
                 //MessageBox.Show(ex.Message);
                 //csfunc.LogToFile(ex.Message, ex.StackTrace);
             }
+        }
+
+        private void invertOrientationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (invertOrientationToolStripMenuItem.Checked == true)
+            {
+                flpMain.FlowDirection = FlowDirection.LeftToRight;
+                flpMain2.FlowDirection = FlowDirection.LeftToRight;
+            }
+            if (invertOrientationToolStripMenuItem.Checked == false)
+            {
+                flpMain.FlowDirection = FlowDirection.TopDown;
+                flpMain2.FlowDirection = FlowDirection.TopDown;
+            }
+            refreshToolStripButton1_Click(sender, e);
         }
 
         private void CloudStoragetoolStripButton_Click(object sender, EventArgs e)
@@ -4174,11 +4189,13 @@ namespace KMDIWinDoorsCS
                                float zoom_val)
         {
 
-            float wd = static_wd * zoom_val,
-                  ht = static_ht * zoom_val;
+            float wd = (static_wd - 40) * zoom_val,
+                  ht = (static_ht - 35) * zoom_val;
 
-            flp_name.Width = Convert.ToInt32(wd);
-            flp_name.Height = Convert.ToInt32(ht);
+            //flp_name.Width = Convert.ToInt32(wd);
+            //flp_name.Height = Convert.ToInt32(ht);
+            flp_name.Parent.Width = Convert.ToInt32(wd + 40);
+            flp_name.Parent.Height = Convert.ToInt32(ht + 35);
 
             foreach (Panel pnl in flp_name.Controls)
             {
@@ -4188,8 +4205,8 @@ namespace KMDIWinDoorsCS
                 List<int> lstDimensions = new List<int>();
                 lstDimensions = dictFrameDimension[id];
 
-                float fwd = ((lstDimensions[0] + 40 ) * zoom_val) - 40,
-                      fht = ((lstDimensions[1] + 35) * zoom_val) - 35;
+                float fwd = lstDimensions[0] * zoom_val,
+                      fht = lstDimensions[1] * zoom_val;
 
                 pnl.Padding = new Padding(Convert.ToInt32(wndr * zoom_val));
                 pnl.Size = new Size(Convert.ToInt32(fwd), Convert.ToInt32(fht));
@@ -4243,75 +4260,43 @@ namespace KMDIWinDoorsCS
                       multiPht = lstDimensions[1] * zoom_val;
                 multi.Size = new Size(Convert.ToInt32(multiPwd), Convert.ToInt32(multiPht));
 
-                //checker = false;
-                //int i = 0;
-                //while (checker == false)
-                //{
-                    int total_wd_of_controls = 0, total_ht_of_controls = 0;
-                    foreach (Control item in multi.Controls)
-                    {
-                        if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
-                        {
-                            total_wd_of_controls += item.Width;
-                        }
-                        else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
-                        {
-                            total_ht_of_controls += item.Height;
-                        }
-                    }
-
-                    //Small Adjustments on the sizes of panels inside multi-panel
+               
+                int total_wd_of_controls = 0, total_ht_of_controls = 0;
+                foreach (Control item in multi.Controls)
+                {
                     if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
                     {
-                        if (total_wd_of_controls > multi.Width)
-                        {
-                            int wd_diff = total_wd_of_controls - multi.Width;
-                            if (wd_diff <= 5)
-                            {
-                                multi.Controls[multi.Controls.Count - 1].Width -= wd_diff;
-                            }
-                        }
+                        total_wd_of_controls += item.Width;
                     }
                     else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
                     {
-                        if (total_ht_of_controls > multi.Height)
+                        total_ht_of_controls += item.Height;
+                    }
+                }
+
+                //Small Adjustments on the sizes of panels inside multi-panel
+                if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
+                {
+                    if (total_wd_of_controls > multi.Width)
+                    {
+                        int wd_diff = total_wd_of_controls - multi.Width;
+                        if (wd_diff <= 5)
                         {
-                            int ht_diff = total_ht_of_controls - multi.Height;
-                            if (ht_diff <= 5)
-                            {
-                                multi.Controls[multi.Controls.Count - 1].Height -= ht_diff;
-                            }
+                            multi.Controls[multi.Controls.Count - 1].Width -= wd_diff;
                         }
                     }
-
-                    //Checker will be true if condtions met
-                    //int size_checker = 0;
-                    //if (multi.FlowDirection == FlowDirection.LeftToRight) //Mullion
-                    //{
-                    //    foreach (Control newsize_item in multi.Controls)
-                    //    {
-                    //        size_checker += newsize_item.Width;
-                    //    }
-
-                    //    if (size_checker <= multi.Width)
-                    //    {
-                    //        checker = true;
-                    //    }
-                    //}
-                    //else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
-                    //{
-                    //    foreach (Control newsize_item in multi.Controls)
-                    //    {
-                    //        size_checker += newsize_item.Height;
-                    //    }
-
-                    //    if (size_checker <= multi.Height)
-                    //    {
-                    //        checker = true;
-                    //    }
-                    //}
-                    //i++;
-                //}
+                }
+                else if (multi.FlowDirection == FlowDirection.TopDown) //Transom
+                {
+                    if (total_ht_of_controls > multi.Height)
+                    {
+                        int ht_diff = total_ht_of_controls - multi.Height;
+                        if (ht_diff <= 5)
+                        {
+                            multi.Controls[multi.Controls.Count - 1].Height -= ht_diff;
+                        }
+                    }
+                }
             }
         }
 
@@ -5166,12 +5151,25 @@ namespace KMDIWinDoorsCS
             }
         }
 
+        int last_wd, last_ht;
+
         private void tsBtnNewWindoor(object sender, EventArgs e)
         {
-            int defwidth = static_wd,
-                defheight = static_ht,
+            int defwidth = 0,
+                defheight = 0,
                 defwndr = 0; //if window 52/2 = 26; elseif door 67/2 = 33
-                //flp_cntr = flpMain.Controls.Count + 1;
+                             //flp_cntr = flpMain.Controls.Count + 1;
+            if (last_wd == 0)
+            {
+                last_wd = static_wd;
+            }
+            if (last_ht == 0)
+            {
+                last_ht = static_ht;
+            }
+
+            defwidth = last_wd;
+            defheight = last_ht;
 
             frmDimensions frm = new frmDimensions();
             frm.Size = new Size(200, 156);
@@ -5193,6 +5191,9 @@ namespace KMDIWinDoorsCS
             {
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
+
+                last_wd = defwidth + 40;
+                last_ht = defheight + 35;
 
                 paint_flpMain = true;
 
