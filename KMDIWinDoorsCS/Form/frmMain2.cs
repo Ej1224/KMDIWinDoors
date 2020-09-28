@@ -1620,14 +1620,16 @@ namespace KMDIWinDoorsCS
                 string WxH = selected_items_pnl.itmDimension.Replace(" ", "");
                 string[] dimension = WxH.Split('x');
 
-                static_wd = Convert.ToInt32(dimension[0]);
-                static_ht = Convert.ToInt32(dimension[1]);
+                static_wd = Convert.ToInt32(dimension[0]) + 40;
+                static_ht = Convert.ToInt32(dimension[1]) + 35;
 
-                flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                //flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                pnl_flpMain.Size = new Size(Convert.ToInt32(dimension[0]) + 40, Convert.ToInt32(dimension[1]) + 35);
                 flpMain.Tag = "Item_" + item_id;
                 flpMain.Controls.Clear();
 
-                flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                //flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
+                pnl_flpMain2.Size = new Size(Convert.ToInt32(dimension[0]) + 40, Convert.ToInt32(dimension[1]) + 35);
                 flpMain2.Tag = "Item_" + item_id;
                 flpMain2.Controls.Clear();
 
@@ -2865,7 +2867,8 @@ namespace KMDIWinDoorsCS
                     }
                     if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "" && fName != "" && fid != "")
                     {
-                        AddProfile(fpwidth, fpheight, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
+                        paint_flpMain = true;
+                        AddProfile(fpwidth + 40, fpheight + 35, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
                         inside_item = false;
                     }
 
@@ -3216,6 +3219,8 @@ namespace KMDIWinDoorsCS
                     if (pnl.Name.Contains("Multi"))
                     {
                         frmDimensions frm = new frmDimensions();
+                        frm.Size = new Size(200, 156);
+
                         FlowLayoutPanel fpnl = (FlowLayoutPanel)pnl;
                         int numdiv = Convert.ToInt32(fpnl.AccessibleDescription);
                         string multiPnl_Tag = fpnl.Tag.ToString();
@@ -4716,6 +4721,8 @@ namespace KMDIWinDoorsCS
                     {
                         string WxH = itm.ItemDimension.Replace(" ", "");
                         string[] dimension = WxH.Split('x');
+                        //dimension[0] = (Convert.ToInt32(dimension[0]) + 40).ToString();
+                        //dimension[1] = (Convert.ToInt32(dimension[1]) + 35).ToString();
 
                         wndr_content.Add("(");
                         wndr_content.Add("FID: " + itm.ItemID);
