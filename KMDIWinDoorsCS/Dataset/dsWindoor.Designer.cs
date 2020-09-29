@@ -1005,6 +1005,8 @@ namespace KMDIWinDoorsCS.Dataset {
             
             private global::System.Data.DataColumn columnnetprice;
             
+            private global::System.Data.DataColumn columnitemname;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dtQuoteDataTable() {
@@ -1088,6 +1090,14 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn itemnameColumn {
+                get {
+                    return this.columnitemname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1123,7 +1133,7 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dtQuoteRow AdddtQuoteRow(string img, string desc, int qty, decimal price, decimal discount, decimal netprice) {
+            public dtQuoteRow AdddtQuoteRow(string img, string desc, int qty, decimal price, decimal discount, decimal netprice, string itemname) {
                 dtQuoteRow rowdtQuoteRow = ((dtQuoteRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         img,
@@ -1131,7 +1141,8 @@ namespace KMDIWinDoorsCS.Dataset {
                         qty,
                         price,
                         discount,
-                        netprice};
+                        netprice,
+                        itemname};
                 rowdtQuoteRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtQuoteRow);
                 return rowdtQuoteRow;
@@ -1160,6 +1171,7 @@ namespace KMDIWinDoorsCS.Dataset {
                 this.columnprice = base.Columns["price"];
                 this.columndiscount = base.Columns["discount"];
                 this.columnnetprice = base.Columns["netprice"];
+                this.columnitemname = base.Columns["itemname"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1177,6 +1189,8 @@ namespace KMDIWinDoorsCS.Dataset {
                 base.Columns.Add(this.columndiscount);
                 this.columnnetprice = new global::System.Data.DataColumn("netprice", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnnetprice);
+                this.columnitemname = new global::System.Data.DataColumn("itemname", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnitemname);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1803,6 +1817,22 @@ namespace KMDIWinDoorsCS.Dataset {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string itemname {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtQuote.itemnameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'itemname\' in table \'dtQuote\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtQuote.itemnameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsimgNull() {
                 return this.IsNull(this.tabledtQuote.imgColumn);
             }
@@ -1871,6 +1901,18 @@ namespace KMDIWinDoorsCS.Dataset {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetnetpriceNull() {
                 this[this.tabledtQuote.netpriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsitemnameNull() {
+                return this.IsNull(this.tabledtQuote.itemnameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetitemnameNull() {
+                this[this.tabledtQuote.itemnameColumn] = global::System.Convert.DBNull;
             }
         }
         

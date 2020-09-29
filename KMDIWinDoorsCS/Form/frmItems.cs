@@ -149,12 +149,15 @@ namespace KMDIWinDoorsCS
 
                 string reportdimension = dimension[0] + "w x " + dimension[1] + "h";
 
+                string itemname = row.rowItemName.Substring(row.rowItemName.IndexOf("."));
+
                 dsw.dtQuote.Rows.Add(byteToStr,
                                      reportdimension + "\n" + row.rowItemDesc,
                                      row.rowItemQty,
                                      row.rowItemPrice,
                                      row.rowItemDiscount,
-                                     netprice);
+                                     netprice,
+                                     itemname);
             }
             
             frmPrintQuote frm = new frmPrintQuote();

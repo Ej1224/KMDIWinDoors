@@ -521,7 +521,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>1.2in</Height>
+              <Height>1.42222in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -557,23 +557,64 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Image Name="Image4">
-                      <Source>Database</Source>
-                      <Value>=Fields!img.Value</Value>
-                      <MIMEType>image/png</MIMEType>
-                      <Sizing>FitProportional</Sizing>
-                      <Bookmark>=Fields!qty.Value</Bookmark>
+                    <Rectangle Name="Rectangle1">
+                      <ReportItems>
+                        <Textbox Name="itemname">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!itemname.Value</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>itemname</rd:DefaultName>
+                          <Height>0.20833in</Height>
+                          <Width>1.77643in</Width>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <Image Name="Image1">
+                          <Source>Database</Source>
+                          <Value>=Fields!img.Value</Value>
+                          <MIMEType>image/png</MIMEType>
+                          <Sizing>FitProportional</Sizing>
+                          <Top>0.22222in</Top>
+                          <Height>1.2in</Height>
+                          <Width>1.77643in</Width>
+                          <ZIndex>1</ZIndex>
+                          <Bookmark>=Fields!qty.Value</Bookmark>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>5pt</PaddingRight>
+                          </Style>
+                        </Image>
+                      </ReportItems>
+                      <KeepTogether>true</KeepTogether>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <PaddingLeft>5pt</PaddingLeft>
-                        <PaddingRight>5pt</PaddingRight>
-                        <PaddingTop>5pt</PaddingTop>
-                        <PaddingBottom>5pt</PaddingBottom>
                       </Style>
-                    </Image>
+                    </Rectangle>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -769,7 +810,7 @@
         <DataSetName>DataSet1</DataSetName>
         <Top>0.94305in</Top>
         <Left>0.45in</Left>
-        <Height>1.62708in</Height>
+        <Height>1.8493in</Height>
         <Width>6.6369in</Width>
         <ZIndex>8</ZIndex>
         <Style>
@@ -779,7 +820,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.57013in</Height>
+    <Height>2.79235in</Height>
     <Style />
   </Body>
   <Width>8in</Width>
@@ -1398,7 +1439,7 @@ Tel. No.: +6332 346 1112 • Fax No.: +6332 346 1113</Value>
       <Fields>
         <Field Name="img">
           <DataField>img</DataField>
-          <rd:TypeName>System.Byte[]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="desc">
           <DataField>desc</DataField>
@@ -1419,6 +1460,10 @@ Tel. No.: +6332 346 1112 • Fax No.: +6332 346 1113</Value>
         <Field Name="netprice">
           <DataField>netprice</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="itemname">
+          <DataField>itemname</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
