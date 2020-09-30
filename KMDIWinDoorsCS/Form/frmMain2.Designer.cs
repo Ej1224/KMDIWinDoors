@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -62,6 +62,8 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSyncDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncLocalToCloudToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.invertOrientationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlItems = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -111,8 +113,6 @@
             this.tsLbl_Welcome = new System.Windows.Forms.ToolStripLabel();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.pnl_flpMain2 = new System.Windows.Forms.Panel();
-            this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.invertOrientationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -173,14 +173,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -243,7 +243,7 @@
             this.pnl_flpMain.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pnl_flpMain.Location = new System.Drawing.Point(170, 85);
             this.pnl_flpMain.Name = "pnl_flpMain";
-            this.pnl_flpMain.Padding = new System.Windows.Forms.Padding(40, 35, 0, 0);
+            this.pnl_flpMain.Padding = new System.Windows.Forms.Padding(70, 35, 0, 0);
             this.pnl_flpMain.Size = new System.Drawing.Size(300, 325);
             this.pnl_flpMain.TabIndex = 2;
             this.pnl_flpMain.Visible = false;
@@ -259,9 +259,9 @@
             this.flpMain.Cursor = System.Windows.Forms.Cursors.Default;
             this.flpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain.Location = new System.Drawing.Point(40, 35);
+            this.flpMain.Location = new System.Drawing.Point(70, 35);
             this.flpMain.Name = "flpMain";
-            this.flpMain.Size = new System.Drawing.Size(260, 290);
+            this.flpMain.Size = new System.Drawing.Size(230, 290);
             this.flpMain.TabIndex = 1;
             this.flpMain.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain_Paint);
             // 
@@ -327,9 +327,9 @@
             this.flpMain2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.flpMain2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpMain2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpMain2.Location = new System.Drawing.Point(40, 35);
+            this.flpMain2.Location = new System.Drawing.Point(70, 35);
             this.flpMain2.Name = "flpMain2";
-            this.flpMain2.Size = new System.Drawing.Size(260, 290);
+            this.flpMain2.Size = new System.Drawing.Size(230, 290);
             this.flpMain2.TabIndex = 2;
             this.flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.flpMain2_Paint);
             // 
@@ -364,13 +364,13 @@
             this.QuotationToolStripMenuItem,
             this.ItemToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.newToolStripMenuItem.Text = "Ne&w";
             // 
             // QuotationToolStripMenuItem
             // 
             this.QuotationToolStripMenuItem.Name = "QuotationToolStripMenuItem";
-            this.QuotationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.QuotationToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.QuotationToolStripMenuItem.Text = "&Quotation";
             this.QuotationToolStripMenuItem.Click += new System.EventHandler(this.QuotationToolStripMenuItem_Click);
             // 
@@ -381,7 +381,7 @@
             this.PremiLineToolStripMenuItem});
             this.ItemToolStripMenuItem.Enabled = false;
             this.ItemToolStripMenuItem.Name = "ItemToolStripMenuItem";
-            this.ItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ItemToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.ItemToolStripMenuItem.Text = "I&tem";
             // 
             // C70ToolStripMenuItem
@@ -402,7 +402,7 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.saveAsToolStripMenuItem.Text = "&Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -410,7 +410,7 @@
             // 
             this.syncToolStripMenuItem.Enabled = false;
             this.syncToolStripMenuItem.Name = "syncToolStripMenuItem";
-            this.syncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.syncToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.syncToolStripMenuItem.Text = "Cloud sync";
             this.syncToolStripMenuItem.Click += new System.EventHandler(this.syncToolStripMenuItem_Click);
             // 
@@ -426,14 +426,14 @@
             // itemsToolStripMenuItem
             // 
             this.itemsToolStripMenuItem.Name = "itemsToolStripMenuItem";
-            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.itemsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.itemsToolStripMenuItem.Text = "Items";
             this.itemsToolStripMenuItem.Click += new System.EventHandler(this.itemsToolStripMenuItem_Click);
             // 
             // defaultValuesToolStripMenuItem
             // 
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
-            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
             // 
             // ViewToolStripMenuItem
@@ -467,16 +467,32 @@
             // changeSyncDirectoryToolStripMenuItem
             // 
             this.changeSyncDirectoryToolStripMenuItem.Name = "changeSyncDirectoryToolStripMenuItem";
-            this.changeSyncDirectoryToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.changeSyncDirectoryToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.changeSyncDirectoryToolStripMenuItem.Text = "Change sync directory";
             this.changeSyncDirectoryToolStripMenuItem.Click += new System.EventHandler(this.changeSyncDirectoryToolStripMenuItem_Click);
             // 
             // syncLocalToCloudToolStripMenuItem
             // 
             this.syncLocalToCloudToolStripMenuItem.Name = "syncLocalToCloudToolStripMenuItem";
-            this.syncLocalToCloudToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.syncLocalToCloudToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.syncLocalToCloudToolStripMenuItem.Text = "Sync local to cloud";
             this.syncLocalToCloudToolStripMenuItem.Click += new System.EventHandler(this.syncLocalToCloudToolStripMenuItem_Click);
+            // 
+            // editorToolStripMenuItem
+            // 
+            this.editorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.invertOrientationToolStripMenuItem});
+            this.editorToolStripMenuItem.Name = "editorToolStripMenuItem";
+            this.editorToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.editorToolStripMenuItem.Text = "Editor";
+            // 
+            // invertOrientationToolStripMenuItem
+            // 
+            this.invertOrientationToolStripMenuItem.CheckOnClick = true;
+            this.invertOrientationToolStripMenuItem.Name = "invertOrientationToolStripMenuItem";
+            this.invertOrientationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.invertOrientationToolStripMenuItem.Text = "Invert Orientation";
+            this.invertOrientationToolStripMenuItem.Click += new System.EventHandler(this.invertOrientationToolStripMenuItem_Click);
             // 
             // pnlRight
             // 
@@ -694,6 +710,7 @@
             this.printToolStripButton.Size = new System.Drawing.Size(24, 29);
             this.printToolStripButton.Text = "&Print";
             this.printToolStripButton.Visible = false;
+            this.printToolStripButton.Click += new System.EventHandler(this.printToolStripButton_Click);
             // 
             // tsb_Undo
             // 
@@ -935,28 +952,12 @@
             // 
             this.pnl_flpMain2.BackColor = System.Drawing.Color.White;
             this.pnl_flpMain2.Controls.Add(this.flpMain2);
-            this.pnl_flpMain2.Location = new System.Drawing.Point(392, 127);
+            this.pnl_flpMain2.Location = new System.Drawing.Point(0, 60);
             this.pnl_flpMain2.Name = "pnl_flpMain2";
-            this.pnl_flpMain2.Padding = new System.Windows.Forms.Padding(40, 35, 0, 0);
+            this.pnl_flpMain2.Padding = new System.Windows.Forms.Padding(70, 35, 0, 0);
             this.pnl_flpMain2.Size = new System.Drawing.Size(300, 325);
             this.pnl_flpMain2.TabIndex = 7;
             this.pnl_flpMain2.Paint += new System.Windows.Forms.PaintEventHandler(this.pnl_flpMain2_Paint);
-            // 
-            // editorToolStripMenuItem
-            // 
-            this.editorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.invertOrientationToolStripMenuItem});
-            this.editorToolStripMenuItem.Name = "editorToolStripMenuItem";
-            this.editorToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.editorToolStripMenuItem.Text = "Editor";
-            // 
-            // invertOrientationToolStripMenuItem
-            // 
-            this.invertOrientationToolStripMenuItem.CheckOnClick = true;
-            this.invertOrientationToolStripMenuItem.Name = "invertOrientationToolStripMenuItem";
-            this.invertOrientationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.invertOrientationToolStripMenuItem.Text = "Invert Orientation";
-            this.invertOrientationToolStripMenuItem.Click += new System.EventHandler(this.invertOrientationToolStripMenuItem_Click);
             // 
             // frmMain2
             // 

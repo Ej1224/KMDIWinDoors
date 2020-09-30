@@ -1620,16 +1620,16 @@ namespace KMDIWinDoorsCS
                 string WxH = selected_items_pnl.itmDimension.Replace(" ", "");
                 string[] dimension = WxH.Split('x');
 
-                static_wd = Convert.ToInt32(dimension[0]) + 40;
+                static_wd = Convert.ToInt32(dimension[0]) + 70;
                 static_ht = Convert.ToInt32(dimension[1]) + 35;
 
                 //flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                pnl_flpMain.Size = new Size(Convert.ToInt32(dimension[0]) + 40, Convert.ToInt32(dimension[1]) + 35);
+                pnl_flpMain.Size = new Size(Convert.ToInt32(dimension[0]) + 70, Convert.ToInt32(dimension[1]) + 35);
                 flpMain.Tag = "Item_" + item_id;
                 flpMain.Controls.Clear();
 
                 //flpMain2.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
-                pnl_flpMain2.Size = new Size(Convert.ToInt32(dimension[0]) + 40, Convert.ToInt32(dimension[1]) + 35);
+                pnl_flpMain2.Size = new Size(Convert.ToInt32(dimension[0]) + 70, Convert.ToInt32(dimension[1]) + 35);
                 flpMain2.Tag = "Item_" + item_id;
                 flpMain2.Controls.Clear();
 
@@ -1660,6 +1660,7 @@ namespace KMDIWinDoorsCS
 
                 trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
                 trkZoom_ValueChanged(sender, e);
+                refreshToolStripButton1_Click(sender, e);
             }
         }
 
@@ -2868,7 +2869,7 @@ namespace KMDIWinDoorsCS
                     if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "" && fName != "" && fid != "")
                     {
                         paint_flpMain = true;
-                        AddProfile(fpwidth + 40, fpheight + 35, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
+                        AddProfile(fpwidth + 70, fpheight + 35, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
                         inside_item = false;
                     }
 
@@ -3068,7 +3069,7 @@ namespace KMDIWinDoorsCS
             if (trackzoom == false)
             {
                 //tsSize2.Text = flpMain.Width + " x " + flpMain.Height;
-                tsSize2.Text = (pnl_flpMain.Width - 40).ToString() + " x " + (pnl_flpMain.Height - 35).ToString();
+                tsSize2.Text = (pnl_flpMain.Width - 70).ToString() + " x " + (pnl_flpMain.Height - 35).ToString();
             }
             //flpMain2.Location = new Point(pnlMain.Width + 10,pnlMain.Height + 10);
 
@@ -3582,7 +3583,7 @@ namespace KMDIWinDoorsCS
         static Size GetThumbnailSize(Image original)
         {
             // Maximum size of any dimension.
-            //const int maxPixels = 40;
+            //const int maxPixels = 70;
             const int maxPixels = 200;
 
             // Width and height.
@@ -3655,7 +3656,7 @@ namespace KMDIWinDoorsCS
 
             frmDimensions frm = new frmDimensions();
             frm.Size = new Size(200, 156);
-            frm.numWidth.Value = static_wd - 40;
+            frm.numWidth.Value = static_wd - 70;
             frm.numHeight.Value = static_ht - 35;
 
             if (frm.ShowDialog() == DialogResult.OK)
@@ -3663,16 +3664,16 @@ namespace KMDIWinDoorsCS
                 trkZoom.Value = 100;
                 trackzoom = false;
 
-                //flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                //flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 70);
                 //flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                pnl_flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                pnl_flpMain.Width = Convert.ToInt32(frm.numWidth.Value + 70);
                 pnl_flpMain.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                //flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                //flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 70);
                 //flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
-                pnl_flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 40);
+                pnl_flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 70);
                 pnl_flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
                 //static_wd = flpMain.Width;
@@ -3721,20 +3722,22 @@ namespace KMDIWinDoorsCS
 
             foreach (Panel item in sender.Controls)
             {
-                int ctrl_X = item.Location.X + 40,
+                int ctrl_X = item.Location.X + 70,
                 ctrl_Y = item.Location.Y + 35,
                 ctrl_Width = item.Width,
                 ctrl_Height = item.Height;
+                Pen redP = new Pen(Color.Red);
+                redP.Width = 3.5f;
 
                 string[] dimension = item.AccessibleDefaultActionDescription.Split('x');
 
                 //string dmnsion_w = flpMain.Width.ToString();
                 string dmnsion_w = dimension[0];
-                //string dmnsion_w = (static_wd - 40).ToString();
+                //string dmnsion_w = (static_wd - 70).ToString();
                 //string dmnsion_w = "9999";
                 Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
-                Point dmnsion_w_endP = new Point(ctrl_Width + ctrl_X, ctrl_Y - 17);
-                Font dmnsion_font = new Font("Segoe UI", 12);
+                Point dmnsion_w_endP = new Point((ctrl_Width + ctrl_X) - 2, ctrl_Y - 17);
+                Font dmnsion_font = new Font("Segoe UI", 20, FontStyle.Bold);
 
                 Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
                 double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
@@ -3754,9 +3757,9 @@ namespace KMDIWinDoorsCS
                 new Point(dmnsion_w_endP.X - 10, dmnsion_w_endP.Y + 10)
             };
 
-                g.DrawLines(Pens.Red, arrwhd_pnts_W1);
-                g.DrawLine(Pens.Red, dmnsion_w_startP, dmnsion_w_endP);
-                g.DrawLines(Pens.Red, arrwhd_pnts_W2);
+                g.DrawLines(redP, arrwhd_pnts_W1);
+                g.DrawLine(redP, dmnsion_w_startP, dmnsion_w_endP);
+                g.DrawLines(redP, arrwhd_pnts_W2);
                 TextRenderer.DrawText(g,
                                       dmnsion_w,
                                       dmnsion_font,
@@ -3774,7 +3777,7 @@ namespace KMDIWinDoorsCS
                 //string dmnsion_h = (static_ht - 35).ToString();
                 //string dmnsion_h = "9999";
                 Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
-                Point dmnsion_h_endP = new Point(ctrl_X - 17, ctrl_Y + ctrl_Height);
+                Point dmnsion_h_endP = new Point(ctrl_X - 17, (ctrl_Y + ctrl_Height) - 2);
 
                 Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
                 double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
@@ -3793,9 +3796,9 @@ namespace KMDIWinDoorsCS
                 new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
             };
 
-                g.DrawLines(Pens.Red, arrwhd_pnts_H1);
-                g.DrawLine(Pens.Red, dmnsion_h_startP, dmnsion_h_endP);
-                g.DrawLines(Pens.Red, arrwhd_pnts_H2);
+                g.DrawLines(redP, arrwhd_pnts_H1);
+                g.DrawLine(redP, dmnsion_h_startP, dmnsion_h_endP);
+                g.DrawLines(redP, arrwhd_pnts_H2);
                 TextRenderer.DrawText(g,
                                       dmnsion_h,
                                       dmnsion_font,
@@ -4111,6 +4114,22 @@ namespace KMDIWinDoorsCS
             StartWorker("GetCloudFiles");
         }
 
+        private void printToolStripButton_Click(object sender, EventArgs e)
+        {
+            //pnl_flpMain2.Size = new Size(1280, 1280);
+            //pnl_flpMain2.Padding = new Padding(128,112,0,0);
+            //flpMain2.Controls[0].Size = new Size(1152, 1168);
+
+            Bitmap bitmap = new Bitmap(pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height);
+            pnl_flpMain2.DrawToBitmap(bitmap, new Rectangle(0, 0, pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height));
+            using (FileStream fs = new FileStream(@"C:\Users\kmdie\Documents\Windoor Maker files\img\" + pnl_flpMain2.Width + "x" + pnl_flpMain2.Height + ".png", FileMode.Create, FileAccess.ReadWrite))
+            {
+                // using ImageFormat.Png or ImageFormat.Bmp saves the image with better quality
+                bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
+            }
+            //bitmap.Save(@"C:\Users\kmdie\Documents\Windoor Maker files\img\1.png");
+        }
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmLblDesc frm = new frmLblDesc();
@@ -4194,12 +4213,12 @@ namespace KMDIWinDoorsCS
                                float zoom_val)
         {
 
-            float wd = (static_wd - 40) * zoom_val,
+            float wd = (static_wd - 70) * zoom_val,
                   ht = (static_ht - 35) * zoom_val;
 
             //flp_name.Width = Convert.ToInt32(wd);
             //flp_name.Height = Convert.ToInt32(ht);
-            flp_name.Parent.Width = Convert.ToInt32(wd + 40);
+            flp_name.Parent.Width = Convert.ToInt32(wd + 70);
             flp_name.Parent.Height = Convert.ToInt32(ht + 35);
 
             foreach (Panel pnl in flp_name.Controls)
@@ -4348,7 +4367,7 @@ namespace KMDIWinDoorsCS
                     flp_Height = pnl_flpMain.Height;
 
                 //string dmnsion_w = flpMain.Width.ToString();
-                string dmnsion_w = (static_wd - 40).ToString();
+                string dmnsion_w = (static_wd - 70).ToString();
                 Point dmnsion_w_startP = new Point(flp_X, flp_Y - 15);
                 Point dmnsion_w_endP = new Point(flp_X + flp_Width, flp_Y - 15);
                 Font dmnsion_font = new Font("Segoe UI", 12);
@@ -4454,7 +4473,7 @@ namespace KMDIWinDoorsCS
             ItemControl itm = CreateItemControl(fid,
                                                 fName,
                                                 pnl_cntr,
-                                                (pnl_flpMain.Width - 40) + " x " + (pnl_flpMain.Height - 35),
+                                                (pnl_flpMain.Width - 70) + " x " + (pnl_flpMain.Height - 35),
                                                 profiletype,
                                                 fprice,
                                                 fdiscount,
@@ -4527,7 +4546,7 @@ namespace KMDIWinDoorsCS
 
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    defwidth = Convert.ToInt32(frm.numWidth.Value + 40);
+                    defwidth = Convert.ToInt32(frm.numWidth.Value + 70);
                     defheight = Convert.ToInt32(frm.numHeight.Value + 35);
 
                     if (frm.rad_c70.Checked)
@@ -4721,7 +4740,7 @@ namespace KMDIWinDoorsCS
                     {
                         string WxH = itm.ItemDimension.Replace(" ", "");
                         string[] dimension = WxH.Split('x');
-                        //dimension[0] = (Convert.ToInt32(dimension[0]) + 40).ToString();
+                        //dimension[0] = (Convert.ToInt32(dimension[0]) + 70).ToString();
                         //dimension[1] = (Convert.ToInt32(dimension[1]) + 35).ToString();
 
                         wndr_content.Add("(");
@@ -5180,7 +5199,7 @@ namespace KMDIWinDoorsCS
 
             frmDimensions frm = new frmDimensions();
             frm.Size = new Size(200, 156);
-            frm.numWidth.Value = defwidth - 40;
+            frm.numWidth.Value = defwidth - 70;
             frm.numHeight.Value = defheight - 35;
 
             if (sender == tsBtnNwin)
@@ -5199,7 +5218,7 @@ namespace KMDIWinDoorsCS
                 defwidth = Convert.ToInt32(frm.numWidth.Value);
                 defheight = Convert.ToInt32(frm.numHeight.Value);
 
-                last_wd = defwidth + 40;
+                last_wd = defwidth + 70;
                 last_ht = defheight + 35;
 
                 paint_flpMain = true;

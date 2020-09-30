@@ -149,7 +149,16 @@ namespace KMDIWinDoorsCS
 
                 string reportdimension = dimension[0] + "w x " + dimension[1] + "h";
 
-                string itemname = row.rowItemName.Substring(row.rowItemName.IndexOf("."));
+                string itemname;
+
+                if (row.rowItemName.Contains("."))
+                {
+                    itemname = row.rowItemName.Substring(row.rowItemName.IndexOf("."));
+                }
+                else
+                {
+                    itemname = row.rowItemName;
+                }
 
                 dsw.dtQuote.Rows.Add(byteToStr,
                                      reportdimension + "\n" + row.rowItemDesc,
