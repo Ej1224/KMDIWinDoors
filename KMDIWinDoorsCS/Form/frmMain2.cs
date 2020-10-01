@@ -1661,6 +1661,8 @@ namespace KMDIWinDoorsCS
                 trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
                 trkZoom_ValueChanged(sender, e);
                 refreshToolStripButton1_Click(sender, e);
+
+                pnl_flpMain.Invalidate();
             }
         }
 
@@ -3720,24 +3722,67 @@ namespace KMDIWinDoorsCS
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            foreach (Panel item in sender.Controls)
+            int totalWd = 0, totalHt = 0;
+            List<int> lstWd = new List<int>();
+            List<int> lstHt = new List<int>();
+
+            List<int> tempWd = new List<int>();
+            List<int> tempHt = new List<int>();
+
+            for (int i = 0; i < sender.Controls.Count ; i++)
             {
-                int ctrl_X = item.Location.X + 70,
-                ctrl_Y = item.Location.Y + 35,
-                ctrl_Width = item.Width,
-                ctrl_Height = item.Height;
-                Pen redP = new Pen(Color.Red);
-                redP.Width = 3.5f;
+                string[] dimension = sender.Controls[i].AccessibleDefaultActionDescription.Split('x');
+                int frameWd = Convert.ToInt32(dimension[0]),
+                    frameHt = Convert.ToInt32(dimension[1]);
 
-                string[] dimension = item.AccessibleDefaultActionDescription.Split('x');
+                string[] dimension_flp = sender.AccessibleDescription.Split('x');
+                int flpWd = Convert.ToInt32(dimension_flp[0]),
+                    flpHt = Convert.ToInt32(dimension_flp[1]);
 
-                //string dmnsion_w = flpMain.Width.ToString();
-                string dmnsion_w = dimension[0];
-                //string dmnsion_w = (static_wd - 70).ToString();
-                //string dmnsion_w = "9999";
+                totalWd += frameWd;
+                totalHt += frameHt;
+
+                tempWd.Add(frameWd);
+                tempHt.Add(frameHt);
+
+                if (totalWd == flpWd)
+                {
+                    if (tempWd.Count > lstWd.Count)
+                    {
+                        lstWd = tempWd;
+                        totalWd = 0;
+                        tempWd = new List<int>();
+                    }
+                }
+
+                if (totalHt == flpHt)
+                {
+                    if (tempHt.Count > lstHt.Count)
+                    {
+                        lstHt = tempHt;
+                        totalHt = 0;
+                        tempHt = new List<int>();
+                    }
+                }
+            }
+
+            int ctrl_X = 70,
+                ctrl_Y = 35,
+                ctrl_Width = 0,
+                ctrl_Height = 0;
+            Pen redP = new Pen(Color.Red);
+            redP.Width = 3.5f;
+            Font dmnsion_font = new Font("Segoe UI", 20, FontStyle.Bold);
+
+            for (int i = 0; i < lstWd.Count ; i++)
+            {
+                ctrl_Width = lstWd[i];
+
+                ctrl_X = (i == 0) ? 70 : lstWd[i - 1] + 70;
+                
+                string dmnsion_w = ctrl_Width.ToString();
                 Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
                 Point dmnsion_w_endP = new Point((ctrl_Width + ctrl_X) - 2, ctrl_Y - 17);
-                Font dmnsion_font = new Font("Segoe UI", 20, FontStyle.Bold);
 
                 Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
                 double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
@@ -3769,15 +3814,20 @@ namespace KMDIWinDoorsCS
                                       sender.BackColor,
                                       TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                 //arrow for WIDTH
+            }
 
+            for (int i = 0; i < lstHt.Count ; i++)
+            {
+                ctrl_Height = lstHt[i];
+
+                ctrl_Y = (i == 0) ? 35 : lstHt[i - 1] + 35;
 
                 //arrow for HEIGHT
-                //string dmnsion_h = flpMain.Height.ToString();
-                string dmnsion_h = dimension[1];
-                //string dmnsion_h = (static_ht - 35).ToString();
-                //string dmnsion_h = "9999";
-                Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y);
-                Point dmnsion_h_endP = new Point(ctrl_X - 17, (ctrl_Y + ctrl_Height) - 2);
+                string dmnsion_h = ctrl_Height.ToString();
+                Point dmnsion_h_startP = new Point(70 - 17, ctrl_Y + 2);
+                Point dmnsion_h_endP = new Point(70 - 17, (ctrl_Y + ctrl_Height) - 2);
+                //Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y + 2);
+                //Point dmnsion_h_endP = new Point(ctrl_X - 17, (ctrl_Y + ctrl_Height) - 2);
 
                 Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
                 double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
@@ -3802,7 +3852,7 @@ namespace KMDIWinDoorsCS
                 TextRenderer.DrawText(g,
                                       dmnsion_h,
                                       dmnsion_font,
-                                      new Rectangle(new Point((ctrl_X - s2.Width) / 2, (int)(mid2 - (s2.Height / 2))),
+                                      new Rectangle(new Point((70 - s2.Width) / 2, (int)(mid2 - (s2.Height / 2))),
                                                     new Size(s2.Width, s2.Height)),
                                       Color.Black,
                                       sender.BackColor,
@@ -4456,7 +4506,10 @@ namespace KMDIWinDoorsCS
             flpMain.AccessibleDescription = profiletype;
             //flpMain.Size = new Size(Fwidth, Fheight);
             pnl_flpMain.Size = new Size(Fwidth, Fheight);
+            flpMain.AccessibleDescription = (Fwidth - 70) + "x" + (Fheight - 35);
+
             pnl_flpMain2.Size = new Size(Fwidth, Fheight);
+            flpMain2.AccessibleDescription = (Fwidth - 70) + "x" + (Fheight - 35);
             //flpMain2.Size = new Size(Fwidth, Fheight);
 
             static_wd = pnl_flpMain.Width;
