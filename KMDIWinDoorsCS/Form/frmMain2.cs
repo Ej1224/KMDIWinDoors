@@ -1625,6 +1625,8 @@ namespace KMDIWinDoorsCS
 
                 //flpMain.Size = new Size(Convert.ToInt32(dimension[0]), Convert.ToInt32(dimension[1]));
                 pnl_flpMain.Size = new Size(Convert.ToInt32(dimension[0]) + 70, Convert.ToInt32(dimension[1]) + 35);
+                flpMain.AccessibleDescription = (static_wd - 70) + "x" + (static_ht - 35);
+                flpMain2.AccessibleDescription = (static_wd - 70) + "x" + (static_ht - 35);
                 flpMain.Tag = "Item_" + item_id;
                 flpMain.Controls.Clear();
 
@@ -3723,11 +3725,17 @@ namespace KMDIWinDoorsCS
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             int totalWd = 0, totalHt = 0;
-            List<int> lstWd = new List<int>();
-            List<int> lstHt = new List<int>();
+            List<int> lstWd_Text = new List<int>(); //Text that will be drawn on the line
+            List<int> lstHt_Text = new List<int>();
 
-            List<int> tempWd = new List<int>();
+            List<int> lstWd_line = new List<int>(); //length of the line to be drawn
+            List<int> lstHt_line = new List<int>();
+
+            List<int> tempWd = new List<int>(); //Temp variable for text
             List<int> tempHt = new List<int>();
+
+            List<int> tempWd_line = new List<int>(); //Temp variable for length of the line
+            List<int> tempHt_line = new List<int>();
 
             for (int i = 0; i < sender.Controls.Count ; i++)
             {
@@ -3745,44 +3753,50 @@ namespace KMDIWinDoorsCS
                 tempWd.Add(frameWd);
                 tempHt.Add(frameHt);
 
+                tempWd_line.Add(sender.Controls[i].Width);
+                tempHt_line.Add(sender.Controls[i].Height);
+
                 if (totalWd == flpWd)
                 {
-                    if (tempWd.Count > lstWd.Count)
+                    if (tempWd.Count > lstWd_Text.Count)
                     {
-                        lstWd = tempWd;
+                        lstWd_Text = tempWd;
+                        lstWd_line = tempWd_line;
                         totalWd = 0;
                         tempWd = new List<int>();
+                        tempWd_line = new List<int>();
                     }
                 }
 
                 if (totalHt == flpHt)
                 {
-                    if (tempHt.Count > lstHt.Count)
+                    if (tempHt.Count > lstHt_Text.Count)
                     {
-                        lstHt = tempHt;
+                        lstHt_Text = tempHt;
+                        lstHt_line = tempHt_line;
                         totalHt = 0;
                         tempHt = new List<int>();
+                        tempHt_line = new List<int>();
                     }
                 }
             }
 
-            int ctrl_X = 70,
-                ctrl_Y = 35,
-                ctrl_Width = 0,
-                ctrl_Height = 0;
+            int ctrl_Y = 35,
+                ctrl_Width = 0;
             Pen redP = new Pen(Color.Red);
             redP.Width = 3.5f;
             Font dmnsion_font = new Font("Segoe UI", 20, FontStyle.Bold);
 
-            for (int i = 0; i < lstWd.Count ; i++)
+            for (int i = 0; i < lstWd_Text.Count ; i++)
             {
-                ctrl_Width = lstWd[i];
+                int startP_X = (i == 0) ? 70 : (lstWd_line.Take(i).Sum() + 70),
+                    endP_X = (lstWd_line.Take(i + 1).Sum() + 70) - 2;
 
-                ctrl_X = (i == 0) ? 70 : lstWd[i - 1] + 70;
+                ctrl_Width = lstWd_line[i];
                 
-                string dmnsion_w = ctrl_Width.ToString();
-                Point dmnsion_w_startP = new Point(ctrl_X, ctrl_Y - 17);
-                Point dmnsion_w_endP = new Point((ctrl_Width + ctrl_X) - 2, ctrl_Y - 17);
+                string dmnsion_w = lstWd_Text[i].ToString();
+                Point dmnsion_w_startP = new Point(startP_X, ctrl_Y - 17);
+                Point dmnsion_w_endP = new Point(endP_X, ctrl_Y - 17);
 
                 Size s = TextRenderer.MeasureText(dmnsion_w, dmnsion_font);
                 double mid = (dmnsion_w_startP.X + dmnsion_w_endP.X) / 2;
@@ -3816,35 +3830,32 @@ namespace KMDIWinDoorsCS
                 //arrow for WIDTH
             }
 
-            for (int i = 0; i < lstHt.Count ; i++)
+            for (int i = 0; i < lstHt_Text.Count ; i++)
             {
-                ctrl_Height = lstHt[i];
-
-                ctrl_Y = (i == 0) ? 35 : lstHt[i - 1] + 35;
+                int startP_Y = (i == 0) ? 35 + 2 : (lstHt_line.Take(i).Sum() + 35) - 2, // 35 is the padding top, 2 is the hidden magic 
+                    endP_Y = (lstHt_line.Take(i +1).Sum() + 35) - 2;
 
                 //arrow for HEIGHT
-                string dmnsion_h = ctrl_Height.ToString();
-                Point dmnsion_h_startP = new Point(70 - 17, ctrl_Y + 2);
-                Point dmnsion_h_endP = new Point(70 - 17, (ctrl_Y + ctrl_Height) - 2);
-                //Point dmnsion_h_startP = new Point(ctrl_X - 17, ctrl_Y + 2);
-                //Point dmnsion_h_endP = new Point(ctrl_X - 17, (ctrl_Y + ctrl_Height) - 2);
+                string dmnsion_h = lstHt_Text[i].ToString();
+                Point dmnsion_h_startP = new Point(70 - 17, startP_Y);
+                Point dmnsion_h_endP = new Point(70 - 17, endP_Y);
 
                 Size s2 = TextRenderer.MeasureText(dmnsion_h, dmnsion_font);
                 double mid2 = (dmnsion_h_startP.Y + dmnsion_h_endP.Y) / 2;
 
                 Point[] arrwhd_pnts_H1 =
                 {
-                new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
-                dmnsion_h_startP,
-                new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
-            };
+                    new Point(dmnsion_h_startP.X - 10,dmnsion_h_startP.Y + 10),
+                    dmnsion_h_startP,
+                    new Point(dmnsion_h_startP.X + 10,dmnsion_h_startP.Y + 10),
+                };
 
                 Point[] arrwhd_pnts_H2 =
                 {
-                new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
-                dmnsion_h_endP,
-                new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
-            };
+                    new Point(dmnsion_h_endP.X - 10, dmnsion_h_endP.Y - 10),
+                    dmnsion_h_endP,
+                    new Point(dmnsion_h_endP.X + 10, dmnsion_h_endP.Y - 10)
+                };
 
                 g.DrawLines(redP, arrwhd_pnts_H1);
                 g.DrawLine(redP, dmnsion_h_startP, dmnsion_h_endP);
@@ -4503,7 +4514,7 @@ namespace KMDIWinDoorsCS
             trkZoom.Enabled = true;
             btnSubtractZoom.Enabled = true;
 
-            flpMain.AccessibleDescription = profiletype;
+            //flpMain.AccessibleDescription = profiletype;
             //flpMain.Size = new Size(Fwidth, Fheight);
             pnl_flpMain.Size = new Size(Fwidth, Fheight);
             flpMain.AccessibleDescription = (Fwidth - 70) + "x" + (Fheight - 35);
