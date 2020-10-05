@@ -245,7 +245,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_JO;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txt_QuoteNo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dtp_Date;
         private System.Windows.Forms.Label label4;
@@ -258,5 +257,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox rtbox_Body;
         public System.Windows.Forms.BindingSource QuoteBS;
+        public System.Windows.Forms.TextBox txt_QuoteNo;
     }
 }

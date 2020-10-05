@@ -17,7 +17,7 @@ namespace KMDIWinDoorsCS
         {
             InitializeComponent();
         }
-
+        public string quote_no;
         public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
         /*
          * [0] = Item Name
@@ -30,7 +30,7 @@ namespace KMDIWinDoorsCS
          * [7] = Item Discount
          * [8] = ItemTagID
          */
-
+         
         private void frmItems_Load(object sender, EventArgs e)
         {
             int tagID = 0;
@@ -123,11 +123,11 @@ namespace KMDIWinDoorsCS
 
         private void frmItems_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (saveToolStripButton.Enabled == true)
-            {
-                e.Cancel = true;
-                MessageBox.Show(this,"Save first before exiting.","",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            }
+            //if (saveToolStripButton.Enabled == true)
+            //{
+            //    e.Cancel = true;
+            //    MessageBox.Show(this,"Save first before exiting.","",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            //}
         }
 
         private void printToolStripButton_Click(object sender, EventArgs e)
@@ -171,6 +171,7 @@ namespace KMDIWinDoorsCS
             
             frmPrintQuote frm = new frmPrintQuote();
             frm.QuoteBS.DataSource = dsw.dtQuote.DefaultView;
+            frm.txt_QuoteNo.Text = quote_no;
             frm.Show();
 
         }

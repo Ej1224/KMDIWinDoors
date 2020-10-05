@@ -1655,10 +1655,13 @@ namespace KMDIWinDoorsCS
                 pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
                 pnlPropertiesBody.PerformLayout();
 
+                trkZoom_ValueChanged(sender, e);
+
                 lbl.ForeColor = Color.Blue;
                 itemselected = lbl;
 
-                Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
+                //Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
+                Text = quotation_ref_no + " >> " + lbl.Text + "( " + flpMain.AccessibleDefaultActionDescription + " )" + wndrfile;
 
                 trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
                 trkZoom_ValueChanged(sender, e);
@@ -2097,7 +2100,7 @@ namespace KMDIWinDoorsCS
         }
 
         string[] file_lines;
-        string cloud_directory = @"C:\Users\kmdie\Desktop\Cloud server\",
+        string cloud_directory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Cloud server\",
                searchStr = "",
                mainTodo;
 
@@ -3680,6 +3683,8 @@ namespace KMDIWinDoorsCS
                 pnl_flpMain2.Width = Convert.ToInt32(frm.numWidth.Value + 70);
                 pnl_flpMain2.Height = Convert.ToInt32(frm.numHeight.Value + 35);
 
+                flpMain.AccessibleDescription = flpMain2.AccessibleDescription = (pnl_flpMain.Width - 70) + "x" + (pnl_flpMain.Height - 35);
+
                 //static_wd = flpMain.Width;
                 //static_ht = flpMain.Height;
 
@@ -3987,6 +3992,7 @@ namespace KMDIWinDoorsCS
                     cmenuPanel.Enabled = false;
                     pnlRight.Enabled = true;
 
+                    saveToolStripButton_Click(sender, e);
                 }
             }
         }
@@ -4245,6 +4251,7 @@ namespace KMDIWinDoorsCS
                 }
             }
             frm.dict_items = dict_items;
+            frm.quote_no = quotation_ref_no;
             frm.ShowDialog();
             SetItemControl();
 
@@ -4514,7 +4521,7 @@ namespace KMDIWinDoorsCS
             trkZoom.Enabled = true;
             btnSubtractZoom.Enabled = true;
 
-            //flpMain.AccessibleDescription = profiletype;
+            flpMain.AccessibleDefaultActionDescription = profiletype;
             //flpMain.Size = new Size(Fwidth, Fheight);
             pnl_flpMain.Size = new Size(Fwidth, Fheight);
             flpMain.AccessibleDescription = (Fwidth - 70) + "x" + (Fheight - 35);
@@ -4612,6 +4619,10 @@ namespace KMDIWinDoorsCS
                 {
                     defwidth = Convert.ToInt32(frm.numWidth.Value + 70);
                     defheight = Convert.ToInt32(frm.numHeight.Value + 35);
+
+
+                    last_wd = defwidth;
+                    last_ht = defheight;
 
                     if (frm.rad_c70.Checked)
                     {
