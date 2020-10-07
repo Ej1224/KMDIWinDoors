@@ -3713,8 +3713,8 @@ namespace KMDIWinDoorsCS
                     //lblitm = itemControlsSearch("lbl_item" + lastnum);
                     //lblitm.AccessibleDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
                     //lblitm.Parent.AccessibleDefaultActionDescription = flpMain.Width.ToString() + " x " + flpMain.Height.ToString();
-                    
-                    //flpMain.Invalidate();
+
+                    flpMain.Invalidate();
                     pnl_flpMain.Invalidate();
                     pnlMain.Invalidate();
                     refreshToolStripButton1_Click(sender, e);
@@ -5469,7 +5469,8 @@ namespace KMDIWinDoorsCS
             pnlSel_parent.Invalidate();
 
             trackzoom = false;
-            flpMain.Invalidate();
+            pnl_flpMain.Invalidate();
+            pnl_flpMain2.Invalidate();
             refreshToolStripButton1_Click(sender, e);
 
             if (Text.Contains("*") == false)
