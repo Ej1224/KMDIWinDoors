@@ -543,6 +543,7 @@ namespace KMDIWinDoorsCS
             fprop.Dock = DockStyle.Top;
             fprop.Padding = new Padding(0, 7, 0, 0);
             fprop.Margin = new Padding(3, 4, 3, 4);
+            fprop.Tag = id;
             fprop.SizeChanged += new EventHandler(flpProp_SizeChanged);
 
             lbl = new Label();
@@ -3435,10 +3436,26 @@ namespace KMDIWinDoorsCS
 
             dictDragOrder[flpMain.Tag.ToString()].Add(c.Name);
             //lstDragOrder.Add(c.Name);
-            pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+
+            pnlPropertiesBody.VerticalScroll.Value = 0;
             pnlPropertiesBody.PerformLayout();
+            Scroll_pnlPropertiesBody(pnl.Tag.ToString());
         }
-        
+        public void Scroll_pnlPropertiesBody(string pnlTag)
+        {
+            int scrollMax = pnlPropertiesBody.VerticalScroll.Maximum;
+            int total_propHT = 0;
+            foreach (Panel item in pnlPropertiesBody.Controls.OfType<Panel>().OrderBy(c => (int)c.Tag))
+            {
+                if (item.Name == pnlTag)
+                {
+                    pnlPropertiesBody.VerticalScroll.Value = (scrollMax >= total_propHT) ? total_propHT : scrollMax;
+                    pnlPropertiesBody.PerformLayout();
+                    break;
+                }
+                total_propHT += item.Height;
+            }
+        }
         private void CreateObjectClone(string objToClone,
                                        string name,
                                        int count,
@@ -3742,6 +3759,36 @@ namespace KMDIWinDoorsCS
             List<int> tempWd_line = new List<int>(); //Temp variable for length of the line
             List<int> tempHt_line = new List<int>();
 
+            //for (int i = 0; i < sender.Controls.Count; i++)
+            //{
+            //    string[] dimension = sender.Controls[i].AccessibleDefaultActionDescription.Split('x');
+            //    int frameWd = Convert.ToInt32(dimension[0]);
+
+            //    string[] dimension_flp = sender.AccessibleDescription.Split('x');
+            //    int flpWd = Convert.ToInt32(dimension_flp[0]);
+
+            //    int loc_Y = sender.Controls[i].Location.Y;
+
+            //    if (loc_Y == 0)
+            //    {
+            //        totalWd += frameWd;
+            //        tempWd.Add(frameWd);
+            //        tempWd_line.Add(sender.Controls[i].Width);
+            //    }
+
+            //    if (totalWd == flpWd)
+            //    {
+            //        if (tempWd.Count > lstWd_Text.Count)
+            //        {
+            //            lstWd_Text = tempWd;
+            //            lstWd_line = tempWd_line;
+            //            totalWd = 0;
+            //            tempWd = new List<int>();
+            //            tempWd_line = new List<int>();
+            //        }
+            //    }
+            //}
+
             for (int i = 0; i < sender.Controls.Count ; i++)
             {
                 string[] dimension = sender.Controls[i].AccessibleDefaultActionDescription.Split('x');
@@ -3752,14 +3799,15 @@ namespace KMDIWinDoorsCS
                 int flpWd = Convert.ToInt32(dimension_flp[0]),
                     flpHt = Convert.ToInt32(dimension_flp[1]);
 
-                totalWd += frameWd;
-                totalHt += frameHt;
+                int loc_Y = sender.Controls[i].Location.Y,
+                    loc_X = sender.Controls[i].Location.X;
 
-                tempWd.Add(frameWd);
-                tempHt.Add(frameHt);
-
-                tempWd_line.Add(sender.Controls[i].Width);
-                tempHt_line.Add(sender.Controls[i].Height);
+                if (loc_Y == 0)
+                {
+                    totalWd += frameWd;
+                    tempWd.Add(frameWd);
+                    tempWd_line.Add(sender.Controls[i].Width);
+                }
 
                 if (totalWd == flpWd)
                 {
@@ -3771,6 +3819,14 @@ namespace KMDIWinDoorsCS
                         tempWd = new List<int>();
                         tempWd_line = new List<int>();
                     }
+                }
+
+                if (loc_X == 0)
+                {
+                    totalHt += frameHt;
+                    tempHt.Add(frameHt);
+                    tempHt_line.Add(sender.Controls[i].Height);
+
                 }
 
                 if (totalHt == flpHt)
@@ -4195,6 +4251,11 @@ namespace KMDIWinDoorsCS
                 bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
             }
             //bitmap.Save(@"C:\Users\kmdie\Documents\Windoor Maker files\img\1.png");
+        }
+
+        private void pnlPropertiesBody_Scroll(object sender, ScrollEventArgs e)
+        {
+            Console.WriteLine("ScrollValue: " + pnlPropertiesBody.VerticalScroll.Value);
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5356,6 +5417,14 @@ namespace KMDIWinDoorsCS
                 {
                     saveAsToolStripMenuItem.PerformClick();
                 }
+            }
+            else if (e.Control && e.Alt && e.KeyCode == Keys.W)
+            {
+                tsBtnNwin.PerformClick();
+            }
+            else if (e.Control && e.Alt && e.KeyCode == Keys.D)
+            {
+                tsBtnNdoor.PerformClick();
             }
         }
 

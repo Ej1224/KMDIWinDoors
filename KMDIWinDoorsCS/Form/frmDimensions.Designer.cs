@@ -36,8 +36,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.rad_c70 = new System.Windows.Forms.RadioButton();
             this.rad_PremiLine = new System.Windows.Forms.RadioButton();
+            this.rad_c70 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
             this.panel1.SuspendLayout();
@@ -66,6 +66,7 @@
             this.numWidth.Size = new System.Drawing.Size(81, 25);
             this.numWidth.TabIndex = 1;
             this.numWidth.ThousandsSeparator = true;
+            this.numWidth.Enter += new System.EventHandler(this.numWidth_Enter);
             // 
             // numHeight
             // 
@@ -80,6 +81,7 @@
             this.numHeight.Size = new System.Drawing.Size(81, 25);
             this.numHeight.TabIndex = 3;
             this.numHeight.ThousandsSeparator = true;
+            this.numHeight.Enter += new System.EventHandler(this.numHeight_Enter);
             // 
             // label2
             // 
@@ -133,17 +135,6 @@
             this.panel2.Size = new System.Drawing.Size(172, 30);
             this.panel2.TabIndex = 7;
             // 
-            // rad_c70
-            // 
-            this.rad_c70.AutoSize = true;
-            this.rad_c70.Location = new System.Drawing.Point(12, 3);
-            this.rad_c70.Name = "rad_c70";
-            this.rad_c70.Size = new System.Drawing.Size(52, 23);
-            this.rad_c70.TabIndex = 0;
-            this.rad_c70.TabStop = true;
-            this.rad_c70.Text = "C70";
-            this.rad_c70.UseVisualStyleBackColor = true;
-            // 
             // rad_PremiLine
             // 
             this.rad_PremiLine.AutoSize = true;
@@ -154,6 +145,17 @@
             this.rad_PremiLine.TabStop = true;
             this.rad_PremiLine.Text = "PremiLne";
             this.rad_PremiLine.UseVisualStyleBackColor = true;
+            // 
+            // rad_c70
+            // 
+            this.rad_c70.AutoSize = true;
+            this.rad_c70.Location = new System.Drawing.Point(12, 3);
+            this.rad_c70.Name = "rad_c70";
+            this.rad_c70.Size = new System.Drawing.Size(52, 23);
+            this.rad_c70.TabIndex = 0;
+            this.rad_c70.TabStop = true;
+            this.rad_c70.Text = "C70";
+            this.rad_c70.UseVisualStyleBackColor = true;
             // 
             // frmDimensions
             // 

@@ -16,5 +16,15 @@ namespace KMDIWinDoorsCS
         {
             InitializeComponent();
         }
+
+        private void numWidth_Enter(object sender, EventArgs e)
+        {
+            numWidth.Select(0, numWidth.Text.Length);
+        }
+
+        private void numHeight_Enter(object sender, EventArgs e)
+        {
+            numHeight.Select(0, numHeight.Text.Length);
+        }
     }
 }
