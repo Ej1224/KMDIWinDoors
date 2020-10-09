@@ -3072,7 +3072,7 @@ namespace KMDIWinDoorsCS
             }
             else
             {
-                pnl_flpMain.Location = new Point(cX, cY);
+                pnl_flpMain.Location = new Point(cX - 17, cY - 35);
             }
             if (trackzoom == false)
             {
@@ -3100,6 +3100,11 @@ namespace KMDIWinDoorsCS
         {
             //var Multi = csfunc.GetAll(flpMain, typeof(FlowLayoutPanel), "Multi");
             //var cpnl = csfunc.GetAll(flpMain, typeof(Panel), "Panel");
+
+            int scrollValue = 0;
+
+            pnlPropertiesBody.VerticalScroll.Value = 0;
+            pnlPropertiesBody.PerformLayout();
 
             Control c = e.Data.GetData(e.Data.GetFormats()[0]) as Control; //Control na babagsak
             Control pnl = (Control)sender; //Control na babagsakan
@@ -3285,6 +3290,8 @@ namespace KMDIWinDoorsCS
                                 //c.Name += (cpnl.Count() + 1);
                                 Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, Pwidth,Pheight,true);
                                 fprop.Controls.Add(Pprop);
+                                scrollValue = fprop.Location.Y + Pprop.Location.Y;
+                                Console.WriteLine("Pprop.Height: " + Pprop.Height);
 
                                 c.TabIndex = cpnlcount;
 
@@ -3361,10 +3368,11 @@ namespace KMDIWinDoorsCS
                         {
                             cpnlcount++;
                             c.Name += cpnlcount;
-                            Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, orig_wd, orig_ht,false);
+                            Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, orig_wd, orig_ht, false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), c.Width, c.Height,false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
                             fprop.Controls.Add(Pprop);
+                            scrollValue = fprop.Location.Y + Pprop.Location.Y;
 
                             c.Width = Convert.ToInt32(orig_wd * zoom);
                             c.Height = Convert.ToInt32(orig_ht * zoom);
@@ -3437,9 +3445,10 @@ namespace KMDIWinDoorsCS
             dictDragOrder[flpMain.Tag.ToString()].Add(c.Name);
             //lstDragOrder.Add(c.Name);
 
-            pnlPropertiesBody.VerticalScroll.Value = 0;
+            pnlPropertiesBody.VerticalScroll.Value = (pnlPropertiesBody.VerticalScroll.Maximum >= scrollValue) ? scrollValue : pnlPropertiesBody.VerticalScroll.Maximum;
             pnlPropertiesBody.PerformLayout();
-            Scroll_pnlPropertiesBody(pnl.Tag.ToString());
+
+            //Scroll_pnlPropertiesBody(pnl.Tag.ToString());
         }
         public void Scroll_pnlPropertiesBody(string pnlTag)
         {
@@ -4239,10 +4248,6 @@ namespace KMDIWinDoorsCS
 
         private void printToolStripButton_Click(object sender, EventArgs e)
         {
-            //pnl_flpMain2.Size = new Size(1280, 1280);
-            //pnl_flpMain2.Padding = new Padding(128,112,0,0);
-            //flpMain2.Controls[0].Size = new Size(1152, 1168);
-
             Bitmap bitmap = new Bitmap(pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height);
             pnl_flpMain2.DrawToBitmap(bitmap, new Rectangle(0, 0, pnl_flpMain2.Size.Width, pnl_flpMain2.Size.Height));
             using (FileStream fs = new FileStream(@"C:\Users\kmdie\Documents\Windoor Maker files\img\" + pnl_flpMain2.Width + "x" + pnl_flpMain2.Height + ".png", FileMode.Create, FileAccess.ReadWrite))
@@ -5417,14 +5422,6 @@ namespace KMDIWinDoorsCS
                 {
                     saveAsToolStripMenuItem.PerformClick();
                 }
-            }
-            else if (e.Control && e.Alt && e.KeyCode == Keys.W)
-            {
-                tsBtnNwin.PerformClick();
-            }
-            else if (e.Control && e.Alt && e.KeyCode == Keys.D)
-            {
-                tsBtnNdoor.PerformClick();
             }
         }
 
