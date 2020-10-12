@@ -17,6 +17,7 @@ namespace KMDIWinDoorsCS
         {
             InitializeComponent();
         }
+        Class.csFunctions csfunc = new Class.csFunctions();
         public string quote_no;
         public IDictionary<int, List<object>> dict_items = new Dictionary<int, List<object>>();
         /*
@@ -132,48 +133,56 @@ namespace KMDIWinDoorsCS
 
         private void printToolStripButton_Click(object sender, EventArgs e)
         {
-            Dataset.dsWindoor dsw = new Dataset.dsWindoor();
-
-            foreach (var row in GetRow().OrderBy(item => item.rowTagID))
+            try
             {
-                decimal DiscountPrice = (row.rowItemPrice * row.rowItemQty) * (row.rowItemDiscount / 100);
-                decimal netprice = ((row.rowItemPrice * row.rowItemQty) - DiscountPrice);
+                Dataset.dsWindoor dsw = new Dataset.dsWindoor();
 
-                MemoryStream mstream = new MemoryStream();
-                row.rowItemImage.Save(mstream, System.Drawing.Imaging.ImageFormat.Png);
-                byte[] arrimage = mstream.ToArray();
-                string byteToStr = Convert.ToBase64String(arrimage);
-
-                string WxH = row.rowItemDimension.Replace(" ", "");
-                string[] dimension = WxH.Split('x');
-
-                string reportdimension = dimension[0] + "w x " + dimension[1] + "h";
-
-                string itemname;
-
-                if (row.rowItemName.Contains("."))
+                foreach (var row in GetRow().OrderBy(item => item.rowTagID))
                 {
-                    itemname = row.rowItemName.Substring(row.rowItemName.IndexOf("."));
-                }
-                else
-                {
-                    itemname = row.rowItemName;
+                    decimal DiscountPrice = (row.rowItemPrice * row.rowItemQty) * (row.rowItemDiscount / 100);
+                    decimal netprice = ((row.rowItemPrice * row.rowItemQty) - DiscountPrice);
+
+                    MemoryStream mstream = new MemoryStream();
+                    row.rowItemImage.Save(mstream, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] arrimage = mstream.ToArray();
+                    string byteToStr = Convert.ToBase64String(arrimage);
+
+                    string WxH = row.rowItemDimension.Replace(" ", "");
+                    string[] dimension = WxH.Split('x');
+
+                    string reportdimension = dimension[0] + "w x " + dimension[1] + "h";
+
+                    string itemname;
+
+                    if (row.rowItemName.Contains("."))
+                    {
+                        itemname = row.rowItemName.Substring(row.rowItemName.IndexOf("."));
+                    }
+                    else
+                    {
+                        itemname = row.rowItemName;
+                    }
+
+                    dsw.dtQuote.Rows.Add(byteToStr,
+                                         reportdimension + "\n" + row.rowItemDesc,
+                                         row.rowItemQty,
+                                         row.rowItemPrice,
+                                         row.rowItemDiscount,
+                                         netprice,
+                                         itemname);
                 }
 
-                dsw.dtQuote.Rows.Add(byteToStr,
-                                     reportdimension + "\n" + row.rowItemDesc,
-                                     row.rowItemQty,
-                                     row.rowItemPrice,
-                                     row.rowItemDiscount,
-                                     netprice,
-                                     itemname);
+                frmPrintQuote frm = new frmPrintQuote();
+                frm.QuoteBS.DataSource = dsw.dtQuote.DefaultView;
+                frm.txt_QuoteNo.Text = quote_no;
+                frm.Show();
+
             }
-            
-            frmPrintQuote frm = new frmPrintQuote();
-            frm.QuoteBS.DataSource = dsw.dtQuote.DefaultView;
-            frm.txt_QuoteNo.Text = quote_no;
-            frm.Show();
-
+            catch (Exception ex)
+            {
+                csfunc.LogToFile(ex.Message, ex.StackTrace);
+                MessageBox.Show(ex.Message, ex.HResult.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

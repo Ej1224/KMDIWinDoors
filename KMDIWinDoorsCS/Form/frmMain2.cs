@@ -1888,6 +1888,15 @@ namespace KMDIWinDoorsCS
                 Panel Pprop = CreatePanelProperties(pnl.Name, cpnlcount, wd, ht, true, wndrtype);
                 fprop.Controls.Add(Pprop);
 
+                pnlPropertiesBody.VerticalScroll.Value = 0;
+                pnlPropertiesBody.PerformLayout();
+
+                int scrollValue = fprop.Location.Y + Pprop.Location.Y;
+
+                pnlPropertiesBody.VerticalScroll.Value = (pnlPropertiesBody.VerticalScroll.Maximum >= scrollValue) ? scrollValue : pnlPropertiesBody.VerticalScroll.Maximum;
+                pnlPropertiesBody.PerformLayout();
+
+
                 dictDragOrder[flpMain.Tag.ToString()].Add(pnl.Name);
                 //lstDragOrder.Add(pnl.Name);
 
@@ -1976,8 +1985,8 @@ namespace KMDIWinDoorsCS
 
             AutoCreate(tsmSel.Text, numdiv + 1, wndr, fprop);
 
-            pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
-            pnlPropertiesBody.PerformLayout();
+            //pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
+            //pnlPropertiesBody.PerformLayout();
 
         }
 
@@ -2000,6 +2009,7 @@ namespace KMDIWinDoorsCS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            tsBot.Cursor = Cursors.Hand;
             if (Properties.Settings.Default.FirstTym == false)
             {
                 defDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Windoor Maker files";
@@ -3128,6 +3138,7 @@ namespace KMDIWinDoorsCS
                 {
                     fprop = ctrl;
                 }
+                scrollValue = fprop.Location.Y;
 
                 if (c.Name.Contains("Mullion"))
                 {
@@ -3290,8 +3301,7 @@ namespace KMDIWinDoorsCS
                                 //c.Name += (cpnl.Count() + 1);
                                 Panel Pprop = CreatePanelProperties(c.Name, cpnlcount, Pwidth,Pheight,true);
                                 fprop.Controls.Add(Pprop);
-                                scrollValue = fprop.Location.Y + Pprop.Location.Y;
-                                Console.WriteLine("Pprop.Height: " + Pprop.Height);
+                                scrollValue += Pprop.Location.Y;
 
                                 c.TabIndex = cpnlcount;
 
@@ -3372,7 +3382,7 @@ namespace KMDIWinDoorsCS
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), c.Width, c.Height,false);
                             //Panel Pprop = CreatePanelProperties(c.Name, (cpnl.Count() + 1), pnl.Parent.Width, pnl.Parent.Height,false);
                             fprop.Controls.Add(Pprop);
-                            scrollValue = fprop.Location.Y + Pprop.Location.Y;
+                            scrollValue += Pprop.Location.Y;
 
                             c.Width = Convert.ToInt32(orig_wd * zoom);
                             c.Height = Convert.ToInt32(orig_ht * zoom);
@@ -3448,22 +3458,6 @@ namespace KMDIWinDoorsCS
             pnlPropertiesBody.VerticalScroll.Value = (pnlPropertiesBody.VerticalScroll.Maximum >= scrollValue) ? scrollValue : pnlPropertiesBody.VerticalScroll.Maximum;
             pnlPropertiesBody.PerformLayout();
 
-            //Scroll_pnlPropertiesBody(pnl.Tag.ToString());
-        }
-        public void Scroll_pnlPropertiesBody(string pnlTag)
-        {
-            int scrollMax = pnlPropertiesBody.VerticalScroll.Maximum;
-            int total_propHT = 0;
-            foreach (Panel item in pnlPropertiesBody.Controls.OfType<Panel>().OrderBy(c => (int)c.Tag))
-            {
-                if (item.Name == pnlTag)
-                {
-                    pnlPropertiesBody.VerticalScroll.Value = (scrollMax >= total_propHT) ? total_propHT : scrollMax;
-                    pnlPropertiesBody.PerformLayout();
-                    break;
-                }
-                total_propHT += item.Height;
-            }
         }
         private void CreateObjectClone(string objToClone,
                                        string name,
@@ -4256,11 +4250,6 @@ namespace KMDIWinDoorsCS
                 bitmap.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
             }
             //bitmap.Save(@"C:\Users\kmdie\Documents\Windoor Maker files\img\1.png");
-        }
-
-        private void pnlPropertiesBody_Scroll(object sender, ScrollEventArgs e)
-        {
-            Console.WriteLine("ScrollValue: " + pnlPropertiesBody.VerticalScroll.Value);
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5422,6 +5411,14 @@ namespace KMDIWinDoorsCS
                 {
                     saveAsToolStripMenuItem.PerformClick();
                 }
+            }
+            else if (e.Control && e.KeyCode == Keys.OemCloseBrackets)
+            {
+                trkZoom.Value += 1;
+            }
+            else if (e.Control && e.KeyCode == Keys.OemOpenBrackets)
+            {
+                trkZoom.Value -= 1;
             }
         }
 
