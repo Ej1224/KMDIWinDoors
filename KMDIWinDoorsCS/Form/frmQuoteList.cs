@@ -41,7 +41,7 @@ namespace KMDIWinDoorsCS
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            FileName = @"C:\Users\kmdie\Desktop\Cloud server\" + listView1.SelectedItems[0].Name;
+            FileName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Cloud server\" + listView1.SelectedItems[0].Name;
             string tempDir = Path.GetTempPath() + @"wndrTemp\",
                    tempfile = tempDir + listView1.SelectedItems[0].Text;
             Directory.CreateDirectory(tempDir);

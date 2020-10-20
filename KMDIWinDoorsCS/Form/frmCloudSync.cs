@@ -24,7 +24,7 @@ namespace KMDIWinDoorsCS
         string[] files;
         public string autonum;
         bool success = true;
-        string cloud_directory = @"C:\Users\kmdie\Desktop\Cloud server\";
+        string cloud_directory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Cloud server\";
 
         private void frmCloudSync_Load(object sender, EventArgs e)
         {

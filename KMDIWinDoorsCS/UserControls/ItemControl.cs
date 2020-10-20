@@ -22,6 +22,7 @@ namespace KMDIWinDoorsCS
         public float itmZoom = 1;
         public int itmQuantity;
         public bool itmVisible;
+        public bool itmEdtrOrientation;
 
         private void ItemControl_Load(object sender, EventArgs e)
         {
@@ -41,6 +42,7 @@ namespace KMDIWinDoorsCS
             public string ItemID { get; set; }
             public Image ItemImage { get; set; }
             public bool ItemVisibility { get; set; }
+            public bool ItemEditorOrientation { get; set; }
             public int ItemQty { get; set; }
             public decimal ItemPrice { get; set; }
             public decimal ItemDiscount { get; set; }
@@ -62,7 +64,8 @@ namespace KMDIWinDoorsCS
                 ItemPrice = itmPrice,
                 ItemDiscount = itmDiscount,
                 ItemZoom = itmZoom,
-                ItemTagID = (int)this.Tag
+                ItemTagID = (int)this.Tag,
+                ItemEditorOrientation = itmEdtrOrientation
             };
         }
     }

@@ -1434,7 +1434,8 @@ namespace KMDIWinDoorsCS
                                               decimal discount,
                                               int qty,
                                               float zoom,
-                                              bool itmpnl_visibility = true)
+                                              bool itmpnl_visibility = true,
+                                              bool itmEdtrOrientation = false)
         {
             string id = f_id;
             Label lblname;
@@ -1457,6 +1458,7 @@ namespace KMDIWinDoorsCS
             itm.itmQuantity = qty;
             itm.itmZoom = zoom;
             itm.Tag = ItemControltagID;
+            itm.itmEdtrOrientation = itmEdtrOrientation;
             //itm.itmDesc
 
             lblname = itm.lbl_item;
@@ -1656,13 +1658,26 @@ namespace KMDIWinDoorsCS
                 pnlPropertiesBody.VerticalScroll.Value = pnlPropertiesBody.VerticalScroll.Maximum;
                 pnlPropertiesBody.PerformLayout();
 
-                trkZoom_ValueChanged(sender, e);
+                //trkZoom_ValueChanged(sender, e);
 
                 lbl.ForeColor = Color.Blue;
                 itemselected = lbl;
 
                 //Text = quotation_ref_no + " >> " + lbl.Text + "( " + wndrfile + " )";
                 Text = quotation_ref_no + " >> " + lbl.Text + "( " + flpMain.AccessibleDefaultActionDescription + " )" + wndrfile;
+
+                invertOrientationToolStripMenuItem.Checked = selected_items_pnl.itmEdtrOrientation;
+                if (selected_items_pnl.itmEdtrOrientation == true)
+                {
+                    flpMain.FlowDirection = FlowDirection.LeftToRight;
+                    flpMain2.FlowDirection = FlowDirection.LeftToRight;
+                }
+                if (selected_items_pnl.itmEdtrOrientation == false)
+                {
+                    flpMain.FlowDirection = FlowDirection.TopDown;
+                    flpMain2.FlowDirection = FlowDirection.TopDown;
+                }
+
 
                 trkZoom.Value = (int)(selected_items_pnl.itmZoom * 100.0f);
                 trkZoom_ValueChanged(sender, e);
@@ -2513,7 +2528,7 @@ namespace KMDIWinDoorsCS
             pnlwidth, pnlheight, //for Frame
             multi_Tabindex, //for Multipanel 
             divd_width, divd_height, divd_TabIndex; //for Divider
-        string frameGroup = "", fptype = "", fstatus = "", fdesc = "", fName = "", fid = "", frname = "",
+        string frameGroup = "", fptype = "", fstatus = "", fdesc = "", fName = "", fid = "", frname = "", fEdtrOrientation ="",
                pnlwndrtype = "", pnl_Parent = "", pnl_Orientation = "", pnl_OrientationText = "",
                multi_type = "", multi_Parent = "", multi_Size = "", multi_Name = "", multidivnum = "",
                divd_name = "", divd_Parent = "";
@@ -2827,6 +2842,7 @@ namespace KMDIWinDoorsCS
                 fdiscount = 0.0M;
                 fzoom = 0.0f;
                 fdesc = "";
+                fEdtrOrientation = "";
 
                 itemControlsSearch("lbldesc");
 
@@ -2884,10 +2900,30 @@ namespace KMDIWinDoorsCS
                             }
                         }
                     }
+                    else if (row_str.Contains("FEditorOrientation"))
+                    {
+                        fEdtrOrientation = row_str.Remove(0,20);
+                    }
                     if (fpwidth != 0 && fpheight != 0 && fptype != "" && fstatus != "" && fName != "" && fid != "")
                     {
                         paint_flpMain = true;
                         AddProfile(fpwidth + 70, fpheight + 35, pnlItems.Controls.Count + 1, fptype, Convert.ToBoolean(fstatus));
+
+                        if (fEdtrOrientation != "")
+                        {
+                            if (Convert.ToBoolean(fEdtrOrientation) == true)
+                            {
+                                invertOrientationToolStripMenuItem.Checked = true;
+                                flpMain.FlowDirection = FlowDirection.LeftToRight;
+                                flpMain2.FlowDirection = FlowDirection.LeftToRight;
+                            }
+                            if (Convert.ToBoolean(fEdtrOrientation) == false)
+                            {
+                                invertOrientationToolStripMenuItem.Checked = false;
+                                flpMain.FlowDirection = FlowDirection.TopDown;
+                                flpMain2.FlowDirection = FlowDirection.TopDown;
+                            }
+                        }
                         inside_item = false;
                     }
 
@@ -4163,6 +4199,7 @@ namespace KMDIWinDoorsCS
                     info = frm.info;
                     tsLbl_Welcome.Text = "Welcome, " + info[2];
                     online_login = true;
+                    CloudStoragetoolStripButton.Enabled = true;
                     syncLocalToCloudToolStripMenuItem_Click(sender, e);
                 }
             }
@@ -4232,6 +4269,20 @@ namespace KMDIWinDoorsCS
                 flpMain.FlowDirection = FlowDirection.TopDown;
                 flpMain2.FlowDirection = FlowDirection.TopDown;
             }
+            foreach (var item in pnlItems.Controls.OfType<ItemControl>())
+            {
+                if (item.itmID == flpMain.Tag.ToString())
+                {
+                    item.itmEdtrOrientation = invertOrientationToolStripMenuItem.Checked;
+                    break;
+                }
+            }
+
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             refreshToolStripButton1_Click(sender, e);
         }
 
@@ -4469,6 +4520,11 @@ namespace KMDIWinDoorsCS
                 }
             }
 
+            if (Text.Contains("*") == false)
+            {
+                Text += "*";
+            }
+
             func_zoom(flpMain, zoom);
         }
 
@@ -4594,6 +4650,12 @@ namespace KMDIWinDoorsCS
             flpMain2.Controls.Clear();
             pnlMain.Invalidate();
 
+            bool edtrOrientation = false;
+            if (fEdtrOrientation != "")
+            {
+                edtrOrientation = Convert.ToBoolean(fEdtrOrientation);
+            }
+
             //Panel pnl = new Panel();
             //pnl = CreateNewItem("Item", pnl_cntr, flpMain.Width + " x " + flpMain.Height, profiletype, visibility);
             ItemControl itm = CreateItemControl(fid,
@@ -4605,7 +4667,8 @@ namespace KMDIWinDoorsCS
                                                 fdiscount,
                                                 fqty,
                                                 fzoom,
-                                                visibility);
+                                                visibility,
+                                                edtrOrientation);
             pnlItems.Controls.Add(itm);
             itm.BringToFront();
             //pnlItems.Controls.Add(pnl);
@@ -4879,6 +4942,7 @@ namespace KMDIWinDoorsCS
                         wndr_content.Add("FWidth: " + dimension[0]);
                         wndr_content.Add("FHeight: " + dimension[1]);
                         wndr_content.Add("FProfile: " + itm.ItemProfile);
+                        wndr_content.Add("FEditorOrientation: " + itm.ItemEditorOrientation);
                         wndr_content.Add("FStatus: " + itm.ItemVisibility);
                         wndr_content.Add("FPrice: " + itm.ItemPrice);
                         wndr_content.Add("FQty: " + itm.ItemQty);
@@ -4892,7 +4956,7 @@ namespace KMDIWinDoorsCS
                             wndr_content.Add("FZoom: " + itm.ItemZoom);
                         }
                         wndr_content.Add("FDesc: " + itm.ItemDesc);
-                        
+
                         foreach (var item in items.Value)
                         {
                             if (item.Contains("Frame"))
@@ -5418,7 +5482,10 @@ namespace KMDIWinDoorsCS
             }
             else if (e.Control && e.KeyCode == Keys.OemOpenBrackets)
             {
-                trkZoom.Value -= 1;
+                if (trkZoom.Value > trkZoom.Minimum)
+                {
+                    trkZoom.Value -= 1;
+                }
             }
         }
 

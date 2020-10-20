@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlControlMain = new System.Windows.Forms.Panel();
@@ -173,14 +173,14 @@
             this.dgvControls.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ImageCol,
             this.DescCol});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvControls.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvControls.Location = new System.Drawing.Point(0, 29);
             this.dgvControls.MultiSelect = false;
@@ -436,6 +436,7 @@
             this.defaultValuesToolStripMenuItem.Name = "defaultValuesToolStripMenuItem";
             this.defaultValuesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.defaultValuesToolStripMenuItem.Text = "Default values";
+            this.defaultValuesToolStripMenuItem.Visible = false;
             // 
             // ViewToolStripMenuItem
             // 
@@ -555,42 +556,42 @@
             // fixedToolStripMenuItem
             // 
             this.fixedToolStripMenuItem.Name = "fixedToolStripMenuItem";
-            this.fixedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fixedToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.fixedToolStripMenuItem.Text = "Fixed";
             this.fixedToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // awningToolStripMenuItem
             // 
             this.awningToolStripMenuItem.Name = "awningToolStripMenuItem";
-            this.awningToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.awningToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.awningToolStripMenuItem.Text = "Awning";
             this.awningToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // casementToolStripMenuItem
             // 
             this.casementToolStripMenuItem.Name = "casementToolStripMenuItem";
-            this.casementToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.casementToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.casementToolStripMenuItem.Text = "Casement";
             this.casementToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // slidingToolStripMenuItem
             // 
             this.slidingToolStripMenuItem.Name = "slidingToolStripMenuItem";
-            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.slidingToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.slidingToolStripMenuItem.Text = "Sliding";
             this.slidingToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // tiltTurnToolStripMenuItem
             // 
             this.tiltTurnToolStripMenuItem.Name = "tiltTurnToolStripMenuItem";
-            this.tiltTurnToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tiltTurnToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.tiltTurnToolStripMenuItem.Text = "Tilt&Turn";
             this.tiltTurnToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
             // louverToolStripMenuItem
             // 
             this.louverToolStripMenuItem.Name = "louverToolStripMenuItem";
-            this.louverToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.louverToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.louverToolStripMenuItem.Text = "Louver";
             this.louverToolStripMenuItem.Click += new System.EventHandler(this.AutoCreateToolStripMenuItem_Click);
             // 
