@@ -140,10 +140,10 @@
             this.rad_PremiLine.AutoSize = true;
             this.rad_PremiLine.Location = new System.Drawing.Point(77, 3);
             this.rad_PremiLine.Name = "rad_PremiLine";
-            this.rad_PremiLine.Size = new System.Drawing.Size(84, 23);
+            this.rad_PremiLine.Size = new System.Drawing.Size(87, 23);
             this.rad_PremiLine.TabIndex = 1;
             this.rad_PremiLine.TabStop = true;
-            this.rad_PremiLine.Text = "PremiLne";
+            this.rad_PremiLine.Text = "PremiLine";
             this.rad_PremiLine.UseVisualStyleBackColor = true;
             // 
             // rad_c70

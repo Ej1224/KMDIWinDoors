@@ -1456,7 +1456,8 @@ namespace KMDIWinDoorsCS
             itm.itmPrice = price;
             itm.itmDiscount = discount;
             itm.itmQuantity = qty;
-            itm.itmZoom = zoom;
+            itm.itmZoom = (zoom == 0) ? 1 : zoom; // one line if
+            //itm.itmZoom = zoom;
             itm.Tag = ItemControltagID;
             itm.itmEdtrOrientation = itmEdtrOrientation;
             //itm.itmDesc
@@ -1593,6 +1594,8 @@ namespace KMDIWinDoorsCS
             //    loc_trnscount = 0;
 
             //trkZoom.Value = 100;
+            pnlMain.VerticalScroll.Value = 0;
+            pnlMain.PerformLayout();
 
             if (Text.Contains("*") == true)
             {
