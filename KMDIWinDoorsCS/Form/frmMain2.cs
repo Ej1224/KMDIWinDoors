@@ -5133,21 +5133,46 @@ namespace KMDIWinDoorsCS
         {
             saveFileDialog1.FileName = quotation_ref_no;
             saveFileDialog1.InitialDirectory = Properties.Settings.Default.WndrDir;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+
+            bool continue_FileExists = false;
+
+            if (online_login == true)
             {
-                if (wndrfile != saveFileDialog1.FileName)
+                //Checking file in the database
+                var objds = csq.CostingQuery_ReturnDS("GetFile", info[0] + @"\" + quotation_ref_no + ".wndr", (int)info[0]);
+                DataSet ds = objds.Item2;
+                int sqldscount = ds.Tables["GetFile"].Rows.Count;
+                if (sqldscount > 0)
                 {
-                    wndrfile = saveFileDialog1.FileName;
-                    Text = quotation_ref_no + " >> " + itemselected.Text + "( " + wndrfile + " )";
-                }
-                else
-                {
-                    if (!this.Text.Contains(wndrfile))
+                    if (MessageBox.Show("Existing file in the server, Continue?", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                     {
-                        this.Text += "( " + wndrfile + " )";
+                        continue_FileExists = true;
                     }
                 }
-                saveToolStripButton_Click(sender, e);
+            }
+            else
+            {
+                continue_FileExists = true;
+            }
+
+            if (continue_FileExists == true)
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (wndrfile != saveFileDialog1.FileName)
+                    {
+                        wndrfile = saveFileDialog1.FileName;
+                        Text = quotation_ref_no + " >> " + itemselected.Text + "( " + wndrfile + " )";
+                    }
+                    else
+                    {
+                        if (!this.Text.Contains(wndrfile))
+                        {
+                            this.Text += "( " + wndrfile + " )";
+                        }
+                    }
+                    saveToolStripButton_Click(sender, e);
+                }
             }
         }
 
@@ -5303,8 +5328,30 @@ namespace KMDIWinDoorsCS
                 string input = Interaction.InputBox("Input no. of division", "WinDoor Maker", "1");
                 if (input != "" && input != "0")
                 {
-                    dgvControls.Rows[1].Cells[1].Tag = input;
-                    dgvControls.Rows[1].Cells[1].Value = "Multiple Panel(" + input + ")";
+                    try
+                    {
+                        int int_input = Convert.ToInt32(input);
+                        if (int_input > 0)
+                        {
+                            dgvControls.Rows[1].Cells[1].Tag = int_input;
+                            dgvControls.Rows[1].Cells[1].Value = "Multiple Panel(" + int_input + ")";
+                        }
+                        else if (int_input < 0)
+                        {
+                            MessageBox.Show("Invalid number");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.HResult == -2146233033)
+                        {
+                            MessageBox.Show("Please input a number.");
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message, ex.HResult.ToString());
+                        }
+                    }
                 }
             }
         }
